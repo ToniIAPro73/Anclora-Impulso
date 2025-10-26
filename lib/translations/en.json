@@ -1,0 +1,151 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "all": "All"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "exercises": "Exercises",
+    "workouts": "Workouts",
+    "progress": "Progress",
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot your password?",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "signupSuccess": "Sign up successful! Check your email to confirm your account.",
+    "loginError": "Login error. Check your credentials.",
+    "signupError": "Sign up error. Please try again."
+  },
+  "home": {
+    "title": "Transform Your Body with",
+    "subtitle": "Personalized workouts, intelligent progression tracking, and comprehensive fitness analytics. Your complete fitness companion combining the best of strength training and bodyweight exercises.",
+    "startJourney": "Start Your Journey",
+    "signIn": "Sign In",
+    "featuresTitle": "Everything You Need to Succeed",
+    "featuresSubtitle": "Powerful features designed to accelerate your fitness progress",
+    "smartWorkouts": "Smart Workout Generation",
+    "smartWorkoutsDesc": "AI-powered workout plans tailored to your fitness level, goals, and available equipment",
+    "progressTracking": "Progress Tracking",
+    "progressTrackingDesc": "Comprehensive analytics tracking your strength gains, body measurements, and personal records",
+    "adaptiveProgramming": "Adaptive Programming",
+    "adaptiveProgrammingDesc": "Intelligent progression that adapts to your performance and automatically adjusts difficulty"
+  },
+  "dashboard": {
+    "welcome": "Welcome back",
+    "quickActions": "Quick Actions",
+    "startWorkout": "Start Workout",
+    "exerciseLibrary": "Exercise Library",
+    "viewProgress": "View Progress",
+    "recentWorkouts": "Recent Workouts",
+    "personalRecords": "Personal Records",
+    "workoutStreak": "Workout Streak",
+    "totalWorkouts": "Total Workouts",
+    "avgWorkoutTime": "Avg Workout Time",
+    "strengthGain": "Strength Gain"
+  },
+  "exercises": {
+    "title": "Exercise Library",
+    "searchPlaceholder": "Search exercises...",
+    "filterByCategory": "Filter by category",
+    "filterByMuscle": "Filter by muscle",
+    "filterByEquipment": "Filter by equipment",
+    "categories": {
+      "strength": "Strength",
+      "cardio": "Cardio",
+      "flexibility": "Flexibility",
+      "balance": "Balance"
+    },
+    "muscles": {
+      "chest": "Chest",
+      "back": "Back",
+      "shoulders": "Shoulders",
+      "arms": "Arms",
+      "legs": "Legs",
+      "core": "Core",
+      "glutes": "Glutes"
+    },
+    "equipment": {
+      "bodyweight": "Bodyweight",
+      "dumbbells": "Dumbbells",
+      "barbell": "Barbell",
+      "resistance_bands": "Resistance Bands",
+      "kettlebell": "Kettlebell",
+      "pull_up_bar": "Pull-up Bar"
+    }
+  },
+  "workouts": {
+    "generate": "Generate Workout",
+    "title": "Workout Generator",
+    "workoutType": "Workout Type",
+    "duration": "Duration",
+    "difficulty": "Difficulty",
+    "targetMuscles": "Target Muscles",
+    "equipment": "Available Equipment",
+    "generateWorkout": "Generate Workout",
+    "saveWorkout": "Save Workout",
+    "startWorkout": "Start Workout",
+    "workoutGenerated": "Workout Generated!",
+    "types": {
+      "strength": "Strength",
+      "cardio": "Cardio",
+      "hiit": "HIIT",
+      "flexibility": "Flexibility",
+      "full_body": "Full Body"
+    },
+    "difficulties": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    }
+  },
+  "progress": {
+    "title": "Progress Tracking",
+    "overview": "Overview",
+    "bodyMeasurements": "Body Measurements",
+    "personalRecords": "Personal Records",
+    "workoutFrequency": "Workout Frequency",
+    "addMeasurement": "Add Measurement",
+    "weight": "Weight",
+    "bodyFat": "Body Fat",
+    "muscleMass": "Muscle Mass",
+    "date": "Date",
+    "value": "Value",
+    "exercise": "Exercise",
+    "record": "Record",
+    "workoutsThisWeek": "Workouts This Week",
+    "workoutsThisMonth": "Workouts This Month",
+    "averagePerWeek": "Average Per Week"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "spanish": "Spanish",
+    "english": "English",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  }
+}
