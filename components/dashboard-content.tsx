@@ -4,235 +4,257 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity } from "lucide-react"
+import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2 } from "lucide-react"
+import { useProgress } from "@/hooks/use-progress"
+import { useAuth } from "@/lib/contexts/auth-context"
 
-interface DashboardContentProps {
-  user: any
-  profile: any
-  recentSessions: any[]
-  recentRecords?: any[]
-}
+export function DashboardContent() {
+  const { user } = useAuth()
+  const { progress, isLoading } = useProgress()
 
-export function DashboardContent({ user, profile, recentSessions, recentRecords = [] }: DashboardContentProps) {
-  // Calculate stats
-  const totalWorkouts = recentSessions.length
-  const totalMinutes = recentSessions.reduce((sum, session) => sum + (session.duration_minutes || 0), 0)
-  const avgDuration = totalWorkouts > 0 ? Math.round(totalMinutes / totalWorkouts) : 0
+  if (isLoading) {
+    return (
+      <div className="p-6 flex items-center justify-center py-12">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Cargando dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  const stats = progress?.stats || {
+    totalWorkouts: 0,
+    workoutsThisWeek: 0,
+    workoutsThisMonth: 0,
+    avgDuration: 0,
+    personalRecords: [],
+  }
 
   return (
     <div className="p-6 space-y-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          Welcome back, {profile?.full_name || user.email?.split("@")[0]}!
+          ¡Bienvenido de nuevo, {user?.fullName || user?.email?.split("@")[0]}!
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">Ready to crush your fitness goals today?</p>
+        <p className="text-gray-600 dark:text-gray-400">¿Listo para alcanzar tus objetivos de fitness hoy?</p>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Activity className="w-5 h-5 text-blue-500" />
-              Total Workouts
+              Entrenamientos Totales
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalWorkouts}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Completed sessions</p>
+            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalWorkouts}</div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{stats.workoutsThisWeek} esta semana</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Clock className="w-5 h-5 text-green-500" />
-              Avg Duration
+              Duración Promedio
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{avgDuration}min</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Per workout</p>
+            <div className="text-3xl font-bold text-gray-900 dark:text-white">
+              {Math.round(stats.avgDuration / 60)}min
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Por entrenamiento</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Trophy className="w-5 h-5 text-yellow-500" />
-              Personal Records
+              Récords Personales
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{recentRecords.length}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Achievements</p>
+            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.personalRecords.length}</div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Logros</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-lg">
-              <Target className="w-5 h-5 text-purple-500" />
-              Fitness Level
+              <Calendar className="w-5 h-5 text-purple-500" />
+              Este Mes
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-lg font-bold text-gray-900 dark:text-white capitalize">
-              {profile?.fitness_level || "Not set"}
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Current level</p>
+            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.workoutsThisMonth}</div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Entrenamientos</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-500 to-red-500 text-white">
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-500 to-red-500 text-white hover:shadow-xl transition-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <Play className="w-5 h-5" />
-              Start Workout
+              Comenzar Entrenamiento
             </CardTitle>
-            <CardDescription className="text-orange-100">Begin your training session</CardDescription>
+            <CardDescription className="text-orange-100">Inicia tu sesión de entrenamiento</CardDescription>
           </CardHeader>
           <CardContent>
             <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
-              <Link href="/workouts/generate">Generate Workout</Link>
+              <Link href="/workouts/generate">
+                <Play className="w-4 h-4 mr-2" />
+                Comenzar Ahora
+              </Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-xl transition-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <Dumbbell className="w-5 h-5" />
-              Exercise Library
+              Biblioteca de Ejercicios
             </CardTitle>
-            <CardDescription>Browse exercise database</CardDescription>
+            <CardDescription className="text-blue-100">Explora ejercicios disponibles</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button asChild variant="outline" className="w-full bg-transparent">
-              <Link href="/exercises">View Exercises</Link>
+            <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
+              <Link href="/exercises">
+                <Dumbbell className="w-4 h-4 mr-2" />
+                Ver Ejercicios
+              </Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-xl transition-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5" />
-              Progress
+              Seguir Progreso
             </CardTitle>
-            <CardDescription>Track your improvements</CardDescription>
+            <CardDescription className="text-purple-100">Monitorea tus logros</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button asChild variant="outline" className="w-full bg-transparent">
-              <Link href="/progress">View Progress</Link>
+            <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
+              <Link href="/progress">
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Ver Progreso
+              </Link>
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Workouts */}
+      {/* Personal Records */}
+      {stats.personalRecords.length > 0 && (
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              Recent Workouts
-            </CardTitle>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-orange-500" />
+                  Récords Personales Recientes
+                </CardTitle>
+                <CardDescription>Tus mejores marcas</CardDescription>
+              </div>
+              <Button asChild variant="outline">
+                <Link href="/progress">Ver Todos</Link>
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
-            {recentSessions.length > 0 ? (
-              <div className="space-y-3">
-                {recentSessions.slice(0, 3).map((session) => (
-                  <div
-                    key={session.id}
-                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{session.workout_name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {new Date(session.started_at).toLocaleDateString()}
-                      </p>
+            <div className="space-y-3">
+              {stats.personalRecords.slice(0, 5).map((record: any) => (
+                <div
+                  key={record.exercise_id}
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
+                      <Trophy className="w-5 h-5 text-white" />
                     </div>
-                    <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {session.duration_minutes || 0}min
+                    <div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white">{record.exercise_name}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {new Date(record.date).toLocaleDateString('es-ES')}
                       </p>
-                      <Badge variant="secondary" className="text-xs">
-                        {session.completed_at ? "Completed" : "In Progress"}
-                      </Badge>
                     </div>
                   </div>
-                ))}
-                <Button asChild variant="outline" size="sm" className="w-full bg-transparent">
-                  <Link href="/workouts/history">View All Workouts</Link>
-                </Button>
-              </div>
-            ) : (
-              <div className="text-center py-8">
-                <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400 mb-4">No workouts yet</p>
-                <Button asChild>
-                  <Link href="/workouts/generate">
-                    <Plus className="w-4 h-4 mr-2" />
-                    Start Your First Workout
-                  </Link>
-                </Button>
-              </div>
-            )}
+                  <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500">
+                    {record.max_weight} kg
+                  </Badge>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
+      )}
 
-        {/* Recent Achievements */}
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+      {/* Getting Started */}
+      {stats.totalWorkouts === 0 && (
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Trophy className="w-5 h-5" />
-              Recent Achievements
+              <Target className="w-5 h-5 text-orange-500" />
+              ¡Comienza tu Viaje Fitness!
             </CardTitle>
+            <CardDescription>Sigue estos pasos para comenzar</CardDescription>
           </CardHeader>
           <CardContent>
-            {recentRecords.length > 0 ? (
-              <div className="space-y-3">
-                {recentRecords.slice(0, 3).map((record) => (
-                  <div
-                    key={record.id}
-                    className="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800"
-                  >
-                    <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{record.exercises?.name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {new Date(record.achieved_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white">
-                        {record.value} {record.unit}
-                      </p>
-                      <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400 text-xs">
-                        {record.record_type.replace("_", " ")}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-                <Button asChild variant="outline" size="sm" className="w-full bg-transparent">
-                  <Link href="/progress">View All Records</Link>
-                </Button>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
+                  1
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Explora la Biblioteca de Ejercicios</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Familiarízate con los ejercicios disponibles
+                  </p>
+                </div>
               </div>
-            ) : (
-              <div className="text-center py-8">
-                <Trophy className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400 mb-4">No achievements yet</p>
-                <p className="text-sm text-gray-500 dark:text-gray-500">Complete workouts to start setting records!</p>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
+                  2
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Genera tu Primer Entrenamiento</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Usa nuestra IA para crear un entrenamiento personalizado
+                  </p>
+                </div>
               </div>
-            )}
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
+                  3
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 dark:text-white">Registra tu Progreso</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Completa entrenamientos y registra tus medidas
+                  </p>
+                </div>
+              </div>
+              <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+                <Link href="/workouts/generate">
+                  <Plus className="w-4 h-4 mr-2" />
+                  Generar Mi Primer Entrenamiento
+                </Link>
+              </Button>
+            </div>
           </CardContent>
         </Card>
-      </div>
+      )}
     </div>
   )
 }

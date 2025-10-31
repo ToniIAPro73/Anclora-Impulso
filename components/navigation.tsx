@@ -34,7 +34,7 @@ export function Navigation() {
           <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
             <Dumbbell className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold text-gray-900 dark:text-white">FitForge</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">Anclora Impulso</span>
         </div>
 
         <div className="flex-1 px-4 space-y-2">
@@ -72,7 +72,7 @@ export function Navigation() {
             <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg flex items-center justify-center">
               <Dumbbell className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">FitForge</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">Anclora Impulso</span>
           </div>
           <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

@@ -13,7 +13,7 @@ export default function SignupSuccessPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Welcome to FitForge!</CardTitle>
+            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">¡Bienvenido a Anclora Impulso!</CardTitle>
             <CardDescription className="text-gray-600 dark:text-gray-400">
               Check your email to confirm your account
             </CardDescription>
