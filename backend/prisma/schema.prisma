@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  fullName     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones
+  workouts     Workout[]
+  sessions     WorkoutSession[]
+  measurements BodyMeasurement[]
+
+  @@map("users")
+}
+
+model Exercise {
+  id           String   @id @default(uuid())
+  name         String
+  category     String
+  muscleGroup  String
+  equipment    String
+  difficulty   String
+  description  String
+  instructions String[]
+  imageUrl     String?  // URL de la imagen/GIF del ejercicio
+  videoUrl     String?  // URL de video tutorial (opcional)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones
+  workoutExercises WorkoutExercise[]
+  sessionExercises SessionExercise[]
+
+  @@index([category])
+  @@index([muscleGroup])
+  @@index([equipment])
+  @@index([difficulty])
+  @@map("exercises")
+}
+
+model Workout {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercises WorkoutExercise[]
+  sessions  WorkoutSession[]
+
+  @@index([userId])
+  @@map("workouts")
+}
+
+model WorkoutExercise {
+  id         String @id @default(uuid())
+  workoutId  String
+  exerciseId String
+  sets       Int
+  reps       Int
+  rest       Int // segundos
+  order      Int // orden en el workout
+
+  // Relaciones
+  workout  Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([workoutId, order])
+  @@index([workoutId])
+  @@index([exerciseId])
+  @@map("workout_exercises")
+}
+
+model WorkoutSession {
+  id          String   @id @default(uuid())
+  userId      String
+  workoutId   String
+  completedAt DateTime @default(now())
+  duration    Int // segundos
+  notes       String?
+
+  // Relaciones
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout   Workout           @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercises SessionExercise[]
+
+  @@index([userId])
+  @@index([workoutId])
+  @@index([completedAt])
+  @@map("workout_sessions")
+}
+
+model SessionExercise {
+  id         String @id @default(uuid())
+  sessionId  String
+  exerciseId String
+
+  // Relaciones
+  session  WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  exercise Exercise       @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  sets     SessionSet[]
+
+  @@index([sessionId])
+  @@index([exerciseId])
+  @@map("session_exercises")
+}
+
+model SessionSet {
+  id                String  @id @default(uuid())
+  sessionExerciseId String
+  reps              Int
+  weight            Float // kg
+  order             Int
+
+  // Relaciones
+  sessionExercise SessionExercise @relation(fields: [sessionExerciseId], references: [id], onDelete: Cascade)
+
+  @@index([sessionExerciseId])
+  @@map("session_sets")
+}
+
+model BodyMeasurement {
+  id      String   @id @default(uuid())
+  userId  String
+  date    DateTime @default(now())
+  weight  Float? // kg
+  bodyFat Float? // porcentaje
+  chest   Float? // cm
+  waist   Float? // cm
+  hips    Float? // cm
+  arms    Float? // cm
+  thighs  Float? // cm
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("body_measurements")
+}

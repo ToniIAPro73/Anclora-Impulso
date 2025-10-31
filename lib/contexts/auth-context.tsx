@@ -1,8 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-import { db, type User } from "@/lib/storage/db"
-import { seedExercises } from "@/lib/storage/seed-exercises"
+import { authApi, type User } from "@/lib/api/auth"
 
 interface AuthContextType {
   user: User | null
@@ -19,66 +18,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Initialize database and seed exercises
-    db.init().then(() => {
-      seedExercises()
-    })
-
-    // Check for existing session
-    const userId = localStorage.getItem("userId")
-    if (userId) {
-      db.get<User>("users", userId).then((user) => {
-        if (user) {
-          setUser(user)
-        } else {
-          localStorage.removeItem("userId")
+    // Verificar si hay una sesión activa
+    const checkSession = async () => {
+      try {
+        const token = localStorage.getItem('accessToken')
+        if (token) {
+          const currentUser = await authApi.getCurrentUser()
+          setUser(currentUser)
         }
+      } catch (error) {
+        console.error('Error al verificar sesión:', error)
+        // Si el token es inválido, limpiar
+        authApi.logout()
+      } finally {
         setIsLoading(false)
-      })
-    } else {
-      setIsLoading(false)
+      }
     }
+
+    checkSession()
   }, [])
 
   const login = async (email: string, password: string) => {
-    const users = await db.getAll<User>("users")
-    const user = users.find((u) => u.email === email && u.password === password)
-
-    if (!user) {
-      throw new Error("Invalid email or password")
-    }
-
-    setUser(user)
-    localStorage.setItem("userId", user.id)
+    const response = await authApi.login({ email, password })
+    
+    // Guardar refresh token
+    localStorage.setItem('refreshToken', response.refreshToken)
+    
+    setUser(response.user)
   }
 
   const signup = async (email: string, password: string, fullName: string) => {
-    const users = await db.getAll<User>("users")
-    const existingUser = users.find((u) => u.email === email)
-
-    if (existingUser) {
-      throw new Error("User already exists")
-    }
-
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      email,
-      password,
-      fullName,
-      createdAt: new Date().toISOString(),
-    }
-
-    await db.add("users", newUser)
-    setUser(newUser)
-    localStorage.setItem("userId", newUser.id)
+    const response = await authApi.register({ email, password, fullName })
+    
+    // Guardar refresh token
+    localStorage.setItem('refreshToken', response.refreshToken)
+    
+    setUser(response.user)
   }
 
   const logout = () => {
+    authApi.logout()
     setUser(null)
-    localStorage.removeItem("userId")
   }
 
-  return <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export function useAuth() {

@@ -14,48 +14,31 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Search, Filter, Play, Target, Zap } from "lucide-react"
+import { Search, Filter, Play, Target, Zap, Loader2 } from "lucide-react"
+import { useExercises } from "@/hooks/use-exercises"
 
-interface Exercise {
-  id: string
-  name: string
-  description: string
-  category: string
-  equipment: string
-  difficulty_level: string
-  muscle_groups: string[]
-  instructions: string[]
-  video_url?: string
-  image_url?: string
-}
-
-interface ExerciseLibraryProps {
-  exercises: Exercise[]
-}
-
-export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
+export function ExerciseLibrary() {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [equipmentFilter, setEquipmentFilter] = useState("all")
   const [difficultyFilter, setDifficultyFilter] = useState("all")
 
-  const filteredExercises = useMemo(() => {
-    return exercises.filter((exercise) => {
-      const matchesSearch =
-        exercise.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        exercise.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        exercise.muscle_groups.some((group) => group.toLowerCase().includes(searchTerm.toLowerCase()))
+  // Usar el hook para obtener ejercicios de la API
+  const { exercises, isLoading, error } = useExercises({
+    search: searchTerm,
+    category: categoryFilter !== "all" ? categoryFilter : undefined,
+    equipment: equipmentFilter !== "all" ? equipmentFilter : undefined,
+    difficulty: difficultyFilter !== "all" ? difficultyFilter : undefined,
+  })
 
-      const matchesCategory = categoryFilter === "all" || exercise.category === categoryFilter
-      const matchesEquipment = equipmentFilter === "all" || exercise.equipment === equipmentFilter
-      const matchesDifficulty = difficultyFilter === "all" || exercise.difficulty_level === difficultyFilter
+  // Obtener categorías y equipos únicos
+  const categories = useMemo(() => {
+    return [...new Set(exercises.map((e) => e.category))]
+  }, [exercises])
 
-      return matchesSearch && matchesCategory && matchesEquipment && matchesDifficulty
-    })
-  }, [exercises, searchTerm, categoryFilter, equipmentFilter, difficultyFilter])
-
-  const categories = [...new Set(exercises.map((e) => e.category))]
-  const equipmentTypes = [...new Set(exercises.map((e) => e.equipment).filter(Boolean))]
+  const equipmentTypes = useMemo(() => {
+    return [...new Set(exercises.map((e) => e.equipment).filter(Boolean))]
+  }, [exercises])
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -72,25 +55,43 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "chest":
+      case "strength":
         return "💪"
-      case "back":
-        return "🏋️"
-      case "shoulders":
-        return "🤸"
-      case "arms":
-        return "💪"
-      case "legs":
-        return "🦵"
-      case "core":
-        return "🎯"
       case "cardio":
         return "❤️"
-      case "full_body":
-        return "🔥"
+      case "flexibility":
+        return "🤸"
+      case "balance":
+        return "⚖️"
       default:
         return "⚡"
     }
+  }
+
+  // Mostrar loading
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Cargando ejercicios...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Mostrar error
+  if (error) {
+    return (
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <CardContent className="text-center py-12">
+          <Zap className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Error al cargar ejercicios</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>Reintentar</Button>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
@@ -100,17 +101,17 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5" />
-            Filters
+            Filtros
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Search</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Buscar</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  placeholder="Search exercises..."
+                  placeholder="Buscar ejercicios..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -118,13 +119,13 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Categoría</label>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All categories" />
+                  <SelectValue placeholder="Todas las categorías" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
+                  <SelectItem value="all">Todas las Categorías</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category.charAt(0).toUpperCase() + category.slice(1).replace("_", " ")}
@@ -134,13 +135,13 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Equipment</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Equipo</label>
               <Select value={equipmentFilter} onValueChange={setEquipmentFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All equipment" />
+                  <SelectValue placeholder="Todo el equipo" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Equipment</SelectItem>
+                  <SelectItem value="all">Todo el Equipo</SelectItem>
                   {equipmentTypes.map((equipment) => (
                     <SelectItem key={equipment} value={equipment}>
                       {equipment.charAt(0).toUpperCase() + equipment.slice(1).replace("_", " ")}
@@ -150,16 +151,16 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Difficulty</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Dificultad</label>
               <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All levels" />
+                  <SelectValue placeholder="Todos los niveles" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Levels</SelectItem>
-                  <SelectItem value="beginner">Beginner</SelectItem>
-                  <SelectItem value="intermediate">Intermediate</SelectItem>
-                  <SelectItem value="advanced">Advanced</SelectItem>
+                  <SelectItem value="all">Todos los Niveles</SelectItem>
+                  <SelectItem value="beginner">Principiante</SelectItem>
+                  <SelectItem value="intermediate">Intermedio</SelectItem>
+                  <SelectItem value="advanced">Avanzado</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -170,17 +171,31 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
       {/* Results */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Showing {filteredExercises.length} of {exercises.length} exercises
+          Mostrando {exercises.length} ejercicio{exercises.length !== 1 ? 's' : ''}
         </p>
       </div>
 
       {/* Exercise Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredExercises.map((exercise) => (
+        {exercises.map((exercise) => (
           <Dialog key={exercise.id}>
             <DialogTrigger asChild>
               <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-xl transition-all duration-200 cursor-pointer group">
                 <CardHeader className="pb-3">
+                  {/* Imagen del ejercicio */}
+                  {exercise.imageUrl && (
+                    <div className="mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-4">
+                      <img
+                        src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}${exercise.imageUrl}`}
+                        alt={exercise.name}
+                        className="w-full h-48 object-contain"
+                        onError={(e) => {
+                          // Ocultar imagen si falla la carga
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    </div>
+                  )}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{getCategoryIcon(exercise.category)}</span>
@@ -193,22 +208,15 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge className={getDifficultyColor(exercise.difficulty_level)}>{exercise.difficulty_level}</Badge>
+                    <Badge className={getDifficultyColor(exercise.difficulty)}>{exercise.difficulty}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{exercise.description}</p>
                   <div className="flex flex-wrap gap-1">
-                    {exercise.muscle_groups.slice(0, 3).map((muscle) => (
-                      <Badge key={muscle} variant="secondary" className="text-xs">
-                        {muscle}
-                      </Badge>
-                    ))}
-                    {exercise.muscle_groups.length > 3 && (
-                      <Badge variant="secondary" className="text-xs">
-                        +{exercise.muscle_groups.length - 3}
-                      </Badge>
-                    )}
+                    <Badge variant="secondary" className="text-xs">
+                      {exercise.muscleGroup}
+                    </Badge>
                   </div>
                   {exercise.equipment && (
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -221,6 +229,19 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
+                {/* Imagen grande en el modal */}
+                {exercise.imageUrl && (
+                  <div className="mb-6 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-6">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}${exercise.imageUrl}`}
+                      alt={exercise.name}
+                      className="w-full h-64 object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
                   <div>
@@ -234,7 +255,7 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
               </DialogHeader>
               <div className="space-y-6">
                 <div className="flex flex-wrap gap-2">
-                  <Badge className={getDifficultyColor(exercise.difficulty_level)}>{exercise.difficulty_level}</Badge>
+                  <Badge className={getDifficultyColor(exercise.difficulty)}>{exercise.difficulty}</Badge>
                   {exercise.equipment && (
                     <Badge variant="outline">
                       {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1).replace("_", " ")}
@@ -244,25 +265,21 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
 
                 {exercise.description && (
                   <div>
-                    <h4 className="font-semibold mb-2">Description</h4>
+                    <h4 className="font-semibold mb-2">Descripción</h4>
                     <p className="text-gray-600 dark:text-gray-400">{exercise.description}</p>
                   </div>
                 )}
 
                 <div>
-                  <h4 className="font-semibold mb-2">Target Muscles</h4>
+                  <h4 className="font-semibold mb-2">Músculos Objetivo</h4>
                   <div className="flex flex-wrap gap-2">
-                    {exercise.muscle_groups.map((muscle) => (
-                      <Badge key={muscle} variant="secondary">
-                        {muscle}
-                      </Badge>
-                    ))}
+                    <Badge variant="secondary">{exercise.muscleGroup}</Badge>
                   </div>
                 </div>
 
                 {exercise.instructions && exercise.instructions.length > 0 && (
                   <div>
-                    <h4 className="font-semibold mb-2">Instructions</h4>
+                    <h4 className="font-semibold mb-2">Instrucciones</h4>
                     <ol className="list-decimal list-inside space-y-2">
                       {exercise.instructions.map((instruction, index) => (
                         <li key={index} className="text-gray-600 dark:text-gray-400">
@@ -272,31 +289,19 @@ export function ExerciseLibrary({ exercises }: ExerciseLibraryProps) {
                     </ol>
                   </div>
                 )}
-
-                {exercise.video_url && (
-                  <div>
-                    <h4 className="font-semibold mb-2">Video Tutorial</h4>
-                    <Button variant="outline" className="w-full bg-transparent" asChild>
-                      <a href={exercise.video_url} target="_blank" rel="noopener noreferrer">
-                        <Play className="w-4 h-4 mr-2" />
-                        Watch Tutorial
-                      </a>
-                    </Button>
-                  </div>
-                )}
               </div>
             </DialogContent>
           </Dialog>
         ))}
       </div>
 
-      {filteredExercises.length === 0 && (
+      {exercises.length === 0 && (
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
           <CardContent className="text-center py-12">
             <Zap className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No exercises found</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No se encontraron ejercicios</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Try adjusting your filters or search terms to find exercises.
+              Intenta ajustar tus filtros o términos de búsqueda para encontrar ejercicios.
             </p>
           </CardContent>
         </Card>
