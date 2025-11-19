@@ -28,7 +28,7 @@ export default function HomePage() {
               <span className="text-balance">{t.home.title}</span>
               <br />
               <span className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-                FitForge
+                Anclora Impulso
               </span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto text-balance">

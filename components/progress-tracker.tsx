@@ -15,428 +15,471 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { db, type BodyMeasurement } from "@/lib/storage/db"
+import { useProgress } from "@/hooks/use-progress"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
-import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock } from "lucide-react"
+import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock, Loader2 } from "lucide-react"
 
-interface ProgressTrackerProps {
-  user: any
-  profile: any
-  measurements: any[]
-  personalRecords: any[]
-  workoutSessions: any[]
-}
-
-export function ProgressTracker({
-  user,
-  profile,
-  measurements,
-  personalRecords,
-  workoutSessions,
-}: ProgressTrackerProps) {
+export function ProgressTracker() {
+  const { progress, isLoading, error, addMeasurement } = useProgress()
   const [newMeasurement, setNewMeasurement] = useState({
-    weight_kg: "",
-    body_fat_percentage: "",
-    chest_cm: "",
-    waist_cm: "",
-    bicep_cm: "",
-    thigh_cm: "",
-    notes: "",
+    weight: "",
+    bodyFat: "",
+    chest: "",
+    waist: "",
+    hips: "",
+    arms: "",
+    thighs: "",
   })
   const [isAddingMeasurement, setIsAddingMeasurement] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-  const addMeasurement = async () => {
+  const handleAddMeasurement = async () => {
     setIsAddingMeasurement(true)
 
     try {
-      const measurementData: BodyMeasurement = {
-        id: crypto.randomUUID(),
-        userId: user.id,
-        date: new Date().toISOString(),
-        weight: newMeasurement.weight_kg ? Number.parseFloat(newMeasurement.weight_kg) : undefined,
-        bodyFat: newMeasurement.body_fat_percentage ? Number.parseFloat(newMeasurement.body_fat_percentage) : undefined,
-        chest: newMeasurement.chest_cm ? Number.parseFloat(newMeasurement.chest_cm) : undefined,
-        waist: newMeasurement.waist_cm ? Number.parseFloat(newMeasurement.waist_cm) : undefined,
-        arms: newMeasurement.bicep_cm ? Number.parseFloat(newMeasurement.bicep_cm) : undefined,
-        thighs: newMeasurement.thigh_cm ? Number.parseFloat(newMeasurement.thigh_cm) : undefined,
-      }
-
-      await db.add("measurements", measurementData)
-
-      // Reset form and refresh page
-      setNewMeasurement({
-        weight_kg: "",
-        body_fat_percentage: "",
-        chest_cm: "",
-        waist_cm: "",
-        bicep_cm: "",
-        thigh_cm: "",
-        notes: "",
+      await addMeasurement({
+        weight: newMeasurement.weight ? parseFloat(newMeasurement.weight) : undefined,
+        bodyFat: newMeasurement.bodyFat ? parseFloat(newMeasurement.bodyFat) : undefined,
+        chest: newMeasurement.chest ? parseFloat(newMeasurement.chest) : undefined,
+        waist: newMeasurement.waist ? parseFloat(newMeasurement.waist) : undefined,
+        hips: newMeasurement.hips ? parseFloat(newMeasurement.hips) : undefined,
+        arms: newMeasurement.arms ? parseFloat(newMeasurement.arms) : undefined,
+        thighs: newMeasurement.thighs ? parseFloat(newMeasurement.thighs) : undefined,
       })
-      window.location.reload()
+
+      // Reset form
+      setNewMeasurement({
+        weight: "",
+        bodyFat: "",
+        chest: "",
+        waist: "",
+        hips: "",
+        arms: "",
+        thighs: "",
+      })
+      setIsDialogOpen(false)
     } catch (error) {
       console.error("Error adding measurement:", error)
+      alert("Error al agregar medida")
     } finally {
       setIsAddingMeasurement(false)
     }
   }
 
-  // Prepare chart data
-  const weightData = measurements
-    .filter((m: any) => m.weight)
-    .slice(0, 10)
-    .reverse()
-    .map((m: any) => ({
-      date: new Date(m.date).toLocaleDateString(),
-      weight: m.weight,
-    }))
-
-  // Calculate workout stats
-  const totalWorkouts = workoutSessions.length
-  const totalMinutes = workoutSessions.reduce((sum, session) => sum + (session.duration_minutes || 0), 0)
-  const avgDuration = totalWorkouts > 0 ? Math.round(totalMinutes / totalWorkouts) : 0
-
-  const workoutsByMonth = workoutSessions.reduce(
-    (acc, session) => {
-      const month = new Date(session.started_at).toLocaleDateString("en-US", { month: "short", year: "numeric" })
-      acc[month] = (acc[month] || 0) + 1
-      return acc
-    },
-    {} as Record<string, number>,
-  )
-
-  const monthlyData = Object.entries(workoutsByMonth)
-    .slice(0, 6)
-    .map(([month, count]) => ({ month, workouts: count }))
-
-  // Get recent achievements
-  const recentRecords = personalRecords.slice(0, 5)
-
-  // Calculate progress indicators
-  const getProgressIndicator = (current: number, previous: number) => {
-    if (!previous) return null
-    const change = ((current - previous) / previous) * 100
-    return {
-      value: Math.abs(change).toFixed(1),
-      isPositive: change > 0,
-      isNegative: change < 0,
-    }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">Cargando progreso...</p>
+        </div>
+      </div>
+    )
   }
 
-  const latestWeight = measurements.find((m: any) => m.weight)?.weight
-  const previousWeight = measurements.find((m: any, i: number) => i > 0 && m.weight)?.weight
-  const weightProgress = latestWeight && previousWeight ? getProgressIndicator(latestWeight, previousWeight) : null
+  if (error) {
+    return (
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <CardContent className="text-center py-12">
+          <Activity className="w-12 h-12 text-red-400 mx-auto mb-4" />
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Error al cargar progreso</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+          <Button onClick={() => window.location.reload()}>Reintentar</Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (!progress) {
+    return null
+  }
+
+  const { stats, measurements, charts } = progress
 
   return (
     <div className="space-y-6">
-      {/* Overview Stats */}
+      {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Activity className="w-5 h-5 text-blue-500" />
-              Total Workouts
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Entrenamientos Totales
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{totalWorkouts}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Completed sessions</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalWorkouts}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  {stats.workoutsThisWeek} esta semana
+                </p>
+              </div>
+              <Trophy className="w-12 h-12 text-orange-500 opacity-50" />
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Clock className="w-5 h-5 text-green-500" />
-              Total Time
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Este Mes
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{Math.round(totalMinutes / 60)}h</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Training time</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.workoutsThisMonth}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">entrenamientos</p>
+              </div>
+              <Calendar className="w-12 h-12 text-blue-500 opacity-50" />
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Target className="w-5 h-5 text-orange-500" />
-              Avg Duration
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Tiempo Total
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{avgDuration}min</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Per workout</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {Math.round(stats.totalDuration / 60)}h
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  ~{Math.round(stats.avgDuration / 60)}h promedio
+                </p>
+              </div>
+              <Clock className="w-12 h-12 text-green-500 opacity-50" />
+            </div>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
           <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Trophy className="w-5 h-5 text-yellow-500" />
-              Personal Records
+            <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
+              Récords Personales
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white">{personalRecords.length}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Achievements</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.personalRecords.length}</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">ejercicios</p>
+              </div>
+              <Target className="w-12 h-12 text-purple-500 opacity-50" />
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Main Content Tabs */}
-      <Tabs defaultValue="measurements" className="space-y-6">
+      {/* Tabs */}
+      <Tabs defaultValue="charts" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="measurements">Body Measurements</TabsTrigger>
-          <TabsTrigger value="records">Personal Records</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="charts">Gráficos</TabsTrigger>
+          <TabsTrigger value="measurements">Medidas</TabsTrigger>
+          <TabsTrigger value="records">Récords</TabsTrigger>
         </TabsList>
 
+        {/* Charts Tab */}
+        <TabsContent value="charts" className="space-y-6">
+          {/* Weight Chart */}
+          {charts.weight.length > 0 && (
+            <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Scale className="w-5 h-5" />
+                  Progreso de Peso
+                </CardTitle>
+                <CardDescription>Seguimiento de tu peso corporal en el tiempo</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={charts.weight}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="weight" stroke="#f97316" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Body Fat Chart */}
+          {charts.bodyFat.length > 0 && (
+            <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="w-5 h-5" />
+                  Porcentaje de Grasa Corporal
+                </CardTitle>
+                <CardDescription>Seguimiento de tu composición corporal</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={charts.bodyFat}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Line type="monotone" dataKey="bodyFat" stroke="#3b82f6" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Workout Frequency Chart */}
+          {charts.frequency.length > 0 && (
+            <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Frecuencia de Entrenamientos
+                </CardTitle>
+                <CardDescription>Entrenamientos por semana</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={charts.frequency}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="week" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#10b981" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Measurements Tab */}
         <TabsContent value="measurements" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Body Measurements</h3>
-            <Dialog>
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-lg font-semibold">Medidas Corporales</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Registra tus medidas para seguir tu progreso
+              </p>
+            </div>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600">
+                <Button className="bg-gradient-to-r from-orange-500 to-pink-500">
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Measurement
+                  Agregar Medida
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Add Body Measurement</DialogTitle>
-                  <DialogDescription>Record your current body measurements to track progress</DialogDescription>
+                  <DialogTitle>Nueva Medida Corporal</DialogTitle>
+                  <DialogDescription>Registra tus medidas actuales</DialogDescription>
                 </DialogHeader>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="weight">Weight (kg)</Label>
-                    <Input
-                      id="weight"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.weight_kg}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, weight_kg: e.target.value })}
-                    />
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>Peso (kg)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.weight}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, weight: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Grasa Corporal (%)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.bodyFat}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, bodyFat: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Pecho (cm)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.chest}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, chest: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Cintura (cm)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.waist}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, waist: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Caderas (cm)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.hips}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, hips: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Brazos (cm)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.arms}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, arms: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2 col-span-2">
+                      <Label>Muslos (cm)</Label>
+                      <Input
+                        type="number"
+                        step="0.1"
+                        value={newMeasurement.thighs}
+                        onChange={(e) => setNewMeasurement({ ...newMeasurement, thighs: e.target.value })}
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bodyfat">Body Fat (%)</Label>
-                    <Input
-                      id="bodyfat"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.body_fat_percentage}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, body_fat_percentage: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="chest">Chest (cm)</Label>
-                    <Input
-                      id="chest"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.chest_cm}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, chest_cm: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="waist">Waist (cm)</Label>
-                    <Input
-                      id="waist"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.waist_cm}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, waist_cm: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bicep">Bicep (cm)</Label>
-                    <Input
-                      id="bicep"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.bicep_cm}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, bicep_cm: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="thigh">Thigh (cm)</Label>
-                    <Input
-                      id="thigh"
-                      type="number"
-                      step="0.1"
-                      value={newMeasurement.thigh_cm}
-                      onChange={(e) => setNewMeasurement({ ...newMeasurement, thigh_cm: e.target.value })}
-                    />
-                  </div>
+                  <Button
+                    onClick={handleAddMeasurement}
+                    disabled={isAddingMeasurement}
+                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500"
+                  >
+                    {isAddingMeasurement ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Guardando...
+                      </>
+                    ) : (
+                      "Guardar Medida"
+                    )}
+                  </Button>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="notes">Notes (optional)</Label>
-                  <Input
-                    id="notes"
-                    value={newMeasurement.notes}
-                    onChange={(e) => setNewMeasurement({ ...newMeasurement, notes: e.target.value })}
-                    placeholder="Any additional notes..."
-                  />
-                </div>
-                <Button onClick={addMeasurement} disabled={isAddingMeasurement} className="w-full">
-                  {isAddingMeasurement ? "Adding..." : "Add Measurement"}
-                </Button>
               </DialogContent>
             </Dialog>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Weight Chart */}
-            {weightData.length > 0 && (
+          <div className="grid gap-4">
+            {measurements.length === 0 ? (
               <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Scale className="w-5 h-5" />
-                    Weight Progress
-                    {weightProgress && (
-                      <Badge
-                        className={
-                          weightProgress.isPositive
-                            ? "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-                            : "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-                        }
-                      >
-                        {weightProgress.isPositive ? (
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                        ) : (
-                          <TrendingDown className="w-3 h-3 mr-1" />
-                        )}
-                        {weightProgress.value}%
-                      </Badge>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <LineChart data={weightData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="weight" stroke="#f97316" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
+                <CardContent className="text-center py-12">
+                  <Ruler className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    No hay medidas registradas
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    Comienza a registrar tus medidas para seguir tu progreso
+                  </p>
                 </CardContent>
               </Card>
-            )}
-
-            {/* Recent Measurements */}
-            <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Ruler className="w-5 h-5" />
-                  Recent Measurements
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {measurements.length > 0 ? (
-                  <div className="space-y-3">
-                    {measurements.slice(0, 5).map((measurement: any) => (
-                      <div
-                        key={measurement.id}
-                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
-                      >
+            ) : (
+              measurements.slice(0, 10).map((measurement) => (
+                <Card key={measurement.id} className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {new Date(measurement.date).toLocaleDateString('es-ES', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {measurement.weight && (
                         <div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
-                            {new Date(measurement.date).toLocaleDateString()}
-                          </p>
-                          <div className="flex gap-4 text-sm">
-                            {measurement.weight && <span>Weight: {measurement.weight}kg</span>}
-                            {measurement.bodyFat && <span>BF: {measurement.bodyFat}%</span>}
-                          </div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Peso</p>
+                          <p className="text-lg font-semibold">{measurement.weight} kg</p>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <Scale className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">No measurements recorded yet</p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                      )}
+                      {measurement.bodyFat && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Grasa</p>
+                          <p className="text-lg font-semibold">{measurement.bodyFat}%</p>
+                        </div>
+                      )}
+                      {measurement.chest && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Pecho</p>
+                          <p className="text-lg font-semibold">{measurement.chest} cm</p>
+                        </div>
+                      )}
+                      {measurement.waist && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Cintura</p>
+                          <p className="text-lg font-semibold">{measurement.waist} cm</p>
+                        </div>
+                      )}
+                      {measurement.hips && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Caderas</p>
+                          <p className="text-lg font-semibold">{measurement.hips} cm</p>
+                        </div>
+                      )}
+                      {measurement.arms && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Brazos</p>
+                          <p className="text-lg font-semibold">{measurement.arms} cm</p>
+                        </div>
+                      )}
+                      {measurement.thighs && (
+                        <div>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Muslos</p>
+                          <p className="text-lg font-semibold">{measurement.thighs} cm</p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </TabsContent>
 
+        {/* Records Tab */}
         <TabsContent value="records" className="space-y-6">
           <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Trophy className="w-5 h-5" />
-                Personal Records
+                <Trophy className="w-5 h-5 text-orange-500" />
+                Récords Personales
               </CardTitle>
-              <CardDescription>Your best achievements across all exercises</CardDescription>
+              <CardDescription>Tus mejores marcas en cada ejercicio</CardDescription>
             </CardHeader>
             <CardContent>
-              {recentRecords.length > 0 ? (
-                <div className="space-y-3">
-                  {recentRecords.map((record) => (
-                    <div
-                      key={record.id}
-                      className="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800"
-                    >
-                      <div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white">{record.exercises?.name}</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          {new Date(record.achieved_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <div className="flex items-center gap-2">
-                          <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
-                            {record.record_type.replace("_", " ")}
-                          </Badge>
-                        </div>
-                        <p className="text-lg font-bold text-gray-900 dark:text-white">
-                          {record.value} {record.unit}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
+              {stats.personalRecords.length === 0 ? (
+                <div className="text-center py-12">
                   <Trophy className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 dark:text-gray-400">No personal records yet</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500">
-                    Complete workouts to start setting records!
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                    No hay récords registrados
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Completa entrenamientos para establecer tus récords personales
                   </p>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="analytics" className="space-y-6">
-          <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
-                Workout Frequency
-              </CardTitle>
-              <CardDescription>Your workout consistency over the past months</CardDescription>
-            </CardHeader>
-            <CardContent>
-              {monthlyData.length > 0 ? (
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={monthlyData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="workouts" fill="#f97316" />
-                  </BarChart>
-                </ResponsiveContainer>
               ) : (
-                <div className="text-center py-8">
-                  <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600 dark:text-gray-400">No workout data available</p>
+                <div className="space-y-3">
+                  {stats.personalRecords.map((record) => (
+                    <div
+                      key={record.exercise_id}
+                      className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg"
+                    >
+                      <div>
+                        <h4 className="font-semibold">{record.exercise_name}</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {new Date(record.date).toLocaleDateString('es-ES')}
+                        </p>
+                      </div>
+                      <Badge className="text-lg px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500">
+                        {record.max_weight} kg
+                      </Badge>
+                    </div>
+                  ))}
                 </div>
               )}
             </CardContent>
