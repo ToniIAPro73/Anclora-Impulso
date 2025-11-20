@@ -10,15 +10,20 @@ export function middleware(request: NextRequest) {
 
   // Content Security Policy
   // Prevents inline scripts and restricts script sources
+  // Note: In development mode, we allow unsafe-eval for Next.js hot reload
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   const cspHeader = [
     // Default policy
     "default-src 'self'",
-    // Scripts - only allow same origin and trusted CDNs
-    "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com",
+    // Scripts - allow same origin, unsafe-inline for dev, and trusted CDNs
+    isDevelopment
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://r2cdn.perplexity.ai"
+      : "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com",
     // Styles - allow same origin and unsafe-inline (for Tailwind CSS and styled-components)
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    // Fonts
-    "font-src 'self' https://fonts.gstatic.com data:",
+    // Fonts - allow from multiple sources
+    "font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai data:",
     // Images - allow http/https and data URIs
     "img-src 'self' data: https: http:",
     // Form submissions
