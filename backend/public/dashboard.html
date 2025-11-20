@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Anclora Impulso</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #f97316 0%, #dc2626 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge.healthy {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.degraded {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.unhealthy {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.healthy {
+            background: #10b981;
+        }
+
+        .status-dot.degraded {
+            background: #f59e0b;
+        }
+
+        .status-dot.unhealthy {
+            background: #ef4444;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .metric-value {
+            color: #111827;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .metric-value.good {
+            color: #10b981;
+        }
+
+        .metric-value.warning {
+            color: #f59e0b;
+        }
+
+        .metric-value.error {
+            color: #ef4444;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .logs-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logs-filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .log-entry {
+            padding: 12px;
+            border-left: 4px solid #e5e7eb;
+            margin-bottom: 10px;
+            background: #f9fafb;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .log-entry.error {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .log-entry.warn {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .log-entry.info {
+            border-left-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .log-entry.http {
+            border-left-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+
+        .log-timestamp {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .log-level {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 0 8px;
+        }
+
+        .log-level.error { background: #fee2e2; color: #991b1b; }
+        .log-level.warn { background: #fef3c7; color: #92400e; }
+        .log-level.info { background: #dbeafe; color: #1e40af; }
+        .log-level.http { background: #ede9fe; color: #5b21b6; }
+
+        .log-message {
+            color: #111827;
+            margin-top: 4px;
+        }
+
+        .refresh-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e5e7eb;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logs-filters {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                <div class="logo">⚡</div>
+                Dashboard - Anclora Impulso
+            </h1>
+            <div class="status-badge healthy" id="healthStatus">
+                <div class="status-dot healthy"></div>
+                <span>Healthy</span>
+            </div>
+        </header>
+
+        <div class="grid">
+            <!-- CPU Card -->
+            <div class="card">
+                <h2>🖥️ CPU</h2>
+                <div class="metric">
+                    <span class="metric-label">Uso</span>
+                    <span class="metric-value" id="cpuUsage">0%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Cores</span>
+                    <span class="metric-value" id="cpuCores">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Load Average (1m)</span>
+                    <span class="metric-value" id="loadAvg">0.00</span>
+                </div>
+            </div>
+
+            <!-- Memory Card -->
+            <div class="card">
+                <h2>💾 Memoria</h2>
+                <div class="metric">
+                    <span class="metric-label">Uso</span>
+                    <span class="metric-value" id="memoryUsage">0%</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Usado</span>
+                    <span class="metric-value" id="memoryUsed">0 GB</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Total</span>
+                    <span class="metric-value" id="memoryTotal">0 GB</span>
+                </div>
+            </div>
+
+            <!-- Database Card -->
+            <div class="card">
+                <h2>🗄️ Base de Datos</h2>
+                <div class="metric">
+                    <span class="metric-label">Estado</span>
+                    <span class="metric-value good" id="dbStatus">Connected</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Response Time</span>
+                    <span class="metric-value" id="dbResponseTime">0 ms</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Conexiones</span>
+                    <span class="metric-value" id="dbConnections">0</span>
+                </div>
+            </div>
+
+            <!-- Requests Card -->
+            <div class="card">
+                <h2>📊 Requests</h2>
+                <div class="metric">
+                    <span class="metric-label">Total</span>
+                    <span class="metric-value" id="requestsTotal">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Por Minuto</span>
+                    <span class="metric-value" id="requestsPerMinute">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Por Segundo</span>
+                    <span class="metric-value" id="requestsPerSecond">0</span>
+                </div>
+            </div>
+
+            <!-- Logs Stats Card -->
+            <div class="card">
+                <h2>📝 Logs (Hoy)</h2>
+                <div class="metric">
+                    <span class="metric-label">Errores</span>
+                    <span class="metric-value error" id="logsErrors">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Advertencias</span>
+                    <span class="metric-value warning" id="logsWarnings">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Info</span>
+                    <span class="metric-value" id="logsInfo">0</span>
+                </div>
+            </div>
+
+            <!-- Uptime Card -->
+            <div class="card">
+                <h2>⏱️ Uptime</h2>
+                <div class="metric">
+                    <span class="metric-label">Tiempo Activo</span>
+                    <span class="metric-value" id="uptime">0h 0m</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">PID</span>
+                    <span class="metric-value" id="processPid">0</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Entorno</span>
+                    <span class="metric-value" id="environment">development</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid">
+            <div class="card">
+                <h2>📈 CPU & Memoria (Últimos 60s)</h2>
+                <div class="chart-container">
+                    <canvas id="systemChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🚀 Requests (Últimos 60s)</h2>
+                <div class="chart-container">
+                    <canvas id="requestsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs -->
+        <div class="logs-container">
+            <div class="logs-header">
+                <h2>📋 Logs Recientes</h2>
+                <div class="logs-filters">
+                    <button class="filter-btn active" data-level="all">Todos</button>
+                    <button class="filter-btn" data-level="error">Errores</button>
+                    <button class="filter-btn" data-level="warn">Advertencias</button>
+                    <button class="filter-btn" data-level="info">Info</button>
+                    <button class="filter-btn" data-level="http">HTTP</button>
+                </div>
+            </div>
+            <div id="logsContainer">
+                <p style="color: #6b7280; text-align: center;">Cargando logs...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="refresh-indicator">
+        <div class="spinner"></div>
+        <span>Actualizando cada 5s</span>
+    </div>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let currentLogLevel = 'all';
+        
+        // Datos para gráficos
+        const maxDataPoints = 60;
+        const systemChartData = {
+            labels: [],
+            cpu: [],
+            memory: []
+        };
+        const requestsChartData = {
+            labels: [],
+            requests: []
+        };
+
+        // Inicializar gráficos
+        const systemCtx = document.getElementById('systemChart').getContext('2d');
+        const systemChart = new Chart(systemCtx, {
+            type: 'line',
+            data: {
+                labels: systemChartData.labels,
+                datasets: [
+                    {
+                        label: 'CPU %',
+                        data: systemChartData.cpu,
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Memoria %',
+                        data: systemChartData.memory,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+        const requestsCtx = document.getElementById('requestsChart').getContext('2d');
+        const requestsChart = new Chart(requestsCtx, {
+            type: 'line',
+            data: {
+                labels: requestsChartData.labels,
+                datasets: [{
+                    label: 'Requests/min',
+                    data: requestsChartData.requests,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+        // Formatear bytes
+        function formatBytes(bytes) {
+            return (bytes / 1024 / 1024 / 1024).toFixed(2) + ' GB';
+        }
+
+        // Formatear uptime
+        function formatUptime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            return `${hours}h ${minutes}m`;
+        }
+
+        // Actualizar métricas
+        async function updateMetrics() {
+            try {
+                const response = await fetch(`${API_BASE}/api/dashboard/summary`);
+                const data = await response.json();
+
+                // System metrics
+                const cpu = data.system.cpu.usage;
+                const memory = data.system.memory.percentage;
+                
+                document.getElementById('cpuUsage').textContent = cpu.toFixed(2) + '%';
+                document.getElementById('cpuUsage').className = 'metric-value ' + (cpu > 80 ? 'error' : cpu > 60 ? 'warning' : 'good');
+                document.getElementById('cpuCores').textContent = data.system.cpu.cores;
+                document.getElementById('loadAvg').textContent = data.system.cpu.loadAverage[0].toFixed(2);
+
+                document.getElementById('memoryUsage').textContent = memory.toFixed(2) + '%';
+                document.getElementById('memoryUsage').className = 'metric-value ' + (memory > 80 ? 'error' : memory > 60 ? 'warning' : 'good');
+                document.getElementById('memoryUsed').textContent = formatBytes(data.system.memory.used);
+                document.getElementById('memoryTotal').textContent = formatBytes(data.system.memory.total);
+
+                // Database metrics
+                const dbStatus = data.database.status === 'connected' ? 'Connected' : 'Disconnected';
+                document.getElementById('dbStatus').textContent = dbStatus;
+                document.getElementById('dbStatus').className = 'metric-value ' + (data.database.status === 'connected' ? 'good' : 'error');
+                document.getElementById('dbResponseTime').textContent = data.database.responseTime + ' ms';
+                document.getElementById('dbResponseTime').className = 'metric-value ' + (data.database.responseTime > 1000 ? 'error' : data.database.responseTime > 500 ? 'warning' : 'good');
+                document.getElementById('dbConnections').textContent = data.database.activeConnections;
+
+                // Requests metrics
+                document.getElementById('requestsTotal').textContent = data.system.requests.total;
+                document.getElementById('requestsPerMinute').textContent = data.system.requests.perMinute;
+                document.getElementById('requestsPerSecond').textContent = data.system.requests.perSecond;
+
+                // Logs stats
+                document.getElementById('logsErrors').textContent = data.logs.errors;
+                document.getElementById('logsWarnings').textContent = data.logs.warnings;
+                document.getElementById('logsInfo').textContent = data.logs.info;
+
+                // Uptime
+                document.getElementById('uptime').textContent = formatUptime(data.system.process.uptime);
+                document.getElementById('processPid').textContent = data.system.process.pid;
+                document.getElementById('environment').textContent = data.system.process.uptime > 0 ? 'development' : 'production';
+
+                // Health status
+                const healthBadge = document.getElementById('healthStatus');
+                let status = 'healthy';
+                if (data.database.status !== 'connected' || cpu > 90 || memory > 90) {
+                    status = 'unhealthy';
+                } else if (cpu > 80 || memory > 80 || data.database.responseTime > 1000) {
+                    status = 'degraded';
+                }
+                
+                healthBadge.className = `status-badge ${status}`;
+                healthBadge.innerHTML = `
+                    <div class="status-dot ${status}"></div>
+                    <span>${status.charAt(0).toUpperCase() + status.slice(1)}</span>
+                `;
+
+                // Actualizar gráficos
+                const now = new Date().toLocaleTimeString();
+                
+                systemChartData.labels.push(now);
+                systemChartData.cpu.push(cpu);
+                systemChartData.memory.push(memory);
+                
+                if (systemChartData.labels.length > maxDataPoints) {
+                    systemChartData.labels.shift();
+                    systemChartData.cpu.shift();
+                    systemChartData.memory.shift();
+                }
+                
+                requestsChartData.labels.push(now);
+                requestsChartData.requests.push(data.system.requests.perMinute);
+                
+                if (requestsChartData.labels.length > maxDataPoints) {
+                    requestsChartData.labels.shift();
+                    requestsChartData.requests.shift();
+                }
+                
+                systemChart.update('none');
+                requestsChart.update('none');
+
+            } catch (error) {
+                console.error('Error updating metrics:', error);
+            }
+        }
+
+        // Actualizar logs
+        async function updateLogs() {
+            try {
+                const level = currentLogLevel === 'all' ? '' : currentLogLevel;
+                const response = await fetch(`${API_BASE}/api/dashboard/logs?limit=50&level=${level}`);
+                const logs = await response.json();
+
+                const container = document.getElementById('logsContainer');
+                
+                if (logs.length === 0) {
+                    container.innerHTML = '<p style="color: #6b7280; text-align: center;">No hay logs disponibles</p>';
+                    return;
+                }
+
+                container.innerHTML = logs.map(log => `
+                    <div class="log-entry ${log.level}">
+                        <div>
+                            <span class="log-timestamp">${log.timestamp}</span>
+                            <span class="log-level ${log.level}">${log.level.toUpperCase()}</span>
+                        </div>
+                        <div class="log-message">${log.message}</div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error updating logs:', error);
+            }
+        }
+
+        // Filtros de logs
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLogLevel = btn.dataset.level;
+                updateLogs();
+            });
+        });
+
+        // Inicializar y actualizar cada 5 segundos
+        updateMetrics();
+        updateLogs();
+        setInterval(updateMetrics, 5000);
+        setInterval(updateLogs, 5000);
+    </script>
+</body>
+</html>
