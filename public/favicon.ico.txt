@@ -1,0 +1,2 @@
+Este es un placeholder. En producción, convertir favicon.svg a .ico
+con herramienta como: https://convertio.co/svg-ico/
