@@ -4,20 +4,7 @@ import { testDatabaseConnection } from './config/database';
 
 async function startServer() {
   try {
-    // Verificar conexión a la base de datos
-    const dbConnected = await testDatabaseConnection();
-    
-    if (!dbConnected) {
-      console.error('❌ No se pudo conectar a la base de datos');
-      console.log('💡 Asegúrate de configurar DATABASE_URL en el archivo .env');
-      console.log('💡 Ejemplo: DATABASE_URL="postgresql://user:password@host:5432/database"');
-      
-      if (env.nodeEnv === 'production') {
-        process.exit(1);
-      }
-    }
-
-    // Iniciar servidor
+    // Iniciar servidor primero
     const server = app.listen(env.port, () => {
       console.log('🚀 Servidor iniciado');
       console.log(`📍 URL: http://localhost:${env.port}`);
@@ -34,6 +21,16 @@ async function startServer() {
       console.log('   GET  /api/sessions');
       console.log('   GET  /api/progress/complete');
     });
+
+    // Verificar conexión a BD en background (sin bloquear inicio del servidor)
+    if (env.nodeEnv === 'production') {
+      testDatabaseConnection();
+    } else {
+      // En desarrollo, intentar conexión sin bloquear
+      setTimeout(() => {
+        testDatabaseConnection();
+      }, 1000);
+    }
 
     // Manejo de señales de terminación
     const gracefulShutdown = (signal: string) => {
