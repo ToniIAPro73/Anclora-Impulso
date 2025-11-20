@@ -18,7 +18,7 @@ export function middleware(request: NextRequest) {
     "default-src 'self'",
     // Scripts - allow same origin, unsafe-inline for dev, and trusted CDNs
     isDevelopment
-      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://r2cdn.perplexity.ai"
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://r2cdn.perplexity.ai https://va.vercel-scripts.com"
       : "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com",
     // Styles - allow same origin and unsafe-inline (for Tailwind CSS and styled-components)
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
@@ -26,6 +26,10 @@ export function middleware(request: NextRequest) {
     "font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai data:",
     // Images - allow http/https and data URIs
     "img-src 'self' data: https: http:",
+    // Connect - allow API calls to backend and Vercel analytics
+    isDevelopment
+      ? "connect-src 'self' http://localhost:3001 https://va.vercel-scripts.com"
+      : "connect-src 'self' https://va.vercel-scripts.com",
     // Form submissions
     "form-action 'self'",
     // Framing
