@@ -4,6 +4,9 @@ import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/contexts/language-context"
 import { ThemeProvider } from "@/lib/contexts/theme-context"
 import { AuthProvider } from "@/lib/contexts/auth-context"
+import { ReactQueryProvider } from "@/lib/providers/query-client"
+import { ErrorBoundary } from "@/components/error-boundary"
+import { ErrorHandlerSetup } from "@/components/error-handler-setup"
 import { Suspense } from "react"
 import "./globals.css"
 import { Inter } from 'next/font/google'
@@ -25,14 +28,19 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={`font-sans ${inter.variable}`}>
-        <Suspense fallback={null}>
-          <ThemeProvider>
-            <LanguageProvider>
-              <AuthProvider>{children}</AuthProvider>
-            </LanguageProvider>
-          </ThemeProvider>
-        </Suspense>
-        <Analytics />
+        <ErrorHandlerSetup />
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <ThemeProvider>
+              <LanguageProvider>
+                <ReactQueryProvider>
+                  <AuthProvider>{children}</AuthProvider>
+                </ReactQueryProvider>
+              </LanguageProvider>
+            </ThemeProvider>
+          </Suspense>
+          <Analytics />
+        </ErrorBoundary>
       </body>
     </html>
   )

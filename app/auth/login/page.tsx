@@ -49,16 +49,19 @@ export default function LoginPage() {
             <CardDescription className="text-gray-600 dark:text-gray-400">{t.auth.signInMessage}</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-6" aria-label="Login form">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.email}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="your@email.com"
                   required
+                  aria-required="true"
+                  aria-describedby="email-error"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
@@ -67,18 +70,27 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.password}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="password"
                   type="password"
                   required
+                  aria-required="true"
+                  aria-describedby="password-error"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
               {error && (
-                <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">
+                <div
+                  id="login-error"
+                  className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
+                  role="alert"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {error}
                 </div>
               )}
@@ -86,6 +98,7 @@ export default function LoginPage() {
                 type="submit"
                 className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium"
                 disabled={isLoading}
+                aria-busy={isLoading}
               >
                 {isLoading ? t.auth.signingIn : t.auth.signIn}
               </Button>

@@ -67,16 +67,19 @@ export default function SignupPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSignup} className="space-y-4">
+            <form onSubmit={handleSignup} className="space-y-4" aria-label="Signup form">
               <div className="space-y-2">
                 <Label htmlFor="fullName" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.fullName || "Full Name"}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="fullName"
                   type="text"
                   placeholder={t.auth.fullNamePlaceholder || "Your full name"}
                   required
+                  aria-required="true"
+                  aria-describedby="fullName-error"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
@@ -85,12 +88,15 @@ export default function SignupPage() {
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.email}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="your@email.com"
                   required
+                  aria-required="true"
+                  aria-describedby="email-error"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
@@ -99,33 +105,48 @@ export default function SignupPage() {
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.password}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="password"
                   type="password"
                   placeholder={t.auth.passwordPlaceholder || "At least 6 characters"}
                   required
+                  aria-required="true"
+                  aria-describedby="password-error password-hint"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
+                <p id="password-hint" className="text-xs text-gray-500 dark:text-gray-400">
+                  {t.auth.passwordRequirement || "Minimum 6 characters"}
+                </p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.confirmPassword}
+                  <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="confirmPassword"
                   type="password"
                   placeholder={t.auth.confirmPasswordPlaceholder || "Confirm your password"}
                   required
+                  aria-required="true"
+                  aria-describedby="confirmPassword-error"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
               {error && (
-                <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">
+                <div
+                  id="signup-error"
+                  className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
+                  role="alert"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {error}
                 </div>
               )}
@@ -133,6 +154,7 @@ export default function SignupPage() {
                 type="submit"
                 className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium"
                 disabled={isLoading}
+                aria-busy={isLoading}
               >
                 {isLoading ? t.auth.creatingAccount || "Creating account..." : t.auth.createAccount || "Create Account"}
               </Button>

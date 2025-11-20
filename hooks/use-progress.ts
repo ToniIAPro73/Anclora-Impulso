@@ -1,69 +1,76 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { progressApi, type CompleteProgress, type BodyMeasurement } from '@/lib/api';
 
+interface MeasurementData {
+  date?: string;
+  weight?: number;
+  bodyFat?: number;
+  chest?: number;
+  waist?: number;
+  hips?: number;
+  arms?: number;
+  thighs?: number;
+}
+
+/**
+ * Hook para obtener y gestionar el progreso del usuario
+ * Usa React Query para caché automático
+ */
 export function useProgress() {
-  const [progress, setProgress] = useState<CompleteProgress | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  const fetchProgress = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const data = await progressApi.getComplete();
-      setProgress(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al cargar progreso');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Obtener progreso completo
+  const progressQuery = useQuery<CompleteProgress>({
+    queryKey: ['progress'],
+    queryFn: () => progressApi.getComplete(),
+    staleTime: 5 * 60 * 1000, // 5 minutos
+    gcTime: 10 * 60 * 1000, // 10 minutos
+  });
 
-  useEffect(() => {
-    fetchProgress();
-  }, []);
-
-  const addMeasurement = async (data: {
-    date?: string;
-    weight?: number;
-    bodyFat?: number;
-    chest?: number;
-    waist?: number;
-    hips?: number;
-    arms?: number;
-    thighs?: number;
-  }) => {
-    const newMeasurement = await progressApi.createMeasurement(data);
-    
-    // Actualizar estado local
-    if (progress) {
-      setProgress({
-        ...progress,
-        measurements: [newMeasurement, ...progress.measurements],
+  // Agregar medida corporal
+  const addMeasurementMutation = useMutation({
+    mutationFn: (data: MeasurementData) => progressApi.createMeasurement(data),
+    onSuccess: (newMeasurement) => {
+      // Actualizar caché optimísticamente
+      queryClient.setQueryData<CompleteProgress>(['progress'], (prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          measurements: [newMeasurement, ...prev.measurements],
+        };
       });
-    }
-    
-    return newMeasurement;
-  };
+    },
+  });
 
-  const deleteMeasurement = async (id: string) => {
-    await progressApi.deleteMeasurement(id);
-    
-    // Actualizar estado local
-    if (progress) {
-      setProgress({
-        ...progress,
-        measurements: progress.measurements.filter((m) => m.id !== id),
+  // Eliminar medida corporal
+  const deleteMeasurementMutation = useMutation({
+    mutationFn: (id: string) => progressApi.deleteMeasurement(id),
+    onSuccess: (_, deletedId) => {
+      // Actualizar caché
+      queryClient.setQueryData<CompleteProgress>(['progress'], (prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          measurements: prev.measurements.filter((m) => m.id !== deletedId),
+        };
       });
-    }
-  };
+    },
+  });
 
   return {
-    progress,
-    isLoading,
-    error,
-    addMeasurement,
-    deleteMeasurement,
-    refetch: fetchProgress,
+    progress: progressQuery.data ?? null,
+    isLoading: progressQuery.isLoading,
+    error: progressQuery.error?.message ?? null,
+    refetch: progressQuery.refetch,
+
+    // Mutations
+    addMeasurement: addMeasurementMutation.mutateAsync,
+    isAddingMeasurement: addMeasurementMutation.isPending,
+    deleteMeasurement: deleteMeasurementMutation.mutateAsync,
+    isDeletingMeasurement: deleteMeasurementMutation.isPending,
+
+    // Errores de mutaciones
+    addMeasurementError: addMeasurementMutation.error?.message,
+    deleteMeasurementError: deleteMeasurementMutation.error?.message,
   };
 }
