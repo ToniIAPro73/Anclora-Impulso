@@ -50,99 +50,98 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 p-6">
+    <div className="h-screen overflow-y-auto flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 py-4 px-6">
       <div className="w-full max-w-md">
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
-          <CardHeader className="text-center pb-8">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <CardHeader className="text-center pb-3 pt-5">
+            <div className="mx-auto w-11 h-11 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-2">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-              {t.auth.startJourney || "Start Your Journey"}
+            <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
+              {t.auth.startJourney || "Comienza Tu Viaje"}
             </CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-400">
-              {t.auth.createAccount || "Create your account and begin transforming your fitness"}
+            <CardDescription className="text-gray-600 dark:text-gray-400 text-xs">
+              {t.auth.createAccount || "Crea tu cuenta y empieza a transformar tu fitness"}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSignup} className="space-y-4" aria-label="Signup form">
-              <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {t.auth.fullName || "Full Name"}
+          <CardContent className="pb-5">
+            <form onSubmit={handleSignup} className="space-y-3" aria-label="Signup form">
+              <div className="space-y-1">
+                <Label htmlFor="fullName" className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                  {t.auth.fullName || "Nombre Completo"}
                   <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="fullName"
                   type="text"
-                  placeholder={t.auth.fullNamePlaceholder || "Your full name"}
+                  placeholder={t.auth.fullNamePlaceholder || "Tu nombre completo"}
                   required
                   aria-required="true"
                   aria-describedby="fullName-error"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="space-y-1">
+                <Label htmlFor="email" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.email}
                   <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="tu@email.com"
                   required
                   aria-required="true"
                   aria-describedby="email-error"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {t.auth.password}
-                  <span className="text-red-500" aria-label="required">*</span>
-                </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder={t.auth.passwordPlaceholder || "At least 6 characters"}
-                  required
-                  aria-required="true"
-                  aria-describedby="password-error password-hint"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
-                />
-                <p id="password-hint" className="text-xs text-gray-500 dark:text-gray-400">
-                  {t.auth.passwordRequirement || "Minimum 6 characters"}
-                </p>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {t.auth.confirmPassword}
-                  <span className="text-red-500" aria-label="required">*</span>
-                </Label>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder={t.auth.confirmPasswordPlaceholder || "Confirm your password"}
-                  required
-                  aria-required="true"
-                  aria-describedby="confirmPassword-error"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <Label htmlFor="password" className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {t.auth.password}
+                    <span className="text-red-500" aria-label="required">*</span>
+                  </Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Mín. 6 caracteres"
+                    required
+                    aria-required="true"
+                    aria-describedby="password-error"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="confirmPassword" className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                    {t.auth.confirmPassword}
+                    <span className="text-red-500" aria-label="required">*</span>
+                  </Label>
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirmar"
+                    required
+                    aria-required="true"
+                    aria-describedby="confirmPassword-error"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  />
+                </div>
               </div>
               {error && (
                 <div
                   id="signup-error"
-                  className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
+                  className="px-3 py-2 text-xs text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
                   role="alert"
                   aria-live="polite"
                   aria-atomic="true"
@@ -152,16 +151,16 @@ export default function SignupPage() {
               )}
               <Button
                 type="submit"
-                className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium"
+                className="w-full h-9 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-sm font-medium"
                 disabled={isLoading}
                 aria-busy={isLoading}
               >
-                {isLoading ? t.auth.creatingAccount || "Creating account..." : t.auth.createAccount || "Create Account"}
+                {isLoading ? t.auth.creatingAccount || "Creando cuenta..." : t.auth.createAccount || "Crear Cuenta"}
               </Button>
             </form>
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t.auth.alreadyHaveAccount || "Already have an account?"}{" "}
+            <div className="mt-3 text-center">
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                {t.auth.alreadyHaveAccount || "¿Ya tienes cuenta?"}{" "}
                 <Link
                   href="/auth/login"
                   className="font-medium text-orange-600 hover:text-orange-500 dark:text-orange-400"

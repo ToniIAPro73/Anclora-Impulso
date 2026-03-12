@@ -4,7 +4,7 @@ import { validateBody } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
 import { generateMealPlanSchema, createNutritionLogSchema } from '../utils/validators';
 
-const router = Router();
+const router: Router = Router();
 
 // Todas las rutas requieren autenticación
 router.use(authenticate);

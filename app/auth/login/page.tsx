@@ -36,39 +36,39 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 p-6">
-      <div className="w-full max-w-md">
+    <div className="h-screen overflow-y-auto flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 p-6">
+      <div className="w-full max-w-sm">
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
-          <CardHeader className="text-center pb-8">
-            <div className="mx-auto w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <CardHeader className="text-center pb-4 pt-6">
+            <div className="mx-auto w-11 h-11 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-3">
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">{t.auth.welcomeBack}</CardTitle>
-            <CardDescription className="text-gray-600 dark:text-gray-400">{t.auth.signInMessage}</CardDescription>
+            <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">{t.auth.welcomeBack}</CardTitle>
+            <CardDescription className="text-gray-600 dark:text-gray-400 text-xs">{t.auth.signInMessage}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-6" aria-label="Login form">
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <CardContent className="pb-6">
+            <form onSubmit={handleLogin} className="space-y-4" aria-label="Login form">
+              <div className="space-y-1">
+                <Label htmlFor="email" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.email}
                   <span className="text-red-500" aria-label="required">*</span>
                 </Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="tu@email.com"
                   required
                   aria-required="true"
                   aria-describedby="email-error"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <div className="space-y-1">
+                <Label htmlFor="password" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.password}
                   <span className="text-red-500" aria-label="required">*</span>
                 </Label>
@@ -80,13 +80,13 @@ export default function LoginPage() {
                   aria-describedby="password-error"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
+                  className="h-9 text-sm border-gray-200 dark:border-gray-700 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
               {error && (
                 <div
                   id="login-error"
-                  className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
+                  className="px-3 py-2 text-xs text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg"
                   role="alert"
                   aria-live="polite"
                   aria-atomic="true"
@@ -96,15 +96,15 @@ export default function LoginPage() {
               )}
               <Button
                 type="submit"
-                className="w-full h-12 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-medium"
+                className="w-full h-9 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white text-sm font-medium"
                 disabled={isLoading}
                 aria-busy={isLoading}
               >
                 {isLoading ? t.auth.signingIn : t.auth.signIn}
               </Button>
             </form>
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="mt-4 text-center">
+              <p className="text-xs text-gray-600 dark:text-gray-400">
                 {t.auth.noAccount}{" "}
                 <Link
                   href="/auth/signup"

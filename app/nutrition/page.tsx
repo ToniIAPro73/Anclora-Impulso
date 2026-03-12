@@ -29,6 +29,7 @@ export default function NutritionPage() {
 
   const [generateOpen, setGenerateOpen] = useState(false)
   const [logOpen, setLogOpen] = useState(false)
+  const [generateError, setGenerateError] = useState<string | null>(null)
   const [generateParams, setGenerateParams] = useState({
     goal: '',
     difficulty: '' as '' | 'facil' | 'medio' | 'dificil',
@@ -43,6 +44,7 @@ export default function NutritionPage() {
   })
 
   const handleGenerate = async () => {
+    setGenerateError(null)
     try {
       await generateMealPlan({
         goal: generateParams.goal || undefined,
@@ -50,7 +52,7 @@ export default function NutritionPage() {
       })
       setGenerateOpen(false)
     } catch (err) {
-      console.error(err)
+      setGenerateError(err instanceof Error ? err.message : t ? 'Error al generar el plan' : 'Error generating plan')
     }
   }
 
@@ -135,7 +137,7 @@ export default function NutritionPage() {
             </DialogContent>
           </Dialog>
 
-          <Dialog open={generateOpen} onOpenChange={setGenerateOpen}>
+          <Dialog open={generateOpen} onOpenChange={(v) => { setGenerateOpen(v); if (!v) setGenerateError(null) }}>
             <DialogTrigger asChild>
               <Button className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
                 <Sparkles className="w-4 h-4 mr-2" />
@@ -173,6 +175,11 @@ export default function NutritionPage() {
                     </SelectContent>
                   </Select>
                 </div>
+                {generateError && (
+                  <div className="px-3 py-2 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">
+                    {generateError}
+                  </div>
+                )}
                 <Button onClick={handleGenerate} disabled={isGenerating} className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
                   {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
                 </Button>
