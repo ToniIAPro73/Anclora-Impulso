@@ -18,10 +18,19 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  // Relaciones
+  // Relaciones - Fitness
   workouts     Workout[]
   sessions     WorkoutSession[]
   measurements BodyMeasurement[]
+
+  // Relaciones - Nutrición
+  mealPlans     MealPlan[]
+  nutritionLogs NutritionLog[]
+
+  // Relaciones - Gamificación
+  gamification    UserGamification?
+  achievements    UserAchievement[]
+  xpEvents        XPEvent[]
 
   @@map("users")
 }
@@ -152,4 +161,197 @@ model BodyMeasurement {
   @@index([userId])
   @@index([date])
   @@map("body_measurements")
+}
+
+// ==========================================
+// MODELOS DE NUTRICIÓN
+// ==========================================
+
+model MealPlan {
+  id        String   @id @default(uuid())
+  userId    String
+  weekStart DateTime
+  goal      String?  // ej. "perdida_peso", "ganancia_muscular", "mantenimiento"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  meals Meal[]
+
+  @@index([userId])
+  @@index([weekStart])
+  @@map("meal_plans")
+}
+
+model Meal {
+  id         String @id @default(uuid())
+  mealPlanId String
+  dayOfWeek  Int    // 0=Lunes, 6=Domingo
+  mealType   String // "desayuno", "almuerzo", "cena", "snack"
+
+  // Relaciones
+  mealPlan MealPlan     @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  recipes  MealRecipe[]
+
+  @@index([mealPlanId])
+  @@map("meals")
+}
+
+model Recipe {
+  id           String   @id @default(uuid())
+  name         String
+  nameEn       String?
+  description  String?
+  instructions Json     // array de pasos como JSON
+  prepTime     Int?     // minutos
+  cookTime     Int?     // minutos
+  servings     Int      @default(1)
+  difficulty   String?  // "facil", "medio", "dificil"
+  calories     Float?
+  protein      Float?   // gramos
+  carbs        Float?   // gramos
+  fat          Float?   // gramos
+  fiber        Float?   // gramos
+  imageUrl     String?
+  tags         String[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relaciones
+  meals       MealRecipe[]
+  ingredients RecipeIngredient[]
+
+  @@map("recipes")
+}
+
+model Ingredient {
+  id      String @id @default(uuid())
+  name    String @unique
+  nameEn  String?
+  unit    String // "g", "ml", "unidad", etc.
+
+  // Relaciones
+  recipes RecipeIngredient[]
+
+  @@map("ingredients")
+}
+
+model RecipeIngredient {
+  id           String @id @default(uuid())
+  recipeId     String
+  ingredientId String
+  quantity     Float
+
+  // Relaciones
+  recipe     Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, ingredientId])
+  @@index([recipeId])
+  @@map("recipe_ingredients")
+}
+
+model MealRecipe {
+  id       String @id @default(uuid())
+  mealId   String
+  recipeId String
+
+  // Relaciones
+  meal   Meal   @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  recipe Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  @@index([mealId])
+  @@index([recipeId])
+  @@map("meal_recipes")
+}
+
+model NutritionLog {
+  id       String   @id @default(uuid())
+  userId   String
+  date     DateTime @default(now())
+  mealType String   // "desayuno", "almuerzo", "cena", "snack"
+  recipeId String?
+  name     String?  // nombre libre si no es receta
+  calories Float
+  protein  Float
+  carbs    Float
+  fat      Float
+  notes    String?
+  createdAt DateTime @default(now())
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@index([mealType])
+  @@map("nutrition_logs")
+}
+
+// ==========================================
+// MODELOS DE GAMIFICACIÓN
+// ==========================================
+
+model UserGamification {
+  id             String    @id @default(uuid())
+  userId         String    @unique
+  xp             Int       @default(0)
+  level          Int       @default(1)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActivityAt DateTime?
+  updatedAt      DateTime  @updatedAt
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_gamification")
+}
+
+model Achievement {
+  id        String @id @default(uuid())
+  key       String @unique // "first_workout", "streak_7", "log_100_meals"
+  nameEs    String
+  nameEn    String
+  descEs    String
+  descEn    String
+  icon      String // nombre de icono Lucide
+  xpReward  Int
+  condition Json   // condición legible por máquina para desbloqueo
+
+  // Relaciones
+  users UserAchievement[]
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id            String   @id @default(uuid())
+  userId        String
+  achievementId String
+  unlockedAt    DateTime @default(now())
+
+  // Relaciones
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@index([userId])
+  @@map("user_achievements")
+}
+
+model XPEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  action    String   // "complete_workout", "log_meal", "hit_streak_7"
+  xp        Int
+  createdAt DateTime @default(now())
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("xp_events")
 }

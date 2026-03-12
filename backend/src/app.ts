@@ -18,6 +18,8 @@ import sessionsRoutes from './routes/sessions.routes';
 import progressRoutes from './routes/progress.routes';
 import healthRoutes from './routes/health.routes';
 import dashboardRoutes from './routes/dashboard.routes';
+import nutritionRoutes from './routes/nutrition.routes';
+import gamificationRoutes from './routes/gamification.routes';
 
 const app = express();
 
@@ -86,6 +88,8 @@ app.use('/api/workouts', workoutsRoutes);
 app.use('/api/sessions', sessionsRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/nutrition', nutritionRoutes);
+app.use('/api/gamification', gamificationRoutes);
 
 // Manejo de rutas no encontradas
 app.use(notFoundHandler);

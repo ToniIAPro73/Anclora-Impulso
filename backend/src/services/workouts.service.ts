@@ -154,11 +154,10 @@ export async function generateWorkout(userId: string, params: GenerateWorkoutInp
     throw new AppError(400, 'No se encontraron ejercicios con los criterios especificados');
   }
 
-  // Si hay API key de OpenAI, usar IA para generar el entrenamiento
-  if (env.openaiApiKey) {
+  // Intentar generar con IA (Groq/Llama)
+  if (env.groqApiKey) {
     try {
-      const OpenAI = (await import('openai')).default;
-      const openai = new OpenAI({ apiKey: env.openaiApiKey });
+      const { generateJSON, SYSTEM_PROMPT_ES } = await import('./llm');
 
       const prompt = `Genera un entrenamiento de fitness con las siguientes características:
 - Tipo: ${params.workoutType}
@@ -168,11 +167,11 @@ export async function generateWorkout(userId: string, params: GenerateWorkoutInp
 - Equipo disponible: ${params.equipment?.join(', ') || 'cualquiera'}
 
 Ejercicios disponibles:
-${availableExercises.map((e, i) => `${i + 1}. ${e.name} (${e.muscleGroup}, ${e.equipment})`).join('\n')}
+${availableExercises.map((e, i) => `${i + 1}. ${e.name} (ID: ${e.id}, ${e.muscleGroup}, ${e.equipment})`).join('\n')}
 
-Responde SOLO con un JSON válido en este formato exacto (sin markdown ni explicaciones):
+Devuelve un JSON con este formato exacto:
 {
-  "name": "Nombre del entrenamiento",
+  "name": "Nombre del entrenamiento en español",
   "exercises": [
     {
       "exerciseId": "id del ejercicio de la lista",
@@ -182,22 +181,19 @@ Responde SOLO con un JSON válido en este formato exacto (sin markdown ni explic
       "order": orden (0, 1, 2...)
     }
   ]
-}`;
+}
 
-      const response = await openai.chat.completions.create({
-        model: 'gpt-4.1-mini',
-        messages: [{ role: 'user', content: prompt }],
+IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
+
+      const workoutData = await generateJSON<CreateWorkoutInput>({
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT_ES },
+          { role: 'user', content: prompt },
+        ],
         temperature: 0.7,
+        maxTokens: 4000,
       });
 
-      const content = response.choices[0].message.content?.trim();
-      if (!content) {
-        throw new Error('Respuesta vacía de OpenAI');
-      }
-
-      const workoutData = JSON.parse(content);
-      
-      // Crear el entrenamiento
       return await createWorkout(userId, workoutData);
     } catch (error) {
       console.error('Error al generar con IA:', error);

@@ -5,14 +5,16 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/lib/contexts/auth-context"
-import { Home, Dumbbell, TrendingUp, BookOpen, User, LogOut, Menu, X, Zap } from "lucide-react"
+import { Home, Dumbbell, TrendingUp, BookOpen, LogOut, Menu, X, Zap, Apple, Trophy } from "lucide-react"
+import { XPBar } from "@/components/xp-bar"
 
 const navigationItems = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
+  { name: "Nutrition", href: "/nutrition", icon: Apple },
   { name: "Generate Workout", href: "/workouts/generate", icon: Zap },
   { name: "Exercises", href: "/exercises", icon: BookOpen },
   { name: "Progress", href: "/progress", icon: TrendingUp },
-  { name: "Profile", href: "/profile", icon: User },
+  { name: "Achievements", href: "/achievements", icon: Trophy },
 ]
 
 export function Navigation() {
@@ -39,7 +41,7 @@ export function Navigation() {
 
         <div className="flex-1 px-4 space-y-2">
           {navigationItems.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
             return (
               <Link
                 key={item.name}
@@ -57,7 +59,8 @@ export function Navigation() {
           })}
         </div>
 
-        <div className="p-4">
+        <div className="p-4 space-y-2">
+          <XPBar />
           <Button onClick={handleSignOut} variant="outline" className="w-full bg-transparent">
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
@@ -83,7 +86,7 @@ export function Navigation() {
           <div className="bg-white/95 backdrop-blur-sm dark:bg-gray-900/95 border-b border-gray-200 dark:border-gray-700">
             <div className="px-4 py-2 space-y-1">
               {navigationItems.map((item) => {
-                const isActive = pathname === item.href
+                const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
                 return (
                   <Link
                     key={item.name}
@@ -100,6 +103,7 @@ export function Navigation() {
                   </Link>
                 )
               })}
+              <XPBar />
               <Button onClick={handleSignOut} variant="outline" className="w-full mt-4 bg-transparent">
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
