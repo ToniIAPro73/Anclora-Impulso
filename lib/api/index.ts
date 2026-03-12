@@ -280,6 +280,180 @@ export const progressApi = {
   },
 };
 
+// ========== NUTRITION TYPES ==========
+
+export interface RecipeIngredient {
+  id: string;
+  quantity: number;
+  ingredient: {
+    id: string;
+    name: string;
+    unit: string;
+  };
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  nameEn?: string;
+  description?: string;
+  instructions: string[];
+  prepTime?: number;
+  cookTime?: number;
+  servings: number;
+  difficulty?: string;
+  calories?: number;
+  protein?: number;
+  carbs?: number;
+  fat?: number;
+  fiber?: number;
+  imageUrl?: string;
+  tags: string[];
+  ingredients: RecipeIngredient[];
+}
+
+export interface MealRecipe {
+  id: string;
+  recipe: Recipe;
+}
+
+export interface Meal {
+  id: string;
+  dayOfWeek: number;
+  mealType: string;
+  recipes: MealRecipe[];
+}
+
+export interface MealPlan {
+  id: string;
+  userId: string;
+  weekStart: string;
+  goal?: string;
+  createdAt: string;
+  meals: Meal[];
+}
+
+export interface NutritionLog {
+  id: string;
+  userId: string;
+  date: string;
+  mealType: string;
+  recipeId?: string;
+  name?: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  notes?: string;
+}
+
+export interface NutritionSummary {
+  period: 'day' | 'week';
+  totals: { calories: number; protein: number; carbs: number; fat: number; count: number };
+  averages: { calories: number; protein: number; carbs: number; fat: number };
+  logCount: number;
+}
+
+// ========== NUTRITION API ==========
+
+export const nutritionApi = {
+  async generateMealPlan(params: {
+    goal?: string;
+    difficulty?: 'facil' | 'medio' | 'dificil';
+    maxIngredients?: number;
+    includeIngredients?: string[];
+    dietaryRestrictions?: string[];
+  }): Promise<MealPlan> {
+    return apiClient.post<MealPlan>('/nutrition/meal-plans/generate', params);
+  },
+
+  async getMealPlans(): Promise<MealPlan[]> {
+    return apiClient.get<MealPlan[]>('/nutrition/meal-plans');
+  },
+
+  async getMealPlanById(id: string): Promise<MealPlan> {
+    return apiClient.get<MealPlan>(`/nutrition/meal-plans/${id}`);
+  },
+
+  async getRecipeById(id: string): Promise<Recipe> {
+    return apiClient.get<Recipe>(`/nutrition/recipes/${id}`);
+  },
+
+  async logNutrition(data: {
+    mealType: 'desayuno' | 'almuerzo' | 'cena' | 'snack';
+    recipeId?: string;
+    name?: string;
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+    notes?: string;
+    date?: string;
+  }): Promise<NutritionLog> {
+    return apiClient.post<NutritionLog>('/nutrition/log', data);
+  },
+
+  async getLogs(period: 'day' | 'week' = 'day'): Promise<NutritionLog[]> {
+    return apiClient.get<NutritionLog[]>(`/nutrition/logs?period=${period}`);
+  },
+
+  async getSummary(period: 'day' | 'week' = 'day'): Promise<NutritionSummary> {
+    return apiClient.get<NutritionSummary>(`/nutrition/summary?period=${period}`);
+  },
+};
+
+// ========== GAMIFICATION TYPES ==========
+
+export interface GamificationStatus {
+  id: string;
+  userId: string;
+  xp: number;
+  level: number;
+  currentStreak: number;
+  longestStreak: number;
+  lastActivityAt?: string;
+  xpProgress: number;
+  xpToNextLevel: number;
+  progressPercent: number;
+}
+
+export interface Achievement {
+  id: string;
+  key: string;
+  nameEs: string;
+  nameEn: string;
+  descEs: string;
+  descEn: string;
+  icon: string;
+  xpReward: number;
+  unlocked: boolean;
+  unlockedAt?: string;
+}
+
+export interface XPEvent {
+  id: string;
+  userId: string;
+  action: string;
+  xp: number;
+  createdAt: string;
+}
+
+// ========== GAMIFICATION API ==========
+
+export const gamificationApi = {
+  async getStatus(): Promise<GamificationStatus> {
+    return apiClient.get<GamificationStatus>('/gamification/status');
+  },
+
+  async getAchievements(): Promise<Achievement[]> {
+    return apiClient.get<Achievement[]>('/gamification/achievements');
+  },
+
+  async getXPHistory(limit = 20): Promise<XPEvent[]> {
+    return apiClient.get<XPEvent[]>(`/gamification/xp-history?limit=${limit}`);
+  },
+};
+
 // Export all
 export * from './auth';
 export { apiClient } from './client';

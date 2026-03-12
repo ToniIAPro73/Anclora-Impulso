@@ -19,7 +19,12 @@ export const env = {
   // CORS
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
 
-  // OpenAI
+  // LLM (Groq / modelos open source)
+  llmProvider: process.env.LLM_PROVIDER || 'groq',
+  groqApiKey: process.env.GROQ_API_KEY || '',
+  groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+
+  // Legacy (deprecated, usar GROQ_API_KEY)
   openaiApiKey: process.env.OPENAI_API_KEY || '',
 };
 
