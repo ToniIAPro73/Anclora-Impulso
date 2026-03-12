@@ -33,6 +33,7 @@ export default function NutritionPage() {
   const [generateParams, setGenerateParams] = useState({
     goal: '',
     difficulty: '' as '' | 'facil' | 'medio' | 'dificil',
+    dietType: '' as '' | 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente',
   })
   const [logData, setLogData] = useState({
     mealType: 'almuerzo' as 'desayuno' | 'almuerzo' | 'cena' | 'snack',
@@ -49,6 +50,7 @@ export default function NutritionPage() {
       await generateMealPlan({
         goal: generateParams.goal || undefined,
         difficulty: generateParams.difficulty || undefined,
+        dietType: (generateParams.dietType || undefined) as any,
       })
       setGenerateOpen(false)
     } catch (err) {
@@ -174,6 +176,27 @@ export default function NutritionPage() {
                       <SelectItem value="dificil">{t ? 'Difícil' : 'Hard'}</SelectItem>
                     </SelectContent>
                   </Select>
+                </div>
+                <div>
+                  <Label>{t ? 'Tipo de dieta' : 'Diet type'}</Label>
+                  <Select value={generateParams.dietType} onValueChange={(v) => setGenerateParams(p => ({ ...p, dietType: v as any }))}>
+                    <SelectTrigger><SelectValue placeholder={t ? 'Sin restricción' : 'No restriction'} /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="ninguna">{t ? 'Sin restricción' : 'No restriction'}</SelectItem>
+                      <SelectItem value="mediterranea">{t ? 'Mediterránea 🫒' : 'Mediterranean 🫒'}</SelectItem>
+                      <SelectItem value="dash">{t ? 'DASH (antihipertensiva) ❤️' : 'DASH (anti-hypertension) ❤️'}</SelectItem>
+                      <SelectItem value="ayuno_intermitente">{t ? 'Ayuno Intermitente 16:8 ⏱️' : 'Intermittent Fasting 16:8 ⏱️'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {generateParams.dietType === 'mediterranea' && (
+                    <p className="text-xs text-muted-foreground mt-1">{t ? 'Avalada por el ensayo PREDIMED (+7.000 participantes). Reduce riesgo cardiovascular un 30%.' : 'Backed by the PREDIMED trial (+7,000 participants). Reduces cardiovascular risk by 30%.'}</p>
+                  )}
+                  {generateParams.dietType === 'dash' && (
+                    <p className="text-xs text-muted-foreground mt-1">{t ? 'Desarrollada por el NIH. Recomendada por la AHA para hipertensión, pérdida de peso y salud metabólica.' : 'Developed by the NIH. Recommended by the AHA for hypertension, weight loss and metabolic health.'}</p>
+                  )}
+                  {generateParams.dietType === 'ayuno_intermitente' && (
+                    <p className="text-xs text-muted-foreground mt-1">{t ? 'Protocolo 16:8. Ventana de alimentación 12:00–20:00. Solo Almuerzo y Cena. Sin desayuno.' : '16:8 protocol. Eating window 12:00–20:00. Lunch and Dinner only. No breakfast.'}</p>
+                  )}
                 </div>
                 {generateError && (
                   <div className="px-3 py-2 text-sm text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400 rounded-lg">

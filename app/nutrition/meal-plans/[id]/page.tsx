@@ -1,6 +1,5 @@
 "use client"
 
-import { use } from "react"
 import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,8 +13,8 @@ import { useLanguage } from "@/lib/contexts/language-context"
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-export default function MealPlanDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+export default function MealPlanDetailPage({ params }: { params: { id: string } }) {
+  const { id } = params
   const router = useRouter()
   const { language } = useLanguage()
   const t = language === 'es'

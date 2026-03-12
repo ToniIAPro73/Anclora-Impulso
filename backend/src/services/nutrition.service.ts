@@ -45,7 +45,41 @@ export async function generateMealPlan(userId: string, params: GenerateMealPlanI
     throw new AppError(503, 'Servicio de IA no disponible. Configura GROQ_API_KEY.');
   }
 
+  const dietTypeInstructions: Record<string, string> = {
+    mediterranea: `TIPO DE DIETA: Dieta Mediterránea (avalada por múltiples estudios clínicos, incluyendo el ensayo PREDIMED con +7.000 participantes).
+Principios obligatorios:
+- Base en aceite de oliva virgen extra como grasa principal
+- Abundantes verduras, frutas, legumbres y cereales integrales en cada comida
+- Pescado azul (salmón, sardinas, caballa) al menos 3 veces por semana
+- Carnes rojas máximo 1 vez por semana; preferir aves y legumbres como proteína
+- Frutos secos (nueces, almendras) como snack o ingrediente
+- Lácteos fermentados (yogur griego, queso fresco) con moderación
+- Uso de hierbas aromáticas (albahaca, romero, orégano) para condimentar`,
+
+    dash: `TIPO DE DIETA: Dieta DASH (Dietary Approaches to Stop Hypertension), desarrollada por el NIH y avalada por la American Heart Association.
+Principios obligatorios:
+- Máximo 2.300 mg de sodio por día (objetivo ideal: 1.500 mg). Evitar sal añadida en recetas
+- Alta en potasio, magnesio y calcio: incluir plátanos, espinacas, boniatos, leche desnatada, yogur
+- Abundantes frutas y verduras (8-10 raciones diarias)
+- Cereales integrales (avena, arroz integral, pan integral) en cada comida principal
+- Proteínas magras: pollo sin piel, pavo, pescado, legumbres; limitar carnes rojas a 1-2 veces por semana
+- Lácteos desnatados o semidesnatados 2-3 raciones diarias
+- Evitar alimentos procesados, embutidos y quesos curados`,
+
+    ayuno_intermitente: `TIPO DE DIETA: Ayuno Intermitente 16:8 (protocolo más estudiado científicamente, con evidencia en metabolismo, sensibilidad a insulina y pérdida de peso).
+Principios obligatorios:
+- Ventana de alimentación de 8 horas (ej. 12:00 - 20:00). SOLO 2 comidas principales: Almuerzo y Cena. NO incluir desayuno.
+- Las 2 comidas deben ser nutricionalmente densas y saciantes para cubrir los requerimientos diarios
+- Priorizar proteínas y grasas saludables para mantener la saciedad durante el ayuno
+- Carbohidratos complejos y de bajo índice glucémico (avena, legumbres, verduras)
+- Evitar azúcares simples y ultraprocesados que rompan el ritmo glucémico
+- Para cada día: generar SOLO meals de tipo "Almuerzo" y "Cena" (no desayuno)`,
+  };
+
   const constraints: string[] = [];
+  if (params.dietType && params.dietType !== 'ninguna' && dietTypeInstructions[params.dietType]) {
+    constraints.push(dietTypeInstructions[params.dietType]);
+  }
   if (params.difficulty) {
     constraints.push(`- Dificultad de Receta: ${params.difficulty} (Adherirse estrictamente)`);
   }
@@ -63,6 +97,14 @@ export async function generateMealPlan(userId: string, params: GenerateMealPlanI
     );
   }
 
+  const isIF = params.dietType === 'ayuno_intermitente';
+  const mealsPerDay = isIF
+    ? 'EXACTAMENTE 2 comidas (Almuerzo y Cena, SIN desayuno)'
+    : 'EXACTAMENTE 3 comidas (Desayuno, Almuerzo, Cena)';
+  const mealTypes = isIF
+    ? 'type: string (Almuerzo/Cena) — NO incluir Desayuno'
+    : 'type: string (Desayuno/Almuerzo/Cena)';
+
   const prompt = `
 Genera un plan de alimentación COMPLETO de 7 días (Lunes a Domingo) para un usuario con el siguiente perfil:
 - Objetivo: ${params.goal || 'mantenimiento saludable'}
@@ -76,10 +118,10 @@ Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo.
 Cada día debe tener:
 - day_name: string (Lunes, Martes, etc.)
 - daily_macros: objeto con calories (int), protein (float), carbs (float), fats (float)
-- meals: array con EXACTAMENTE 3 comidas (Desayuno, Almuerzo, Cena)
+- meals: array con ${mealsPerDay}
 
 Cada comida debe tener:
-- type: string (Desayuno/Almuerzo/Cena)
+- ${mealTypes}
 - recipe: objeto con:
     - name: string (EN ESPAÑOL)
     - description: string (EN ESPAÑOL)
@@ -202,7 +244,7 @@ IMPORTANTE:
     }
 
     return plan;
-  });
+  }, { timeout: 60000 });
 
   logger.info('Meal plan generated', { userId, mealPlanId: mealPlan.id });
 

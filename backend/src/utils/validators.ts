@@ -81,6 +81,7 @@ export const generateWorkoutSchema = z.object({
 export const generateMealPlanSchema = z.object({
   goal: z.string().optional(),
   difficulty: z.enum(['facil', 'medio', 'dificil']).optional(),
+  dietType: z.enum(['ninguna', 'mediterranea', 'dash', 'ayuno_intermitente']).optional(),
   maxIngredients: z.number().int().min(1).max(20).optional(),
   includeIngredients: z.array(z.string()).optional(),
   dietaryRestrictions: z.array(z.string()).optional(),
