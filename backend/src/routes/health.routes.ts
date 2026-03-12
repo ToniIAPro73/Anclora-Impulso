@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import {
   healthCheck,
   simpleHealthCheck,
@@ -6,7 +6,7 @@ import {
   livenessCheck,
 } from '../controllers/health.controller';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 /**
  * @route   GET /health

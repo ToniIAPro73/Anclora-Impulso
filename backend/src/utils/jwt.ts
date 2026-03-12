@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { type SignOptions } from 'jsonwebtoken';
 import { env } from '../config/env';
 
 export interface JwtPayload {
@@ -10,18 +10,18 @@ export interface JwtPayload {
  * Generar un token de acceso JWT
  */
 export function generateAccessToken(payload: JwtPayload): string {
-  return jwt.sign(payload, env.jwtSecret, {
+  return jwt.sign(payload as jwt.JwtPayload, env.jwtSecret, {
     expiresIn: env.jwtExpiresIn,
-  });
+  } as SignOptions);
 }
 
 /**
  * Generar un token de refresco JWT
  */
 export function generateRefreshToken(payload: JwtPayload): string {
-  return jwt.sign(payload, env.jwtRefreshSecret, {
+  return jwt.sign(payload as jwt.JwtPayload, env.jwtRefreshSecret, {
     expiresIn: env.jwtRefreshExpiresIn,
-  });
+  } as SignOptions);
 }
 
 /**

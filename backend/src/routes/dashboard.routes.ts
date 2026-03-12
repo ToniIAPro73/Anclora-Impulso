@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import {
   getMetrics,
   getDbMetrics,
@@ -7,7 +7,7 @@ import {
   getSummary,
 } from '../controllers/dashboard.controller';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 /**
  * @route   GET /api/dashboard/metrics

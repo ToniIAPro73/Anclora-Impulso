@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import * as exercisesController from '../controllers/exercises.controller';
 import { validateBody } from '../middleware/validate';
 import { optionalAuthenticate } from '../middleware/auth';
 import { createExerciseSchema } from '../utils/validators';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 // Metadatos (categorías, grupos musculares, equipos)
 router.get('/meta/categories', exercisesController.getCategories);

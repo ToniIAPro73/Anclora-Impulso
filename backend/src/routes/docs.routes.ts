@@ -1,7 +1,7 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import { swaggerDefinition } from '../docs/swagger';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 /**
  * GET /docs/swagger.json

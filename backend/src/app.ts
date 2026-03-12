@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { type Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
@@ -21,7 +21,7 @@ import dashboardRoutes from './routes/dashboard.routes';
 import nutritionRoutes from './routes/nutrition.routes';
 import gamificationRoutes from './routes/gamification.routes';
 
-const app = express();
+const app: Express = express();
 
 // Middleware de seguridad
 app.use(helmet());

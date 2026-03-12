@@ -1,7 +1,10 @@
-import { prisma } from '../config/database';
-import { AppError } from '../middleware/errorHandler';
-import type { CreateWorkoutInput, GenerateWorkoutInput } from '../utils/validators';
-import { env } from '../config/env';
+import { prisma } from "../config/database";
+import { AppError } from "../middleware/errorHandler";
+import type {
+  CreateWorkoutInput,
+  GenerateWorkoutInput,
+} from "../utils/validators";
+import { env } from "../config/env";
 
 /**
  * Obtener todos los entrenamientos de un usuario
@@ -14,10 +17,10 @@ export async function getUserWorkouts(userId: string) {
         include: {
           exercise: true,
         },
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
       },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { createdAt: "desc" },
   });
 
   return workouts;
@@ -34,13 +37,13 @@ export async function getWorkoutById(id: string, userId: string) {
         include: {
           exercise: true,
         },
-        orderBy: { order: 'asc' },
+        orderBy: { order: "asc" },
       },
     },
   });
 
   if (!workout) {
-    throw new AppError(404, 'Entrenamiento no encontrado');
+    throw new AppError(404, "Entrenamiento no encontrado");
   }
 
   return workout;
@@ -73,14 +76,18 @@ export async function createWorkout(userId: string, data: CreateWorkoutInput) {
 /**
  * Actualizar un entrenamiento
  */
-export async function updateWorkout(id: string, userId: string, data: Partial<CreateWorkoutInput>) {
+export async function updateWorkout(
+  id: string,
+  userId: string,
+  data: Partial<CreateWorkoutInput>,
+) {
   // Verificar que el entrenamiento pertenece al usuario
   const existingWorkout = await prisma.workout.findFirst({
     where: { id, userId },
   });
 
   if (!existingWorkout) {
-    throw new AppError(404, 'Entrenamiento no encontrado');
+    throw new AppError(404, "Entrenamiento no encontrado");
   }
 
   // Si se actualizan los ejercicios, eliminar los existentes y crear los nuevos
@@ -121,7 +128,7 @@ export async function deleteWorkout(id: string, userId: string) {
   });
 
   if (!workout) {
-    throw new AppError(404, 'Entrenamiento no encontrado');
+    throw new AppError(404, "Entrenamiento no encontrado");
   }
 
   await prisma.workout.delete({
@@ -132,7 +139,10 @@ export async function deleteWorkout(id: string, userId: string) {
 /**
  * Generar un entrenamiento con IA
  */
-export async function generateWorkout(userId: string, params: GenerateWorkoutInput) {
+export async function generateWorkout(
+  userId: string,
+  params: GenerateWorkoutInput,
+) {
   // Obtener ejercicios según los parámetros
   const where: any = {
     difficulty: params.difficulty,
@@ -151,23 +161,26 @@ export async function generateWorkout(userId: string, params: GenerateWorkoutInp
   });
 
   if (availableExercises.length === 0) {
-    throw new AppError(400, 'No se encontraron ejercicios con los criterios especificados');
+    throw new AppError(
+      400,
+      "No se encontraron ejercicios con los criterios especificados",
+    );
   }
 
   // Intentar generar con IA (Groq/Llama)
   if (env.groqApiKey) {
     try {
-      const { generateJSON, SYSTEM_PROMPT_ES } = await import('./llm');
+      const { generateJSON, SYSTEM_PROMPT_ES } = await import("./llm");
 
       const prompt = `Genera un entrenamiento de fitness con las siguientes características:
 - Tipo: ${params.workoutType}
 - Duración: ${params.duration} minutos
 - Dificultad: ${params.difficulty}
-- Músculos objetivo: ${params.targetMuscles?.join(', ') || 'todos'}
-- Equipo disponible: ${params.equipment?.join(', ') || 'cualquiera'}
+- Músculos objetivo: ${params.targetMuscles?.join(", ") || "todos"}
+- Equipo disponible: ${params.equipment?.join(", ") || "cualquiera"}
 
 Ejercicios disponibles:
-${availableExercises.map((e, i) => `${i + 1}. ${e.name} (ID: ${e.id}, ${e.muscleGroup}, ${e.equipment})`).join('\n')}
+${availableExercises.map((e, i) => `${i + 1}. ${e.name} (ID: ${e.id}, ${e.muscleGroup}, ${e.equipment})`).join("\n")}
 
 Devuelve un JSON con este formato exacto:
 {
@@ -187,8 +200,8 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
 
       const workoutData = await generateJSON<CreateWorkoutInput>({
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT_ES },
-          { role: 'user', content: prompt },
+          { role: "system", content: SYSTEM_PROMPT_ES },
+          { role: "user", content: prompt },
         ],
         temperature: 0.7,
         maxTokens: 4000,
@@ -196,7 +209,7 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
 
       return await createWorkout(userId, workoutData);
     } catch (error) {
-      console.error('Error al generar con IA:', error);
+      console.error("Error al generar con IA:", error);
       // Continuar con generación básica
     }
   }
@@ -210,8 +223,18 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
     name: `Entrenamiento de ${params.workoutType} - ${params.difficulty}`,
     exercises: selectedExercises.map((exercise, index) => ({
       exerciseId: exercise.id,
-      sets: params.difficulty === 'beginner' ? 3 : params.difficulty === 'intermediate' ? 4 : 5,
-      reps: params.difficulty === 'beginner' ? 10 : params.difficulty === 'intermediate' ? 12 : 15,
+      sets:
+        params.difficulty === "beginner"
+          ? 3
+          : params.difficulty === "intermediate"
+            ? 4
+            : 5,
+      reps:
+        params.difficulty === "beginner"
+          ? 10
+          : params.difficulty === "intermediate"
+            ? 12
+            : 15,
       rest: 60,
       order: index,
     })),

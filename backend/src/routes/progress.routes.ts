@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import * as progressController from '../controllers/progress.controller';
 import { validateBody } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
 import { createMeasurementSchema } from '../utils/validators';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 // Todas las rutas requieren autenticación
 router.use(authenticate);

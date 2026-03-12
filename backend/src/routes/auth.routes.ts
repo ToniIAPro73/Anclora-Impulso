@@ -1,10 +1,10 @@
-import { Router } from 'express';
+import { Router, type Router as ExpressRouter } from 'express';
 import * as authController from '../controllers/auth.controller';
 import { validateBody } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
 import { registerSchema, loginSchema } from '../utils/validators';
 
-const router = Router();
+const router: ExpressRouter = Router();
 
 // Registro de usuario
 router.post('/register', validateBody(registerSchema), authController.register);
