@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useAuth } from "@/lib/contexts/auth-context"
+import { authApi } from "@/lib/api/auth"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 export default function SignupPage() {
@@ -19,7 +19,6 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const { signup } = useAuth()
   const { t } = useLanguage()
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -40,8 +39,8 @@ export default function SignupPage() {
     }
 
     try {
-      await signup(email, password, fullName)
-      router.push("/dashboard")
+      await authApi.register({ email, password, fullName })
+      router.replace("/dashboard")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : t.auth.signupError)
     } finally {

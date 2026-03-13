@@ -34,14 +34,14 @@ export function DashboardContent() {
   }
 
   return (
-    <div className="flex min-h-full flex-col gap-2 p-3 md:gap-2.5 md:p-3.5 lg:h-full">
+    <div className="flex min-h-full flex-col gap-2.5 p-3 sm:gap-3 sm:p-4 lg:h-full">
       {/* Quick Stats */}
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-        <Card className="min-h-[98px] border-0 bg-gradient-to-br from-blue-50 to-cyan-50 py-0 shadow-lg dark:from-blue-900/20 dark:to-cyan-900/20 lg:h-[96px]">
-          <CardHeader className="gap-1 px-4 pb-1 pt-3 lg:px-4">
-            <CardTitle className="flex items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
+        <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-blue-50 to-cyan-50 py-0 shadow-lg dark:from-blue-900/20 dark:to-cyan-900/20 xl:h-[96px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
               <Activity className="h-4 w-4 text-blue-500" />
-              {t.dashboard.totalWorkouts}
+              <span className="line-clamp-2">{t.dashboard.totalWorkouts}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
@@ -50,11 +50,11 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-h-[98px] border-0 bg-gradient-to-br from-green-50 to-emerald-50 py-0 shadow-lg dark:from-green-900/20 dark:to-emerald-900/20 lg:h-[96px]">
-          <CardHeader className="gap-1 px-4 pb-1 pt-3 lg:px-4">
-            <CardTitle className="flex items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
+        <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-green-50 to-emerald-50 py-0 shadow-lg dark:from-green-900/20 dark:to-emerald-900/20 xl:h-[96px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
               <Clock className="h-4 w-4 text-green-500" />
-              {t.dashboard.avgWorkoutTime}
+              <span className="line-clamp-2">{t.dashboard.avgWorkoutTime}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
@@ -65,11 +65,11 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-h-[98px] border-0 bg-gradient-to-br from-yellow-50 to-orange-50 py-0 shadow-lg dark:from-yellow-900/20 dark:to-orange-900/20 lg:h-[96px]">
-          <CardHeader className="gap-1 px-4 pb-1 pt-3 lg:px-4">
-            <CardTitle className="flex items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
+        <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-yellow-50 to-orange-50 py-0 shadow-lg dark:from-yellow-900/20 dark:to-orange-900/20 xl:h-[96px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
               <Trophy className="h-4 w-4 text-yellow-500" />
-              {t.dashboard.personalRecords}
+              <span className="line-clamp-2">{t.dashboard.personalRecords}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
@@ -78,11 +78,11 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-h-[98px] border-0 bg-gradient-to-br from-purple-50 to-pink-50 py-0 shadow-lg dark:from-purple-900/20 dark:to-pink-900/20 lg:h-[96px]">
-          <CardHeader className="gap-1 px-4 pb-1 pt-3 lg:px-4">
-            <CardTitle className="flex items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
+        <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-purple-50 to-pink-50 py-0 shadow-lg dark:from-purple-900/20 dark:to-pink-900/20 xl:h-[96px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
               <Calendar className="h-4 w-4 text-purple-500" />
-              {t.dashboard.thisMonth}
+              <span className="line-clamp-2">{t.dashboard.thisMonth}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
@@ -93,14 +93,14 @@ export function DashboardContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
-        <Card className="min-h-[118px] border-0 bg-gradient-to-r from-orange-500 to-red-500 py-0 text-white hover:shadow-xl transition-shadow lg:h-[112px]">
+      <div className="grid grid-cols-1 gap-2.5 xl:grid-cols-3">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-orange-500 to-red-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
-            <CardTitle className="flex items-center gap-2 text-[0.94rem] leading-tight">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <Play className="h-4 w-4" />
-              {t.dashboard.startWorkout}
+              <span className="line-clamp-2">{t.dashboard.startWorkout}</span>
             </CardTitle>
-            <CardDescription className="line-clamp-1 text-[0.8rem] text-orange-100">{t.dashboard.startWorkoutDesc}</CardDescription>
+            <CardDescription className="line-clamp-2 text-[0.8rem] text-orange-100">{t.dashboard.startWorkoutDesc}</CardDescription>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
             <Button asChild variant="secondary" className="h-8 w-full rounded-xl bg-white/20 px-3 text-sm text-white border-0 hover:bg-white/30">
@@ -112,13 +112,13 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-h-[118px] border-0 bg-gradient-to-r from-blue-500 to-cyan-500 py-0 text-white hover:shadow-xl transition-shadow lg:h-[112px]">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-blue-500 to-cyan-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
-            <CardTitle className="flex items-center gap-2 text-[0.94rem] leading-tight">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <Dumbbell className="h-4 w-4" />
-              {t.dashboard.exerciseLibrary}
+              <span className="line-clamp-2">{t.dashboard.exerciseLibrary}</span>
             </CardTitle>
-            <CardDescription className="line-clamp-1 text-[0.8rem] text-blue-100">{t.dashboard.exerciseLibraryDesc}</CardDescription>
+            <CardDescription className="line-clamp-2 text-[0.8rem] text-blue-100">{t.dashboard.exerciseLibraryDesc}</CardDescription>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
             <Button asChild variant="secondary" className="h-8 w-full rounded-xl bg-white/20 px-3 text-sm text-white border-0 hover:bg-white/30">
@@ -130,13 +130,13 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-h-[118px] border-0 bg-gradient-to-r from-purple-500 to-pink-500 py-0 text-white hover:shadow-xl transition-shadow lg:h-[112px]">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-purple-500 to-pink-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
-            <CardTitle className="flex items-center gap-2 text-[0.94rem] leading-tight">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <TrendingUp className="h-4 w-4" />
-              {t.dashboard.viewProgress}
+              <span className="line-clamp-2">{t.dashboard.viewProgress}</span>
             </CardTitle>
-            <CardDescription className="line-clamp-1 text-[0.8rem] text-purple-100">{t.dashboard.viewProgressDesc}</CardDescription>
+            <CardDescription className="line-clamp-2 text-[0.8rem] text-purple-100">{t.dashboard.viewProgressDesc}</CardDescription>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-3">
             <Button asChild variant="secondary" className="h-8 w-full rounded-xl bg-white/20 px-3 text-sm text-white border-0 hover:bg-white/30">
@@ -196,7 +196,7 @@ export function DashboardContent() {
 
       {/* Getting Started */}
       {stats.totalWorkouts === 0 && (
-        <Card className="min-h-0 border-0 bg-gradient-to-r from-orange-50 to-pink-50 py-0 shadow-lg dark:from-orange-900/20 dark:to-pink-900/20 lg:flex-1">
+        <Card className="min-h-0 border-0 bg-gradient-to-r from-orange-50 to-pink-50 py-0 shadow-lg dark:from-orange-900/20 dark:to-pink-900/20">
           <CardHeader className="gap-1 px-4 pb-1.5 pt-3 lg:px-5">
             <CardTitle className="flex items-center gap-2 text-[0.98rem] md:text-[1.02rem]">
               <Target className="h-4 w-4 text-orange-500" />
@@ -204,8 +204,8 @@ export function DashboardContent() {
             </CardTitle>
             <CardDescription className="text-[0.8rem]">{t.dashboard.getStartedDesc}</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-3 px-4 pt-0 pb-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:grid-rows-[auto_auto] lg:px-5">
-            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 lg:col-span-2">
+          <CardContent className="px-4 pt-0 pb-4 lg:px-5">
+            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
               <div className={cn("flex min-h-[86px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-2 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
                   1
@@ -234,15 +234,13 @@ export function DashboardContent() {
                 </div>
               </div>
             </div>
-            <div className="lg:col-start-2 lg:row-span-2 lg:flex lg:items-end lg:justify-end">
-              <div className="flex justify-stretch lg:justify-end">
-                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 lg:w-auto">
+            <div className="mt-3 flex justify-stretch xl:justify-end">
+                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 xl:w-auto">
                   <Link href="/workouts/generate" className="whitespace-nowrap">
                     <Plus className="mr-2 h-4 w-4" />
                     {t.dashboard.generateFirstWorkout}
                   </Link>
                 </Button>
-              </div>
             </div>
           </CardContent>
         </Card>

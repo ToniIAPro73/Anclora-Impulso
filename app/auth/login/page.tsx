@@ -9,7 +9,7 @@ import { BrandLogo } from "@/components/brand-logo"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { useAuth } from "@/lib/contexts/auth-context"
+import { authApi } from "@/lib/api/auth"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 import { useLanguage } from "@/lib/contexts/language-context"
@@ -20,7 +20,6 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const { login } = useAuth()
   const { t } = useLanguage()
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -29,8 +28,8 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      await login(email, password)
-      router.push("/dashboard")
+      await authApi.login({ email, password })
+      router.replace("/dashboard")
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : t.auth.error)
     } finally {
