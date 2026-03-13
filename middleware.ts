@@ -69,7 +69,7 @@ export function middleware(request: NextRequest) {
 // Configure which routes the middleware applies to
 export const config = {
   matcher: [
-    // Apply to all routes except static files and API routes
-    '/((?!_next/static|_next/image|favicon.ico|public).*)',
+    // Apply only to application pages, never to API or static/public assets
+    '/((?!api|_next/static|_next/image|.*\\..*).*)',
   ],
 };
