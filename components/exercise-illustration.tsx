@@ -31,12 +31,12 @@ function Arrow({
   d: string
   className?: string
 }) {
-  return <path d={d} className={cn("fill-none stroke-[4] stroke-linecap-round stroke-linejoin-round", className)} />
+  return <path d={d} strokeLinecap="round" strokeLinejoin="round" className={cn("fill-none stroke-[4]", className)} />
 }
 
 function PoseFigure({ pose, tone = "stroke-orange-500" }: { pose: Pose; tone?: string }) {
   return (
-    <g className={cn("fill-none stroke-[5] stroke-linecap-round stroke-linejoin-round", tone)} opacity={pose.opacity ?? 1}>
+    <g strokeLinecap="round" strokeLinejoin="round" className={cn("fill-none stroke-[5]", tone)} opacity={pose.opacity ?? 1}>
       <path d={pose.head} />
       <path d={pose.body} />
       <path d={pose.leftArm} />
@@ -57,7 +57,7 @@ function Scene({ poses, arrows, label }: { poses: Pose[]; arrows: string[]; labe
         </linearGradient>
       </defs>
       <rect x="8" y="8" width="304" height="204" rx="28" fill="url(#exercise-bg)" className="stroke stroke-orange-200/60 dark:stroke-orange-500/20" />
-      <path d="M48 178h224" className="fill-none stroke-[4] stroke-slate-300/70 dark:stroke-slate-600/70 stroke-linecap-round" />
+      <path d="M48 178h224" strokeLinecap="round" className="fill-none stroke-[4] stroke-slate-300/70 dark:stroke-slate-600/70" />
       {poses.map((pose, index) => (
         <PoseFigure
           key={index}

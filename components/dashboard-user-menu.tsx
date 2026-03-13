@@ -2,7 +2,8 @@
 
 import { LogOut, UserCircle, ChevronDown } from "lucide-react"
 
-import { BrandLogo } from "@/components/brand-logo"
+import { ProfileDialog } from "@/components/profile-dialog"
+import { UserAvatar } from "@/components/user-avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -29,7 +30,7 @@ export function DashboardUserMenu() {
           variant="outline"
           className="h-12 rounded-full border-orange-200/80 bg-white/80 pl-1 pr-3 dark:border-orange-400/10 dark:bg-slate-950/70"
         >
-          <BrandLogo size={38} className="rounded-full border-orange-300/70 shadow-none" imageClassName="p-1.5" />
+          <UserAvatar className="size-9" />
           <span className="hidden max-w-[120px] truncate text-sm text-slate-700 dark:text-slate-200 sm:inline">
             {displayName}
           </span>
@@ -43,10 +44,15 @@ export function DashboardUserMenu() {
           <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="rounded-xl px-3 py-2.5">
-          <UserCircle className="mr-2 h-4 w-4" />
-          <span className={cn("text-sm")}>{t.navigation.profile}</span>
-        </DropdownMenuItem>
+        <ProfileDialog>
+          <DropdownMenuItem
+            onSelect={(event) => event.preventDefault()}
+            className="rounded-xl px-3 py-2.5"
+          >
+            <UserCircle className="mr-2 h-4 w-4" />
+            <span className={cn("text-sm")}>{t.navigation.profile}</span>
+          </DropdownMenuItem>
+        </ProfileDialog>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {

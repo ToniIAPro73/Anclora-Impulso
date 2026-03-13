@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Search, Filter, Play, Target, Zap, Loader2 } from "lucide-react"
+import { ExerciseIllustration } from "@/components/exercise-illustration"
 import { useExercises } from "@/hooks/use-exercises"
 import { useLanguage } from "@/lib/contexts/language-context"
 
@@ -185,22 +186,9 @@ export function ExerciseLibrary() {
         {exercises.map((exercise) => (
           <Dialog key={exercise.id}>
             <DialogTrigger asChild>
-              <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-xl transition-all duration-200 cursor-pointer group">
+                <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-xl transition-all duration-200 cursor-pointer group">
                 <CardHeader className="pb-3">
-                  {/* Imagen del ejercicio */}
-                  {exercise.imageUrl && (
-                    <div className="mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-4">
-                      <img
-                        src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}${exercise.imageUrl}`}
-                        alt={exercise.name}
-                        className="w-full h-48 object-contain"
-                        onError={(e) => {
-                          // Ocultar imagen si falla la carga
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  )}
+                  <ExerciseIllustration name={exercise.name} compact className="mb-4" />
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{getCategoryIcon(exercise.category)}</span>
@@ -234,19 +222,7 @@ export function ExerciseLibrary() {
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                {/* Imagen grande en el modal */}
-                {exercise.imageUrl && (
-                  <div className="mb-6 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-6">
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}${exercise.imageUrl}`}
-                      alt={exercise.name}
-                      className="w-full h-64 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  </div>
-                )}
+                <ExerciseIllustration name={exercise.name} className="mb-6" />
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
                   <div>

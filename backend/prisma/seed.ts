@@ -1,217 +1,104 @@
 import { PrismaClient } from '@prisma/client';
+import { completeExercisesDatabase } from './complete-exercises-database';
 
 const prisma = new PrismaClient();
 
-const exercises = [
-  {
-    name: 'Push-ups',
-    category: 'strength',
-    muscleGroup: 'chest',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Classic upper body exercise',
-    instructions: ['Start in plank position', 'Lower body to ground', 'Push back up'],
-  },
-  {
-    name: 'Squats',
-    category: 'strength',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Fundamental lower body exercise',
-    instructions: ['Stand with feet shoulder-width apart', 'Lower hips back and down', 'Return to standing'],
-  },
-  {
-    name: 'Pull-ups',
-    category: 'strength',
-    muscleGroup: 'back',
-    equipment: 'pull_up_bar',
-    difficulty: 'intermediate',
-    description: 'Upper body pulling exercise',
-    instructions: ['Hang from bar with overhand grip', 'Pull body up until chin over bar', 'Lower with control'],
-  },
-  {
-    name: 'Plank',
-    category: 'strength',
-    muscleGroup: 'core',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Core stability exercise',
-    instructions: ['Start in forearm plank position', 'Keep body straight', 'Hold position'],
-  },
-  {
-    name: 'Lunges',
-    category: 'strength',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Single-leg lower body exercise',
-    instructions: ['Step forward with one leg', 'Lower hips until both knees bent at 90°', 'Return to start'],
-  },
-  {
-    name: 'Burpees',
-    category: 'cardio',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'intermediate',
-    description: 'Full body cardio exercise',
-    instructions: ['Start standing', 'Drop to plank', 'Do push-up', 'Jump feet to hands', 'Jump up'],
-  },
-  {
-    name: 'Dumbbell Bench Press',
-    category: 'strength',
-    muscleGroup: 'chest',
-    equipment: 'dumbbells',
-    difficulty: 'intermediate',
-    description: 'Chest pressing exercise with dumbbells',
-    instructions: ['Lie on bench with dumbbells', 'Press weights up', 'Lower with control'],
-  },
-  {
-    name: 'Deadlifts',
-    category: 'strength',
-    muscleGroup: 'back',
-    equipment: 'barbell',
-    difficulty: 'advanced',
-    description: 'Compound posterior chain exercise',
-    instructions: ['Stand with feet hip-width', 'Grip barbell', 'Lift by extending hips and knees'],
-  },
-  {
-    name: 'Mountain Climbers',
-    category: 'cardio',
-    muscleGroup: 'core',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Dynamic cardio and core exercise',
-    instructions: ['Start in plank position', 'Alternate bringing knees to chest', 'Keep core engaged'],
-  },
-  {
-    name: 'Dumbbell Rows',
-    category: 'strength',
-    muscleGroup: 'back',
-    equipment: 'dumbbells',
-    difficulty: 'intermediate',
-    description: 'Back pulling exercise',
-    instructions: ['Bend at hips with dumbbell', 'Pull weight to hip', 'Lower with control'],
-  },
-  {
-    name: 'Shoulder Press',
-    category: 'strength',
-    muscleGroup: 'shoulders',
-    equipment: 'dumbbells',
-    difficulty: 'intermediate',
-    description: 'Overhead pressing exercise',
-    instructions: ['Hold dumbbells at shoulder height', 'Press overhead', 'Lower with control'],
-  },
-  {
-    name: 'Bicycle Crunches',
-    category: 'strength',
-    muscleGroup: 'core',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Core rotation exercise',
-    instructions: ['Lie on back', 'Alternate elbow to opposite knee', 'Keep core engaged'],
-  },
-  {
-    name: 'Jumping Jacks',
-    category: 'cardio',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Classic cardio warm-up exercise',
-    instructions: ['Start with feet together', 'Jump feet apart while raising arms', 'Return to start'],
-  },
-  {
-    name: 'Tricep Dips',
-    category: 'strength',
-    muscleGroup: 'arms',
-    equipment: 'bodyweight',
-    difficulty: 'intermediate',
-    description: 'Tricep isolation exercise',
-    instructions: ['Support body on parallel bars or bench', 'Lower body by bending elbows', 'Push back up'],
-  },
-  {
-    name: 'Russian Twists',
-    category: 'strength',
-    muscleGroup: 'core',
-    equipment: 'bodyweight',
-    difficulty: 'intermediate',
-    description: 'Oblique strengthening exercise',
-    instructions: ['Sit with knees bent, lean back slightly', 'Rotate torso side to side', 'Keep core engaged'],
-  },
-  {
-    name: 'Box Jumps',
-    category: 'cardio',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'intermediate',
-    description: 'Explosive lower body exercise',
-    instructions: ['Stand in front of box', 'Jump onto box', 'Step down and repeat'],
-  },
-  {
-    name: 'Barbell Squats',
-    category: 'strength',
-    muscleGroup: 'legs',
-    equipment: 'barbell',
-    difficulty: 'advanced',
-    description: 'Compound leg exercise with barbell',
-    instructions: ['Position barbell on upper back', 'Squat down keeping chest up', 'Drive through heels to stand'],
-  },
-  {
-    name: 'Leg Raises',
-    category: 'strength',
-    muscleGroup: 'core',
-    equipment: 'bodyweight',
-    difficulty: 'intermediate',
-    description: 'Lower abdominal exercise',
-    instructions: ['Lie on back', 'Raise legs to 90 degrees', 'Lower with control'],
-  },
-  {
-    name: 'Kettlebell Swings',
-    category: 'strength',
-    muscleGroup: 'glutes',
-    equipment: 'kettlebell',
-    difficulty: 'intermediate',
-    description: 'Dynamic posterior chain exercise',
-    instructions: ['Stand with feet wide', 'Swing kettlebell between legs', 'Drive hips forward to swing up'],
-  },
-  {
-    name: 'High Knees',
-    category: 'cardio',
-    muscleGroup: 'legs',
-    equipment: 'bodyweight',
-    difficulty: 'beginner',
-    description: 'Cardio exercise with high knee drive',
-    instructions: ['Run in place', 'Drive knees up high', 'Maintain quick pace'],
-  },
-];
+function normalizeToken(value: string) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+
+function mapCategory(category: string) {
+  const normalized = normalizeToken(category);
+
+  if (normalized.includes('cardio')) return 'cardio';
+  if (normalized.includes('flex')) return 'flexibility';
+  if (normalized.includes('balance')) return 'balance';
+  return 'strength';
+}
+
+function mapMuscleGroup(muscleGroup: string) {
+  const normalized = normalizeToken(muscleGroup);
+
+  if (normalized.includes('pecho')) return 'chest';
+  if (normalized.includes('espalda')) return 'back';
+  if (normalized.includes('hombro')) return 'shoulders';
+  if (normalized.includes('bicep') || normalized.includes('tricep') || normalized.includes('brazo')) return 'arms';
+  if (normalized.includes('pierna') || normalized.includes('cuadricep') || normalized.includes('isquio')) return 'legs';
+  if (normalized.includes('glute')) return 'glutes';
+  if (normalized.includes('core') || normalized.includes('abd') || normalized.includes('oblic')) return 'core';
+  return 'full_body';
+}
+
+function mapEquipment(equipment: string) {
+  const normalized = normalizeToken(equipment);
+
+  if (normalized.includes('peso corporal')) return 'bodyweight';
+  if (normalized.includes('mancuerna')) return 'dumbbells';
+  if (normalized.includes('barra')) return 'barbell';
+  if (normalized.includes('kettlebell')) return 'kettlebell';
+  if (normalized.includes('cable')) return 'cables';
+  if (normalized.includes('maquina')) return 'machine';
+  if (normalized.includes('banda')) return 'resistance_bands';
+  if (normalized.includes('barra de dominadas')) return 'pull_up_bar';
+  return normalized.replace(/\s+/g, '_');
+}
+
+function mapDifficulty(difficulty: string) {
+  const normalized = normalizeToken(difficulty);
+
+  if (normalized.includes('principiante')) return 'beginner';
+  if (normalized.includes('intermedio')) return 'intermediate';
+  if (normalized.includes('avanzado')) return 'advanced';
+  return 'beginner';
+}
+
+function normalizeExercises() {
+  return completeExercisesDatabase.map((exercise) => ({
+    name: exercise.name,
+    category: mapCategory(exercise.category),
+    muscleGroup: mapMuscleGroup(exercise.muscleGroup),
+    equipment: mapEquipment(exercise.equipment),
+    difficulty: mapDifficulty(exercise.difficulty),
+    description: exercise.description,
+    instructions: exercise.instructions,
+    imageUrl: exercise.imageFileName ? `/exercises/${exercise.imageFileName}` : null,
+  }));
+}
 
 async function main() {
-  console.log('🌱 Iniciando seed de la base de datos...');
+  console.log('🌱 Iniciando seed de ejercicios...');
 
-  // Verificar si ya existen ejercicios
-  const existingExercises = await prisma.exercise.count();
+  const normalizedExercises = normalizeExercises();
+  const existingExercises = await prisma.exercise.findMany({
+    select: { name: true },
+  });
+  const existingNames = new Set(existingExercises.map((exercise) => exercise.name));
 
-  if (existingExercises > 0) {
-    console.log(`ℹ️  Ya existen ${existingExercises} ejercicios en la base de datos`);
-    console.log('💡 Saltando seed de ejercicios');
+  const missingExercises = normalizedExercises.filter((exercise) => !existingNames.has(exercise.name));
+
+  if (missingExercises.length === 0) {
+    console.log(`ℹ️  Ya existen ${existingExercises.length} ejercicios en la base de datos`);
     return;
   }
 
-  // Crear ejercicios
-  console.log('📝 Creando ejercicios...');
-  
-  for (const exercise of exercises) {
+  console.log(`📝 Añadiendo ${missingExercises.length} ejercicios...`);
+
+  for (const exercise of missingExercises) {
     await prisma.exercise.create({
       data: exercise,
     });
   }
 
-  console.log(`✅ Se crearon ${exercises.length} ejercicios exitosamente`);
+  console.log(`✅ Seed completado. Total actual: ${existingExercises.length + missingExercises.length} ejercicios`);
 }
 
 main()
-  .catch((e) => {
-    console.error('❌ Error durante el seed:', e);
+  .catch((error) => {
+    console.error('❌ Error durante el seed:', error);
     process.exit(1);
   })
   .finally(async () => {

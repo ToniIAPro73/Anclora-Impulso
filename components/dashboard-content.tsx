@@ -7,11 +7,13 @@ import Link from "next/link"
 import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
 import { useMealPlans, useNutritionSummary } from "@/hooks/use-nutrition"
+import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 
 export function DashboardContent() {
+  const { profile } = useAuth()
   const { progress, isLoading } = useProgress()
   const { data: nutritionSummary, isLoading: isNutritionLoading } = useNutritionSummary("day")
   const { mealPlans } = useMealPlans()
@@ -182,6 +184,33 @@ export function DashboardContent() {
           )
         })}
       </div>
+
+      {/* Personal Records */}
+      {profile.recommendedPlan ? (
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-50 to-rose-50 backdrop-blur-sm dark:from-orange-900/20 dark:to-rose-900/20">
+          <CardHeader>
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-5 h-5 text-orange-500" />
+                  {profile.recommendedPlan.title}
+                </CardTitle>
+                <CardDescription>{profile.recommendedPlan.summary}</CardDescription>
+              </div>
+              <Button asChild className="rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600">
+                <Link href="/workouts/generate">{t.dashboard.startNow}</Link>
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {profile.recommendedPlan.weeklySplit.map((session) => (
+              <div key={session} className={cn("rounded-2xl bg-white/75 p-4 text-sm text-slate-700 shadow-sm dark:bg-slate-950/45 dark:text-slate-200", uiMotion.frame)}>
+                {session}
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ) : null}
 
       {/* Personal Records */}
       {stats.personalRecords.length > 0 && (

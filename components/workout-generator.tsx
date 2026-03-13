@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,7 @@ import { useWorkouts } from "@/hooks/use-workouts"
 import { useRouter } from "next/navigation"
 import { Loader2, Zap, Clock, Target, Dumbbell, Play, CheckCircle2 } from "lucide-react"
 import type { Workout } from "@/lib/api"
+import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 interface WorkoutPreferences {
@@ -25,6 +26,7 @@ interface WorkoutPreferences {
 }
 
 export function WorkoutGenerator() {
+  const { profile } = useAuth()
   const { language } = useLanguage()
   const isSpanish = language === "es"
   const [preferences, setPreferences] = useState<WorkoutPreferences>({
@@ -40,6 +42,22 @@ export function WorkoutGenerator() {
   const [error, setError] = useState<string | null>(null)
   const { generateWorkout } = useWorkouts()
   const router = useRouter()
+
+  useEffect(() => {
+    if (!profile.recommendedPlan) {
+      return
+    }
+
+    setPreferences((current) => ({
+      ...current,
+      workoutType: profile.recommendedPlan?.workoutType ?? current.workoutType,
+      duration: profile.recommendedPlan?.duration ?? current.duration,
+      difficulty: profile.recommendedPlan?.difficulty ?? current.difficulty,
+      targetMuscles: profile.recommendedPlan?.targetMuscles ?? current.targetMuscles,
+      equipment: profile.recommendedPlan?.equipment ?? current.equipment,
+      workoutName: current.workoutName || profile.recommendedPlan?.title || current.workoutName,
+    }))
+  }, [profile.recommendedPlan])
 
   const muscleGroups = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'glutes']
   const equipmentTypes = ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar']
@@ -94,6 +112,14 @@ export function WorkoutGenerator() {
             <CardDescription>{isSpanish ? "Personaliza tu entrenamiento según tus objetivos y equipo disponible" : "Customize your workout based on your goals and available equipment"}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            {profile.recommendedPlan ? (
+              <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 p-4 dark:border-emerald-500/20 dark:bg-emerald-500/10">
+                <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200">
+                  {isSpanish ? "Propuesta cargada desde tu perfil" : "Proposal loaded from your profile"}
+                </p>
+                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-300">{profile.recommendedPlan.summary}</p>
+              </div>
+            ) : null}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label>{isSpanish ? "Nombre del Entrenamiento (Opcional)" : "Workout Name (Optional)"}</Label>
