@@ -145,6 +145,8 @@
   .ui-motion-frame {
     position: relative;
     isolation: isolate;
+    transform: translateZ(0) scale(1);
+    transform-origin: center center;
     transition:
       transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -169,7 +171,7 @@
 
   .ui-motion-card:hover,
   .ui-motion-card:focus-visible {
-    transform: translateY(-6px);
+    transform: translateZ(0) scale(1.035);
     box-shadow: var(--motion-card-shadow);
   }
 
@@ -181,7 +183,7 @@
 
   .ui-motion-button:hover,
   .ui-motion-button:focus-visible {
-    transform: translateY(-3px);
+    transform: translateZ(0) scale(1.022);
     box-shadow: var(--motion-button-shadow);
   }
 
@@ -192,12 +194,12 @@
   }
 
   .ui-motion-button:active {
-    transform: translateY(-1px);
+    transform: translateZ(0) scale(1.01);
   }
 
   .ui-motion-frame:hover,
   .ui-motion-frame:focus-visible {
-    transform: translateY(-4px);
+    transform: translateZ(0) scale(1.028);
     box-shadow: var(--motion-frame-shadow);
   }
 
