@@ -196,13 +196,13 @@ export async function getProgressStats(userId: string) {
       e.id as exercise_id,
       e.name as exercise_name,
       MAX(ss.weight) as max_weight,
-      ws.completed_at as date
-    FROM session_sets ss
-    JOIN session_exercises se ON ss.session_exercise_id = se.id
-    JOIN exercises e ON se.exercise_id = e.id
-    JOIN workout_sessions ws ON se.session_id = ws.id
-    WHERE ws.user_id = ${userId}
-    GROUP BY e.id, e.name, ws.completed_at
+      MAX(ws."completedAt") as date
+    FROM "session_sets" ss
+    JOIN "session_exercises" se ON ss."sessionExerciseId" = se.id
+    JOIN "exercises" e ON se."exerciseId" = e.id
+    JOIN "workout_sessions" ws ON se."sessionId" = ws.id
+    WHERE ws."userId" = ${userId}
+    GROUP BY e.id, e.name
     ORDER BY max_weight DESC
     LIMIT 10
   `;

@@ -56,7 +56,7 @@ app.use((req, res, next) => {
 // Rate limiting global
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // 100 requests por ventana
+  max: env.nodeEnv === 'development' ? 1000 : 100, // más holgado en local
   message: 'Demasiadas solicitudes, por favor intenta más tarde',
   standardHeaders: true,
   legacyHeaders: false,
@@ -67,7 +67,7 @@ app.use('/api/', limiter);
 // Rate limiting específico para autenticación
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 5, // 5 intentos por ventana
+  max: env.nodeEnv === 'development' ? 100 : 5, // no bloquear el flujo local
   message: 'Demasiados intentos de autenticación, por favor intenta más tarde',
   skipSuccessfulRequests: true,
 });
