@@ -36,7 +36,7 @@ export function DashboardContent() {
   return (
     <div className="flex min-h-full flex-col gap-2.5 p-3 sm:gap-3 sm:p-4 lg:h-full">
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-2.5">
         <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-blue-50 to-cyan-50 py-0 shadow-lg dark:from-blue-900/20 dark:to-cyan-900/20 xl:h-[96px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
             <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
@@ -93,8 +93,8 @@ export function DashboardContent() {
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 gap-2.5 xl:grid-cols-3">
-        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-orange-500 to-red-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-2.5">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-orange-500 to-red-500 py-0 text-white hover:shadow-xl transition-shadow 2xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
             <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <Play className="h-4 w-4" />
@@ -112,7 +112,7 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-blue-500 to-cyan-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-blue-500 to-cyan-500 py-0 text-white hover:shadow-xl transition-shadow 2xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
             <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <Dumbbell className="h-4 w-4" />
@@ -130,7 +130,7 @@ export function DashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-purple-500 to-pink-500 py-0 text-white hover:shadow-xl transition-shadow xl:h-[112px]">
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-purple-500 to-pink-500 py-0 text-white hover:shadow-xl transition-shadow 2xl:h-[112px]">
           <CardHeader className="gap-1 px-4 pb-1 pt-3">
             <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
               <TrendingUp className="h-4 w-4" />
@@ -205,7 +205,7 @@ export function DashboardContent() {
             <CardDescription className="text-[0.8rem]">{t.dashboard.getStartedDesc}</CardDescription>
           </CardHeader>
           <CardContent className="px-4 pt-0 pb-4 lg:px-5">
-            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-2">
               <div className={cn("flex min-h-[86px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-2 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
                   1
@@ -234,8 +234,8 @@ export function DashboardContent() {
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex justify-stretch xl:justify-end">
-                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 xl:w-auto">
+            <div className="mt-3 flex justify-stretch 2xl:justify-end">
+                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 2xl:w-auto">
                   <Link href="/workouts/generate" className="whitespace-nowrap">
                     <Plus className="mr-2 h-4 w-4" />
                     {t.dashboard.generateFirstWorkout}

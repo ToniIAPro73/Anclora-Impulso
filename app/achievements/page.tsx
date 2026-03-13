@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { useGamificationStatus, useAchievements, useXPHistory } from "@/hooks/use-gamification"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { Trophy, Star, Flame, Zap, Lock, Award, TrendingUp } from "lucide-react"
@@ -14,7 +15,7 @@ function DynamicIcon({ name, className }: { name: string; className?: string }) 
   return <IconComponent className={className} />
 }
 
-export default function AchievementsPage() {
+function AchievementsPageContent() {
   const { language } = useLanguage()
   const t = language === 'es'
   const { data: status, isLoading: statusLoading } = useGamificationStatus()
@@ -187,5 +188,13 @@ export default function AchievementsPage() {
         </Card>
       )}
     </div>
+  )
+}
+
+export default function AchievementsPage() {
+  return (
+    <ProtectedDashboardPage>
+      <AchievementsPageContent />
+    </ProtectedDashboardPage>
   )
 }

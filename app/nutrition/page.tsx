@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Progress } from "@/components/ui/progress"
+import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { useMealPlans, useNutritionSummary, useNutritionLogs } from "@/hooks/use-nutrition"
 import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
@@ -17,7 +18,7 @@ import { useLanguage } from "@/lib/contexts/language-context"
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-export default function NutritionPage() {
+function NutritionPageContent() {
   const router = useRouter()
   const { language } = useLanguage()
   const t = language === 'es'
@@ -361,5 +362,13 @@ export default function NutritionPage() {
         </Card>
       )}
     </div>
+  )
+}
+
+export default function NutritionPage() {
+  return (
+    <ProtectedDashboardPage>
+      <NutritionPageContent />
+    </ProtectedDashboardPage>
   )
 }

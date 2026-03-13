@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
+import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { useMealPlan } from "@/hooks/use-nutrition"
 import { ArrowLeft, Clock, ChefHat, Flame, Beef, Wheat, Droplets, UtensilsCrossed } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
@@ -13,7 +14,7 @@ import { useLanguage } from "@/lib/contexts/language-context"
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-export default function MealPlanDetailPage({ params }: { params: { id: string } }) {
+function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
   const { id } = params
   const router = useRouter()
   const { language } = useLanguage()
@@ -194,5 +195,13 @@ export default function MealPlanDetailPage({ params }: { params: { id: string } 
         })}
       </Tabs>
     </div>
+  )
+}
+
+export default function MealPlanDetailPage({ params }: { params: { id: string } }) {
+  return (
+    <ProtectedDashboardPage>
+      <MealPlanDetailPageContent params={params} />
+    </ProtectedDashboardPage>
   )
 }
