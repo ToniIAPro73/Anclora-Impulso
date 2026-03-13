@@ -196,7 +196,7 @@ export function DashboardContent() {
 
       {/* Getting Started */}
       {stats.totalWorkouts === 0 && (
-        <Card className="min-h-0 border-0 bg-gradient-to-r from-orange-50 to-pink-50 py-0 shadow-lg dark:from-orange-900/20 dark:to-pink-900/20">
+        <Card className="min-h-0 border-0 bg-gradient-to-r from-orange-50 to-pink-50 py-0 shadow-lg dark:from-orange-900/20 dark:to-pink-900/20 lg:flex-1">
           <CardHeader className="gap-1 px-4 pb-1.5 pt-3 lg:px-5">
             <CardTitle className="flex items-center gap-2 text-[0.98rem] md:text-[1.02rem]">
               <Target className="h-4 w-4 text-orange-500" />
@@ -204,9 +204,9 @@ export function DashboardContent() {
             </CardTitle>
             <CardDescription className="text-[0.8rem]">{t.dashboard.getStartedDesc}</CardDescription>
           </CardHeader>
-          <CardContent className="px-4 pt-0 pb-4 lg:px-5">
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-2">
-              <div className={cn("flex min-h-[86px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-2 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+          <CardContent className="flex h-full min-h-0 flex-col px-4 pt-1 pb-5 lg:px-5">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3">
+              <div className={cn("flex min-h-[104px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
                   1
                 </div>
@@ -215,7 +215,7 @@ export function DashboardContent() {
                   <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{t.dashboard.stepOneDesc}</p>
                 </div>
               </div>
-              <div className={cn("flex min-h-[86px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-2 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+              <div className={cn("flex min-h-[104px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
                   2
                 </div>
@@ -224,7 +224,7 @@ export function DashboardContent() {
                   <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{t.dashboard.stepTwoDesc}</p>
                 </div>
               </div>
-              <div className={cn("flex min-h-[86px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-2 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+              <div className={cn("flex min-h-[104px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
                   3
                 </div>
@@ -234,7 +234,7 @@ export function DashboardContent() {
                 </div>
               </div>
             </div>
-            <div className="mt-3 flex justify-stretch 2xl:justify-end">
+            <div className="mt-auto pt-5 flex justify-stretch 2xl:justify-end">
                 <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 2xl:w-auto">
                   <Link href="/workouts/generate" className="whitespace-nowrap">
                     <Plus className="mr-2 h-4 w-4" />
