@@ -23,6 +23,9 @@ import gamificationRoutes from './routes/gamification.routes';
 
 const app: Express = express();
 
+// Confiar en el proxy (necesario para Render/Vercel y rate limiting)
+app.set('trust proxy', 1);
+
 // Middleware de seguridad
 app.use(helmet());
 
