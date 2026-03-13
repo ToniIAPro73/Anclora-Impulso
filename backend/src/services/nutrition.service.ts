@@ -3,6 +3,7 @@ import { AppError } from '../middleware/errorHandler';
 import { generateJSON, SYSTEM_PROMPT_ES } from './llm';
 import { env } from '../config/env';
 import logger from '../config/logger';
+import type { Prisma } from '@prisma/client';
 import type {
   GenerateMealPlanInput,
   CreateNutritionLogInput,
@@ -35,6 +36,353 @@ interface AIDay {
 
 interface AIMealPlanResponse {
   days: AIDay[];
+}
+
+type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
+type PrismaTx = Prisma.TransactionClient;
+
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+const IF_FASTING_TARGET_HOURS = 16;
+const IF_EATING_WINDOW_HOURS = 8;
+const MAX_AUTOMATIC_REDUCTION_RATIO = 0.28;
+const MIN_SERVING_MULTIPLIER = 0.72;
+
+function getWeekStart(date: Date): Date {
+  const weekStart = new Date(date);
+  const jsDay = weekStart.getDay();
+  const diffToMonday = jsDay === 0 ? -6 : 1 - jsDay;
+  weekStart.setDate(weekStart.getDate() + diffToMonday);
+  weekStart.setHours(0, 0, 0, 0);
+  return weekStart;
+}
+
+function getDayOfWeekFromDate(date: Date): number {
+  const jsDay = date.getDay();
+  return jsDay === 0 ? 6 : jsDay - 1;
+}
+
+function getWeekEnd(weekStart: Date): Date {
+  return new Date(weekStart.getTime() + 7 * DAY_IN_MS);
+}
+
+async function ensureNutritionBalance(userId: string, tx: PrismaTx = prisma) {
+  const existing = await tx.userNutritionBalance.findUnique({
+    where: { userId },
+  });
+
+  if (existing) {
+    return existing;
+  }
+
+  return tx.userNutritionBalance.create({
+    data: {
+      userId,
+      carryoverCalories: 0,
+    },
+  });
+}
+
+async function getPlanWithMeals(tx: PrismaTx, planId: string) {
+  return tx.mealPlan.findUnique({
+    where: { id: planId },
+    include: {
+      meals: {
+        include: {
+          recipes: {
+            include: {
+              recipe: true,
+            },
+          },
+        },
+        orderBy: [{ dayOfWeek: 'asc' }, { mealType: 'asc' }],
+      },
+    },
+  });
+}
+
+async function resetMealAdjustments(tx: PrismaTx, planId: string) {
+  await tx.meal.updateMany({
+    where: { mealPlanId: planId },
+    data: {
+      servingMultiplier: 1,
+      adjustmentReason: null,
+    },
+  });
+}
+
+async function applyCalorieAdjustmentToPlan(
+  tx: PrismaTx,
+  planId: string,
+  caloriesToCompensate: number,
+  startDayOfWeek: number,
+  reason: string
+) {
+  if (caloriesToCompensate <= 0) {
+    return { absorbedCalories: 0, leftoverCalories: 0 };
+  }
+
+  const plan = await getPlanWithMeals(tx, planId);
+  if (!plan) {
+    return { absorbedCalories: 0, leftoverCalories: caloriesToCompensate };
+  }
+
+  const adjustableMeals = plan.meals.filter(
+    (meal) =>
+      meal.dayOfWeek >= startDayOfWeek &&
+      meal.recipes.some((mealRecipe) => (mealRecipe.recipe.calories ?? 0) > 0)
+  );
+
+  if (adjustableMeals.length === 0) {
+    return { absorbedCalories: 0, leftoverCalories: caloriesToCompensate };
+  }
+
+  const totalFutureCalories = adjustableMeals.reduce((sum, meal) => {
+    const mealCalories = meal.recipes.reduce((mealSum, mealRecipe) => mealSum + (mealRecipe.recipe.calories ?? 0), 0);
+    return sum + mealCalories;
+  }, 0);
+
+  if (totalFutureCalories <= 0) {
+    return { absorbedCalories: 0, leftoverCalories: caloriesToCompensate };
+  }
+
+  const requestedRatio = caloriesToCompensate / totalFutureCalories;
+  const appliedRatio = Math.min(requestedRatio, MAX_AUTOMATIC_REDUCTION_RATIO);
+
+  for (const meal of adjustableMeals) {
+    const updatedMultiplier = Math.max(MIN_SERVING_MULTIPLIER, 1 - appliedRatio);
+    await tx.meal.update({
+      where: { id: meal.id },
+      data: {
+        servingMultiplier: updatedMultiplier,
+        adjustmentReason: reason,
+      },
+    });
+  }
+
+  const absorbedCalories = Math.round(totalFutureCalories * appliedRatio);
+  return {
+    absorbedCalories,
+    leftoverCalories: Math.max(0, caloriesToCompensate - absorbedCalories),
+  };
+}
+
+async function reapplyPlanAdjustments(
+  tx: PrismaTx,
+  planId: string,
+  baseCarryoverCalories: number,
+  currentWeekExcessCalories: number,
+  currentDayOfWeek: number
+) {
+  await resetMealAdjustments(tx, planId);
+
+  if (baseCarryoverCalories > 0) {
+    await applyCalorieAdjustmentToPlan(
+      tx,
+      planId,
+      baseCarryoverCalories,
+      0,
+      `Compensación arrastrada de la semana anterior (${Math.round(baseCarryoverCalories)} kcal)`
+    );
+  }
+
+  if (currentWeekExcessCalories <= 0) {
+    return 0;
+  }
+
+  const { leftoverCalories } = await applyCalorieAdjustmentToPlan(
+    tx,
+    planId,
+    currentWeekExcessCalories,
+    currentDayOfWeek + 1,
+    `Ajuste por exceso acumulado de la semana (${Math.round(currentWeekExcessCalories)} kcal)`
+  );
+
+  return leftoverCalories;
+}
+
+async function reconcileIntermittentFastingBalance(
+  tx: PrismaTx,
+  userId: string,
+  referenceDate: Date
+) {
+  const activeWeekStart = getWeekStart(referenceDate);
+  const activeWeekEnd = getWeekEnd(activeWeekStart);
+  const currentDayOfWeek = getDayOfWeekFromDate(referenceDate);
+
+  const activePlan = await tx.mealPlan.findFirst({
+    where: {
+      userId,
+      weekStart: {
+        lte: referenceDate,
+      },
+      dietType: 'ayuno_intermitente',
+    },
+    orderBy: { weekStart: 'desc' },
+    include: {
+      meals: {
+        include: {
+          recipes: {
+            include: {
+              recipe: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!activePlan || activePlan.weekStart.getTime() < activeWeekStart.getTime()) {
+    return;
+  }
+
+  const weekLogs = await tx.nutritionLog.findMany({
+    where: {
+      userId,
+      date: {
+        gte: activeWeekStart,
+        lt: activeWeekEnd,
+      },
+    },
+  });
+
+  const plannedCaloriesByDay = new Map<number, number>();
+  for (const meal of activePlan.meals) {
+    const mealCalories = meal.recipes.reduce(
+      (sum, mealRecipe) => sum + (mealRecipe.recipe.calories ?? 0) * (meal.servingMultiplier || 1),
+      0
+    );
+    plannedCaloriesByDay.set(meal.dayOfWeek, (plannedCaloriesByDay.get(meal.dayOfWeek) ?? 0) + mealCalories);
+  }
+
+  const actualCaloriesByDay = new Map<number, number>();
+  for (const log of weekLogs) {
+    const logDay = getDayOfWeekFromDate(log.date);
+    actualCaloriesByDay.set(logDay, (actualCaloriesByDay.get(logDay) ?? 0) + log.calories);
+  }
+
+  let cumulativeExcess = 0;
+  for (let day = 0; day <= currentDayOfWeek; day += 1) {
+    const planned = plannedCaloriesByDay.get(day) ?? 0;
+    const actual = actualCaloriesByDay.get(day) ?? 0;
+    if (actual > planned) {
+      cumulativeExcess += actual - planned;
+    }
+  }
+
+  let leftoverCalories = await reapplyPlanAdjustments(
+    tx,
+    activePlan.id,
+    activePlan.carryoverCaloriesApplied,
+    cumulativeExcess,
+    currentDayOfWeek
+  );
+
+  const nextPlan = await tx.mealPlan.findFirst({
+    where: {
+      userId,
+      dietType: 'ayuno_intermitente',
+      weekStart: {
+        gt: activePlan.weekStart,
+      },
+    },
+    orderBy: { weekStart: 'asc' },
+  });
+
+  if (nextPlan && leftoverCalories > 0) {
+    await resetMealAdjustments(tx, nextPlan.id);
+    if (nextPlan.carryoverCaloriesApplied > 0) {
+      await applyCalorieAdjustmentToPlan(
+        tx,
+        nextPlan.id,
+        nextPlan.carryoverCaloriesApplied,
+        0,
+        `Compensación arrastrada de la semana anterior (${Math.round(nextPlan.carryoverCaloriesApplied)} kcal)`
+      );
+    }
+
+    const nextAdjustment = await applyCalorieAdjustmentToPlan(
+      tx,
+      nextPlan.id,
+      leftoverCalories,
+      0,
+      `Compensación por exceso pendiente de la semana previa (${Math.round(leftoverCalories)} kcal)`
+    );
+    leftoverCalories = nextAdjustment.leftoverCalories;
+  }
+
+  await tx.userNutritionBalance.upsert({
+    where: { userId },
+    update: { carryoverCalories: leftoverCalories },
+    create: { userId, carryoverCalories: leftoverCalories },
+  });
+}
+
+async function getIntermittentFastingState(userId: string, referenceDate: Date) {
+  const weekStart = getWeekStart(referenceDate);
+  const weekEnd = getWeekEnd(weekStart);
+  const activePlan = await prisma.mealPlan.findFirst({
+    where: {
+      userId,
+      weekStart: {
+        lte: referenceDate,
+      },
+    },
+    orderBy: { weekStart: 'desc' },
+  });
+
+  const balance = await ensureNutritionBalance(userId);
+
+  if (!activePlan || activePlan.weekStart.getTime() < weekStart.getTime() || activePlan.dietType !== 'ayuno_intermitente') {
+    return {
+      enabled: false,
+      targetFastingHours: IF_FASTING_TARGET_HOURS,
+      eatingWindowHours: null,
+      fastingHours: null,
+      firstIntakeAt: null,
+      lastIntakeAt: null,
+      snackCount: 0,
+      exceededWindow: false,
+      carryoverCalories: balance.carryoverCalories,
+    };
+  }
+
+  const dayStart = new Date(referenceDate);
+  dayStart.setHours(0, 0, 0, 0);
+  const dayEnd = new Date(dayStart.getTime() + DAY_IN_MS);
+
+  const todayLogs = await prisma.nutritionLog.findMany({
+    where: {
+      userId,
+      date: {
+        gte: dayStart,
+        lt: dayEnd,
+      },
+    },
+    orderBy: { consumedAt: 'asc' },
+  });
+
+  const timestamps = todayLogs
+    .map((log) => log.consumedAt ?? log.date)
+    .filter(Boolean)
+    .sort((a, b) => a.getTime() - b.getTime());
+
+  const first = timestamps[0] ?? null;
+  const last = timestamps[timestamps.length - 1] ?? null;
+  const eatingWindowHours = first && last ? Number(((last.getTime() - first.getTime()) / (1000 * 60 * 60)).toFixed(2)) : null;
+  const fastingHours =
+    eatingWindowHours !== null ? Number(Math.max(0, 24 - eatingWindowHours).toFixed(2)) : null;
+
+  return {
+    enabled: true,
+    targetFastingHours: IF_FASTING_TARGET_HOURS,
+    eatingWindowHours,
+    fastingHours,
+    firstIntakeAt: first ? first.toISOString() : null,
+    lastIntakeAt: last ? last.toISOString() : null,
+    snackCount: todayLogs.filter((log) => log.mealType === 'snack').length,
+    exceededWindow: eatingWindowHours !== null ? eatingWindowHours > IF_EATING_WINDOW_HOURS : false,
+    carryoverCalories: balance.carryoverCalories,
+  };
 }
 
 /**
@@ -154,6 +502,9 @@ IMPORTANTE:
     throw new AppError(500, 'La IA no generó un plan de comidas válido');
   }
 
+  const nutritionBalance = await ensureNutritionBalance(userId);
+  const pendingCarryoverCalories = nutritionBalance.carryoverCalories ?? 0;
+
   // Calcular weekStart (próximo lunes)
   const now = new Date();
   const dayOfWeek = now.getDay();
@@ -169,6 +520,8 @@ IMPORTANTE:
         userId,
         weekStart,
         goal: params.goal || 'mantenimiento',
+        dietType: params.dietType || 'ninguna',
+        carryoverCaloriesApplied: pendingCarryoverCalories,
       },
     });
 
@@ -245,6 +598,22 @@ IMPORTANTE:
 
     return plan;
   }, { timeout: 60000 });
+
+  if (pendingCarryoverCalories > 0) {
+    await prisma.$transaction(async (tx) => {
+      await applyCalorieAdjustmentToPlan(
+        tx,
+        mealPlan.id,
+        pendingCarryoverCalories,
+        0,
+        `Compensación arrastrada de la semana anterior (${Math.round(pendingCarryoverCalories)} kcal)`
+      );
+      await tx.userNutritionBalance.update({
+        where: { userId },
+        data: { carryoverCalories: 0 },
+      });
+    });
+  }
 
   logger.info('Meal plan generated', { userId, mealPlanId: mealPlan.id });
 
@@ -335,19 +704,28 @@ export async function getRecipeById(id: string) {
  * Registrar un log de nutrición
  */
 export async function createNutritionLog(userId: string, data: CreateNutritionLogInput) {
-  return prisma.nutritionLog.create({
-    data: {
-      userId,
-      date: data.date ? new Date(data.date) : new Date(),
-      mealType: data.mealType,
-      recipeId: data.recipeId,
-      name: data.name,
-      calories: data.calories,
-      protein: data.protein,
-      carbs: data.carbs,
-      fat: data.fat,
-      notes: data.notes,
-    },
+  const logDate = data.date ? new Date(data.date) : new Date();
+  const consumedAt = data.consumedAt ? new Date(data.consumedAt) : logDate;
+
+  return prisma.$transaction(async (tx) => {
+    const createdLog = await tx.nutritionLog.create({
+      data: {
+        userId,
+        date: logDate,
+        consumedAt,
+        mealType: data.mealType,
+        recipeId: data.recipeId,
+        name: data.name,
+        calories: data.calories,
+        protein: data.protein,
+        carbs: data.carbs,
+        fat: data.fat,
+        notes: data.notes,
+      },
+    });
+
+    await reconcileIntermittentFastingBalance(tx, userId, logDate);
+    return createdLog;
   });
 }
 
@@ -379,6 +757,7 @@ export async function getNutritionLogs(userId: string, period: 'day' | 'week' = 
  */
 export async function getNutritionSummary(userId: string, period: 'day' | 'week' = 'day') {
   const logs = await getNutritionLogs(userId, period);
+  const fasting = await getIntermittentFastingState(userId, new Date());
 
   const totals = logs.reduce(
     (acc, log) => ({
@@ -403,5 +782,6 @@ export async function getNutritionSummary(userId: string, period: 'day' | 'week'
       fat: Math.round(totals.fat / days),
     },
     logCount: totals.count,
+    intermittentFasting: fasting,
   };
 }

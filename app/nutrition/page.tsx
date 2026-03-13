@@ -12,11 +12,26 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress"
 import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { useMealPlans, useNutritionSummary, useNutritionLogs } from "@/hooks/use-nutrition"
-import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed } from "lucide-react"
+import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed, Clock3, TimerReset } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+function getTodayDateInput() {
+  const now = new Date()
+  return now.toISOString().slice(0, 10)
+}
+
+function getNowTimeInput() {
+  const now = new Date()
+  return now.toTimeString().slice(0, 5)
+}
+
+function formatLocalTime(value?: string | null, locale = "es-ES") {
+  if (!value) return "—"
+  return new Date(value).toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" })
+}
 
 function NutritionPageContent() {
   const router = useRouter()
@@ -38,6 +53,8 @@ function NutritionPageContent() {
   })
   const [logData, setLogData] = useState({
     mealType: 'almuerzo' as 'desayuno' | 'almuerzo' | 'cena' | 'snack',
+    logDate: getTodayDateInput(),
+    consumedTime: getNowTimeInput(),
     name: '',
     calories: 0,
     protein: 0,
@@ -61,15 +78,36 @@ function NutritionPageContent() {
 
   const handleLog = async () => {
     try {
-      await logNutrition(logData)
+      const consumedAt = new Date(`${logData.logDate}T${logData.consumedTime}:00`)
+      await logNutrition({
+        mealType: logData.mealType,
+        name: logData.name,
+        calories: logData.calories,
+        protein: logData.protein,
+        carbs: logData.carbs,
+        fat: logData.fat,
+        date: consumedAt.toISOString(),
+        consumedAt: consumedAt.toISOString(),
+      })
       setLogOpen(false)
-      setLogData({ mealType: 'almuerzo', name: '', calories: 0, protein: 0, carbs: 0, fat: 0 })
+      setLogData({
+        mealType: 'almuerzo',
+        logDate: getTodayDateInput(),
+        consumedTime: getNowTimeInput(),
+        name: '',
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+      })
     } catch (err) {
       console.error(err)
     }
   }
 
   const latestPlan = mealPlans[0]
+  const isIntermittentFasting = latestPlan?.dietType === 'ayuno_intermitente'
+  const fastingState = summary?.intermittentFasting
 
   return (
     <div className="space-y-6">
@@ -104,13 +142,30 @@ function NutritionPageContent() {
                   <Select value={logData.mealType} onValueChange={(v) => setLogData(d => ({ ...d, mealType: v as any }))}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="desayuno">{t ? 'Desayuno' : 'Breakfast'}</SelectItem>
+                      {!isIntermittentFasting && <SelectItem value="desayuno">{t ? 'Desayuno' : 'Breakfast'}</SelectItem>}
                       <SelectItem value="almuerzo">{t ? 'Almuerzo' : 'Lunch'}</SelectItem>
                       <SelectItem value="cena">{t ? 'Cena' : 'Dinner'}</SelectItem>
-                      <SelectItem value="snack">Snack</SelectItem>
+                      <SelectItem value="snack">{t ? 'Entre horas / snack' : 'Snack / between meals'}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label>{t ? 'Fecha' : 'Date'}</Label>
+                    <Input type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
+                  </div>
+                  <div>
+                    <Label>{t ? 'Hora de ingesta' : 'Intake time'}</Label>
+                    <Input type="time" value={logData.consumedTime} onChange={(e) => setLogData(d => ({ ...d, consumedTime: e.target.value }))} />
+                  </div>
+                </div>
+                {isIntermittentFasting && (
+                  <div className="rounded-lg bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:bg-emerald-950/20 dark:text-emerald-300">
+                    {t
+                      ? 'En ayuno intermitente registra siempre la hora del almuerzo, la cena y cualquier ingesta entre medias para calcular el ayuno total y reajustar la semana.'
+                      : 'For intermittent fasting, always log lunch, dinner, and any between-meal intake times to calculate total fasting and rebalance the week.'}
+                  </div>
+                )}
                 <div>
                   <Label>{t ? 'Nombre' : 'Name'}</Label>
                   <Input value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
@@ -247,6 +302,38 @@ function NutritionPageContent() {
         </div>
       )}
 
+      {fastingState?.enabled && (
+        <div className="grid gap-4 md:grid-cols-3">
+          <Card>
+            <CardContent className="pt-4 text-center">
+              <TimerReset className="mx-auto mb-1 h-6 w-6 text-emerald-500" />
+              <p className="text-2xl font-bold">{fastingState.fastingHours !== null ? `${fastingState.fastingHours}h` : "—"}</p>
+              <p className="text-xs text-muted-foreground">{t ? 'Ayuno estimado de hoy' : 'Estimated fasting today'}</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4 text-center">
+              <Clock3 className="mx-auto mb-1 h-6 w-6 text-blue-500" />
+              <p className="text-sm font-semibold">
+                {formatLocalTime(fastingState.firstIntakeAt, t ? "es-ES" : "en-US")} - {formatLocalTime(fastingState.lastIntakeAt, t ? "es-ES" : "en-US")}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {t ? 'Ventana de ingesta' : 'Eating window'} {fastingState.eatingWindowHours !== null ? `(${fastingState.eatingWindowHours}h)` : ''}
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="pt-4 text-center">
+              <Apple className="mx-auto mb-1 h-6 w-6 text-orange-500" />
+              <p className="text-2xl font-bold">{Math.round(fastingState.carryoverCalories)}</p>
+              <p className="text-xs text-muted-foreground">
+                {t ? 'Kcal pendientes de compensar' : 'Carryover kcal to balance'}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
       {/* Plan semanal más reciente */}
       {latestPlan && (
         <Card>
@@ -259,6 +346,11 @@ function NutritionPageContent() {
                 </CardTitle>
                 <CardDescription>
                   {t ? 'Semana del' : 'Week of'} {new Date(latestPlan.weekStart).toLocaleDateString()}
+                  {latestPlan.dietType === 'ayuno_intermitente' && (
+                    <span className="ml-2 inline-flex rounded-full border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/30 dark:text-emerald-300">
+                      {t ? 'Ayuno 16:8' : 'IF 16:8'}
+                    </span>
+                  )}
                 </CardDescription>
               </div>
               <Button variant="outline" size="sm" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
@@ -293,12 +385,20 @@ function NutritionPageContent() {
                                 <UtensilsCrossed className="w-4 h-4 text-green-600" />
                                 <span className="font-medium capitalize">{meal.mealType}</span>
                               </div>
+                              {meal.servingMultiplier < 1 && (
+                                <span className="rounded-full bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
+                                  {t ? 'Ajustada' : 'Adjusted'} -{Math.round((1 - meal.servingMultiplier) * 100)}%
+                                </span>
+                              )}
                             </div>
+                            {meal.adjustmentReason && (
+                              <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">{meal.adjustmentReason}</p>
+                            )}
                             {meal.recipes.map((mr) => (
                               <div key={mr.id} className="mt-2">
                                 <p className="font-medium">{mr.recipe.name}</p>
                                 <div className="flex gap-4 mt-1 text-xs text-muted-foreground">
-                                  <span>{mr.recipe.calories} kcal</span>
+                                  <span>{Math.round((mr.recipe.calories || 0) * meal.servingMultiplier)} kcal</span>
                                   <span>P: {mr.recipe.protein}g</span>
                                   <span>C: {mr.recipe.carbs}g</span>
                                   <span>G: {mr.recipe.fat}g</span>
@@ -334,6 +434,7 @@ function NutritionPageContent() {
                   {log.name && <span className="text-muted-foreground ml-2">— {log.name}</span>}
                 </div>
                 <div className="flex gap-3 text-sm text-muted-foreground">
+                  {log.consumedAt && <span>{formatLocalTime(log.consumedAt, t ? "es-ES" : "en-US")}</span>}
                   <span>{log.calories} kcal</span>
                   <span>P:{log.protein}g</span>
                 </div>

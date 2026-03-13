@@ -24,8 +24,9 @@ model User {
   measurements BodyMeasurement[]
 
   // Relaciones - Nutrición
-  mealPlans     MealPlan[]
-  nutritionLogs NutritionLog[]
+  mealPlans        MealPlan[]
+  nutritionLogs    NutritionLog[]
+  nutritionBalance UserNutritionBalance?
 
   // Relaciones - Gamificación
   gamification    UserGamification?
@@ -172,6 +173,8 @@ model MealPlan {
   userId    String
   weekStart DateTime
   goal      String?  // ej. "perdida_peso", "ganancia_muscular", "mantenimiento"
+  dietType  String?  // "ninguna", "mediterranea", "dash", "ayuno_intermitente"
+  carryoverCaloriesApplied Float @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -189,6 +192,8 @@ model Meal {
   mealPlanId String
   dayOfWeek  Int    // 0=Lunes, 6=Domingo
   mealType   String // "desayuno", "almuerzo", "cena", "snack"
+  servingMultiplier Float @default(1)
+  adjustmentReason String?
 
   // Relaciones
   mealPlan MealPlan     @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
@@ -270,6 +275,7 @@ model NutritionLog {
   id       String   @id @default(uuid())
   userId   String
   date     DateTime @default(now())
+  consumedAt DateTime?
   mealType String   // "desayuno", "almuerzo", "cena", "snack"
   recipeId String?
   name     String?  // nombre libre si no es receta
@@ -287,6 +293,17 @@ model NutritionLog {
   @@index([date])
   @@index([mealType])
   @@map("nutrition_logs")
+}
+
+model UserNutritionBalance {
+  id               String   @id @default(uuid())
+  userId           String   @unique
+  carryoverCalories Float   @default(0)
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_nutrition_balances")
 }
 
 // ==========================================

@@ -321,6 +321,8 @@ export interface Meal {
   id: string;
   dayOfWeek: number;
   mealType: string;
+  servingMultiplier: number;
+  adjustmentReason?: string | null;
   recipes: MealRecipe[];
 }
 
@@ -329,6 +331,8 @@ export interface MealPlan {
   userId: string;
   weekStart: string;
   goal?: string;
+  dietType?: string | null;
+  carryoverCaloriesApplied: number;
   createdAt: string;
   meals: Meal[];
 }
@@ -337,6 +341,7 @@ export interface NutritionLog {
   id: string;
   userId: string;
   date: string;
+  consumedAt?: string | null;
   mealType: string;
   recipeId?: string;
   name?: string;
@@ -352,6 +357,17 @@ export interface NutritionSummary {
   totals: { calories: number; protein: number; carbs: number; fat: number; count: number };
   averages: { calories: number; protein: number; carbs: number; fat: number };
   logCount: number;
+  intermittentFasting: {
+    enabled: boolean;
+    targetFastingHours: number;
+    eatingWindowHours: number | null;
+    fastingHours: number | null;
+    firstIntakeAt: string | null;
+    lastIntakeAt: string | null;
+    snackCount: number;
+    exceededWindow: boolean;
+    carryoverCalories: number;
+  };
 }
 
 // ========== NUTRITION API ==========
@@ -383,6 +399,7 @@ export const nutritionApi = {
     mealType: 'desayuno' | 'almuerzo' | 'cena' | 'snack';
     recipeId?: string;
     name?: string;
+    consumedAt?: string;
     calories: number;
     protein: number;
     carbs: number;

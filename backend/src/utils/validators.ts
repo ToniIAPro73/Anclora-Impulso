@@ -90,6 +90,7 @@ export const generateMealPlanSchema = z.object({
 // Validador para logs de nutrición
 export const createNutritionLogSchema = z.object({
   date: z.string().optional(),
+  consumedAt: z.string().optional(),
   mealType: z.enum(['desayuno', 'almuerzo', 'cena', 'snack']),
   recipeId: z.string().uuid().optional(),
   name: z.string().optional(),

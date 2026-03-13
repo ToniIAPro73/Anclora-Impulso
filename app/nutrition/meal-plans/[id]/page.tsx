@@ -57,6 +57,7 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
           <p className="text-muted-foreground">
             {t ? 'Semana del' : 'Week of'} {new Date(plan.weekStart).toLocaleDateString()}
             {plan.goal && <Badge variant="outline" className="ml-2 capitalize">{plan.goal}</Badge>}
+            {plan.dietType === 'ayuno_intermitente' && <Badge variant="outline" className="ml-2">16:8</Badge>}
           </p>
         </div>
       </div>
@@ -74,7 +75,7 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
         {dayNames.map((dayName, dayIndex) => {
           const dayMeals = plan.meals.filter((m) => m.dayOfWeek === dayIndex)
           const dayCalories = dayMeals.reduce(
-            (total, meal) => total + meal.recipes.reduce((s, mr) => s + (mr.recipe.calories || 0), 0),
+            (total, meal) => total + meal.recipes.reduce((s, mr) => s + ((mr.recipe.calories || 0) * meal.servingMultiplier), 0),
             0
           )
 
@@ -101,10 +102,18 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
                               <div className="flex items-center gap-2 mb-1">
                                 <UtensilsCrossed className="w-4 h-4 text-green-600" />
                                 <span className="text-sm font-medium text-green-600 capitalize">{meal.mealType}</span>
+                                {meal.servingMultiplier < 1 && (
+                                  <Badge variant="secondary" className="text-[10px]">
+                                    {t ? 'Ajustada' : 'Adjusted'} -{Math.round((1 - meal.servingMultiplier) * 100)}%
+                                  </Badge>
+                                )}
                               </div>
                               <CardTitle className="text-lg">{mr.recipe.name}</CardTitle>
                               {mr.recipe.description && (
                                 <CardDescription className="mt-1">{mr.recipe.description}</CardDescription>
+                              )}
+                              {meal.adjustmentReason && (
+                                <p className="mt-2 text-xs text-amber-700 dark:text-amber-300">{meal.adjustmentReason}</p>
                               )}
                             </div>
                             {mr.recipe.difficulty && (
@@ -117,7 +126,7 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
                           <div className="grid grid-cols-4 gap-2 text-center">
                             <div className="bg-orange-50 dark:bg-orange-950/30 rounded-lg p-2">
                               <Flame className="w-4 h-4 mx-auto text-orange-500 mb-1" />
-                              <p className="text-sm font-bold">{mr.recipe.calories}</p>
+                              <p className="text-sm font-bold">{Math.round((mr.recipe.calories || 0) * meal.servingMultiplier)}</p>
                               <p className="text-xs text-muted-foreground">kcal</p>
                             </div>
                             <div className="bg-red-50 dark:bg-red-950/30 rounded-lg p-2">
