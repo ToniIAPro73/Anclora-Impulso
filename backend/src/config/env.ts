@@ -18,6 +18,10 @@ export const env = {
 
   // CORS
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
+  frontendUrls: (process.env.FRONTEND_URL || 'http://localhost:3000')
+    .split(',')
+    .map((url) => url.trim())
+    .filter(Boolean),
 
   // LLM (Groq / modelos open source)
   llmProvider: process.env.LLM_PROVIDER || 'groq',

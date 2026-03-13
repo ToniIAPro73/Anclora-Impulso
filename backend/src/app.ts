@@ -23,6 +23,35 @@ import gamificationRoutes from './routes/gamification.routes';
 
 const app: Express = express();
 
+function isAllowedOrigin(origin: string) {
+  const allowedOrigins = new Set(env.frontendUrls);
+
+  if (allowedOrigins.has(origin)) {
+    return true;
+  }
+
+  try {
+    const requestUrl = new URL(origin);
+
+    return env.frontendUrls.some((allowedOrigin) => {
+      try {
+        const allowedUrl = new URL(allowedOrigin);
+        const isSameOrigin = allowedUrl.origin === requestUrl.origin;
+        const isMatchingVercelPreview =
+          allowedUrl.hostname.endsWith('.vercel.app') &&
+          requestUrl.hostname.endsWith('.vercel.app') &&
+          requestUrl.hostname.startsWith(`${allowedUrl.hostname.replace('.vercel.app', '')}-`);
+
+        return isSameOrigin || isMatchingVercelPreview;
+      } catch {
+        return false;
+      }
+    });
+  } catch {
+    return false;
+  }
+}
+
 // Confiar en el proxy (necesario para Render/Vercel y rate limiting)
 app.set('trust proxy', 1);
 
@@ -32,7 +61,14 @@ app.use(helmet());
 // CORS
 app.use(
   cors({
-    origin: env.frontendUrl,
+    origin(origin, callback) {
+      if (!origin || isAllowedOrigin(origin)) {
+        callback(null, true);
+        return;
+      }
+
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    },
     credentials: true,
   })
 );

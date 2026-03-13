@@ -9,6 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { authApi } from "@/lib/api/auth"
+import { BrandLogo } from "@/components/brand-logo"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 export default function SignupPage() {
@@ -53,11 +54,7 @@ export default function SignupPage() {
       <div className="w-full max-w-md">
         <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
           <CardHeader className="text-center pb-3 pt-5">
-            <div className="mx-auto w-11 h-11 bg-gradient-to-r from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-2">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
+            <BrandLogo size={72} priority className="mx-auto mb-3" />
             <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
               {t.auth.startJourney || "Comienza Tu Viaje"}
             </CardTitle>
