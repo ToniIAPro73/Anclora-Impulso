@@ -6,10 +6,10 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2 } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
-import { useAuth } from "@/lib/contexts/auth-context"
+import { uiMotion } from "@/lib/ui-motion"
+import { cn } from "@/lib/utils"
 
 export function DashboardContent() {
-  const { user } = useAuth()
   const { progress, isLoading } = useProgress()
 
   if (isLoading) {
@@ -33,14 +33,6 @@ export function DashboardContent() {
 
   return (
     <div className="p-6 space-y-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-          ¡Bienvenido de nuevo, {user?.fullName || user?.email?.split("@")[0]}!
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">¿Listo para alcanzar tus objetivos de fitness hoy?</p>
-      </div>
-
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
@@ -177,7 +169,7 @@ export function DashboardContent() {
               {stats.personalRecords.slice(0, 5).map((record: any) => (
                 <div
                   key={record.exercise_id}
-                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-lg"
+                  className={cn("flex items-center justify-between rounded-2xl bg-gray-50 p-4 dark:bg-gray-900/50", uiMotion.frame)}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full flex items-center justify-center">
@@ -212,7 +204,7 @@ export function DashboardContent() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              <div className="flex items-start gap-3">
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   1
                 </div>
@@ -223,7 +215,7 @@ export function DashboardContent() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   2
                 </div>
@@ -234,7 +226,7 @@ export function DashboardContent() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   3
                 </div>

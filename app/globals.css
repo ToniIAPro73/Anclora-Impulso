@@ -37,6 +37,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --motion-card-shadow: 0 26px 50px -28px rgba(249, 115, 22, 0.38);
+  --motion-button-shadow: 0 16px 30px -18px rgba(234, 88, 12, 0.45);
+  --motion-frame-shadow: 0 20px 36px -24px rgba(217, 119, 6, 0.34);
+  --motion-card-border: rgba(251, 146, 60, 0.42);
+  --motion-button-border: rgba(249, 115, 22, 0.48);
+  --motion-frame-border: rgba(245, 158, 11, 0.34);
 }
 
 .dark {
@@ -72,6 +78,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  --motion-card-shadow: 0 24px 56px -32px rgba(251, 146, 60, 0.28);
+  --motion-button-shadow: 0 18px 34px -22px rgba(249, 115, 22, 0.36);
+  --motion-frame-shadow: 0 18px 36px -24px rgba(251, 191, 36, 0.22);
+  --motion-card-border: rgba(251, 146, 60, 0.3);
+  --motion-button-border: rgba(249, 115, 22, 0.34);
+  --motion-frame-border: rgba(251, 191, 36, 0.24);
 }
 
 @theme inline {
@@ -124,5 +136,93 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .ui-motion-card,
+  .ui-motion-button,
+  .ui-motion-frame {
+    position: relative;
+    isolation: isolate;
+    transition:
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 180ms ease,
+      filter 180ms ease;
+    will-change: transform, box-shadow;
+  }
+
+  .ui-motion-card::after,
+  .ui-motion-button::after,
+  .ui-motion-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid transparent;
+    opacity: 0;
+    transition: opacity 180ms ease, border-color 180ms ease;
+    pointer-events: none;
+  }
+
+  .ui-motion-card:hover,
+  .ui-motion-card:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: var(--motion-card-shadow);
+  }
+
+  .ui-motion-card:hover::after,
+  .ui-motion-card:focus-visible::after {
+    opacity: 1;
+    border-color: var(--motion-card-border);
+  }
+
+  .ui-motion-button:hover,
+  .ui-motion-button:focus-visible {
+    transform: translateY(-3px);
+    box-shadow: var(--motion-button-shadow);
+  }
+
+  .ui-motion-button:hover::after,
+  .ui-motion-button:focus-visible::after {
+    opacity: 1;
+    border-color: var(--motion-button-border);
+  }
+
+  .ui-motion-button:active {
+    transform: translateY(-1px);
+  }
+
+  .ui-motion-frame:hover,
+  .ui-motion-frame:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: var(--motion-frame-shadow);
+  }
+
+  .ui-motion-frame:hover::after,
+  .ui-motion-frame:focus-visible::after {
+    opacity: 1;
+    border-color: var(--motion-frame-border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ui-motion-card,
+    .ui-motion-button,
+    .ui-motion-frame {
+      transition: none;
+    }
+
+    .ui-motion-card:hover,
+    .ui-motion-card:focus-visible,
+    .ui-motion-button:hover,
+    .ui-motion-button:focus-visible,
+    .ui-motion-button:active,
+    .ui-motion-frame:hover,
+    .ui-motion-frame:focus-visible {
+      transform: none;
+      box-shadow: none;
+    }
   }
 }
