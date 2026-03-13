@@ -100,9 +100,9 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-4xl overflow-y-auto rounded-[30px] border-orange-200/70 bg-white/95 p-0 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/96">
-        <div className="grid gap-0 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <div className="border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.25),_transparent_40%),linear-gradient(160deg,_rgba(255,247,237,1),_rgba(255,237,213,0.7))] p-6 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.14),_transparent_40%),linear-gradient(160deg,_rgba(15,23,42,0.98),_rgba(30,41,59,0.92))] lg:border-b-0 lg:border-r">
+      <DialogContent className="w-[min(1180px,calc(100vw-2rem))] max-w-none overflow-y-auto rounded-[34px] border-orange-200/70 bg-white/95 p-0 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/96 lg:h-[min(760px,calc(100vh-2rem))] lg:overflow-hidden">
+        <div className="grid gap-0 lg:h-full lg:grid-cols-[340px_minmax(0,1fr)]">
+          <div className="border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.25),_transparent_40%),linear-gradient(160deg,_rgba(255,247,237,1),_rgba(255,237,213,0.7))] p-6 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.14),_transparent_40%),linear-gradient(160deg,_rgba(15,23,42,0.98),_rgba(30,41,59,0.92))] lg:flex lg:h-full lg:flex-col lg:border-b-0 lg:border-r lg:p-7">
             <DialogHeader className="text-left">
               <DialogTitle className="flex items-center gap-2 text-2xl text-slate-900 dark:text-white">
                 <UserRound className="h-6 w-6 text-orange-500" />
@@ -113,7 +113,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="mt-8 space-y-5">
+            <div className="mt-6 space-y-4 lg:flex-1">
               <div className="flex items-center gap-4 rounded-[28px] border border-orange-200/70 bg-white/70 p-4 shadow-sm dark:border-orange-400/10 dark:bg-slate-900/50">
                 <UserAvatar className="size-20" fallbackClassName="text-2xl" />
                 <div className="min-w-0">
@@ -135,7 +135,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                   <Calculator className="h-4 w-4 text-orange-500" />
                   Indice de masa corporal
                 </div>
-                <div className="flex items-end gap-3">
+                <div className="flex flex-wrap items-end gap-3">
                   <div>
                     <p className="text-3xl font-bold text-slate-900 dark:text-white">{bmi ?? "--"}</p>
                     <p className="text-xs text-slate-500 dark:text-slate-400">IMC estimado</p>
@@ -151,7 +151,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     Propuesta automática
                   </div>
                   <p className="text-base font-semibold text-slate-900 dark:text-white">{recommendedPlan.title}</p>
-                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
+                  <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     <Badge variant="outline">{recommendedPlan.duration} min</Badge>
                     <Badge variant="outline">{recommendedPlan.difficulty}</Badge>
@@ -162,9 +162,8 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
             </div>
           </div>
 
-          <div className="p-6">
-            <div className="grid gap-6">
-              <section className="grid gap-4 md:grid-cols-3">
+          <div className="p-6 lg:flex lg:h-full lg:flex-col lg:gap-4 lg:p-7">
+            <div className="grid gap-4 lg:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="profile-age">Edad</Label>
                   <Input id="profile-age" inputMode="numeric" value={form.age} onChange={(event) => setForm((current) => ({ ...current, age: event.target.value }))} />
@@ -177,14 +176,14 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                   <Label htmlFor="profile-weight">Peso actual (kg)</Label>
                   <Input id="profile-weight" inputMode="decimal" value={form.weightKg} onChange={(event) => setForm((current) => ({ ...current, weightKg: event.target.value }))} />
                 </div>
-              </section>
+            </div>
 
-              <section className="rounded-[28px] border border-orange-100/80 bg-orange-50/60 p-5 dark:border-orange-400/10 dark:bg-orange-500/5">
+            <section className="rounded-[28px] border border-orange-100/80 bg-orange-50/60 p-5 dark:border-orange-400/10 dark:bg-orange-500/5">
                 <div className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
                   <Target className="h-5 w-5 text-orange-500" />
                   Objetivo
                 </div>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 lg:grid-cols-3">
                   <div className="space-y-2">
                     <Label htmlFor="profile-target-weight">Peso objetivo (kg)</Label>
                     <Input id="profile-target-weight" inputMode="decimal" value={form.targetWeightKg} onChange={(event) => setForm((current) => ({ ...current, targetWeightKg: event.target.value }))} />
@@ -198,21 +197,22 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     <Input id="profile-days" inputMode="numeric" value={form.trainingDaysPerWeek} onChange={(event) => setForm((current) => ({ ...current, trainingDaysPerWeek: event.target.value }))} />
                   </div>
                 </div>
-              </section>
+            </section>
 
+            <section className="lg:min-h-0 lg:flex-1">
               {recommendedPlan ? (
-                <section className="rounded-[28px] border border-slate-200/80 bg-slate-50/80 p-5 dark:border-slate-700/60 dark:bg-slate-900/50">
+                <div className="rounded-[28px] border border-slate-200/80 bg-slate-50/80 p-5 dark:border-slate-700/60 dark:bg-slate-900/50 lg:flex lg:h-full lg:flex-col">
                   <div className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
                     <CalendarClock className="h-5 w-5 text-orange-500" />
                     Plan sugerido
                   </div>
-                  <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
-                    <div>
+                  <div className="grid gap-4 lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_240px]">
+                    <div className="lg:min-h-0">
                       <p className="text-lg font-semibold text-slate-900 dark:text-white">{recommendedPlan.title}</p>
                       <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
-                      <ul className="mt-4 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      <ul className="mt-4 grid gap-2 text-sm text-slate-600 dark:text-slate-300 lg:grid-cols-2">
                         {recommendedPlan.weeklySplit.map((day) => (
-                          <li key={day} className="rounded-2xl bg-white px-4 py-3 dark:bg-slate-950/70">
+                          <li key={day} className="rounded-2xl bg-white px-4 py-3 leading-6 dark:bg-slate-950/70">
                             {day}
                           </li>
                         ))}
@@ -232,21 +232,21 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                       </Button>
                     </div>
                   </div>
-                </section>
+                </div>
               ) : (
-                <section className="rounded-[28px] border border-dashed border-orange-200/80 bg-orange-50/40 p-5 text-sm text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
+                <div className="rounded-[28px] border border-dashed border-orange-200/80 bg-orange-50/40 p-5 text-sm text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
                   Completa peso actual, peso objetivo, plazo y dias de entreno para generar una propuesta automática.
-                </section>
+                </div>
               )}
+            </section>
 
-              <div className="flex justify-end gap-3">
+            <div className="mt-4 flex justify-end gap-3 lg:mt-0">
                 <Button variant="outline" className="rounded-2xl" onClick={() => setOpen(false)}>
                   Cancelar
                 </Button>
                 <Button className="rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600" onClick={handleSave}>
                   Guardar perfil
                 </Button>
-              </div>
             </div>
           </div>
         </div>
