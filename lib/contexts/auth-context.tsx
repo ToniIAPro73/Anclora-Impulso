@@ -20,12 +20,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     // Verificar si hay una sesión activa
     const checkSession = async () => {
+      const token = localStorage.getItem('accessToken')
+      if (!token) {
+        setIsLoading(false)
+        return
+      }
+
       try {
-        const token = localStorage.getItem('accessToken')
-        if (token) {
-          const currentUser = await authApi.getCurrentUser()
-          setUser(currentUser)
-        }
+        const currentUser = await authApi.getCurrentUser()
+        setUser(currentUser)
       } catch (error) {
         console.error('Error al verificar sesión:', error)
         // Si el token es inválido, limpiar

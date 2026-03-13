@@ -23,10 +23,8 @@ const translations: Record<Language, Translations> = {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>("es") // Default to Spanish
-  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     const savedLanguage = localStorage.getItem("language") as Language
     if (savedLanguage && (savedLanguage === "es" || savedLanguage === "en")) {
       setLanguage(savedLanguage)
@@ -42,10 +40,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     language,
     setLanguage: handleSetLanguage,
     t: translations[language],
-  }
-
-  if (!mounted) {
-    return null
   }
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
