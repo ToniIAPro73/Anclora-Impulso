@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+function getApiOrigin() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  if (!apiUrl) {
+    return null;
+  }
+
+  try {
+    return new URL(apiUrl).origin;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Middleware for setting security headers on all responses
  * Implements Content Security Policy (CSP) and other security headers
@@ -12,6 +26,13 @@ export function middleware(request: NextRequest) {
   // Prevents inline scripts and restricts script sources
   // Note: In development mode, we allow unsafe-eval for Next.js hot reload
   const isDevelopment = process.env.NODE_ENV === 'development';
+  const apiOrigin = getApiOrigin();
+  const connectSrc = [
+    "'self'",
+    'https://va.vercel-scripts.com',
+    ...(isDevelopment ? ['http://localhost:3001'] : []),
+    ...(apiOrigin ? [apiOrigin] : []),
+  ].join(' ');
 
   const cspHeader = [
     // Default policy
@@ -27,9 +48,7 @@ export function middleware(request: NextRequest) {
     // Images - allow http/https and data URIs
     "img-src 'self' data: https: http:",
     // Connect - allow API calls to backend and Vercel analytics
-    isDevelopment
-      ? "connect-src 'self' http://localhost:3001 https://va.vercel-scripts.com"
-      : "connect-src 'self' https://va.vercel-scripts.com",
+    `connect-src ${connectSrc}`,
     // Form submissions
     "form-action 'self'",
     // Framing
