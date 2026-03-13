@@ -12,6 +12,8 @@ npm-shrinkwrap.json
 
 # Next.js
 /.next/
+/.next-build/
+/.next-dev/
 /out/
 
 # Production

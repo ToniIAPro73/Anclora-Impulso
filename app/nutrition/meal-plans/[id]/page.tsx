@@ -44,7 +44,7 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 py-5 sm:px-6 lg:px-8">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="sm" onClick={() => router.push('/nutrition')}>
           <ArrowLeft className="w-4 h-4 mr-2" />

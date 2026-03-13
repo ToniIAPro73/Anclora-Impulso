@@ -36,7 +36,7 @@ function AchievementsPageContent() {
   const locked = achievements?.filter((a) => !a.unlocked) ?? []
 
   return (
-    <div className="space-y-6 pb-8">
+    <div className="space-y-6 px-4 py-5 pb-8 sm:px-6 lg:px-8">
       <div>
         <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
           {t ? 'Gamificación' : 'Gamification'}

@@ -30,7 +30,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <DashboardHeader />
         <main
           className={cn(
-            "h-full overflow-y-auto overflow-x-hidden",
+            "h-full overflow-y-auto overflow-x-visible",
             isDashboardRoute && "lg:overflow-hidden"
           )}
         >
