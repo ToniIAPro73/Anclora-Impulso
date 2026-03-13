@@ -57,6 +57,7 @@ export const authApi = {
     apiClient.setToken(null);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('refreshToken');
+      sessionStorage.clear();
     }
   },
 };

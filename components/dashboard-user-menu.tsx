@@ -1,7 +1,6 @@
 "use client"
 
 import { LogOut, UserCircle, ChevronDown } from "lucide-react"
-import { useRouter } from "next/navigation"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { Button } from "@/components/ui/button"
@@ -20,7 +19,6 @@ import { cn } from "@/lib/utils"
 export function DashboardUserMenu() {
   const { user, logout } = useAuth()
   const { t } = useLanguage()
-  const router = useRouter()
 
   const displayName = user?.fullName || user?.email?.split("@")[0] || "Usuario"
 
@@ -53,7 +51,7 @@ export function DashboardUserMenu() {
         <DropdownMenuItem
           onClick={() => {
             logout()
-            router.push("/auth/login")
+            window.location.replace("/auth/login")
           }}
           className="rounded-xl px-3 py-2.5 text-red-600 focus:text-red-700 dark:text-red-300 dark:focus:text-red-200"
         >

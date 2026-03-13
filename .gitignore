@@ -1,7 +1,11 @@
 # Dependencies
 node_modules/
+.pnpm-store/
+.npm/
 /.pnp
 .pnp.js
+package-lock.json
+npm-shrinkwrap.json
 
 # Testing
 /coverage
@@ -19,6 +23,7 @@ node_modules/
 
 # Debug
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 

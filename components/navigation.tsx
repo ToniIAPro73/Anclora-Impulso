@@ -2,7 +2,7 @@
 
 import { type Dispatch, type SetStateAction, useState } from "react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import {
   Apple,
   BookOpen,
@@ -41,12 +41,11 @@ interface NavigationProps {
 export function Navigation({ isCollapsed, setIsCollapsed }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
   const { logout } = useAuth()
 
   const handleSignOut = async () => {
     logout()
-    router.push("/")
+    window.location.replace("/auth/login")
   }
 
   const toggleSidebar = () => {
