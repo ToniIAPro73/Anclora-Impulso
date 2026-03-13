@@ -4,14 +4,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2 } from "lucide-react"
+import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple, Flame, ChefHat } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
+import { useMealPlans, useNutritionSummary } from "@/hooks/use-nutrition"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 
 export function DashboardContent() {
   const { progress, isLoading } = useProgress()
+  const { data: nutritionSummary, isLoading: isNutritionLoading } = useNutritionSummary("day")
+  const { mealPlans } = useMealPlans()
   const { t, language } = useLanguage()
 
   if (isLoading) {
@@ -32,6 +35,10 @@ export function DashboardContent() {
     avgDuration: 0,
     personalRecords: [],
   }
+  const hasNutritionData = Boolean(nutritionSummary && nutritionSummary.logCount > 0)
+  const latestMealPlan = mealPlans[0]
+  const nutritionCalories = nutritionSummary?.totals.calories ?? 0
+  const nutritionProtein = Math.round(nutritionSummary?.totals.protein ?? 0)
 
   return (
     <div className="flex min-h-full flex-col gap-2.5 p-3 sm:gap-3 sm:p-4 lg:h-full">
@@ -90,6 +97,23 @@ export function DashboardContent() {
             <p className="text-xs text-gray-600 dark:text-gray-400">{t.dashboard.thisMonthWorkouts}</p>
           </CardContent>
         </Card>
+
+        <Card className="min-w-0 min-h-[94px] border-0 bg-gradient-to-br from-emerald-50 to-lime-50 py-0 shadow-lg dark:from-emerald-900/20 dark:to-lime-900/20 xl:h-[96px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.78rem] leading-tight md:text-[0.86rem]">
+              <Apple className="h-4 w-4 text-emerald-500" />
+              <span className="line-clamp-2">{t.dashboard.nutritionToday}</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="px-4 pt-0 pb-3">
+            <div className="text-[1.45rem] font-bold leading-none text-gray-900 dark:text-white md:text-[1.65rem]">
+              {isNutritionLoading ? "..." : nutritionCalories}
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              {hasNutritionData ? `${nutritionProtein}g ${t.dashboard.proteinLabel}` : t.dashboard.noMealsLogged}
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Quick Actions */}
@@ -143,6 +167,26 @@ export function DashboardContent() {
               <Link href="/progress">
                 <TrendingUp className="mr-2 h-4 w-4" />
                 {t.dashboard.viewProgress}
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card className="min-w-0 min-h-[118px] border-0 bg-gradient-to-r from-emerald-500 to-teal-500 py-0 text-white hover:shadow-xl transition-shadow 2xl:h-[112px]">
+          <CardHeader className="gap-1 px-4 pb-1 pt-3">
+            <CardTitle className="flex min-w-0 items-center gap-2 text-[0.94rem] leading-tight">
+              <ChefHat className="h-4 w-4" />
+              <span className="line-clamp-2">{t.dashboard.nutritionHub}</span>
+            </CardTitle>
+            <CardDescription className="line-clamp-2 text-[0.8rem] text-emerald-100">
+              {latestMealPlan ? t.dashboard.nutritionHubPlanDesc : t.dashboard.nutritionHubEmptyDesc}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="px-4 pt-0 pb-3">
+            <Button asChild variant="secondary" className="h-8 w-full rounded-xl bg-white/20 px-3 text-sm text-white border-0 hover:bg-white/30">
+              <Link href="/nutrition">
+                <Apple className="mr-2 h-4 w-4" />
+                {latestMealPlan ? t.dashboard.viewNutrition : t.dashboard.startNutrition}
               </Link>
             </Button>
           </CardContent>
@@ -233,12 +277,27 @@ export function DashboardContent() {
                   <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{t.dashboard.stepThreeDesc}</p>
                 </div>
               </div>
+              <div className={cn("flex min-h-[104px] items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-semibold text-white">
+                  4
+                </div>
+                <div>
+                  <h4 className="text-[0.94rem] font-semibold leading-tight text-gray-900 dark:text-white">{t.dashboard.stepFourTitle}</h4>
+                  <p className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400">{t.dashboard.stepFourDesc}</p>
+                </div>
+              </div>
             </div>
-            <div className="mt-auto pt-5 flex justify-stretch 2xl:justify-end">
-                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600 2xl:w-auto">
+            <div className="mt-auto grid gap-2 pt-5 lg:grid-cols-2">
+                <Button asChild className="h-9 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-4 text-sm hover:from-orange-600 hover:to-pink-600">
                   <Link href="/workouts/generate" className="whitespace-nowrap">
                     <Plus className="mr-2 h-4 w-4" />
                     {t.dashboard.generateFirstWorkout}
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="h-9 w-full rounded-2xl border-emerald-300/70 bg-white/60 px-4 text-sm text-emerald-700 hover:bg-emerald-50 dark:border-emerald-500/30 dark:bg-slate-900/20 dark:text-emerald-300 dark:hover:bg-emerald-950/30">
+                  <Link href="/nutrition" className="whitespace-nowrap">
+                    <Apple className="mr-2 h-4 w-4" />
+                    {t.dashboard.generateFirstMealPlan}
                   </Link>
                 </Button>
             </div>

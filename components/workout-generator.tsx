@@ -13,6 +13,7 @@ import { useWorkouts } from "@/hooks/use-workouts"
 import { useRouter } from "next/navigation"
 import { Loader2, Zap, Clock, Target, Dumbbell, Play, CheckCircle2 } from "lucide-react"
 import type { Workout } from "@/lib/api"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 interface WorkoutPreferences {
   workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
@@ -24,6 +25,8 @@ interface WorkoutPreferences {
 }
 
 export function WorkoutGenerator() {
+  const { language } = useLanguage()
+  const isSpanish = language === "es"
   const [preferences, setPreferences] = useState<WorkoutPreferences>({
     workoutType: 'strength',
     duration: 45,
@@ -62,7 +65,7 @@ export function WorkoutGenerator() {
 
       setGeneratedWorkout(workout)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al generar entrenamiento')
+      setError(err instanceof Error ? err.message : isSpanish ? "Error al generar entrenamiento" : "Error generating workout")
     } finally {
       setIsGenerating(false)
     }
@@ -86,22 +89,22 @@ export function WorkoutGenerator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="w-5 h-5 text-orange-500" />
-              Preferencias del Entrenamiento
+              {isSpanish ? "Preferencias del Entrenamiento" : "Workout Preferences"}
             </CardTitle>
-            <CardDescription>Personaliza tu entrenamiento según tus objetivos y equipo disponible</CardDescription>
+            <CardDescription>{isSpanish ? "Personaliza tu entrenamiento según tus objetivos y equipo disponible" : "Customize your workout based on your goals and available equipment"}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label>Nombre del Entrenamiento (Opcional)</Label>
+                <Label>{isSpanish ? "Nombre del Entrenamiento (Opcional)" : "Workout Name (Optional)"}</Label>
                 <Input
-                  placeholder="ej., Sesión de Fuerza Matutina"
+                  placeholder={isSpanish ? "ej., Sesión de Fuerza Matutina" : "e.g., Morning Strength Session"}
                   value={preferences.workoutName}
                   onChange={(e) => setPreferences({ ...preferences, workoutName: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <Label>Tipo de Entrenamiento</Label>
+                <Label>{isSpanish ? "Tipo de Entrenamiento" : "Workout Type"}</Label>
                 <Select
                   value={preferences.workoutType}
                   onValueChange={(value: any) => setPreferences({ ...preferences, workoutType: value })}
@@ -110,16 +113,16 @@ export function WorkoutGenerator() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="strength">Fuerza</SelectItem>
+                    <SelectItem value="strength">{isSpanish ? "Fuerza" : "Strength"}</SelectItem>
                     <SelectItem value="cardio">Cardio</SelectItem>
                     <SelectItem value="hiit">HIIT</SelectItem>
-                    <SelectItem value="flexibility">Flexibilidad</SelectItem>
-                    <SelectItem value="full_body">Cuerpo Completo</SelectItem>
+                    <SelectItem value="flexibility">{isSpanish ? "Flexibilidad" : "Flexibility"}</SelectItem>
+                    <SelectItem value="full_body">{isSpanish ? "Cuerpo Completo" : "Full Body"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Duración (minutos)</Label>
+                <Label>{isSpanish ? "Duración (minutos)" : "Duration (minutes)"}</Label>
                 <Select
                   value={preferences.duration.toString()}
                   onValueChange={(value) => setPreferences({ ...preferences, duration: Number.parseInt(value) })}
@@ -128,16 +131,16 @@ export function WorkoutGenerator() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="20">20 minutos</SelectItem>
-                    <SelectItem value="30">30 minutos</SelectItem>
-                    <SelectItem value="45">45 minutos</SelectItem>
-                    <SelectItem value="60">60 minutos</SelectItem>
-                    <SelectItem value="90">90 minutos</SelectItem>
+                    <SelectItem value="20">{isSpanish ? "20 minutos" : "20 minutes"}</SelectItem>
+                    <SelectItem value="30">{isSpanish ? "30 minutos" : "30 minutes"}</SelectItem>
+                    <SelectItem value="45">{isSpanish ? "45 minutos" : "45 minutes"}</SelectItem>
+                    <SelectItem value="60">{isSpanish ? "60 minutos" : "60 minutes"}</SelectItem>
+                    <SelectItem value="90">{isSpanish ? "90 minutos" : "90 minutes"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Nivel de Dificultad</Label>
+                <Label>{isSpanish ? "Nivel de Dificultad" : "Difficulty Level"}</Label>
                 <Select
                   value={preferences.difficulty}
                   onValueChange={(value: any) => setPreferences({ ...preferences, difficulty: value })}
@@ -146,16 +149,16 @@ export function WorkoutGenerator() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="beginner">Principiante</SelectItem>
-                    <SelectItem value="intermediate">Intermedio</SelectItem>
-                    <SelectItem value="advanced">Avanzado</SelectItem>
+                    <SelectItem value="beginner">{isSpanish ? "Principiante" : "Beginner"}</SelectItem>
+                    <SelectItem value="intermediate">{isSpanish ? "Intermedio" : "Intermediate"}</SelectItem>
+                    <SelectItem value="advanced">{isSpanish ? "Avanzado" : "Advanced"}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
             <div className="space-y-3">
-              <Label>Grupos Musculares Objetivo (Opcional)</Label>
+              <Label>{isSpanish ? "Grupos Musculares Objetivo (Opcional)" : "Target Muscle Groups (Optional)"}</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {muscleGroups.map((muscle) => (
                   <div key={muscle} className="flex items-center space-x-2">
@@ -188,7 +191,7 @@ export function WorkoutGenerator() {
             </div>
 
             <div className="space-y-3">
-              <Label>Equipo Disponible</Label>
+              <Label>{isSpanish ? "Equipo Disponible" : "Available Equipment"}</Label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {equipmentTypes.map((equipment) => (
                   <div key={equipment} className="flex items-center space-x-2">
@@ -235,12 +238,12 @@ export function WorkoutGenerator() {
               {isGenerating ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Generando Entrenamiento...
+                  {isSpanish ? "Generando Entrenamiento..." : "Generating Workout..."}
                 </>
               ) : (
                 <>
                   <Zap className="w-4 h-4 mr-2" />
-                  Generar Entrenamiento con IA
+                  {isSpanish ? "Generar Entrenamiento con IA" : "Generate AI Workout"}
                 </>
               )}
             </Button>
@@ -255,10 +258,10 @@ export function WorkoutGenerator() {
                 <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" />
                 <div>
                   <h3 className="text-lg font-semibold text-green-900 dark:text-green-100">
-                    ¡Entrenamiento Generado!
+                    {isSpanish ? "¡Entrenamiento Generado!" : "Workout Generated!"}
                   </h3>
                   <p className="text-sm text-green-700 dark:text-green-300">
-                    Tu entrenamiento personalizado está listo para comenzar
+                    {isSpanish ? "Tu entrenamiento personalizado está listo para comenzar" : "Your personalized workout is ready to start"}
                   </p>
                 </div>
               </div>
@@ -282,7 +285,7 @@ export function WorkoutGenerator() {
                     </span>
                     <span className="flex items-center gap-1">
                       <Dumbbell className="w-4 h-4" />
-                      {generatedWorkout.exercises.length} ejercicios
+                      {generatedWorkout.exercises.length} {isSpanish ? "ejercicios" : "exercises"}
                     </span>
                   </CardDescription>
                 </div>
@@ -304,7 +307,7 @@ export function WorkoutGenerator() {
                         <Badge variant="secondary">
                           {workoutExercise.sets} series × {workoutExercise.reps} reps
                         </Badge>
-                        <Badge variant="outline">Descanso: {workoutExercise.rest}s</Badge>
+                        <Badge variant="outline">{isSpanish ? "Descanso" : "Rest"}: {workoutExercise.rest}s</Badge>
                         <Badge variant="outline" className="capitalize">
                           {workoutExercise.exercise.muscleGroup}
                         </Badge>
@@ -323,10 +326,10 @@ export function WorkoutGenerator() {
                   size="lg"
                 >
                   <Play className="w-4 h-4 mr-2" />
-                  Comenzar Entrenamiento
+                  {isSpanish ? "Comenzar Entrenamiento" : "Start Workout"}
                 </Button>
                 <Button onClick={handleGenerateAnother} variant="outline" size="lg">
-                  Generar Otro
+                  {isSpanish ? "Generar Otro" : "Generate Another"}
                 </Button>
               </div>
             </CardContent>

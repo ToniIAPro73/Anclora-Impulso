@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/dialog"
 import { Search, Filter, Play, Target, Zap, Loader2 } from "lucide-react"
 import { useExercises } from "@/hooks/use-exercises"
+import { useLanguage } from "@/lib/contexts/language-context"
 
 export function ExerciseLibrary() {
+  const { language } = useLanguage()
+  const isSpanish = language === "es"
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [equipmentFilter, setEquipmentFilter] = useState("all")
@@ -74,7 +77,7 @@ export function ExerciseLibrary() {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Cargando ejercicios...</p>
+          <p className="text-gray-600 dark:text-gray-400">{isSpanish ? "Cargando ejercicios..." : "Loading exercises..."}</p>
         </div>
       </div>
     )
@@ -86,9 +89,9 @@ export function ExerciseLibrary() {
       <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
         <CardContent className="text-center py-12">
           <Zap className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Error al cargar ejercicios</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{isSpanish ? "Error al cargar ejercicios" : "Error loading exercises"}</h3>
           <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
-          <Button onClick={() => window.location.reload()}>Reintentar</Button>
+          <Button onClick={() => window.location.reload()}>{isSpanish ? "Reintentar" : "Retry"}</Button>
         </CardContent>
       </Card>
     )
@@ -101,17 +104,17 @@ export function ExerciseLibrary() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5" />
-            Filtros
+            {isSpanish ? "Filtros" : "Filters"}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Buscar</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Buscar" : "Search"}</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <Input
-                  placeholder="Buscar ejercicios..."
+                  placeholder={isSpanish ? "Buscar ejercicios..." : "Search exercises..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -119,13 +122,13 @@ export function ExerciseLibrary() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Categoría</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Categoría" : "Category"}</label>
               <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Todas las categorías" />
+                  <SelectValue placeholder={isSpanish ? "Todas las categorías" : "All categories"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todas las Categorías</SelectItem>
+                  <SelectItem value="all">{isSpanish ? "Todas las categorías" : "All categories"}</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category.charAt(0).toUpperCase() + category.slice(1).replace("_", " ")}
@@ -135,13 +138,13 @@ export function ExerciseLibrary() {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Equipo</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Equipo" : "Equipment"}</label>
               <Select value={equipmentFilter} onValueChange={setEquipmentFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Todo el equipo" />
+                  <SelectValue placeholder={isSpanish ? "Todo el equipo" : "All equipment"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todo el Equipo</SelectItem>
+                  <SelectItem value="all">{isSpanish ? "Todo el equipo" : "All equipment"}</SelectItem>
                   {equipmentTypes.map((equipment) => (
                     <SelectItem key={equipment} value={equipment}>
                       {equipment.charAt(0).toUpperCase() + equipment.slice(1).replace("_", " ")}
@@ -151,16 +154,16 @@ export function ExerciseLibrary() {
               </Select>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Dificultad</label>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Dificultad" : "Difficulty"}</label>
               <Select value={difficultyFilter} onValueChange={setDifficultyFilter}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Todos los niveles" />
+                  <SelectValue placeholder={isSpanish ? "Todos los niveles" : "All levels"} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todos los Niveles</SelectItem>
-                  <SelectItem value="beginner">Principiante</SelectItem>
-                  <SelectItem value="intermediate">Intermedio</SelectItem>
-                  <SelectItem value="advanced">Avanzado</SelectItem>
+                  <SelectItem value="all">{isSpanish ? "Todos los niveles" : "All levels"}</SelectItem>
+                  <SelectItem value="beginner">{isSpanish ? "Principiante" : "Beginner"}</SelectItem>
+                  <SelectItem value="intermediate">{isSpanish ? "Intermedio" : "Intermediate"}</SelectItem>
+                  <SelectItem value="advanced">{isSpanish ? "Avanzado" : "Advanced"}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -171,7 +174,9 @@ export function ExerciseLibrary() {
       {/* Results */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Mostrando {exercises.length} ejercicio{exercises.length !== 1 ? 's' : ''}
+          {isSpanish
+            ? `Mostrando ${exercises.length} ejercicio${exercises.length !== 1 ? "s" : ""}`
+            : `Showing ${exercises.length} exercise${exercises.length !== 1 ? "s" : ""}`}
         </p>
       </div>
 
@@ -248,7 +253,7 @@ export function ExerciseLibrary() {
                     <DialogTitle className="text-2xl">{exercise.name}</DialogTitle>
                     <DialogDescription className="text-base">
                       {exercise.category.charAt(0).toUpperCase() + exercise.category.slice(1).replace("_", " ")}{" "}
-                      Exercise
+                      {isSpanish ? "Ejercicio" : "Exercise"}
                     </DialogDescription>
                   </div>
                 </div>
@@ -265,13 +270,13 @@ export function ExerciseLibrary() {
 
                 {exercise.description && (
                   <div>
-                    <h4 className="font-semibold mb-2">Descripción</h4>
+                    <h4 className="font-semibold mb-2">{isSpanish ? "Descripción" : "Description"}</h4>
                     <p className="text-gray-600 dark:text-gray-400">{exercise.description}</p>
                   </div>
                 )}
 
                 <div>
-                  <h4 className="font-semibold mb-2">Músculos Objetivo</h4>
+                  <h4 className="font-semibold mb-2">{isSpanish ? "Músculos Objetivo" : "Target Muscles"}</h4>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">{exercise.muscleGroup}</Badge>
                   </div>
@@ -279,7 +284,7 @@ export function ExerciseLibrary() {
 
                 {exercise.instructions && exercise.instructions.length > 0 && (
                   <div>
-                    <h4 className="font-semibold mb-2">Instrucciones</h4>
+                    <h4 className="font-semibold mb-2">{isSpanish ? "Instrucciones" : "Instructions"}</h4>
                     <ol className="list-decimal list-inside space-y-2">
                       {exercise.instructions.map((instruction, index) => (
                         <li key={index} className="text-gray-600 dark:text-gray-400">
@@ -299,9 +304,11 @@ export function ExerciseLibrary() {
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
           <CardContent className="text-center py-12">
             <Zap className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No se encontraron ejercicios</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{isSpanish ? "No se encontraron ejercicios" : "No exercises found"}</h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Intenta ajustar tus filtros o términos de búsqueda para encontrar ejercicios.
+              {isSpanish
+                ? "Intenta ajustar tus filtros o términos de búsqueda para encontrar ejercicios."
+                : "Try adjusting your filters or search terms to find exercises."}
             </p>
           </CardContent>
         </Card>

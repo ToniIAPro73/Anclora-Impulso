@@ -24,7 +24,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <Navigation isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <div className={`flex flex-1 flex-col overflow-hidden transition-[padding] duration-300 ${isCollapsed ? "lg:pl-24" : "lg:pl-64"}`}>
         <DashboardHeader />
-        <main className="h-full overflow-y-auto overflow-x-hidden lg:overflow-hidden">{children}</main>
+        <main className="h-full overflow-y-auto overflow-x-hidden">{children}</main>
       </div>
     </div>
   )
