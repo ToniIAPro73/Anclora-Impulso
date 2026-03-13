@@ -13,6 +13,15 @@ export const metadata: Metadata = {
   title: "Anclora Impulso - Tu Entrenador Personal con IA",
   description: "Entrenamientos personalizados con IA y seguimiento inteligente de progreso",
   generator: "v0.app",
+  icons: {
+    icon: [
+      { url: "/impulso_favicon.ico", sizes: "any" },
+      { url: "/impulso_favicon_32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/impulso_favicon_512.png", type: "image/png", sizes: "512x512" }],
+    shortcut: ["/impulso_favicon.ico"],
+  },
+  manifest: "/site.webmanifest",
 }
 
 export default function RootLayout({
