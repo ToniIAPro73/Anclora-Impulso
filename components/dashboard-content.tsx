@@ -6,18 +6,20 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2 } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
+import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 
 export function DashboardContent() {
   const { progress, isLoading } = useProgress()
+  const { t, language } = useLanguage()
 
   if (isLoading) {
     return (
       <div className="p-6 flex items-center justify-center py-12">
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">Cargando dashboard...</p>
+          <p className="text-gray-600 dark:text-gray-400">{t.dashboard.loading}</p>
         </div>
       </div>
     )
@@ -32,115 +34,115 @@ export function DashboardContent() {
   }
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-4 md:p-5 space-y-4">
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Activity className="w-5 h-5 text-blue-500" />
-              Entrenamientos Totales
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <Card className="border-0 bg-gradient-to-br from-blue-50 to-cyan-50 shadow-lg dark:from-blue-900/20 dark:to-cyan-900/20">
+          <CardHeader className="pb-1">
+            <CardTitle className="flex items-center gap-2 text-sm md:text-base">
+              <Activity className="w-4 h-4 text-blue-500" />
+              {t.dashboard.totalWorkouts}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalWorkouts}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{stats.workoutsThisWeek} esta semana</p>
+          <CardContent className="pt-0">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">{stats.totalWorkouts}</div>
+            <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{stats.workoutsThisWeek} {t.dashboard.thisWeek}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Clock className="w-5 h-5 text-green-500" />
-              Duración Promedio
+        <Card className="border-0 bg-gradient-to-br from-green-50 to-emerald-50 shadow-lg dark:from-green-900/20 dark:to-emerald-900/20">
+          <CardHeader className="pb-1">
+            <CardTitle className="flex items-center gap-2 text-sm md:text-base">
+              <Clock className="w-4 h-4 text-green-500" />
+              {t.dashboard.avgWorkoutTime}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white">
+          <CardContent className="pt-0">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">
               {Math.round(stats.avgDuration / 60)}min
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Por entrenamiento</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.perWorkout}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Trophy className="w-5 h-5 text-yellow-500" />
-              Récords Personales
+        <Card className="border-0 bg-gradient-to-br from-yellow-50 to-orange-50 shadow-lg dark:from-yellow-900/20 dark:to-orange-900/20">
+          <CardHeader className="pb-1">
+            <CardTitle className="flex items-center gap-2 text-sm md:text-base">
+              <Trophy className="w-4 h-4 text-yellow-500" />
+              {t.dashboard.personalRecords}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.personalRecords.length}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Logros</p>
+          <CardContent className="pt-0">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">{stats.personalRecords.length}</div>
+            <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.achievementsLabel}</p>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Calendar className="w-5 h-5 text-purple-500" />
-              Este Mes
+        <Card className="border-0 bg-gradient-to-br from-purple-50 to-pink-50 shadow-lg dark:from-purple-900/20 dark:to-pink-900/20">
+          <CardHeader className="pb-1">
+            <CardTitle className="flex items-center gap-2 text-sm md:text-base">
+              <Calendar className="w-4 h-4 text-purple-500" />
+              {t.dashboard.thisMonth}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-gray-900 dark:text-white">{stats.workoutsThisMonth}</div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Entrenamientos</p>
+          <CardContent className="pt-0">
+            <div className="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl">{stats.workoutsThisMonth}</div>
+            <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.thisMonthWorkouts}</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-500 to-red-500 text-white hover:shadow-xl transition-shadow">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <Play className="w-5 h-5" />
-              Comenzar Entrenamiento
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <Card className="border-0 bg-gradient-to-r from-orange-500 to-red-500 text-white hover:shadow-xl transition-shadow">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Play className="w-4 h-4" />
+              {t.dashboard.startWorkout}
             </CardTitle>
-            <CardDescription className="text-orange-100">Inicia tu sesión de entrenamiento</CardDescription>
+            <CardDescription className="text-xs text-orange-100 md:text-sm">{t.dashboard.startWorkoutDesc}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
+          <CardContent className="pt-0">
+            <Button asChild variant="secondary" className="h-10 w-full bg-white/20 text-white border-0 hover:bg-white/30">
               <Link href="/workouts/generate">
                 <Play className="w-4 h-4 mr-2" />
-                Comenzar Ahora
+                {t.dashboard.startNow}
               </Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-xl transition-shadow">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <Dumbbell className="w-5 h-5" />
-              Biblioteca de Ejercicios
+        <Card className="border-0 bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:shadow-xl transition-shadow">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Dumbbell className="w-4 h-4" />
+              {t.dashboard.exerciseLibrary}
             </CardTitle>
-            <CardDescription className="text-blue-100">Explora ejercicios disponibles</CardDescription>
+            <CardDescription className="text-xs text-blue-100 md:text-sm">{t.dashboard.exerciseLibraryDesc}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
+          <CardContent className="pt-0">
+            <Button asChild variant="secondary" className="h-10 w-full bg-white/20 text-white border-0 hover:bg-white/30">
               <Link href="/exercises">
                 <Dumbbell className="w-4 h-4 mr-2" />
-                Ver Ejercicios
+                {t.dashboard.viewExercises}
               </Link>
             </Button>
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-xl transition-shadow">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5" />
-              Seguir Progreso
+        <Card className="border-0 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:shadow-xl transition-shadow">
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <TrendingUp className="w-4 h-4" />
+              {t.dashboard.viewProgress}
             </CardTitle>
-            <CardDescription className="text-purple-100">Monitorea tus logros</CardDescription>
+            <CardDescription className="text-xs text-purple-100 md:text-sm">{t.dashboard.viewProgressDesc}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <Button asChild variant="secondary" className="w-full bg-white/20 hover:bg-white/30 text-white border-0">
+          <CardContent className="pt-0">
+            <Button asChild variant="secondary" className="h-10 w-full bg-white/20 text-white border-0 hover:bg-white/30">
               <Link href="/progress">
                 <TrendingUp className="w-4 h-4 mr-2" />
-                Ver Progreso
+                {t.dashboard.viewProgress}
               </Link>
             </Button>
           </CardContent>
@@ -155,12 +157,12 @@ export function DashboardContent() {
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <Trophy className="w-5 h-5 text-orange-500" />
-                  Récords Personales Recientes
+                  {t.dashboard.recentPersonalRecords}
                 </CardTitle>
-                <CardDescription>Tus mejores marcas</CardDescription>
+                <CardDescription>{t.dashboard.bestMarks}</CardDescription>
               </div>
               <Button asChild variant="outline">
-                <Link href="/progress">Ver Todos</Link>
+                <Link href="/progress">{t.dashboard.viewAll}</Link>
               </Button>
             </div>
           </CardHeader>
@@ -178,7 +180,7 @@ export function DashboardContent() {
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-white">{record.exercise_name}</h4>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {new Date(record.date).toLocaleDateString('es-ES')}
+                        {new Date(record.date).toLocaleDateString(language === "es" ? "es-ES" : "en-US")}
                       </p>
                     </div>
                   </div>
@@ -195,52 +197,48 @@ export function DashboardContent() {
       {/* Getting Started */}
       {stats.totalWorkouts === 0 && (
         <Card className="border-0 shadow-lg bg-gradient-to-r from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="w-5 h-5 text-orange-500" />
-              ¡Comienza tu Viaje Fitness!
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base md:text-lg">
+              <Target className="w-4 h-4 text-orange-500" />
+              {t.dashboard.getStartedTitle}
             </CardTitle>
-            <CardDescription>Sigue estos pasos para comenzar</CardDescription>
+            <CardDescription className="text-xs md:text-sm">{t.dashboard.getStartedDesc}</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+          <CardContent className="pt-0">
+            <div className="grid gap-3 lg:grid-cols-3">
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   1
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">Explora la Biblioteca de Ejercicios</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Familiarízate con los ejercicios disponibles
-                  </p>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{t.dashboard.stepOneTitle}</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.stepOneDesc}</p>
                 </div>
               </div>
-              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   2
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">Genera tu Primer Entrenamiento</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Usa nuestra IA para crear un entrenamiento personalizado
-                  </p>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{t.dashboard.stepTwoTitle}</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.stepTwoDesc}</p>
                 </div>
               </div>
-              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-4 py-4 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
+              <div className={cn("flex items-start gap-3 rounded-2xl border border-orange-100/80 bg-white/60 px-3 py-3 dark:border-orange-400/10 dark:bg-slate-900/30", uiMotion.frame)}>
                 <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-semibold flex-shrink-0">
                   3
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">Registra tu Progreso</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Completa entrenamientos y registra tus medidas
-                  </p>
+                  <h4 className="text-sm font-semibold text-gray-900 dark:text-white">{t.dashboard.stepThreeTitle}</h4>
+                  <p className="text-xs text-gray-600 dark:text-gray-400 md:text-sm">{t.dashboard.stepThreeDesc}</p>
                 </div>
               </div>
-              <Button asChild className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
-                <Link href="/workouts/generate">
+            </div>
+            <div className="mt-3 flex justify-end">
+              <Button asChild className="h-10 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 hover:from-orange-600 hover:to-pink-600">
+                <Link href="/workouts/generate" className="whitespace-nowrap">
                   <Plus className="w-4 h-4 mr-2" />
-                  Generar Mi Primer Entrenamiento
+                  {t.dashboard.generateFirstWorkout}
                 </Link>
               </Button>
             </div>
