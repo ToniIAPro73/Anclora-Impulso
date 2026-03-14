@@ -115,30 +115,30 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="h-[calc(100vh-2rem)] w-[calc(100vw-3rem)] max-h-[860px] max-w-[1440px] overflow-hidden rounded-[36px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:max-w-none dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]">
-        <div className="grid h-full grid-cols-[310px_minmax(0,1fr)]">
-          <div className="flex h-full flex-col border-r border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-6 py-6 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
+        <div className="grid h-full grid-cols-[280px_minmax(0,1fr)]">
+          <div className="flex h-full flex-col border-r border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-5 py-5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
             <DialogHeader className="text-left">
-              <DialogTitle className="flex items-center gap-3 text-[2.35rem] font-semibold tracking-tight text-slate-900 dark:text-white">
-                <UserRound className="h-7 w-7 text-orange-500" />
+              <DialogTitle className="flex items-center gap-3 text-[2.1rem] font-semibold tracking-tight text-slate-900 dark:text-white">
+                <UserRound className="h-6 w-6 text-orange-500" />
                 Perfil
               </DialogTitle>
-              <DialogDescription className="max-w-[24ch] text-[15px] leading-7 text-slate-600 dark:text-slate-400">
-                Ajusta tus datos, calcula tu IMC y define tu objetivo para obtener una propuesta inicial de entrenamiento.
+              <DialogDescription className="max-w-[22ch] text-sm leading-6 text-slate-600 dark:text-slate-400">
+                Ajusta tus datos y define una base clara para tu entrenamiento.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="mt-6 flex flex-1 flex-col gap-4">
-              <div className="rounded-[28px] border border-white/60 bg-white/72 p-4 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-slate-950/45">
+            <div className="mt-5 flex flex-1 flex-col gap-3">
+              <div className="rounded-[24px] border border-white/60 bg-white/72 p-4 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-slate-950/45">
                 <div className="flex items-center gap-4">
-                  <UserAvatar className="size-16 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-xl" />
+                  <UserAvatar className="size-14 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-lg" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-base font-semibold text-slate-900 dark:text-white">{user?.fullName || "Usuario"}</p>
-                    <p className="truncate text-sm text-slate-500 dark:text-slate-400">{user?.email}</p>
+                    <p className="truncate text-[15px] font-semibold text-slate-900 dark:text-white">{user?.fullName || "Usuario"}</p>
+                    <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
                   </div>
                 </div>
                 <Label
                   htmlFor="avatar-upload"
-                  className="mt-4 inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 text-sm font-semibold text-white transition hover:from-orange-600 hover:to-rose-600"
+                  className="mt-4 inline-flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 text-sm font-semibold text-white transition hover:from-orange-600 hover:to-rose-600"
                 >
                   <Camera className="h-4 w-4" />
                   Cambiar avatar
@@ -146,42 +146,41 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                 <Input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
               </div>
 
-              <div className="grid gap-4">
-                <div className="rounded-[26px] border border-white/60 bg-white/70 p-4 shadow-sm dark:border-white/5 dark:bg-slate-950/45">
-                  <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+              <div className="grid gap-3">
+                <div className="rounded-[24px] border border-white/60 bg-white/70 p-4 shadow-sm dark:border-white/5 dark:bg-slate-950/45">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                     <Calculator className="h-4 w-4 text-orange-500" />
                     IMC
                   </div>
-                  <div className="flex items-end justify-between gap-3">
+                  <div className="flex items-center justify-between gap-2">
                     <div>
-                      <p className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">{bmi ?? "--"}</p>
-                      <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Indice estimado</p>
+                      <p className="text-[1.85rem] font-semibold tracking-tight text-slate-900 dark:text-white">{bmi ?? "--"}</p>
+                      <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Indice estimado</p>
                     </div>
                     {bmiInterpretation ? (
-                      <Badge className="rounded-full border-0 bg-orange-100 px-3 py-1.5 text-xs font-semibold text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
+                      <Badge className="rounded-full border-0 bg-orange-100 px-2.5 py-1 text-[10px] font-semibold text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
                         {bmiInterpretation}
                       </Badge>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="rounded-[26px] border border-white/60 bg-[linear-gradient(160deg,rgba(15,23,42,0.94),rgba(30,41,59,0.88))] p-4 text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)] dark:border-white/5">
-                  <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-orange-200">
+                <div className="rounded-[24px] border border-white/60 bg-[linear-gradient(160deg,rgba(15,23,42,0.94),rgba(30,41,59,0.88))] p-4 text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)] dark:border-white/5">
+                  <div className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-200">
                     <Sparkles className="h-4 w-4 text-orange-400" />
                     Enfoque
                   </div>
                   {recommendedPlan ? (
                     <>
-                      <p className="text-base font-semibold">{recommendedPlan.title}</p>
-                      <p className="mt-1.5 text-sm leading-5 text-slate-300">{recommendedPlan.summary}</p>
+                      <p className="text-sm font-semibold leading-5">{recommendedPlan.title}</p>
                       <div className="mt-3 flex flex-wrap gap-2">
-                        <Badge className="rounded-full border-0 bg-white/10 px-2.5 py-1 text-xs text-white">{recommendedPlan.duration} min</Badge>
-                        <Badge className="rounded-full border-0 bg-white/10 px-2.5 py-1 text-xs text-white">{recommendedPlan.difficulty}</Badge>
+                        <Badge className="rounded-full border-0 bg-white/10 px-2.5 py-1 text-[10px] text-white">{recommendedPlan.duration} min</Badge>
+                        <Badge className="rounded-full border-0 bg-white/10 px-2.5 py-1 text-[10px] text-white">{recommendedPlan.difficulty}</Badge>
                       </div>
                     </>
                   ) : (
                     <p className="text-sm leading-5 text-slate-300">
-                      Completa tus metricas para desbloquear una propuesta inicial coherente con tu objetivo.
+                      Completa tus metricas para generar una propuesta inicial.
                     </p>
                   )}
                 </div>
@@ -189,9 +188,9 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
             </div>
           </div>
 
-          <div className="flex h-full flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-6 py-6 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))]">
-            <div className="grid gap-4 xl:grid-cols-[minmax(0,1.2fr)_360px]">
-              <section className="rounded-[28px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+          <div className="flex h-full flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-5 py-5 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))]">
+            <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_320px]">
+              <section className="rounded-[26px] border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Datos base</p>
@@ -222,12 +221,12 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                 </div>
               </section>
 
-              <section className="rounded-[28px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-5 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
+              <section className="rounded-[26px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-4 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
                 <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-orange-100">
                   <Target className="h-4 w-4 text-orange-500" />
                   Objetivo
                 </div>
-                <div className="grid gap-3">
+                <div className="grid gap-3 md:grid-cols-3">
                   {objectiveMetrics.map((field) => (
                     <div key={field.id} className="rounded-[22px] border border-white/70 bg-white/70 p-3 dark:border-white/5 dark:bg-slate-950/35">
                       <Label htmlFor={field.id} className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
@@ -249,18 +248,18 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
               </section>
             </div>
 
-            <section className="mt-4 grid min-h-0 flex-1 gap-4 xl:grid-cols-[minmax(0,1fr)_280px]">
-              <div className="rounded-[28px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+            <section className="mt-3 grid min-h-0 flex-1 gap-3 xl:grid-cols-[minmax(0,1fr)_260px]">
+              <div className="rounded-[26px] border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                   <CalendarClock className="h-4 w-4 text-orange-500" />
                   Plan sugerido
                 </div>
                 {recommendedPlan ? (
-                  <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+                  <div className="grid h-full gap-3 lg:grid-cols-[minmax(0,1fr)_200px]">
                     <div className="min-w-0">
-                      <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">{recommendedPlan.title}</p>
-                      <p className="mt-1.5 text-sm leading-5 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
-                      <div className="mt-4 grid gap-2 md:grid-cols-2">
+                      <p className="text-base font-semibold tracking-tight text-slate-900 dark:text-white">{recommendedPlan.title}</p>
+                      <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
+                      <div className="mt-3 grid gap-2 md:grid-cols-2">
                         {weeklyPreview.map((day) => (
                           <div key={day} className="rounded-[18px] border border-slate-200/80 bg-slate-50/85 px-3 py-2.5 text-sm text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300">
                             {day}
@@ -269,9 +268,9 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                       </div>
                     </div>
                     <div className="grid content-start gap-3">
-                      <div className="rounded-[22px] border border-slate-200/80 bg-slate-50/85 p-4 dark:border-slate-800/80 dark:bg-slate-900/75">
+                      <div className="rounded-[20px] border border-slate-200/80 bg-slate-50/85 p-3.5 dark:border-slate-800/80 dark:bg-slate-900/75">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Parametros</p>
-                        <div className="mt-3 space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                        <div className="mt-2.5 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                           <p className="flex items-center gap-2"><Weight className="h-4 w-4 text-orange-500" /> {recommendedPlan.duration} min por sesion</p>
                           <p className="flex items-center gap-2"><Ruler className="h-4 w-4 text-orange-500" /> Dificultad {recommendedPlan.difficulty}</p>
                           <p className="flex items-center gap-2"><Target className="h-4 w-4 text-orange-500" /> Tipo {recommendedPlan.workoutType}</p>
@@ -289,10 +288,10 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                 )}
               </div>
 
-              <div className="grid gap-4">
-                <div className="rounded-[28px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+              <div className="grid gap-3">
+                <div className="rounded-[26px] border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Lectura rapida</p>
-                  <div className="mt-3 grid gap-2.5">
+                  <div className="mt-3 grid gap-2">
                     <div className="rounded-2xl bg-slate-50/85 p-4 dark:bg-slate-900/75">
                       <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Meta de peso</p>
                       <p className="mt-1.5 text-base font-semibold text-slate-900 dark:text-white">
@@ -308,7 +307,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                   </div>
                 </div>
 
-                <div className="flex flex-col justify-between rounded-[28px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
+                <div className="flex flex-col justify-between rounded-[26px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-4 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Estado del perfil</p>
                     <p className="mt-2.5 text-sm leading-5 text-slate-600 dark:text-slate-400">
