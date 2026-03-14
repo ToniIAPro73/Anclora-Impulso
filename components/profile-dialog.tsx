@@ -97,157 +97,235 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
     setOpen(false)
   }
 
+  const primaryMetrics = [
+    { id: "profile-age", label: "Edad", value: form.age, inputMode: "numeric" as const, onChange: (value: string) => setForm((current) => ({ ...current, age: value })) },
+    { id: "profile-height", label: "Altura", suffix: "cm", value: form.heightCm, inputMode: "decimal" as const, onChange: (value: string) => setForm((current) => ({ ...current, heightCm: value })) },
+    { id: "profile-weight", label: "Peso actual", suffix: "kg", value: form.weightKg, inputMode: "decimal" as const, onChange: (value: string) => setForm((current) => ({ ...current, weightKg: value })) },
+  ]
+
+  const objectiveMetrics = [
+    { id: "profile-target-weight", label: "Peso objetivo", suffix: "kg", value: form.targetWeightKg, inputMode: "decimal" as const, onChange: (value: string) => setForm((current) => ({ ...current, targetWeightKg: value })) },
+    { id: "profile-timeframe", label: "Plazo", suffix: "semanas", value: form.timeframeWeeks, inputMode: "numeric" as const, onChange: (value: string) => setForm((current) => ({ ...current, timeframeWeeks: value })) },
+    { id: "profile-days", label: "Entrenos", suffix: "dias/sem", value: form.trainingDaysPerWeek, inputMode: "numeric" as const, onChange: (value: string) => setForm((current) => ({ ...current, trainingDaysPerWeek: value })) },
+  ]
+
+  const weeklyPreview = recommendedPlan?.weeklySplit.slice(0, 4) ?? []
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="w-[min(1180px,calc(100vw-2rem))] max-w-none overflow-y-auto rounded-[34px] border-orange-200/70 bg-white/95 p-0 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/96 lg:h-[min(760px,calc(100vh-2rem))] lg:overflow-hidden">
-        <div className="grid gap-0 lg:h-full lg:grid-cols-[340px_minmax(0,1fr)]">
-          <div className="border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.25),_transparent_40%),linear-gradient(160deg,_rgba(255,247,237,1),_rgba(255,237,213,0.7))] p-6 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.14),_transparent_40%),linear-gradient(160deg,_rgba(15,23,42,0.98),_rgba(30,41,59,0.92))] lg:flex lg:h-full lg:flex-col lg:border-b-0 lg:border-r lg:p-7">
+      <DialogContent className="h-[min(720px,calc(100vh-1.5rem))] w-[min(1120px,calc(100vw-1.5rem))] max-w-none overflow-hidden rounded-[36px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]">
+        <div className="grid h-full grid-cols-[320px_minmax(0,1fr)]">
+          <div className="flex h-full flex-col border-r border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-7 py-8 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
             <DialogHeader className="text-left">
-              <DialogTitle className="flex items-center gap-2 text-2xl text-slate-900 dark:text-white">
+              <DialogTitle className="flex items-center gap-3 text-[2rem] font-semibold tracking-tight text-slate-900 dark:text-white">
                 <UserRound className="h-6 w-6 text-orange-500" />
                 Perfil
               </DialogTitle>
-              <DialogDescription className="text-sm text-slate-600 dark:text-slate-400">
+              <DialogDescription className="max-w-[26ch] text-sm leading-6 text-slate-600 dark:text-slate-400">
                 Ajusta tus datos, calcula tu IMC y define tu objetivo para obtener una propuesta inicial de entrenamiento.
               </DialogDescription>
             </DialogHeader>
 
-            <div className="mt-6 space-y-4 lg:flex-1">
-              <div className="flex items-center gap-4 rounded-[28px] border border-orange-200/70 bg-white/70 p-4 shadow-sm dark:border-orange-400/10 dark:bg-slate-900/50">
-                <UserAvatar className="size-20" fallbackClassName="text-2xl" />
-                <div className="min-w-0">
-                  <p className="truncate text-lg font-semibold text-slate-900 dark:text-white">{user?.fullName || "Usuario"}</p>
-                  <p className="truncate text-sm text-slate-500 dark:text-slate-400">{user?.email}</p>
-                  <Label
-                    htmlFor="avatar-upload"
-                    className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-full bg-orange-500 px-3 py-2 text-xs font-semibold text-white hover:bg-orange-600"
-                  >
-                    <Camera className="h-3.5 w-3.5" />
-                    Cambiar avatar
-                  </Label>
-                  <Input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
+            <div className="mt-8 flex flex-1 flex-col gap-4">
+              <div className="rounded-[30px] border border-white/60 bg-white/72 p-5 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-slate-950/45">
+                <div className="flex items-center gap-4">
+                  <UserAvatar className="size-20 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-2xl" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-lg font-semibold text-slate-900 dark:text-white">{user?.fullName || "Usuario"}</p>
+                    <p className="truncate text-sm text-slate-500 dark:text-slate-400">{user?.email}</p>
+                  </div>
                 </div>
+                <Label
+                  htmlFor="avatar-upload"
+                  className="mt-5 inline-flex h-11 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 px-4 text-sm font-semibold text-white transition hover:from-orange-600 hover:to-rose-600"
+                >
+                  <Camera className="h-4 w-4" />
+                  Cambiar avatar
+                </Label>
+                <Input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
               </div>
 
-              <div className="rounded-[28px] border border-orange-200/70 bg-white/70 p-4 shadow-sm dark:border-orange-400/10 dark:bg-slate-900/50">
-                <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-                  <Calculator className="h-4 w-4 text-orange-500" />
-                  Indice de masa corporal
-                </div>
-                <div className="flex flex-wrap items-end gap-3">
-                  <div>
-                    <p className="text-3xl font-bold text-slate-900 dark:text-white">{bmi ?? "--"}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">IMC estimado</p>
+              <div className="grid gap-4">
+                <div className="rounded-[28px] border border-white/60 bg-white/70 p-5 shadow-sm dark:border-white/5 dark:bg-slate-950/45">
+                  <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                    <Calculator className="h-4 w-4 text-orange-500" />
+                    IMC
                   </div>
-                  {bmiInterpretation ? <Badge className="rounded-full bg-orange-100 px-3 py-1 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">{bmiInterpretation}</Badge> : null}
+                  <div className="flex items-end justify-between gap-3">
+                    <div>
+                      <p className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">{bmi ?? "--"}</p>
+                      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Indice estimado</p>
+                    </div>
+                    {bmiInterpretation ? (
+                      <Badge className="rounded-full border-0 bg-orange-100 px-3 py-1.5 text-xs font-semibold text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
+                        {bmiInterpretation}
+                      </Badge>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="rounded-[28px] border border-white/60 bg-[linear-gradient(160deg,rgba(15,23,42,0.94),rgba(30,41,59,0.88))] p-5 text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)] dark:border-white/5">
+                  <div className="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-orange-200">
+                    <Sparkles className="h-4 w-4 text-orange-400" />
+                    Enfoque
+                  </div>
+                  {recommendedPlan ? (
+                    <>
+                      <p className="text-lg font-semibold">{recommendedPlan.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-300">{recommendedPlan.summary}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <Badge className="rounded-full border-0 bg-white/10 px-3 py-1 text-white">{recommendedPlan.duration} min</Badge>
+                        <Badge className="rounded-full border-0 bg-white/10 px-3 py-1 text-white">{recommendedPlan.difficulty}</Badge>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-sm leading-6 text-slate-300">
+                      Completa tus metricas para desbloquear una propuesta inicial coherente con tu objetivo.
+                    </p>
+                  )}
                 </div>
               </div>
-
-              {recommendedPlan ? (
-                <div className="rounded-[28px] border border-emerald-200/70 bg-white/70 p-4 shadow-sm dark:border-emerald-500/15 dark:bg-slate-900/50">
-                  <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-white">
-                    <Sparkles className="h-4 w-4 text-emerald-500" />
-                    Propuesta automática
-                  </div>
-                  <p className="text-base font-semibold text-slate-900 dark:text-white">{recommendedPlan.title}</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <Badge variant="outline">{recommendedPlan.duration} min</Badge>
-                    <Badge variant="outline">{recommendedPlan.difficulty}</Badge>
-                    <Badge variant="outline">{recommendedPlan.workoutType}</Badge>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </div>
 
-          <div className="p-6 lg:flex lg:h-full lg:flex-col lg:gap-4 lg:p-7">
-            <div className="grid gap-4 lg:grid-cols-3">
-                <div className="space-y-2">
-                  <Label htmlFor="profile-age">Edad</Label>
-                  <Input id="profile-age" inputMode="numeric" value={form.age} onChange={(event) => setForm((current) => ({ ...current, age: event.target.value }))} />
+          <div className="flex h-full flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-7 py-8 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))]">
+            <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
+              <section className="rounded-[30px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Datos base</p>
+                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Lo esencial para personalizar tu punto de partida.</p>
+                  </div>
+                  <Badge variant="outline" className="rounded-full px-3 py-1 text-xs">
+                    Perfil inicial
+                  </Badge>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="profile-height">Altura (cm)</Label>
-                  <Input id="profile-height" inputMode="decimal" value={form.heightCm} onChange={(event) => setForm((current) => ({ ...current, heightCm: event.target.value }))} />
+                <div className="grid gap-3 md:grid-cols-3">
+                  {primaryMetrics.map((field) => (
+                    <div key={field.id} className="rounded-[24px] border border-slate-200/80 bg-slate-50/85 p-3 dark:border-slate-800/80 dark:bg-slate-900/75">
+                      <Label htmlFor={field.id} className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                        {field.label}
+                      </Label>
+                      <div className="mt-3 flex items-end justify-between gap-2">
+                        <Input
+                          id={field.id}
+                          inputMode={field.inputMode}
+                          value={field.value}
+                          onChange={(event) => field.onChange(event.target.value)}
+                          className="h-11 border-0 bg-transparent px-0 text-2xl font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:text-white"
+                        />
+                        {field.suffix ? <span className="pb-2 text-xs font-medium uppercase tracking-[0.14em] text-slate-400">{field.suffix}</span> : null}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="profile-weight">Peso actual (kg)</Label>
-                  <Input id="profile-weight" inputMode="decimal" value={form.weightKg} onChange={(event) => setForm((current) => ({ ...current, weightKg: event.target.value }))} />
-                </div>
-            </div>
+              </section>
 
-            <section className="rounded-[28px] border border-orange-100/80 bg-orange-50/60 p-5 dark:border-orange-400/10 dark:bg-orange-500/5">
-                <div className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
-                  <Target className="h-5 w-5 text-orange-500" />
+              <section className="rounded-[30px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-5 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
+                <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-orange-100">
+                  <Target className="h-4 w-4 text-orange-500" />
                   Objetivo
                 </div>
-                <div className="grid gap-4 lg:grid-cols-3">
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-target-weight">Peso objetivo (kg)</Label>
-                    <Input id="profile-target-weight" inputMode="decimal" value={form.targetWeightKg} onChange={(event) => setForm((current) => ({ ...current, targetWeightKg: event.target.value }))} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-timeframe">Plazo (semanas)</Label>
-                    <Input id="profile-timeframe" inputMode="numeric" value={form.timeframeWeeks} onChange={(event) => setForm((current) => ({ ...current, timeframeWeeks: event.target.value }))} />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="profile-days">Dias de entrenamiento semanal</Label>
-                    <Input id="profile-days" inputMode="numeric" value={form.trainingDaysPerWeek} onChange={(event) => setForm((current) => ({ ...current, trainingDaysPerWeek: event.target.value }))} />
-                  </div>
-                </div>
-            </section>
-
-            <section className="lg:min-h-0 lg:flex-1">
-              {recommendedPlan ? (
-                <div className="rounded-[28px] border border-slate-200/80 bg-slate-50/80 p-5 dark:border-slate-700/60 dark:bg-slate-900/50 lg:flex lg:h-full lg:flex-col">
-                  <div className="mb-4 flex items-center gap-2 text-base font-semibold text-slate-900 dark:text-white">
-                    <CalendarClock className="h-5 w-5 text-orange-500" />
-                    Plan sugerido
-                  </div>
-                  <div className="grid gap-4 lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(0,1fr)_240px]">
-                    <div className="lg:min-h-0">
-                      <p className="text-lg font-semibold text-slate-900 dark:text-white">{recommendedPlan.title}</p>
-                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
-                      <ul className="mt-4 grid gap-2 text-sm text-slate-600 dark:text-slate-300 lg:grid-cols-2">
-                        {recommendedPlan.weeklySplit.map((day) => (
-                          <li key={day} className="rounded-2xl bg-white px-4 py-3 leading-6 dark:bg-slate-950/70">
-                            {day}
-                          </li>
-                        ))}
-                      </ul>
+                <div className="grid gap-3">
+                  {objectiveMetrics.map((field) => (
+                    <div key={field.id} className="rounded-[24px] border border-white/70 bg-white/70 p-3 dark:border-white/5 dark:bg-slate-950/35">
+                      <Label htmlFor={field.id} className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                        {field.label}
+                      </Label>
+                      <div className="mt-3 flex items-end justify-between gap-2">
+                        <Input
+                          id={field.id}
+                          inputMode={field.inputMode}
+                          value={field.value}
+                          onChange={(event) => field.onChange(event.target.value)}
+                          className="h-10 border-0 bg-transparent px-0 text-xl font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:text-white"
+                        />
+                        {field.suffix ? <span className="pb-2 text-[11px] font-medium uppercase tracking-[0.14em] text-slate-400">{field.suffix}</span> : null}
+                      </div>
                     </div>
-                    <div className="space-y-3">
-                      <div className="rounded-2xl bg-white p-4 text-sm shadow-sm dark:bg-slate-950/70">
-                        <p className="font-semibold text-slate-900 dark:text-white">Parametros</p>
-                        <div className="mt-3 space-y-2 text-slate-600 dark:text-slate-400">
+                  ))}
+                </div>
+              </section>
+            </div>
+
+            <section className="mt-4 grid min-h-0 flex-1 gap-4 xl:grid-cols-[minmax(0,1fr)_260px]">
+              <div className="rounded-[30px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+                <div className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                  <CalendarClock className="h-4 w-4 text-orange-500" />
+                  Plan sugerido
+                </div>
+                {recommendedPlan ? (
+                  <div className="grid h-full gap-4 lg:grid-cols-[minmax(0,1fr)_220px]">
+                    <div className="min-w-0">
+                      <p className="text-xl font-semibold tracking-tight text-slate-900 dark:text-white">{recommendedPlan.title}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
+                      <div className="mt-4 grid gap-2 md:grid-cols-2">
+                        {weeklyPreview.map((day) => (
+                          <div key={day} className="rounded-2xl border border-slate-200/80 bg-slate-50/85 px-4 py-3 text-sm text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300">
+                            {day}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="grid content-start gap-3">
+                      <div className="rounded-[24px] border border-slate-200/80 bg-slate-50/85 p-4 dark:border-slate-800/80 dark:bg-slate-900/75">
+                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Parametros</p>
+                        <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
                           <p className="flex items-center gap-2"><Weight className="h-4 w-4 text-orange-500" /> {recommendedPlan.duration} min por sesion</p>
                           <p className="flex items-center gap-2"><Ruler className="h-4 w-4 text-orange-500" /> Dificultad {recommendedPlan.difficulty}</p>
                           <p className="flex items-center gap-2"><Target className="h-4 w-4 text-orange-500" /> Tipo {recommendedPlan.workoutType}</p>
                         </div>
                       </div>
-                      <Button asChild className="h-11 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600">
+                      <Button asChild className="h-11 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600">
                         <Link href="/workouts/generate">Usar esta propuesta</Link>
                       </Button>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="rounded-[28px] border border-dashed border-orange-200/80 bg-orange-50/40 p-5 text-sm text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
-                  Completa peso actual, peso objetivo, plazo y dias de entreno para generar una propuesta automática.
-                </div>
-              )}
-            </section>
+                ) : (
+                  <div className="flex h-full items-center rounded-[24px] border border-dashed border-orange-200/80 bg-orange-50/55 p-5 text-sm leading-7 text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
+                    Completa peso actual, peso objetivo, plazo y dias de entreno para generar una propuesta automatica.
+                  </div>
+                )}
+              </div>
 
-            <div className="mt-4 flex justify-end gap-3 lg:mt-0">
-                <Button variant="outline" className="rounded-2xl" onClick={() => setOpen(false)}>
-                  Cancelar
-                </Button>
-                <Button className="rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600" onClick={handleSave}>
-                  Guardar perfil
-                </Button>
-            </div>
+              <div className="grid gap-4">
+                <div className="rounded-[30px] border border-slate-200/80 bg-white/80 p-5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Lectura rapida</p>
+                  <div className="mt-4 grid gap-3">
+                    <div className="rounded-2xl bg-slate-50/85 p-4 dark:bg-slate-900/75">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">Meta de peso</p>
+                      <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
+                        {form.targetWeightKg || "--"} <span className="text-sm font-medium text-slate-400">kg</span>
+                      </p>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50/85 p-4 dark:bg-slate-900/75">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">Frecuencia</p>
+                      <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
+                        {form.trainingDaysPerWeek || "--"} <span className="text-sm font-medium text-slate-400">dias/sem</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between rounded-[30px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Estado del perfil</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                      Mantiene a mano las metricas clave para ajustar recomendaciones y progresion.
+                    </p>
+                  </div>
+                  <div className="mt-5 flex gap-3">
+                    <Button variant="outline" className="h-11 flex-1 rounded-2xl" onClick={() => setOpen(false)}>
+                      Cancelar
+                    </Button>
+                    <Button className="h-11 flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600" onClick={handleSave}>
+                      Guardar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </DialogContent>
