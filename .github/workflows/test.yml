@@ -52,7 +52,7 @@ jobs:
 
       - name: Run migrations
         working-directory: ./backend
-        run: pnpm prisma:migrate -- --skip-generate
+        run: pnpm exec prisma migrate deploy
 
       - name: Run backend tests
         working-directory: ./backend
