@@ -1,0 +1,1 @@
+/home/dev/proyectos/Anclora_Impulso/.agents/vendor/huggingface-skills/agents/AGENTS.md
