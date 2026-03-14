@@ -1,6 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { useExercises, useExercisesInfinite } from '@/hooks/use-exercises';
 
 // Mock the API
@@ -29,11 +29,8 @@ describe('useExercises', () => {
     jest.clearAllMocks();
   });
 
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+  const wrapper = ({ children }: { children: ReactNode }) =>
+    React.createElement(QueryClientProvider, { client: queryClient }, children);
 
   it('should fetch exercises successfully', async () => {
     const mockExercises = [
@@ -69,13 +66,15 @@ describe('useExercises', () => {
 
   it('should handle errors gracefully', async () => {
     const errorMessage = 'Failed to fetch exercises';
-    mockExercisesApi.getAll.mockRejectedValue(new Error(errorMessage));
+    mockExercisesApi.getAll
+      .mockRejectedValueOnce(new Error(errorMessage))
+      .mockRejectedValueOnce(new Error(errorMessage));
 
     const { result } = renderHook(() => useExercises(), { wrapper });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
-    });
+      expect(mockExercisesApi.getAll).toHaveBeenCalledTimes(2);
+    }, { timeout: 2500 });
 
     expect(result.current.error).toBe(errorMessage);
     expect(result.current.exercises).toEqual([]);
@@ -167,11 +166,8 @@ describe('useExercisesInfinite', () => {
     jest.clearAllMocks();
   });
 
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
-  );
+  const wrapper = ({ children }: { children: ReactNode }) =>
+    React.createElement(QueryClientProvider, { client: queryClient }, children);
 
   it('should fetch first page of exercises', async () => {
     const mockResponse = {

@@ -2,6 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ErrorBoundary } from '@/components/error-boundary';
 
+const mockPush = jest.fn();
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: mockPush,
+  }),
+}));
+
 // Component that throws an error
 function ThrowError() {
   throw new Error('Test error');

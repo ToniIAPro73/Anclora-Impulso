@@ -1,12 +1,7 @@
 import React from 'react'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import LoginPage from '@/app/auth/login/page'
-
-// Mock the auth context
-jest.mock('@/lib/contexts/auth-context', () => ({
-  useAuth: jest.fn(),
-}))
 
 // Mock the language context
 jest.mock('@/lib/contexts/language-context', () => ({
@@ -16,24 +11,34 @@ jest.mock('@/lib/contexts/language-context', () => ({
         email: 'Email',
         password: 'Password',
         signIn: 'Sign In',
+        signingIn: 'Signing In',
         welcomeBack: 'Welcome Back',
         signInMessage: 'Sign in to your account',
         error: 'An error occurred',
+        noAccount: "Don't have an account?",
+        signUp: 'Sign Up',
       },
     },
   })),
 }))
 
-// Mock next/navigation
+const mockReplace = jest.fn()
+
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(() => ({
-    push: jest.fn(),
+    replace: mockReplace,
   })),
 }))
 
-import { useAuth } from '@/lib/contexts/auth-context'
+jest.mock('@/lib/api/auth', () => ({
+  authApi: {
+    login: jest.fn(),
+  },
+}))
 
-const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>
+import { authApi } from '@/lib/api/auth'
+
+const mockLogin = authApi.login as jest.MockedFunction<typeof authApi.login>
 
 describe('LoginPage', () => {
   beforeEach(() => {
@@ -41,72 +46,41 @@ describe('LoginPage', () => {
   })
 
   it('should render login form', () => {
-    mockUseAuth.mockReturnValue({
-      login: jest.fn(),
-      signup: jest.fn(),
-      logout: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
-
     render(<LoginPage />)
 
     expect(screen.getByText('Welcome Back')).toBeInTheDocument()
-    expect(screen.getByLabelText('Email')).toBeInTheDocument()
-    expect(screen.getByLabelText('Password')).toBeInTheDocument()
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
   })
 
   it('should accept email input', async () => {
-    mockUseAuth.mockReturnValue({
-      login: jest.fn(),
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
-
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email') as HTMLInputElement
+    const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement
     await user.type(emailInput, 'test@example.com')
 
     expect(emailInput.value).toBe('test@example.com')
   })
 
   it('should accept password input', async () => {
-    mockUseAuth.mockReturnValue({
-      login: jest.fn(),
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
-
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const passwordInput = screen.getByLabelText('Password') as HTMLInputElement
+    const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement
     await user.type(passwordInput, 'password123')
 
     expect(passwordInput.value).toBe('password123')
   })
 
   it('should call login function on form submit', async () => {
-    const mockLogin = jest.fn().mockResolvedValue({})
-    mockUseAuth.mockReturnValue({
-      login: mockLogin,
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
+    mockLogin.mockResolvedValue({} as never)
 
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText(/email/i)
+    const passwordInput = screen.getByLabelText(/password/i)
     const submitButton = screen.getByRole('button', { name: /sign in/i })
 
     await user.type(emailInput, 'test@example.com')
@@ -114,25 +88,21 @@ describe('LoginPage', () => {
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(mockLogin).toHaveBeenCalledWith('test@example.com', 'password123')
+      expect(mockLogin).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password123',
+      })
     })
   })
 
   it('should handle login error', async () => {
-    const mockLogin = jest.fn().mockRejectedValue(new Error('Invalid credentials'))
-    mockUseAuth.mockReturnValue({
-      login: mockLogin,
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
+    mockLogin.mockRejectedValue(new Error('Invalid credentials'))
 
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText(/email/i)
+    const passwordInput = screen.getByLabelText(/password/i)
     const submitButton = screen.getByRole('button', { name: /sign in/i })
 
     await user.type(emailInput, 'test@example.com')
@@ -145,22 +115,15 @@ describe('LoginPage', () => {
   })
 
   it('should disable submit button while loading', async () => {
-    const mockLogin = jest.fn().mockImplementation(
+    mockLogin.mockImplementation(
       () => new Promise(resolve => setTimeout(resolve, 1000))
     )
-    mockUseAuth.mockReturnValue({
-      login: mockLogin,
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
 
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText(/email/i)
+    const passwordInput = screen.getByLabelText(/password/i)
     const submitButton = screen.getByRole('button', { name: /sign in/i }) as HTMLButtonElement
 
     await user.type(emailInput, 'test@example.com')
@@ -172,27 +135,13 @@ describe('LoginPage', () => {
   })
 
   it('should redirect to dashboard after successful login', async () => {
-    const mockPush = jest.fn()
-    jest.doMock('next/navigation', () => ({
-      useRouter: jest.fn(() => ({
-        push: mockPush,
-      })),
-    }))
-
-    const mockLogin = jest.fn().mockResolvedValue({})
-    mockUseAuth.mockReturnValue({
-      login: mockLogin,
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
+    mockLogin.mockResolvedValue({} as never)
 
     const user = userEvent.setup()
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email')
-    const passwordInput = screen.getByLabelText('Password')
+    const emailInput = screen.getByLabelText(/email/i)
+    const passwordInput = screen.getByLabelText(/password/i)
     const submitButton = screen.getByRole('button', { name: /sign in/i })
 
     await user.type(emailInput, 'test@example.com')
@@ -200,37 +149,21 @@ describe('LoginPage', () => {
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/dashboard')
+      expect(mockReplace).toHaveBeenCalledWith('/dashboard')
     })
   })
 
   it('should require email field', async () => {
-    mockUseAuth.mockReturnValue({
-      login: jest.fn(),
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
-
     render(<LoginPage />)
 
-    const emailInput = screen.getByLabelText('Email') as HTMLInputElement
+    const emailInput = screen.getByLabelText(/email/i) as HTMLInputElement
     expect(emailInput.required).toBeTruthy()
   })
 
   it('should require password field', async () => {
-    mockUseAuth.mockReturnValue({
-      login: jest.fn(),
-      logout: jest.fn(),
-      signup: jest.fn(),
-      user: null,
-      isLoading: false,
-    } as any)
-
     render(<LoginPage />)
 
-    const passwordInput = screen.getByLabelText('Password') as HTMLInputElement
+    const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement
     expect(passwordInput.required).toBeTruthy()
   })
 })
