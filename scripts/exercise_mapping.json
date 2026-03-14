@@ -1,0 +1,1305 @@
+[
+  {
+    "anclora_id": "0648391c-f3f8-4ea7-9aaa-24499a54d962",
+    "anclora_name": "Barbell Curls",
+    "muscle_group": "arms",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "0705bb41-b322-48cf-9953-430d155e5cc6",
+    "anclora_name": "Step-ups",
+    "muscle_group": "legs",
+    "equipment": "banco",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "080b9e22-3e7e-4b30-bf00-10c1e5d15da8",
+    "anclora_name": "Crunches",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": 167,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/91/Crunches-1.png",
+        "is_main": true,
+        "id": 3
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/91/Crunches-2.png",
+        "is_main": false,
+        "id": 4
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "0901c581-e6d4-43f6-8ef3-dbb59eba4cbe",
+    "anclora_name": "Sissy Squats",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "0abe4da7-cf1f-45ac-9228-8b6c56161f37",
+    "anclora_name": "V-Ups",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "0b65e23f-de18-4c4a-9ee6-fff7642f75c6",
+    "anclora_name": "Side Plank",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "113beb3f-f9f8-40b0-8299-65c0dd99e604",
+    "anclora_name": "Jump Rope",
+    "muscle_group": "full_body",
+    "equipment": "cuerda_de_saltar",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "1246dfe4-9acf-4792-8c6f-6a4b550cf53e",
+    "anclora_name": "Nordic Curls",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "196985ee-dc60-4326-978a-e02d1b878c64",
+    "anclora_name": "Bench Press",
+    "muscle_group": "chest",
+    "equipment": "barbell",
+    "wger_match": 73,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/192/Bench-press-1.png",
+        "is_main": true,
+        "id": 68
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/192/Bench-press-2.png",
+        "is_main": false,
+        "id": 70
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "1a34f05c-fe0b-4ebd-ada7-a0b3972b5839",
+    "anclora_name": "Svend Press",
+    "muscle_group": "chest",
+    "equipment": "discos",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "1a9d2a78-f237-4e9a-820d-a2e4d964ed9f",
+    "anclora_name": "Pike Push-ups",
+    "muscle_group": "shoulders",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "200e1fec-a402-4a13-b4e2-7f26d983b2ef",
+    "anclora_name": "Arnold Press",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "21d888a3-c7c4-41bf-80f7-84aea5fd7ee0",
+    "anclora_name": "Pec Deck Machine",
+    "muscle_group": "chest",
+    "equipment": "machine",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "2425ceaf-e7fa-41d7-8a7f-158c5ffaa38b",
+    "anclora_name": "High Knees",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "24bb1603-6b56-4dc2-ba9a-626860372ed6",
+    "anclora_name": "Cable Curls",
+    "muscle_group": "arms",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "25d2f843-5b18-4379-b4f9-1f2e4efbb641",
+    "anclora_name": "Front Squats",
+    "muscle_group": "legs",
+    "equipment": "barbell",
+    "wger_match": 257,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/191/Front-squat-1-857x1024.png",
+        "is_main": true,
+        "id": 149
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/191/Front-squat-2-857x1024.png",
+        "is_main": false,
+        "id": 150
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "2b37f4f0-0f70-4e16-abdb-7c642bbd27d4",
+    "anclora_name": "Walking Lunges",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": 1903,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1903/6ec66efd-e74f-4142-bed1-0a0ac74e3294.png",
+        "is_main": true,
+        "id": 652
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "2c772fa1-f795-4898-9e30-76e0843db29d",
+    "anclora_name": "Shoulder Press",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "2d96985e-db74-41d3-b355-71240f730678",
+    "anclora_name": "Incline Bench Press",
+    "muscle_group": "chest",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "31a4a0bb-1489-4d7b-b61d-e436dd45a3e5",
+    "anclora_name": "Rear Delt Flyes",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "371b6308-7fef-4473-92b6-f8786f2f27b3",
+    "anclora_name": "Chest Press Machine",
+    "muscle_group": "chest",
+    "equipment": "machine",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "3b60cfe5-5615-4883-96f3-003d869f0dd8",
+    "anclora_name": "Hyperextensions",
+    "muscle_group": "back",
+    "equipment": "banco_de_hiperextensiones",
+    "wger_match": 301,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/128/Hyperextensions-1.png",
+        "is_main": true,
+        "id": 11
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/128/Hyperextensions-2.png",
+        "is_main": false,
+        "id": 12
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "3fc3caed-8d56-46be-bdc8-66a73ddde29b",
+    "anclora_name": "Hollow Body Hold",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "44f969e2-4910-4b7c-8e72-30380bbf09ef",
+    "anclora_name": "Meadows Row",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "49ed3d60-d0e7-48cb-b5dc-e0e6b9a0463d",
+    "anclora_name": "Reverse Curls",
+    "muscle_group": "arms",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "54d5ec75-57cf-42f7-8f13-0e6766c54d55",
+    "anclora_name": "Lunges",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": 984,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/984/5c7ffe68-e7b2-47f3-a22a-f9cc28640432.png",
+        "is_main": true,
+        "id": 364
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "56a11bcd-dfae-42e6-96b3-f67ad865b07e",
+    "anclora_name": "Chest Dips",
+    "muscle_group": "chest",
+    "equipment": "barbell",
+    "wger_match": 194,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/194/34600351-8b0b-4cb0-8daa-583537be15b0.png",
+        "is_main": true,
+        "id": 211
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "5872c1a4-71a8-4473-ab0b-6596209a2bdd",
+    "anclora_name": "Bicycle Crunches",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "587bda87-cc0e-4325-95ea-c36cad4bbb3c",
+    "anclora_name": "Stair Climbing",
+    "muscle_group": "legs",
+    "equipment": "escaleras",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "58b5e331-8238-450f-bb9c-06fe0fd721d4",
+    "anclora_name": "Reverse Crunches",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "58bf3b9e-00ef-4cb7-8873-a1302e1e643c",
+    "anclora_name": "Rowing Machine",
+    "muscle_group": "full_body",
+    "equipment": "machine",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "58d86acd-cf88-4440-84f9-007f8177b2f4",
+    "anclora_name": "Jumping Jacks",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "5a3b1848-3dd2-4383-b732-d149e7e5338e",
+    "anclora_name": "Incline Dumbbell Press",
+    "muscle_group": "chest",
+    "equipment": "dumbbells",
+    "wger_match": 1277,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1277/9f3c7817-3e3d-417d-8b08-2c0a1aa5fe03.jpg",
+        "is_main": true,
+        "id": 457
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "5c922023-7825-4cef-9a5a-45f3c8fd66df",
+    "anclora_name": "Deadlifts",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": 184,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/184/1709c405-620a-4d07-9658-fade2b66a2df.jpeg",
+        "is_main": true,
+        "id": 332
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "5f1a5f68-234c-40b4-8795-4f6dc5885319",
+    "anclora_name": "Cable Crossover",
+    "muscle_group": "chest",
+    "equipment": "cables",
+    "wger_match": 323,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/71/Cable-crossover-2.png",
+        "is_main": true,
+        "id": 127
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/71/Cable-crossover-1.png",
+        "is_main": false,
+        "id": 128
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "6144dca8-e611-4fad-834b-642a8ac3f2a5",
+    "anclora_name": "Burpees",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "63415292-0b50-4f39-b9ca-41760c4e4e7f",
+    "anclora_name": "Hip Thrusts",
+    "muscle_group": "legs",
+    "equipment": "banco",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "64212b18-976d-4752-83f8-61bf53546f57",
+    "anclora_name": "Wall Sits",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "64f7aced-e621-4498-b646-dc52367467c8",
+    "anclora_name": "Single Arm Dumbbell Row",
+    "muscle_group": "back",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6527c401-f7b7-439b-b2b4-dff36a702afe",
+    "anclora_name": "Leg Curls",
+    "muscle_group": "legs",
+    "equipment": "machine",
+    "wger_match": 364,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/364/b318dde9-f5f2-489f-940a-cd864affb9e3.png",
+        "is_main": true,
+        "id": 399
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "66fa587b-2239-4efd-b9e2-3bc4ee6424e9",
+    "anclora_name": "Front Raises",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": 256,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/256/b7def5bc-2352-499b-b9e5-fff741003831.png",
+        "is_main": true,
+        "id": 337
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "6a3cc5a7-bc21-4af8-a5ae-35cd83f7dd89",
+    "anclora_name": "Diamond Push-ups",
+    "muscle_group": "chest",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6ab52312-7877-45a9-81e3-9722760ea5a5",
+    "anclora_name": "Ab Wheel Rollouts",
+    "muscle_group": "core",
+    "equipment": "rueda_abdominal",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6b05d8e7-0f6b-4d3b-997d-c71150b1835f",
+    "anclora_name": "Wrist Curls",
+    "muscle_group": "arms",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6bde710d-5fea-4941-8469-14fa6f011537",
+    "anclora_name": "Sprint Intervals",
+    "muscle_group": "full_body",
+    "equipment": "ninguno",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6c89f8fb-12a3-47a6-9127-786e9d953330",
+    "anclora_name": "Shrugs",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": 1645,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1645/9e730259-1dcd-4b5e-b4cc-9ebc0cfda75c.webp",
+        "is_main": true,
+        "id": 585
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "6cad091e-35ca-4d8c-af47-498692ad072f",
+    "anclora_name": "Bulgarian Split Squats",
+    "muscle_group": "legs",
+    "equipment": "banco",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "6e66d024-7f4b-4fd8-ac6a-4acd044de78e",
+    "anclora_name": "Russian Twists",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": 1193,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1193/70ca5d80-3847-4a8c-8882-c6e9e485e29e.png",
+        "is_main": true,
+        "id": 426
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "721ee477-a6f1-49b8-a44c-66a190448426",
+    "anclora_name": "Kettlebell Swings",
+    "muscle_group": "glutes",
+    "equipment": "kettlebell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "74ff58a0-cff8-4192-85ce-331dd7c0e401",
+    "anclora_name": "Inverted Rows",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": 1198,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1198/864906ac-4ac7-4e52-a886-c6bb97950a9f.jpg",
+        "is_main": true,
+        "id": 428
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "753ea4a6-4502-48cb-b50c-bddd093c0292",
+    "anclora_name": "Bent Over Rows",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "7aa71887-ef1f-4445-bc7e-4185fdaf0f6e",
+    "anclora_name": "Decline Bench Press",
+    "muscle_group": "chest",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "7c38d0cc-88e4-4510-982e-02d711222eff",
+    "anclora_name": "Lat Pulldowns",
+    "muscle_group": "back",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "7caf1eb3-702a-4e5d-9398-7c23994dfac7",
+    "anclora_name": "Plank to Downward Dog",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "7ddc83f2-33a6-4b82-be7e-3edb59d42806",
+    "anclora_name": "Chin-ups",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": 154,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/181/Chin-ups-2.png",
+        "is_main": true,
+        "id": 73
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/181/Chin-ups-1.png",
+        "is_main": false,
+        "id": 75
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "7f088f8a-87ea-4e54-8367-8455d0330a70",
+    "anclora_name": "Lateral Raises",
+    "muscle_group": "shoulders",
+    "equipment": "dumbbells",
+    "wger_match": 348,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-2.png",
+        "is_main": true,
+        "id": 177
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/148/lateral-dumbbell-raises-large-1.png",
+        "is_main": false,
+        "id": 178
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "84f5d80c-1643-4850-a792-12ccb482b4bf",
+    "anclora_name": "Dumbbell Flyes",
+    "muscle_group": "chest",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "863f59b7-79da-45a6-9e6b-87ebca9d5c88",
+    "anclora_name": "Dead Bug",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "8735d519-e638-4170-9c21-06e15582c11e",
+    "anclora_name": "Overhead Press",
+    "muscle_group": "shoulders",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "8c89035a-82c4-46f2-befd-0a5218059216",
+    "anclora_name": "Pull-ups",
+    "muscle_group": "back",
+    "equipment": "pull_up_bar",
+    "wger_match": 475,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/475/b0554016-16fd-4dbe-be47-a2a17d16ae0e.jpg",
+        "is_main": true,
+        "id": 323
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "8cfaa624-4efc-4fcc-9f71-4f9bad472d04",
+    "anclora_name": "Close Grip Bench Press",
+    "muscle_group": "arms",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "8d541c61-b00a-4ae1-a717-acfb735bf754",
+    "anclora_name": "Skull Crushers",
+    "muscle_group": "arms",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9057737e-d57d-4f2a-80e7-ef3462e9e1f0",
+    "anclora_name": "Battle Ropes",
+    "muscle_group": "full_body",
+    "equipment": "cuerdas_de_batalla",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "90710254-ad46-497c-9d10-ccc6c58b8847",
+    "anclora_name": "Overhead Tricep Extension",
+    "muscle_group": "arms",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "918d027a-fec0-46d7-9320-8aa1f9cc7b10",
+    "anclora_name": "Bicep Curls",
+    "muscle_group": "arms",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "95962c3a-ae92-4c93-ade9-16522236b3a1",
+    "anclora_name": "Hack Squats",
+    "muscle_group": "legs",
+    "equipment": "machine",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "96996627-ba34-46a4-aa9b-95b02661041d",
+    "anclora_name": "Squats",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "970d00c3-8f51-4c87-9e7e-b11f69744bb8",
+    "anclora_name": "Hammer Curls",
+    "muscle_group": "arms",
+    "equipment": "dumbbells",
+    "wger_match": 272,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/86/Bicep-hammer-curl-1.png",
+        "is_main": true,
+        "id": 47
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/86/Bicep-hammer-curl-2.png",
+        "is_main": false,
+        "id": 48
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "979f1c04-b90e-4d46-a797-f45b2cba7807",
+    "anclora_name": "Goblet Squats",
+    "muscle_group": "legs",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9a28ace5-51e2-47d3-b796-91763a9a3b7f",
+    "anclora_name": "Assault Bike",
+    "muscle_group": "full_body",
+    "equipment": "bicicleta_de_asalto",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9b2c43c9-359d-495e-b84a-412d6ef3087e",
+    "anclora_name": "Face Pulls",
+    "muscle_group": "shoulders",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9b44c831-ef63-42b6-bf2a-4c9d86e5d150",
+    "anclora_name": "Straight Arm Pulldown",
+    "muscle_group": "back",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9c3a5ad1-949e-46c0-826c-71c409a93aa7",
+    "anclora_name": "Dumbbell Rows",
+    "muscle_group": "back",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9eb06d28-ae14-4bbd-b01d-06b8a41b5b7f",
+    "anclora_name": "T-Bar Row",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "9f03f799-74ea-4744-a4bc-51888f31eaeb",
+    "anclora_name": "Leg Raises",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "aca03a87-b6fa-4c64-b95c-11385189f89b",
+    "anclora_name": "Concentration Curls",
+    "muscle_group": "arms",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "b0b8f0db-6382-4571-aafd-4244ad48b7bd",
+    "anclora_name": "Pallof Press",
+    "muscle_group": "core",
+    "equipment": "cables",
+    "wger_match": 1194,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1194/074e1766-4208-4a67-a211-9721772d99b0.png",
+        "is_main": true,
+        "id": 427
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "b94ac97c-efa4-4e61-a335-eb8cf6b382d0",
+    "anclora_name": "Tricep Pushdowns",
+    "muscle_group": "arms",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "be8ce716-374a-439a-8284-c1f0327f6561",
+    "anclora_name": "Romanian Deadlifts",
+    "muscle_group": "legs",
+    "equipment": "barbell",
+    "wger_match": 1750,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1750/c5ff74e1-b494-4df0-a13f-89c630b88ef9.webp",
+        "is_main": true,
+        "id": 612
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "c10f5a1c-106c-42cf-872d-f3dd61323956",
+    "anclora_name": "Diamond Push-ups",
+    "muscle_group": "arms",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "c497c963-d00f-40e5-966a-e112b5759533",
+    "anclora_name": "Upright Rows",
+    "muscle_group": "shoulders",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "c5337aea-973f-4d25-80c4-bb310224a253",
+    "anclora_name": "Face Pulls",
+    "muscle_group": "back",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "c81d8e7a-481c-49ff-8047-ff2b9592f424",
+    "anclora_name": "Box Jumps",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "c9d89a32-0fc7-4de4-a19c-7e55f1908ea1",
+    "anclora_name": "Calf Raises",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "c9f17a92-76e3-4c6e-a010-80708e1c50cd",
+    "anclora_name": "Chest Supported Row",
+    "muscle_group": "back",
+    "equipment": "banco_inclinado",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "ca512659-b884-4cc8-b120-3410842dbbba",
+    "anclora_name": "Rack Pulls",
+    "muscle_group": "back",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "d0ddd442-cf82-4b5c-9d65-952d02c9a1ce",
+    "anclora_name": "Mountain Climbers",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "d13c8287-5a34-4d11-81d2-1333cc1fb650",
+    "anclora_name": "Cable Lateral Raises",
+    "muscle_group": "shoulders",
+    "equipment": "cables",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "d24e9378-8f64-42ae-92cc-d1c286bd7b21",
+    "anclora_name": "Preacher Curls",
+    "muscle_group": "arms",
+    "equipment": "banco_predicador",
+    "wger_match": 465,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/193/Preacher-curl-3-1.png",
+        "is_main": true,
+        "id": 93
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/193/Preacher-curl-3-2.png",
+        "is_main": false,
+        "id": 94
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "d55a5a30-b4c0-40e0-86a6-a48e27b50d9d",
+    "anclora_name": "Dumbbell Bench Press",
+    "muscle_group": "chest",
+    "equipment": "dumbbells",
+    "wger_match": 1676,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1676/ac441fa8-cf11-45a5-9633-18ae49fb9320.webp",
+        "is_main": true,
+        "id": 596
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "d6e337d0-b022-4371-af3e-ad8c4e0fe36e",
+    "anclora_name": "Military Press",
+    "muscle_group": "shoulders",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "d7cbc3de-acfb-4dff-a290-9d50c97f4cdf",
+    "anclora_name": "Seated Cable Rows",
+    "muscle_group": "back",
+    "equipment": "cables",
+    "wger_match": 1117,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1117/e74255c0-67a0-4309-b78d-2d79e6ff8c11.png",
+        "is_main": true,
+        "id": 374
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "d9a5f8c7-3821-4a8e-b919-04fa9e0fe6a0",
+    "anclora_name": "Leg Press",
+    "muscle_group": "legs",
+    "equipment": "machine",
+    "wger_match": 371,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/371/d2136f96-3a43-4d4c-9944-1919c4ca1ce1.webp",
+        "is_main": true,
+        "id": 573
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "de9272ac-aa99-47b6-8890-24398858cc03",
+    "anclora_name": "Landmine Press",
+    "muscle_group": "chest",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "df936849-d92a-44f8-b9ff-9c3ecee5fba7",
+    "anclora_name": "Barbell Squats",
+    "muscle_group": "legs",
+    "equipment": "barbell",
+    "wger_match": 1805,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/1805/f166c599-4c03-42a0-9250-47f82a1f096d.jpg",
+        "is_main": true,
+        "id": 618
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "e3939509-1589-4f31-87c7-97929152c2af",
+    "anclora_name": "Leg Extensions",
+    "muscle_group": "legs",
+    "equipment": "machine",
+    "wger_match": 369,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/369/78c915d1-e46d-4d30-8124-65d68664c3ef.png",
+        "is_main": true,
+        "id": 386
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "e439ef28-0205-4dab-9c55-85d3fae5a681",
+    "anclora_name": "Decline Dumbbell Press",
+    "muscle_group": "chest",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "e7445c7c-c3d3-4e65-87dc-7c0cb61811f1",
+    "anclora_name": "Sumo Squats",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "e7a82512-b5b3-4bcb-b45b-5309218b78d4",
+    "anclora_name": "Plank",
+    "muscle_group": "core",
+    "equipment": "bodyweight",
+    "wger_match": 458,
+    "wger_images": [
+      {
+        "url": "https://wger.de/media/exercise-images/458/b7bd9c28-9f1d-4647-bd17-ab6a3adf5770.png",
+        "is_main": true,
+        "id": 346
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/902e6836-394e-458b-b94e-101d714294e2.png",
+        "is_main": false,
+        "id": 347
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/d1ca4a79-f299-4e70-a391-3e9526c3b141.png",
+        "is_main": false,
+        "id": 348
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/b180ce8b-a2c2-40da-924f-998d97aebb63.png",
+        "is_main": false,
+        "id": 349
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/167db646-9acb-4426-a383-c7e7dc92e3ec.png",
+        "is_main": false,
+        "id": 350
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/e13f92a4-69ae-4043-ae1f-70f155a53024.png",
+        "is_main": false,
+        "id": 351
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/bce9a15d-d080-4fb0-bc30-f80778b38793.png",
+        "is_main": false,
+        "id": 352
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/2c43d623-5898-4669-b5f8-eb3e1c38cd29.png",
+        "is_main": false,
+        "id": 353
+      },
+      {
+        "url": "https://wger.de/media/exercise-images/458/122735cf-f940-4de8-aa30-49a1da148319.png",
+        "is_main": false,
+        "id": 354
+      }
+    ],
+    "source": "wger",
+    "needs_generation": false
+  },
+  {
+    "anclora_id": "ecc6f855-5c49-42f2-b180-a55fbc1ca10a",
+    "anclora_name": "Push-ups",
+    "muscle_group": "chest",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "eef6d1e3-f843-4abf-a6b0-bdeade14df6a",
+    "anclora_name": "Wide Grip Push-ups",
+    "muscle_group": "chest",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "efc7c695-87ed-4fd6-91f2-de781585614f",
+    "anclora_name": "Zottman Curls",
+    "muscle_group": "arms",
+    "equipment": "dumbbells",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "f34764e5-bd39-4dd8-919d-672de6f4d48b",
+    "anclora_name": "Glute Bridges",
+    "muscle_group": "legs",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "f40c3eb0-a119-4500-af02-7650cc2bf788",
+    "anclora_name": "Tricep Dips",
+    "muscle_group": "arms",
+    "equipment": "bodyweight",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  },
+  {
+    "anclora_id": "f78c90bc-7e47-4463-9fc7-0a3f95fcd6d6",
+    "anclora_name": "Hanging Knee Raises",
+    "muscle_group": "core",
+    "equipment": "barbell",
+    "wger_match": null,
+    "wger_images": [],
+    "source": "none",
+    "needs_generation": true
+  }
+]

@@ -1,0 +1,905 @@
+{
+  "wger_downloaded": [
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/crunches/crunches-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/crunches/crunches-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/bench-press/bench-press-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/bench-press/bench-press-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/front-squats/front-squats-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/front-squats/front-squats-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/walking-lunges/walking-lunges-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/hyperextensions/hyperextensions-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/hyperextensions/hyperextensions-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/lunges/lunges-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/chest-dips/chest-dips-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/incline-dumbbell-press/incline-dumbbell-press-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/deadlifts/deadlifts-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/cable-crossover/cable-crossover-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/cable-crossover/cable-crossover-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/leg-curls/leg-curls-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/front-raises/front-raises-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/shrugs/shrugs-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/russian-twists/russian-twists-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/inverted-rows/inverted-rows-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/chin-ups/chin-ups-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/chin-ups/chin-ups-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/lateral-raises/lateral-raises-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/lateral-raises/lateral-raises-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/pull-ups/pull-ups-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/hammer-curls/hammer-curls-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/hammer-curls/hammer-curls-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/pallof-press/pallof-press-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/romanian-deadlifts/romanian-deadlifts-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/preacher-curls/preacher-curls-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/preacher-curls/preacher-curls-end.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/dumbbell-bench-press/dumbbell-bench-press-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/seated-cable-rows/seated-cable-rows-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/leg-press/leg-press-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/barbell-squats/barbell-squats-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/leg-extensions/leg-extensions-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/plank/plank-start.png",
+    "/home/dev/proyectos/Anclora_Impulso/scripts/exercise_images/plank/plank-end.png"
+  ],
+  "ai_generated": [],
+  "failed": [
+    {
+      "name": "Barbell Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Barbell Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Step-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Step-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sissy Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sissy Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "V-Ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "V-Ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Side Plank",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Side Plank",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Jump Rope",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Jump Rope",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Nordic Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Nordic Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Svend Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Svend Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pike Push-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pike Push-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Arnold Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Arnold Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pec Deck Machine",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pec Deck Machine",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "High Knees",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "High Knees",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Cable Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Cable Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Walking Lunges",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Shoulder Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Shoulder Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Incline Bench Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Incline Bench Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rear Delt Flyes",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rear Delt Flyes",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Chest Press Machine",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Chest Press Machine",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hollow Body Hold",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hollow Body Hold",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Meadows Row",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Meadows Row",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Reverse Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Reverse Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Lunges",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Chest Dips",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bicycle Crunches",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bicycle Crunches",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Stair Climbing",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Stair Climbing",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Reverse Crunches",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Reverse Crunches",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rowing Machine",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rowing Machine",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Jumping Jacks",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Jumping Jacks",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Incline Dumbbell Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Deadlifts",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Burpees",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Burpees",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hip Thrusts",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hip Thrusts",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wall Sits",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wall Sits",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Single Arm Dumbbell Row",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Single Arm Dumbbell Row",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Leg Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Front Raises",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Diamond Push-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Diamond Push-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Ab Wheel Rollouts",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Ab Wheel Rollouts",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wrist Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wrist Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sprint Intervals",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sprint Intervals",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Shrugs",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bulgarian Split Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bulgarian Split Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Russian Twists",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Kettlebell Swings",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Kettlebell Swings",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Inverted Rows",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bent Over Rows",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bent Over Rows",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Decline Bench Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Decline Bench Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Lat Pulldowns",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Lat Pulldowns",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Plank to Downward Dog",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Plank to Downward Dog",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dumbbell Flyes",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dumbbell Flyes",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dead Bug",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dead Bug",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Overhead Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Overhead Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pull-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Close Grip Bench Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Close Grip Bench Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Skull Crushers",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Skull Crushers",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Battle Ropes",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Battle Ropes",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Overhead Tricep Extension",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Overhead Tricep Extension",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bicep Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Bicep Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hack Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hack Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Goblet Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Goblet Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Assault Bike",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Assault Bike",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Face Pulls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Face Pulls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Straight Arm Pulldown",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Straight Arm Pulldown",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dumbbell Rows",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dumbbell Rows",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "T-Bar Row",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "T-Bar Row",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Leg Raises",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Leg Raises",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Concentration Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Concentration Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Pallof Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Tricep Pushdowns",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Tricep Pushdowns",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Romanian Deadlifts",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Diamond Push-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Diamond Push-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Upright Rows",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Upright Rows",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Face Pulls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Face Pulls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Box Jumps",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Box Jumps",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Calf Raises",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Calf Raises",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Chest Supported Row",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Chest Supported Row",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rack Pulls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Rack Pulls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Mountain Climbers",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Mountain Climbers",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Cable Lateral Raises",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Cable Lateral Raises",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Dumbbell Bench Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Military Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Military Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Seated Cable Rows",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Leg Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Landmine Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Landmine Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Barbell Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Leg Extensions",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Decline Dumbbell Press",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Decline Dumbbell Press",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sumo Squats",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Sumo Squats",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Push-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Push-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wide Grip Push-ups",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Wide Grip Push-ups",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Zottman Curls",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Zottman Curls",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Glute Bridges",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Glute Bridges",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Tricep Dips",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Tricep Dips",
+      "phase": "end",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hanging Knee Raises",
+      "phase": "start",
+      "reason": "generation_failed"
+    },
+    {
+      "name": "Hanging Knee Raises",
+      "phase": "end",
+      "reason": "generation_failed"
+    }
+  ]
+}
