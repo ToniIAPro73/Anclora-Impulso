@@ -402,6 +402,10 @@ export const nutritionApi = {
     return apiClient.get<MealPlan>(`/nutrition/meal-plans/${id}`);
   },
 
+  async deleteMealPlan(id: string): Promise<void> {
+    return apiClient.delete(`/nutrition/meal-plans/${id}`);
+  },
+
   async getRecipeById(id: string): Promise<Recipe> {
     return apiClient.get<Recipe>(`/nutrition/recipes/${id}`);
   },

@@ -66,6 +66,27 @@ export async function getMealPlanById(
 }
 
 /**
+ * DELETE /api/nutrition/meal-plans/:id
+ */
+export async function deleteMealPlan(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    await nutritionService.deleteMealPlan(req.params.id, req.user.userId);
+    res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
  * GET /api/nutrition/recipes/:id
  */
 export async function getRecipeById(

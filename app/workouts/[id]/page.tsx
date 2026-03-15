@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { workoutsApi } from "@/lib/api"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { useWorkouts } from "@/hooks/use-workouts"
 
 function WorkoutDetailContent() {
   const params = useParams<{ id: string }>()
@@ -29,6 +30,17 @@ function WorkoutDetailContent() {
     enabled: Boolean(workoutId),
     staleTime: 5 * 60 * 1000,
   })
+  const { deleteWorkout, isDeleting } = useWorkouts()
+
+  const handleDeleteWorkout = async () => {
+    const confirmed = window.confirm(
+      isSpanish ? "¿Quieres eliminar este plan de entrenamiento?" : "Do you want to delete this workout plan?"
+    )
+    if (!confirmed) return
+
+    await deleteWorkout(workoutId)
+    router.push("/workouts/generate")
+  }
 
   if (isLoading) {
     return (
@@ -91,6 +103,9 @@ function WorkoutDetailContent() {
             <Dumbbell className="mr-2 h-3.5 w-3.5" />
             {workout.exercises.length} {isSpanish ? "ejercicios" : "exercises"}
           </Badge>
+          <Button variant="destructive" onClick={handleDeleteWorkout} disabled={isDeleting} className="rounded-2xl">
+            {isSpanish ? "Eliminar plan" : "Delete plan"}
+          </Button>
           <Button onClick={() => router.push("/progress")} className="rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
             <Play className="mr-2 h-4 w-4" />
             {isSpanish ? "Registrar al finalizar" : "Log after finishing"}

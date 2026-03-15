@@ -80,6 +80,18 @@ export function mergeUserProfile(profile?: Partial<UserProfile> | null): UserPro
   }
 }
 
+export function isProfileReadyForPlanGeneration(profile: UserProfile) {
+  return Boolean(
+    profile.sex &&
+      profile.age &&
+      profile.heightCm &&
+      profile.weightKg &&
+      profile.targetWeightKg &&
+      profile.timeframeWeeks &&
+      profile.trainingDaysPerWeek,
+  )
+}
+
 export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPlan | null {
   const age = profile.age ?? null
   const sex = profile.sex ?? null

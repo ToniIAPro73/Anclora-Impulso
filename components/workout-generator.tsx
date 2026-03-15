@@ -15,6 +15,7 @@ import { Loader2, Zap, Clock, Target, Dumbbell, Play, CheckCircle2 } from "lucid
 import type { Workout } from "@/lib/api"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
 
 interface WorkoutPreferences {
   workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
@@ -42,8 +43,9 @@ export function WorkoutGenerator() {
   const [generatedWorkout, setGeneratedWorkout] = useState<Workout | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { generateWorkout } = useWorkouts()
+  const { workouts, generateWorkout, deleteWorkout, isDeleting } = useWorkouts()
   const router = useRouter()
+  const isProfileReady = isProfileReadyForPlanGeneration(profile)
 
   useEffect(() => {
     if (!profile.recommendedPlan) {
@@ -77,6 +79,11 @@ export function WorkoutGenerator() {
   }, [preferences.trainingEnvironment])
 
   const handleGenerateWorkout = async () => {
+    if (!isProfileReady) {
+      setError(isSpanish ? "Completa tu perfil antes de generar un entrenamiento." : "Complete your profile before generating a workout.")
+      return
+    }
+
     setIsGenerating(true)
     setError(null)
 
@@ -117,8 +124,67 @@ export function WorkoutGenerator() {
     setError(null)
   }
 
+  const handleDeleteWorkout = async (workoutId: string) => {
+    const confirmed = window.confirm(
+      isSpanish ? "¿Quieres eliminar este plan de entrenamiento?" : "Do you want to delete this workout plan?"
+    )
+    if (!confirmed) return
+
+    await deleteWorkout(workoutId)
+
+    if (generatedWorkout?.id === workoutId) {
+      setGeneratedWorkout(null)
+    }
+  }
+
   return (
     <div className="space-y-6">
+      {!isProfileReady ? (
+        <Card className="border border-amber-200 bg-amber-50/90 shadow-sm dark:border-amber-500/20 dark:bg-amber-500/10">
+          <CardContent className="pt-6">
+            <h3 className="text-base font-semibold text-amber-900 dark:text-amber-100">
+              {isSpanish ? "Completa tu perfil antes de generar planes" : "Complete your profile before generating plans"}
+            </h3>
+            <p className="mt-2 text-sm text-amber-800 dark:text-amber-200">
+              {isSpanish
+                ? "Necesitamos sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento para ajustar el plan a tus características."
+                : "We need sex, age, height, current weight, target weight, timeframe and training days to tailor the plan to your profile."}
+            </p>
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {workouts.length > 0 ? (
+        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+          <CardHeader>
+            <CardTitle>{isSpanish ? "Planes de entrenamiento creados" : "Created workout plans"}</CardTitle>
+            <CardDescription>
+              {isSpanish ? "Puedes eliminar un plan para crear uno nuevo cuando lo necesites." : "You can remove a plan to create a new one whenever you need."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            {workouts.slice(0, 5).map((workout) => (
+              <div key={workout.id} className="flex flex-col gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 p-4 dark:border-slate-700/60 dark:bg-slate-900/40 md:flex-row md:items-center md:justify-between">
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-slate-900 dark:text-white">{workout.name}</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                    {new Date(workout.createdAt).toLocaleDateString(isSpanish ? "es-ES" : "en-US")} · {workout.exercises.length} {isSpanish ? "ejercicios" : "exercises"}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => router.push(`/workouts/${workout.id}`)}>
+                    {isSpanish ? "Ver" : "View"}
+                  </Button>
+                  <Button variant="destructive" onClick={() => handleDeleteWorkout(workout.id)} disabled={isDeleting}>
+                    {isSpanish ? "Eliminar" : "Delete"}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      ) : null}
+
       {!generatedWorkout ? (
         <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
           <CardHeader>
@@ -312,7 +378,7 @@ export function WorkoutGenerator() {
 
             <Button
               onClick={handleGenerateWorkout}
-              disabled={isGenerating}
+              disabled={isGenerating || !isProfileReady}
               className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
               size="lg"
             >

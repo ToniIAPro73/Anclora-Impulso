@@ -15,6 +15,7 @@ import { useMealPlans, useNutritionSummary, useNutritionLogs } from "@/hooks/use
 import { useAuth } from "@/lib/contexts/auth-context"
 import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed, Clock3, TimerReset } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -41,7 +42,7 @@ function NutritionPageContent() {
   const t = language === 'es'
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
 
-  const { mealPlans, isLoading, generateMealPlan, isGenerating } = useMealPlans()
+  const { mealPlans, isLoading, generateMealPlan, isGenerating, deleteMealPlan, isDeleting } = useMealPlans()
   const { data: summary } = useNutritionSummary('day')
   const { logs, logNutrition, isLogging } = useNutritionLogs('day')
 
@@ -67,6 +68,11 @@ function NutritionPageContent() {
   const handleGenerate = async () => {
     setGenerateError(null)
     try {
+      if (!isProfileReady) {
+        setGenerateError(t ? 'Completa tu perfil antes de generar un plan.' : 'Complete your profile before generating a plan.')
+        return
+      }
+
       await generateMealPlan({
         goal: generateParams.goal || undefined,
         difficulty: generateParams.difficulty || undefined,
@@ -112,9 +118,19 @@ function NutritionPageContent() {
     }
   }
 
+  const handleDeleteMealPlan = async (planId: string) => {
+    const confirmed = window.confirm(
+      t ? '¿Quieres eliminar este plan nutricional?' : 'Do you want to delete this nutrition plan?'
+    )
+    if (!confirmed) return
+
+    await deleteMealPlan(planId)
+  }
+
   const latestPlan = mealPlans[0]
   const isIntermittentFasting = latestPlan?.dietType === 'ayuno_intermitente'
   const fastingState = summary?.intermittentFasting
+  const isProfileReady = isProfileReadyForPlanGeneration(profile)
 
   return (
     <div className="space-y-6 px-4 py-5 sm:px-6 lg:px-8">
@@ -211,7 +227,7 @@ function NutritionPageContent() {
 
           <Dialog open={generateOpen} onOpenChange={(v) => { setGenerateOpen(v); if (!v) setGenerateError(null) }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+              <Button className="bg-gradient-to-r from-green-600 to-emerald-600 text-white" disabled={!isProfileReady}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 {t ? 'Generar Plan IA' : 'Generate AI Plan'}
               </Button>
@@ -224,6 +240,20 @@ function NutritionPageContent() {
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
+                {!isProfileReady ? (
+                  <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/20 dark:bg-amber-950/20 dark:text-amber-300">
+                    {t
+                      ? 'Completa sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento en tu perfil antes de generar nutrición.'
+                      : 'Complete sex, age, height, current weight, target weight, timeframe and training days in your profile before generating nutrition.'}
+                  </div>
+                ) : null}
+                {profile.age && profile.age >= 40 ? (
+                  <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300">
+                    {t
+                      ? `El plan tendrá en cuenta criterios 40+: proteína suficiente, saciedad, recuperación y ajustes por sexo${profile.sex ? ` para ${profile.sex === "female" ? "mujer" : "hombre"}` : ""}.`
+                      : `The plan will use 40+ rules: sufficient protein, satiety, recovery and sex-specific adjustments${profile.sex ? ` for a ${profile.sex === "female" ? "female" : "male"} profile` : ""}.`}
+                  </div>
+                ) : null}
                 <div>
                   <Label>{t ? 'Objetivo' : 'Goal'}</Label>
                   <Select value={generateParams.goal} onValueChange={(v) => setGenerateParams(p => ({ ...p, goal: v }))}>
@@ -273,7 +303,7 @@ function NutritionPageContent() {
                     {generateError}
                   </div>
                 )}
-                <Button onClick={handleGenerate} disabled={isGenerating} className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
+                <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
                   {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
                 </Button>
               </div>
@@ -367,9 +397,14 @@ function NutritionPageContent() {
                   )}
                 </CardDescription>
               </div>
-              <Button variant="outline" size="sm" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
-                {t ? 'Ver Completo' : 'View Full'}
-              </Button>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
+                  {t ? 'Ver Completo' : 'View Full'}
+                </Button>
+                <Button variant="destructive" size="sm" onClick={() => handleDeleteMealPlan(latestPlan.id)} disabled={isDeleting}>
+                  {t ? 'Eliminar' : 'Delete'}
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent>

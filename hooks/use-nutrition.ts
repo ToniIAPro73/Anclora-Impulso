@@ -20,6 +20,17 @@ export function useMealPlans() {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => nutritionApi.deleteMealPlan(id),
+    onSuccess: (_, deletedId) => {
+      queryClient.setQueryData<MealPlan[]>(['mealPlans'], (prev) =>
+        prev ? prev.filter((plan) => plan.id !== deletedId) : prev
+      );
+      queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
+      queryClient.invalidateQueries({ queryKey: ['mealPlan', deletedId] });
+    },
+  });
+
   return {
     mealPlans: plansQuery.data ?? [],
     isLoading: plansQuery.isLoading,
@@ -28,6 +39,9 @@ export function useMealPlans() {
     generateMealPlan: generateMutation.mutateAsync,
     isGenerating: generateMutation.isPending,
     generateError: generateMutation.error?.message,
+    deleteMealPlan: deleteMutation.mutateAsync,
+    isDeleting: deleteMutation.isPending,
+    deleteError: deleteMutation.error?.message,
   };
 }
 

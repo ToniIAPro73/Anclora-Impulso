@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
-import { useMealPlan } from "@/hooks/use-nutrition"
+import { useMealPlan, useMealPlans } from "@/hooks/use-nutrition"
 import { ArrowLeft, Clock, ChefHat, Flame, Beef, Wheat, Droplets, UtensilsCrossed } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 
@@ -22,6 +22,17 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
 
   const { data: plan, isLoading, error } = useMealPlan(id)
+  const { deleteMealPlan, isDeleting } = useMealPlans()
+
+  const handleDelete = async () => {
+    const confirmed = window.confirm(
+      t ? '¿Quieres eliminar este plan nutricional?' : 'Do you want to delete this nutrition plan?'
+    )
+    if (!confirmed) return
+
+    await deleteMealPlan(id)
+    router.push('/nutrition')
+  }
 
   if (isLoading) {
     return (
@@ -45,7 +56,8 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
 
   return (
     <div className="space-y-6 px-4 py-5 sm:px-6 lg:px-8">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
         <Button variant="ghost" size="sm" onClick={() => router.push('/nutrition')}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           {t ? 'Volver' : 'Back'}
@@ -60,6 +72,10 @@ function MealPlanDetailPageContent({ params }: { params: { id: string } }) {
             {plan.dietType === 'ayuno_intermitente' && <Badge variant="outline" className="ml-2">16:8</Badge>}
           </p>
         </div>
+        </div>
+        <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isDeleting}>
+          {t ? 'Eliminar plan' : 'Delete plan'}
+        </Button>
       </div>
 
       <Tabs defaultValue="0">

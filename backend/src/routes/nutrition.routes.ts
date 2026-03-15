@@ -17,6 +17,7 @@ router.post(
 );
 router.get('/meal-plans', nutritionController.getUserMealPlans);
 router.get('/meal-plans/:id', nutritionController.getMealPlanById);
+router.delete('/meal-plans/:id', nutritionController.deleteMealPlan);
 
 // Recetas
 router.get('/recipes/:id', nutritionController.getRecipeById);

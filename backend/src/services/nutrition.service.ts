@@ -693,6 +693,21 @@ export async function getMealPlanById(id: string, userId: string) {
   return plan;
 }
 
+export async function deleteMealPlan(id: string, userId: string) {
+  const existingPlan = await prisma.mealPlan.findFirst({
+    where: { id, userId },
+    select: { id: true },
+  });
+
+  if (!existingPlan) {
+    throw new AppError(404, 'Plan de comidas no encontrado');
+  }
+
+  await prisma.mealPlan.delete({
+    where: { id },
+  });
+}
+
 /**
  * Obtener detalle de una receta
  */
