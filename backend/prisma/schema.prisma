@@ -42,6 +42,7 @@ model Exercise {
   category     String
   muscleGroup  String
   equipment    String
+  trainingEnvironments String[] @default([])
   difficulty   String
   description  String
   instructions String[]

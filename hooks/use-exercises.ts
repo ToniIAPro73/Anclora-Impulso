@@ -5,6 +5,7 @@ export interface ExerciseFilters {
   category?: string;
   muscleGroup?: string;
   equipment?: string;
+  environment?: string;
   difficulty?: string;
   search?: string;
   page?: number;

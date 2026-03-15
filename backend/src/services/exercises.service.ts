@@ -6,6 +6,7 @@ export interface ExerciseFilters {
   category?: string;
   muscleGroup?: string;
   equipment?: string;
+  environment?: string;
   difficulty?: string;
   search?: string;
 }
@@ -26,6 +27,10 @@ export async function getAllExercises(filters: ExerciseFilters = {}) {
 
   if (filters.equipment) {
     where.equipment = filters.equipment;
+  }
+
+  if (filters.environment) {
+    where.trainingEnvironments = { has: filters.environment };
   }
 
   if (filters.difficulty) {
@@ -128,4 +133,15 @@ export async function getEquipment() {
   });
 
   return exercises.map((e) => e.equipment);
+}
+
+/**
+ * Obtener entornos de entrenamiento únicos
+ */
+export async function getTrainingEnvironments() {
+  const exercises = await prisma.exercise.findMany({
+    select: { trainingEnvironments: true },
+  });
+
+  return Array.from(new Set(exercises.flatMap((exercise) => exercise.trainingEnvironments))).sort();
 }

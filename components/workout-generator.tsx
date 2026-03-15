@@ -20,6 +20,7 @@ interface WorkoutPreferences {
   workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
   duration: number
   difficulty: 'beginner' | 'intermediate' | 'advanced'
+  trainingEnvironment: 'gym' | 'home' | 'outdoor'
   targetMuscles: string[]
   equipment: string[]
   workoutName: string
@@ -33,6 +34,7 @@ export function WorkoutGenerator() {
     workoutType: 'strength',
     duration: 45,
     difficulty: 'beginner',
+    trainingEnvironment: 'gym',
     targetMuscles: [],
     equipment: ['bodyweight'],
     workoutName: '',
@@ -60,7 +62,19 @@ export function WorkoutGenerator() {
   }, [profile.recommendedPlan])
 
   const muscleGroups = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'glutes']
-  const equipmentTypes = ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar']
+  const environmentEquipmentMap: Record<WorkoutPreferences["trainingEnvironment"], string[]> = {
+    gym: ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar', 'cables', 'machine'],
+    home: ['bodyweight', 'dumbbells', 'resistance_bands'],
+    outdoor: ['bodyweight', 'jump_rope', 'pull_up_bar'],
+  }
+  const equipmentTypes = environmentEquipmentMap[preferences.trainingEnvironment]
+
+  useEffect(() => {
+    setPreferences((current) => ({
+      ...current,
+      equipment: current.equipment.filter((equipment) => environmentEquipmentMap[current.trainingEnvironment].includes(equipment)),
+    }))
+  }, [preferences.trainingEnvironment])
 
   const handleGenerateWorkout = async () => {
     setIsGenerating(true)
@@ -71,6 +85,7 @@ export function WorkoutGenerator() {
         workoutType: preferences.workoutType,
         duration: preferences.duration,
         difficulty: preferences.difficulty,
+        trainingEnvironment: preferences.trainingEnvironment,
         targetMuscles: preferences.targetMuscles.length > 0 ? preferences.targetMuscles : undefined,
         equipment: preferences.equipment.length > 0 ? preferences.equipment : undefined,
       })
@@ -181,6 +196,24 @@ export function WorkoutGenerator() {
                   </SelectContent>
                 </Select>
               </div>
+              <div className="space-y-2">
+                <Label>{isSpanish ? "Entorno de entrenamiento" : "Training environment"}</Label>
+                <Select
+                  value={preferences.trainingEnvironment}
+                  onValueChange={(value: WorkoutPreferences["trainingEnvironment"]) =>
+                    setPreferences({ ...preferences, trainingEnvironment: value })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="gym">{isSpanish ? "Gimnasio" : "Gym"}</SelectItem>
+                    <SelectItem value="home">{isSpanish ? "Casa" : "Home"}</SelectItem>
+                    <SelectItem value="outdoor">{isSpanish ? "Aire libre" : "Outdoor"}</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -218,6 +251,19 @@ export function WorkoutGenerator() {
 
             <div className="space-y-3">
               <Label>{isSpanish ? "Equipo Disponible" : "Available Equipment"}</Label>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                {preferences.trainingEnvironment === 'home'
+                  ? isSpanish
+                    ? "Equipamiento mínimo doméstico: peso corporal, mancuernas y bandas."
+                    : "Minimal home setup: bodyweight, dumbbells and bands."
+                  : preferences.trainingEnvironment === 'outdoor'
+                    ? isSpanish
+                      ? "Opciones compatibles con sesiones en parque o al aire libre."
+                      : "Options that fit park or outdoor sessions."
+                    : isSpanish
+                      ? "Incluye equipamiento propio de sala de musculación."
+                      : "Includes standard gym-floor equipment."}
+              </p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {equipmentTypes.map((equipment) => (
                   <div key={equipment} className="flex items-center space-x-2">
@@ -242,7 +288,7 @@ export function WorkoutGenerator() {
                       htmlFor={equipment}
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
                     >
-                      {equipment.replace('_', ' ')}
+                      {equipment.replace(/_/g, ' ')}
                     </label>
                   </div>
                 ))}

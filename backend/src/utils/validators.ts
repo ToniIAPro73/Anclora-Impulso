@@ -63,6 +63,7 @@ export const createExerciseSchema = z.object({
   category: z.string().min(1, 'La categoría es requerida'),
   muscleGroup: z.string().min(1, 'El grupo muscular es requerido'),
   equipment: z.string().min(1, 'El equipo es requerido'),
+  trainingEnvironments: z.array(z.enum(['gym', 'home', 'outdoor'])).default([]),
   difficulty: z.string().min(1, 'La dificultad es requerida'),
   description: z.string().min(1, 'La descripción es requerida'),
   instructions: z.array(z.string()).min(1, 'Debe tener al menos una instrucción'),
@@ -73,6 +74,7 @@ export const generateWorkoutSchema = z.object({
   workoutType: z.enum(['strength', 'cardio', 'hiit', 'flexibility', 'full_body']),
   duration: z.number().int().min(10).max(180), // 10 a 180 minutos
   difficulty: z.enum(['beginner', 'intermediate', 'advanced']),
+  trainingEnvironment: z.enum(['gym', 'home', 'outdoor']),
   targetMuscles: z.array(z.string()).optional(),
   equipment: z.array(z.string()).optional(),
 });

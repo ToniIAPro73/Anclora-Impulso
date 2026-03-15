@@ -10,6 +10,7 @@ const router: ExpressRouter = Router();
 router.get('/meta/categories', exercisesController.getCategories);
 router.get('/meta/muscle-groups', exercisesController.getMuscleGroups);
 router.get('/meta/equipment', exercisesController.getEquipment);
+router.get('/meta/training-environments', exercisesController.getTrainingEnvironments);
 
 // CRUD de ejercicios
 router.get('/', optionalAuthenticate, exercisesController.getAllExercises);

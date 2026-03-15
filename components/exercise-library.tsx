@@ -25,6 +25,7 @@ export function ExerciseLibrary() {
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [equipmentFilter, setEquipmentFilter] = useState("all")
+  const [environmentFilter, setEnvironmentFilter] = useState("all")
   const [difficultyFilter, setDifficultyFilter] = useState("all")
 
   // Usar el hook para obtener ejercicios de la API
@@ -32,6 +33,7 @@ export function ExerciseLibrary() {
     search: searchTerm,
     category: categoryFilter !== "all" ? categoryFilter : undefined,
     equipment: equipmentFilter !== "all" ? equipmentFilter : undefined,
+    environment: environmentFilter !== "all" ? environmentFilter : undefined,
     difficulty: difficultyFilter !== "all" ? difficultyFilter : undefined,
   })
 
@@ -43,6 +45,17 @@ export function ExerciseLibrary() {
   const equipmentTypes = useMemo(() => {
     return [...new Set(exercises.map((e) => e.equipment).filter(Boolean))]
   }, [exercises])
+
+  const environmentTypes = useMemo(() => {
+    return [...new Set(exercises.flatMap((e) => e.trainingEnvironments ?? []).filter(Boolean))]
+  }, [exercises])
+
+  const formatEnvironment = (environment: string) => {
+    if (environment === "gym") return isSpanish ? "Gimnasio" : "Gym"
+    if (environment === "home") return isSpanish ? "Casa" : "Home"
+    if (environment === "outdoor") return isSpanish ? "Aire libre" : "Outdoor"
+    return environment
+  }
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -109,7 +122,7 @@ export function ExerciseLibrary() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Buscar" : "Search"}</label>
               <div className="relative">
@@ -168,6 +181,22 @@ export function ExerciseLibrary() {
                 </SelectContent>
               </Select>
             </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Entorno" : "Environment"}</label>
+              <Select value={environmentFilter} onValueChange={setEnvironmentFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder={isSpanish ? "Todos los entornos" : "All environments"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">{isSpanish ? "Todos los entornos" : "All environments"}</SelectItem>
+                  {environmentTypes.map((environment) => (
+                    <SelectItem key={environment} value={environment}>
+                      {formatEnvironment(environment)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -210,6 +239,11 @@ export function ExerciseLibrary() {
                     <Badge variant="secondary" className="text-xs">
                       {exercise.muscleGroup}
                     </Badge>
+                    {exercise.trainingEnvironments?.map((environment) => (
+                      <Badge key={environment} variant="outline" className="text-xs">
+                        {formatEnvironment(environment)}
+                      </Badge>
+                    ))}
                   </div>
                   {exercise.equipment && (
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -242,6 +276,11 @@ export function ExerciseLibrary() {
                       {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1).replace("_", " ")}
                     </Badge>
                   )}
+                  {exercise.trainingEnvironments?.map((environment) => (
+                    <Badge key={environment} variant="secondary">
+                      {formatEnvironment(environment)}
+                    </Badge>
+                  ))}
                 </div>
 
                 {exercise.description && (

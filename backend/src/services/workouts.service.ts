@@ -146,6 +146,7 @@ export async function generateWorkout(
   // Obtener ejercicios según los parámetros
   const where: any = {
     difficulty: params.difficulty,
+    trainingEnvironments: { has: params.trainingEnvironment },
   };
 
   if (params.targetMuscles && params.targetMuscles.length > 0) {
@@ -176,6 +177,7 @@ export async function generateWorkout(
 - Tipo: ${params.workoutType}
 - Duración: ${params.duration} minutos
 - Dificultad: ${params.difficulty}
+- Entorno: ${params.trainingEnvironment}
 - Músculos objetivo: ${params.targetMuscles?.join(", ") || "todos"}
 - Equipo disponible: ${params.equipment?.join(", ") || "cualquiera"}
 

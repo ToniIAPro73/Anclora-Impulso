@@ -15,6 +15,7 @@ export async function getAllExercises(
       category: req.query.category as string | undefined,
       muscleGroup: req.query.muscleGroup as string | undefined,
       equipment: req.query.equipment as string | undefined,
+      environment: req.query.environment as string | undefined,
       difficulty: req.query.difficulty as string | undefined,
       search: req.query.search as string | undefined,
     };
@@ -141,6 +142,23 @@ export async function getEquipment(
     const equipment = await exercisesService.getEquipment();
     
     res.json(equipment);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * GET /api/exercises/meta/training-environments
+ */
+export async function getTrainingEnvironments(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const environments = await exercisesService.getTrainingEnvironments();
+
+    res.json(environments);
   } catch (error) {
     next(error);
   }

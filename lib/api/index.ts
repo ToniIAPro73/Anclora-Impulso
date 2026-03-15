@@ -8,6 +8,7 @@ export interface Exercise {
   category: string;
   muscleGroup: string;
   equipment: string;
+  trainingEnvironments: Array<'gym' | 'home' | 'outdoor'>;
   difficulty: string;
   description: string;
   instructions: string[];
@@ -110,6 +111,7 @@ export const exercisesApi = {
     category?: string;
     muscleGroup?: string;
     equipment?: string;
+    environment?: string;
     difficulty?: string;
     search?: string;
   }): Promise<Exercise[]> {
@@ -188,6 +190,7 @@ export const workoutsApi = {
     workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body';
     duration: number;
     difficulty: 'beginner' | 'intermediate' | 'advanced';
+    trainingEnvironment: 'gym' | 'home' | 'outdoor';
     targetMuscles?: string[];
     equipment?: string[];
   }): Promise<Workout> {

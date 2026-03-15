@@ -16,6 +16,7 @@ interface GenerateWorkoutParams {
   workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body';
   duration: number;
   difficulty: 'beginner' | 'intermediate' | 'advanced';
+  trainingEnvironment: 'gym' | 'home' | 'outdoor';
   targetMuscles?: string[];
   equipment?: string[];
 }

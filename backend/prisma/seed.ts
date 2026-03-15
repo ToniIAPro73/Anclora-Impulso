@@ -1,99 +1,76 @@
 import { PrismaClient } from '@prisma/client';
-import { completeExercisesDatabase } from './complete-exercises-database';
+import { buildNormalizedExercises } from './exercise-classification';
 
 const prisma = new PrismaClient();
-
-function normalizeToken(value: string) {
-  return value
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim();
-}
-
-function mapCategory(category: string) {
-  const normalized = normalizeToken(category);
-
-  if (normalized.includes('cardio')) return 'cardio';
-  if (normalized.includes('flex')) return 'flexibility';
-  if (normalized.includes('balance')) return 'balance';
-  return 'strength';
-}
-
-function mapMuscleGroup(muscleGroup: string) {
-  const normalized = normalizeToken(muscleGroup);
-
-  if (normalized.includes('pecho')) return 'chest';
-  if (normalized.includes('espalda')) return 'back';
-  if (normalized.includes('hombro')) return 'shoulders';
-  if (normalized.includes('bicep') || normalized.includes('tricep') || normalized.includes('brazo')) return 'arms';
-  if (normalized.includes('pierna') || normalized.includes('cuadricep') || normalized.includes('isquio')) return 'legs';
-  if (normalized.includes('glute')) return 'glutes';
-  if (normalized.includes('core') || normalized.includes('abd') || normalized.includes('oblic')) return 'core';
-  return 'full_body';
-}
-
-function mapEquipment(equipment: string) {
-  const normalized = normalizeToken(equipment);
-
-  if (normalized.includes('peso corporal')) return 'bodyweight';
-  if (normalized.includes('mancuerna')) return 'dumbbells';
-  if (normalized.includes('barra')) return 'barbell';
-  if (normalized.includes('kettlebell')) return 'kettlebell';
-  if (normalized.includes('cable')) return 'cables';
-  if (normalized.includes('maquina')) return 'machine';
-  if (normalized.includes('banda')) return 'resistance_bands';
-  if (normalized.includes('barra de dominadas')) return 'pull_up_bar';
-  return normalized.replace(/\s+/g, '_');
-}
-
-function mapDifficulty(difficulty: string) {
-  const normalized = normalizeToken(difficulty);
-
-  if (normalized.includes('principiante')) return 'beginner';
-  if (normalized.includes('intermedio')) return 'intermediate';
-  if (normalized.includes('avanzado')) return 'advanced';
-  return 'beginner';
-}
-
-function normalizeExercises() {
-  return completeExercisesDatabase.map((exercise) => ({
-    name: exercise.name,
-    category: mapCategory(exercise.category),
-    muscleGroup: mapMuscleGroup(exercise.muscleGroup),
-    equipment: mapEquipment(exercise.equipment),
-    difficulty: mapDifficulty(exercise.difficulty),
-    description: exercise.description,
-    instructions: exercise.instructions,
-    imageUrl: exercise.imageFileName ? `/exercises/${exercise.imageFileName}` : null,
-  }));
-}
 
 async function main() {
   console.log('🌱 Iniciando seed de ejercicios...');
 
-  const normalizedExercises = normalizeExercises();
-  const existingExercises = await prisma.exercise.findMany({
-    select: { name: true },
+  const normalizedExercises = buildNormalizedExercises();
+  const normalizedNames = normalizedExercises.map((exercise) => exercise.name);
+
+  await prisma.exercise.deleteMany({
+    where: {
+      name: {
+        notIn: normalizedNames,
+      },
+    },
   });
-  const existingNames = new Set(existingExercises.map((exercise) => exercise.name));
 
-  const missingExercises = normalizedExercises.filter((exercise) => !existingNames.has(exercise.name));
+  console.log(`📝 Sincronizando ${normalizedExercises.length} ejercicios...`);
 
-  if (missingExercises.length === 0) {
-    console.log(`ℹ️  Ya existen ${existingExercises.length} ejercicios en la base de datos`);
-    return;
-  }
+  for (const exercise of normalizedExercises) {
+    const existing = await prisma.exercise.findFirst({
+      where: { name: exercise.name },
+      select: { id: true },
+    });
 
-  console.log(`📝 Añadiendo ${missingExercises.length} ejercicios...`);
+    if (existing) {
+      await prisma.exercise.update({
+        where: { id: existing.id },
+        data: exercise,
+      });
+      continue;
+    }
 
-  for (const exercise of missingExercises) {
     await prisma.exercise.create({
       data: exercise,
     });
   }
 
-  console.log(`✅ Seed completado. Total actual: ${existingExercises.length + missingExercises.length} ejercicios`);
+  const duplicatedGroups = await prisma.exercise.groupBy({
+    by: ['name'],
+    _count: { name: true },
+    having: {
+      name: {
+        _count: {
+          gt: 1,
+        },
+      },
+    },
+  });
+
+  for (const group of duplicatedGroups) {
+    const duplicates = await prisma.exercise.findMany({
+      where: { name: group.name },
+      orderBy: { createdAt: 'asc' },
+      select: { id: true },
+    });
+
+    const duplicateIds = duplicates.slice(1).map((exercise) => exercise.id);
+
+    if (duplicateIds.length > 0) {
+      await prisma.exercise.deleteMany({
+        where: {
+          id: {
+            in: duplicateIds,
+          },
+        },
+      });
+    }
+  }
+
+  console.log(`✅ Seed completado. Total sincronizado: ${normalizedExercises.length} ejercicios`);
 }
 
 main()

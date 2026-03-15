@@ -17,7 +17,7 @@ export interface ExerciseData {
   variations?: string[];
 }
 
-export const completeExercisesDatabase: ExerciseData[] = [
+const baseExercisesDatabase: ExerciseData[] = [
   // ==================== PECHO (15 ejercicios) ====================
   {
     name: 'Push-ups',
@@ -199,7 +199,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     ]
   },
   {
-    name: 'Diamond Push-ups',
+    name: 'Diamond Push-ups (Chest Focus)',
     category: 'Fuerza',
     muscleGroup: 'Pecho',
     equipment: 'Peso corporal',
@@ -461,7 +461,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     ]
   },
   {
-    name: 'Face Pulls',
+    name: 'Face Pulls (Upper Back Focus)',
     category: 'Fuerza',
     muscleGroup: 'Espalda',
     equipment: 'Cables',
@@ -829,7 +829,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     ]
   },
   {
-    name: 'Box Jumps',
+    name: 'Box Jumps (Power Focus)',
     category: 'Pliométrico',
     muscleGroup: 'Piernas',
     equipment: 'Cajón pliométrico',
@@ -1161,7 +1161,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     ]
   },
   {
-    name: 'Face Pulls',
+    name: 'Face Pulls (Rear Delt Focus)',
     category: 'Fuerza',
     muscleGroup: 'Hombros',
     equipment: 'Cables',
@@ -1515,7 +1515,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     ]
   },
   {
-    name: 'Diamond Push-ups',
+    name: 'Diamond Push-ups (Triceps Focus)',
     category: 'Fuerza',
     muscleGroup: 'Brazos',
     equipment: 'Peso corporal',
@@ -1993,7 +1993,7 @@ export const completeExercisesDatabase: ExerciseData[] = [
     variations: ['Saltos dobles', 'Saltos cruzados', 'Saltos alternados']
   },
   {
-    name: 'Box Jumps',
+    name: 'Box Jumps (Conditioning)',
     category: 'Pliométrico',
     muscleGroup: 'Piernas',
     equipment: 'Cajón pliométrico',
@@ -2110,6 +2110,194 @@ export const completeExercisesDatabase: ExerciseData[] = [
       'Muy demandante'
     ]
   }
+];
+
+const homeExercisesDatabase: ExerciseData[] = [
+  {
+    name: 'Resistance Band Row',
+    category: 'Fuerza',
+    muscleGroup: 'Espalda',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Remo horizontal con banda para trabajar espalda alta y dorsales desde casa.',
+    instructions: [
+      'Ancla la banda a la altura del ombligo',
+      'Sujeta ambos extremos y da un paso atrás para crear tensión',
+      'Lleva los codos hacia atrás pegados al cuerpo',
+      'Aprieta las escápulas al final',
+      'Vuelve despacio a la posición inicial'
+    ]
+  },
+  {
+    name: 'Resistance Band Chest Press',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Press de pecho de pie con banda, ideal para entrenar en casa sin banco.',
+    instructions: [
+      'Ancla la banda detrás del torso',
+      'Coloca un pie adelante para ganar estabilidad',
+      'Empuja los brazos al frente hasta extenderlos',
+      'Mantén el pecho alto y el abdomen firme',
+      'Regresa controlando la tensión'
+    ]
+  },
+  {
+    name: 'Resistance Band Pull Apart',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Movimiento simple para activar hombros posteriores y espalda alta.',
+    instructions: [
+      'Sujeta la banda frente al pecho con brazos estirados',
+      'Separa las manos abriendo la banda',
+      'Lleva los hombros hacia atrás y abajo',
+      'Pausa un instante al final',
+      'Vuelve lentamente al centro'
+    ]
+  },
+  {
+    name: 'Resistance Band Face Pull',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Banda elástica',
+    difficulty: 'Intermedio',
+    description: 'Ejercicio para deltoides posteriores y estabilidad escapular con banda.',
+    instructions: [
+      'Ancla la banda a la altura de la cara',
+      'Tira de la banda hacia la nariz con codos altos',
+      'Abre las manos al final del recorrido',
+      'Aprieta la parte alta de la espalda',
+      'Regresa de forma controlada'
+    ]
+  },
+  {
+    name: 'Single-Arm Dumbbell Floor Press',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Press unilateral en el suelo para pecho y tríceps sin necesidad de banco.',
+    instructions: [
+      'Túmbate en el suelo con una mancuerna en una mano',
+      'Dobla las rodillas y mantén la otra mano apoyada',
+      'Empuja la mancuerna hacia arriba hasta extender el brazo',
+      'Baja hasta que el tríceps toque suavemente el suelo',
+      'Completa todas las repeticiones y cambia de lado'
+    ]
+  },
+  {
+    name: 'Dumbbell Romanian Deadlift',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Bisagra de cadera con mancuernas para glúteos e isquiosurales.',
+    instructions: [
+      'Sujeta dos mancuernas delante de los muslos',
+      'Empuja la cadera hacia atrás con ligera flexión de rodillas',
+      'Baja las mancuernas rozando las piernas',
+      'Mantén la espalda neutra',
+      'Vuelve arriba contrayendo glúteos'
+    ]
+  },
+  {
+    name: 'Dumbbell Thruster',
+    category: 'Cardio',
+    muscleGroup: 'Cuerpo completo',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Sentadilla más press por encima de la cabeza para elevar pulsaciones en casa.',
+    instructions: [
+      'Sostén las mancuernas a la altura de los hombros',
+      'Haz una sentadilla completa',
+      'Al subir, impulsa las mancuernas sobre la cabeza',
+      'Bloquea el abdomen para no arquear la espalda',
+      'Baja las mancuernas de nuevo a los hombros'
+    ]
+  },
+  {
+    name: 'Alternating Reverse Lunge with Dumbbells',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Zancada atrás alterna con mancuernas para piernas y glúteos.',
+    instructions: [
+      'Ponte de pie con una mancuerna en cada mano',
+      'Da un paso largo hacia atrás con una pierna',
+      'Baja hasta que ambas rodillas queden flexionadas',
+      'Empuja con la pierna adelantada para volver',
+      'Alterna el lado en cada repetición'
+    ]
+  },
+  {
+    name: 'Banded Lateral Walk',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Paso lateral con banda para activar glúteo medio y estabilizadores.',
+    instructions: [
+      'Coloca la banda por encima de las rodillas o en los tobillos',
+      'Flexiona ligeramente caderas y rodillas',
+      'Da pasos laterales cortos manteniendo tensión',
+      'No dejes que las rodillas colapsen hacia dentro',
+      'Completa ambos lados'
+    ]
+  },
+  {
+    name: 'Standing Resistance Band Lat Pulldown',
+    category: 'Fuerza',
+    muscleGroup: 'Espalda',
+    equipment: 'Banda elástica',
+    difficulty: 'Intermedio',
+    description: 'Jalón vertical con banda anclada arriba para dorsales y espalda alta.',
+    instructions: [
+      'Ancla la banda por encima de la cabeza',
+      'Agarra los extremos con brazos estirados',
+      'Tira de los codos hacia abajo y atrás',
+      'Lleva las manos hacia la parte alta del pecho',
+      'Vuelve lentamente hasta extender los brazos'
+    ]
+  },
+  {
+    name: 'Standing Resistance Band Pallof Press',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Press antirotación excelente para core y estabilidad central.',
+    instructions: [
+      'Ancla la banda al lado del cuerpo',
+      'Sujeta la banda frente al esternón',
+      'Extiende los brazos al frente sin girar el torso',
+      'Mantén las costillas abajo y glúteos activos',
+      'Regresa al pecho y repite por ambos lados'
+    ]
+  },
+  {
+    name: 'Dumbbell Push Press',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Empuje explosivo con mancuernas para hombros y cuerpo completo.',
+    instructions: [
+      'Coloca las mancuernas a la altura de los hombros',
+      'Flexiona ligeramente rodillas y cadera',
+      'Extiende las piernas con fuerza para impulsar las mancuernas',
+      'Termina con brazos arriba y abdomen firme',
+      'Baja controladamente al punto inicial'
+    ]
+  }
+];
+
+export const completeExercisesDatabase: ExerciseData[] = [
+  ...baseExercisesDatabase,
+  ...homeExercisesDatabase,
 ];
 
 // Función helper para obtener ejercicios por categoría
