@@ -133,7 +133,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
             <div className="mt-2.5 flex flex-1 flex-col gap-1.5">
               <div className="overflow-hidden rounded-[18px] border border-white/60 bg-white/72 p-2.5 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-slate-950/45">
                 <div className="flex items-center gap-2.5">
-                  <UserAvatar className="size-10 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-sm" />
+                  <UserAvatar className="size-10 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-sm" imageSrc={form.avatarDataUrl || null} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[12px] font-semibold text-slate-900 dark:text-white">{user?.fullName || "Usuario"}</p>
                     <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
@@ -155,13 +155,21 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     <Calculator className="h-4 w-4 text-orange-500" />
                     IMC
                   </div>
-                  <div className="flex items-center justify-between gap-2">
-                    <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
                       <p className="text-[1.2rem] font-semibold tracking-tight text-slate-900 dark:text-white">{bmi ?? "--"}</p>
                       <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Indice estimado</p>
+                      {bmiInterpretation ? (
+                        <p className="mt-1 text-[11px] font-medium leading-4 text-orange-700 dark:text-orange-300">
+                          {bmiInterpretation}
+                        </p>
+                      ) : null}
                     </div>
                     {bmiInterpretation ? (
-                      <Badge className="max-w-[88px] truncate rounded-full border-0 bg-orange-100 px-2 py-1 text-[10px] font-semibold text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
+                      <Badge
+                        title={bmiInterpretation}
+                        className="shrink-0 rounded-full border-0 bg-orange-100 px-2 py-1 text-[10px] font-semibold text-orange-700 dark:bg-orange-500/15 dark:text-orange-300"
+                      >
                         {bmiInterpretation}
                       </Badge>
                     ) : null}
@@ -178,7 +186,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                       <p className="line-clamp-2 text-[12px] font-semibold leading-4.5">{recommendedPlan.title}</p>
                       <div className="mt-1.5 flex flex-wrap gap-1">
                         <Badge className="rounded-full border-0 bg-white/10 px-2 py-1 text-[10px] text-white">{recommendedPlan.duration} min</Badge>
-                        <Badge className="max-w-full truncate rounded-full border-0 bg-white/10 px-2 py-1 text-[10px] text-white">{recommendedPlan.difficulty}</Badge>
+                        <Badge title={recommendedPlan.difficulty} className="max-w-full truncate rounded-full border-0 bg-white/10 px-2 py-1 text-[10px] text-white">{recommendedPlan.difficulty}</Badge>
                       </div>
                     </>
                   ) : (
@@ -276,7 +284,11 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                       <p className="mt-0.5 line-clamp-2 text-[10px] leading-4 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
                       <div className="mt-1 grid gap-1 md:grid-cols-2">
                         {weeklyPreview.map((day) => (
-                          <div key={day} className="truncate rounded-[11px] border border-slate-200/80 bg-slate-50/85 px-2 py-0.5 text-[10px] leading-4 text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300">
+                          <div
+                            key={day}
+                            title={day}
+                            className="truncate rounded-[11px] border border-slate-200/80 bg-slate-50/85 px-2 py-0.5 text-[10px] leading-4 text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300"
+                          >
                             {day}
                           </div>
                         ))}
@@ -286,9 +298,9 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                       <div className="overflow-hidden rounded-[14px] border border-slate-200/80 bg-slate-50/85 p-1.5 dark:border-slate-800/80 dark:bg-slate-900/75">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Parametros</p>
                         <div className="mt-1 space-y-0.5 text-[10px] text-slate-600 dark:text-slate-300">
-                          <p className="flex items-center gap-1 truncate"><Weight className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.duration} min</span></p>
-                          <p className="flex items-center gap-1 truncate"><Ruler className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.difficulty}</span></p>
-                          <p className="flex items-center gap-1 truncate"><Target className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.workoutType}</span></p>
+                          <p className="flex items-center gap-1 truncate" title={`${recommendedPlan.duration} min`}><Weight className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.duration} min</span></p>
+                          <p className="flex items-center gap-1 truncate" title={recommendedPlan.difficulty}><Ruler className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.difficulty}</span></p>
+                          <p className="flex items-center gap-1 truncate" title={recommendedPlan.workoutType}><Target className="h-3 w-3 shrink-0 text-orange-500" /> <span className="truncate">{recommendedPlan.workoutType}</span></p>
                         </div>
                       </div>
                       <Button asChild className="h-6.5 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 px-2 text-[10px] hover:from-orange-600 hover:to-rose-600">
