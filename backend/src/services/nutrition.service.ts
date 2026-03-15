@@ -3,6 +3,7 @@ import { AppError } from '../middleware/errorHandler';
 import { generateJSON, SYSTEM_PROMPT_ES } from './llm';
 import { env } from '../config/env';
 import logger from '../config/logger';
+import { buildNutritionPersonalizationGuidance } from './forty-plus-guidance';
 import type { Prisma } from '@prisma/client';
 import type {
   GenerateMealPlanInput,
@@ -393,6 +394,14 @@ export async function generateMealPlan(userId: string, params: GenerateMealPlanI
     throw new AppError(503, 'Servicio de IA no disponible. Configura GROQ_API_KEY.');
   }
 
+  const ageAwareGuidance = buildNutritionPersonalizationGuidance({
+    age: params.age,
+    sex: params.sex ?? null,
+    weightKg: params.weightKg,
+    targetWeightKg: params.targetWeightKg,
+    trainingDaysPerWeek: params.trainingDaysPerWeek,
+  });
+
   const dietTypeInstructions: Record<string, string> = {
     mediterranea: `TIPO DE DIETA: Dieta Mediterránea (avalada por múltiples estudios clínicos, incluyendo el ensayo PREDIMED con +7.000 participantes).
 Principios obligatorios:
@@ -456,9 +465,15 @@ Principios obligatorios:
   const prompt = `
 Genera un plan de alimentación COMPLETO de 7 días (Lunes a Domingo) para un usuario con el siguiente perfil:
 - Objetivo: ${params.goal || 'mantenimiento saludable'}
+- Edad: ${params.age ?? 'no indicada'}
+- Sexo: ${params.sex === 'female' ? 'mujer' : params.sex === 'male' ? 'hombre' : 'no indicado'}
+- Peso actual: ${params.weightKg ?? 'no indicado'} kg
+- Peso objetivo: ${params.targetWeightKg ?? 'no indicado'} kg
+- Dias de entrenamiento por semana: ${params.trainingDaysPerWeek ?? 'no indicados'}
 
 Peticiones Específicas del Usuario:
 ${constraints.length > 0 ? constraints.join('\n') : '- Sin restricciones especiales'}
+${ageAwareGuidance ? `\nAjustes obligatorios para este perfil:\n${ageAwareGuidance}` : ''}
 
 Devuelve un objeto JSON con un array 'days' que contenga EXACTAMENTE 7 días:
 Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo.

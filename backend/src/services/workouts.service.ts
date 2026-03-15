@@ -5,6 +5,7 @@ import type {
   GenerateWorkoutInput,
 } from "../utils/validators";
 import { env } from "../config/env";
+import { buildWorkoutPersonalizationGuidance } from "./forty-plus-guidance";
 
 /**
  * Obtener todos los entrenamientos de un usuario
@@ -143,6 +144,11 @@ export async function generateWorkout(
   userId: string,
   params: GenerateWorkoutInput,
 ) {
+  const ageAwareGuidance = buildWorkoutPersonalizationGuidance(
+    params.age,
+    params.sex ?? null,
+  );
+
   // Obtener ejercicios según los parámetros
   const where: any = {
     difficulty: params.difficulty,
@@ -180,6 +186,10 @@ export async function generateWorkout(
 - Entorno: ${params.trainingEnvironment}
 - Músculos objetivo: ${params.targetMuscles?.join(", ") || "todos"}
 - Equipo disponible: ${params.equipment?.join(", ") || "cualquiera"}
+- Edad del usuario: ${params.age ?? "no indicada"}
+- Sexo del usuario: ${params.sex === "female" ? "mujer" : params.sex === "male" ? "hombre" : "no indicado"}
+
+${ageAwareGuidance ? `Reglas de personalizacion para este perfil:\n${ageAwareGuidance}\n` : ""}
 
 Ejercicios disponibles:
 ${availableExercises.map((e, i) => `${i + 1}. ${e.name} (ID: ${e.id}, ${e.muscleGroup}, ${e.equipment})`).join("\n")}
@@ -219,7 +229,7 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
   // Generación básica sin IA
   const selectedExercises = availableExercises
     .sort(() => Math.random() - 0.5)
-    .slice(0, Math.min(6, availableExercises.length));
+    .slice(0, Math.min(params.age && params.age >= 40 ? 5 : 6, availableExercises.length));
 
   const workoutData: CreateWorkoutInput = {
     name: `Entrenamiento de ${params.workoutType} - ${params.difficulty}`,
@@ -237,7 +247,7 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
           : params.difficulty === "intermediate"
             ? 12
             : 15,
-      rest: 60,
+      rest: params.age && params.age >= 40 ? 75 : 60,
       order: index,
     })),
   };

@@ -19,6 +19,8 @@ interface GenerateWorkoutParams {
   trainingEnvironment: 'gym' | 'home' | 'outdoor';
   targetMuscles?: string[];
   equipment?: string[];
+  age?: number;
+  sex?: 'male' | 'female';
 }
 
 /**

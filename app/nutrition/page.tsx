@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress"
 import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { useMealPlans, useNutritionSummary, useNutritionLogs } from "@/hooks/use-nutrition"
+import { useAuth } from "@/lib/contexts/auth-context"
 import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed, Clock3, TimerReset } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 
@@ -35,6 +36,7 @@ function formatLocalTime(value?: string | null, locale = "es-ES") {
 
 function NutritionPageContent() {
   const router = useRouter()
+  const { profile } = useAuth()
   const { language } = useLanguage()
   const t = language === 'es'
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
@@ -68,7 +70,12 @@ function NutritionPageContent() {
       await generateMealPlan({
         goal: generateParams.goal || undefined,
         difficulty: generateParams.difficulty || undefined,
-        dietType: (generateParams.dietType || undefined) as any,
+        dietType: generateParams.dietType || undefined,
+        age: profile.age ?? undefined,
+        sex: profile.sex ?? undefined,
+        weightKg: profile.weightKg ?? undefined,
+        targetWeightKg: profile.targetWeightKg ?? undefined,
+        trainingDaysPerWeek: profile.trainingDaysPerWeek ?? undefined,
       })
       setGenerateOpen(false)
     } catch (err) {
@@ -137,6 +144,13 @@ function NutritionPageContent() {
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
+                {profile.age && profile.age >= 40 ? (
+                  <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300">
+                    {t
+                      ? `El plan tendrá en cuenta criterios 40+: proteína suficiente, saciedad, recuperación y ajustes por sexo${profile.sex ? ` para ${profile.sex === "female" ? "mujer" : "hombre"}` : ""}.`
+                      : `The plan will use 40+ rules: sufficient protein, satiety, recovery and sex-specific adjustments${profile.sex ? ` for a ${profile.sex === "female" ? "female" : "male"} profile` : ""}.`}
+                  </div>
+                ) : null}
                 <div>
                   <Label>{t ? 'Tipo de comida' : 'Meal type'}</Label>
                   <Select value={logData.mealType} onValueChange={(v) => setLogData(d => ({ ...d, mealType: v as any }))}>

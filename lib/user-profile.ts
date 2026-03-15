@@ -9,8 +9,11 @@ export interface RecommendedWorkoutPlan {
   weeklySplit: string[]
 }
 
+export type ProfileSex = "male" | "female"
+
 export interface UserProfile {
   avatarDataUrl?: string | null
+  sex?: ProfileSex | null
   age?: number | null
   heightCm?: number | null
   weightKg?: number | null
@@ -22,6 +25,7 @@ export interface UserProfile {
 
 const DEFAULT_PROFILE: UserProfile = {
   avatarDataUrl: null,
+  sex: null,
   age: null,
   heightCm: null,
   weightKg: null,
@@ -77,10 +81,13 @@ export function mergeUserProfile(profile?: Partial<UserProfile> | null): UserPro
 }
 
 export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPlan | null {
+  const age = profile.age ?? null
+  const sex = profile.sex ?? null
   const targetWeightKg = profile.targetWeightKg ?? null
   const weightKg = profile.weightKg ?? null
   const trainingDaysPerWeek = profile.trainingDaysPerWeek ?? null
   const timeframeWeeks = profile.timeframeWeeks ?? null
+  const isFortyPlus = typeof age === "number" && age >= 40
 
   if (!weightKg || !targetWeightKg || !trainingDaysPerWeek || !timeframeWeeks) {
     return null
@@ -90,57 +97,109 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
   const wantsToLoseWeight = delta < 0
   const wantsToGainWeight = delta > 0
 
-  const workoutType = wantsToLoseWeight
-    ? (trainingDaysPerWeek >= 4 ? "hiit" : "cardio")
-    : wantsToGainWeight
+  const workoutType = isFortyPlus
+    ? wantsToLoseWeight
       ? "strength"
-      : "full_body"
+      : wantsToGainWeight
+        ? "strength"
+        : "full_body"
+    : wantsToLoseWeight
+      ? (trainingDaysPerWeek >= 4 ? "hiit" : "cardio")
+      : wantsToGainWeight
+        ? "strength"
+        : "full_body"
 
   const difficulty =
     trainingDaysPerWeek <= 2
       ? "beginner"
       : trainingDaysPerWeek <= 4
         ? "intermediate"
-        : "advanced"
+        : isFortyPlus
+          ? "intermediate"
+          : "advanced"
 
-  const duration = trainingDaysPerWeek <= 2 ? 35 : trainingDaysPerWeek <= 4 ? 45 : 60
+  const duration = isFortyPlus
+    ? trainingDaysPerWeek <= 2
+      ? 30
+      : trainingDaysPerWeek <= 4
+        ? 40
+        : 50
+    : trainingDaysPerWeek <= 2
+      ? 35
+      : trainingDaysPerWeek <= 4
+        ? 45
+        : 60
 
   const targetMuscles =
-    wantsToLoseWeight
+    isFortyPlus && sex === "female"
+      ? ["legs", "glutes", "back", "core"]
+      : isFortyPlus && sex === "male"
+        ? ["legs", "back", "core", "chest"]
+        : wantsToLoseWeight
       ? ["legs", "core", "glutes"]
       : wantsToGainWeight
         ? ["chest", "back", "shoulders", "legs"]
         : ["legs", "back", "core"]
 
-  const weeklySplit = wantsToLoseWeight
-    ? [
-        "Dia 1: Piernas + core + cardio suave",
-        "Dia 2: Full body metabolico",
-        "Dia 3: Cardio interválico + movilidad",
-        "Dia 4: Fuerza global + core",
-        "Dia 5: Caminata larga o cardio moderado",
-      ]
-    : wantsToGainWeight
+  const weeklySplit = isFortyPlus
+    ? sex === "female"
       ? [
-          "Dia 1: Pecho + hombro + triceps",
-          "Dia 2: Espalda + biceps",
-          "Dia 3: Piernas + gluteos",
-          "Dia 4: Full body tecnico",
-          "Dia 5: Accesorios + core",
+          "Dia 1: Fuerza tren inferior + core",
+          "Dia 2: Tren superior + movilidad",
+          "Dia 3: Cardio moderado + caminata activa",
+          "Dia 4: Fuerza global + estabilidad",
+          "Dia 5: Movilidad + cardio suave",
         ]
-      : [
-          "Dia 1: Full body",
-          "Dia 2: Tren inferior + core",
-          "Dia 3: Tren superior",
-          "Dia 4: Cardio + movilidad",
+      : sex === "male"
+        ? [
+            "Dia 1: Fuerza full body + core",
+            "Dia 2: Cardio moderado + movilidad",
+            "Dia 3: Piernas + espalda",
+            "Dia 4: Empujes, tracciones y core",
+            "Dia 5: Caminata larga o cardio suave",
+          ]
+        : [
+            "Dia 1: Fuerza global",
+            "Dia 2: Cardio moderado + movilidad",
+            "Dia 3: Tren inferior + core",
+            "Dia 4: Tren superior + estabilidad",
+            "Dia 5: Caminata larga o movilidad",
+          ]
+    : wantsToLoseWeight
+      ? [
+          "Dia 1: Piernas + core + cardio suave",
+          "Dia 2: Full body metabolico",
+          "Dia 3: Cardio interválico + movilidad",
+          "Dia 4: Fuerza global + core",
+          "Dia 5: Caminata larga o cardio moderado",
         ]
+      : wantsToGainWeight
+        ? [
+            "Dia 1: Pecho + hombro + triceps",
+            "Dia 2: Espalda + biceps",
+            "Dia 3: Piernas + gluteos",
+            "Dia 4: Full body tecnico",
+            "Dia 5: Accesorios + core",
+          ]
+        : [
+            "Dia 1: Full body",
+            "Dia 2: Tren inferior + core",
+            "Dia 3: Tren superior",
+            "Dia 4: Cardio + movilidad",
+          ]
 
   const daysToUse = Math.max(1, Math.min(trainingDaysPerWeek, weeklySplit.length))
-  const weeklySummary = wantsToLoseWeight
-    ? `Objetivo de bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
-    : wantsToGainWeight
-      ? `Objetivo de subir ${delta} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
-      : `Objetivo de recomposición corporal y mantenimiento durante ${timeframeWeeks} semanas.`
+  const weeklySummary = isFortyPlus
+    ? wantsToLoseWeight
+      ? `Plan 40+ para bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas, priorizando fuerza, proteina y recuperacion con ${trainingDaysPerWeek} dias de entreno.`
+      : wantsToGainWeight
+        ? `Plan 40+ para subir ${delta} kg con foco en masa muscular, fuerza y recuperacion durante ${timeframeWeeks} semanas.`
+        : `Plan 40+ de recomposicion corporal con fuerza, movilidad y constancia durante ${timeframeWeeks} semanas.`
+    : wantsToLoseWeight
+      ? `Objetivo de bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
+      : wantsToGainWeight
+        ? `Objetivo de subir ${delta} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
+        : `Objetivo de recomposición corporal y mantenimiento durante ${timeframeWeeks} semanas.`
 
   return {
     title: wantsToLoseWeight ? "Plan de definición" : wantsToGainWeight ? "Plan de ganancia muscular" : "Plan de recomposición",
@@ -149,7 +208,7 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
     duration,
     difficulty,
     targetMuscles,
-    equipment: ["bodyweight", "dumbbells"],
+    equipment: ["bodyweight", "dumbbells", "resistance_bands"],
     weeklySplit: weeklySplit.slice(0, daysToUse),
   }
 }

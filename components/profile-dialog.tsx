@@ -9,9 +9,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserAvatar } from "@/components/user-avatar"
 import { useAuth } from "@/lib/contexts/auth-context"
-import { buildRecommendedPlan, calculateBmi, interpretBmi } from "@/lib/user-profile"
+import { buildRecommendedPlan, calculateBmi, interpretBmi, type ProfileSex } from "@/lib/user-profile"
 
 interface ProfileDialogProps {
   children: ReactNode
@@ -30,6 +31,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
   const { user, profile, updateProfile } = useAuth()
   const [open, setOpen] = useState(false)
   const [form, setForm] = useState({
+    sex: profile.sex ?? "",
     age: profile.age?.toString() ?? "",
     heightCm: profile.heightCm?.toString() ?? "",
     weightKg: profile.weightKg?.toString() ?? "",
@@ -42,6 +44,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
   useEffect(() => {
     if (open) {
       setForm({
+        sex: profile.sex ?? "",
         age: profile.age?.toString() ?? "",
         heightCm: profile.heightCm?.toString() ?? "",
         weightKg: profile.weightKg?.toString() ?? "",
@@ -58,6 +61,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
   const recommendedPlan = useMemo(
     () =>
       buildRecommendedPlan({
+        sex: (form.sex || null) as ProfileSex | null,
         age: toNumber(form.age),
         heightCm: toNumber(form.heightCm),
         weightKg: toNumber(form.weightKg),
@@ -85,6 +89,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
 
   const handleSave = () => {
     updateProfile({
+      sex: (form.sex || null) as ProfileSex | null,
       age: toNumber(form.age),
       heightCm: toNumber(form.heightCm),
       weightKg: toNumber(form.weightKg),
@@ -223,7 +228,24 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     Perfil inicial
                   </Badge>
                 </div>
-                <div className="grid gap-1 md:grid-cols-3">
+                <div className="grid gap-1 lg:grid-cols-4">
+                  <div className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-2 dark:border-slate-800/80 dark:bg-slate-900/75">
+                    <Label htmlFor="profile-sex" className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                      Sexo
+                    </Label>
+                    <Select value={form.sex || undefined} onValueChange={(value) => setForm((current) => ({ ...current, sex: value as "" | ProfileSex }))}>
+                      <SelectTrigger
+                        id="profile-sex"
+                        className="mt-1 h-8 border-0 bg-transparent px-0 text-left text-[0.95rem] font-semibold tracking-tight text-slate-900 shadow-none focus:ring-0 focus:ring-offset-0 dark:text-white"
+                      >
+                        <SelectValue placeholder="Selecciona" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Hombre</SelectItem>
+                        <SelectItem value="female">Mujer</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   {primaryMetrics.map((field) => (
                     <div key={field.id} className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-2 dark:border-slate-800/80 dark:bg-slate-900/75">
                       <Label htmlFor={field.id} className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">

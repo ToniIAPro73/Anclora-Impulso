@@ -77,6 +77,8 @@ export const generateWorkoutSchema = z.object({
   trainingEnvironment: z.enum(['gym', 'home', 'outdoor']),
   targetMuscles: z.array(z.string()).optional(),
   equipment: z.array(z.string()).optional(),
+  age: z.number().int().min(14).max(100).optional(),
+  sex: z.enum(['male', 'female']).optional(),
 });
 
 // Validador para generación de planes de comida
@@ -87,6 +89,11 @@ export const generateMealPlanSchema = z.object({
   maxIngredients: z.number().int().min(1).max(20).optional(),
   includeIngredients: z.array(z.string()).optional(),
   dietaryRestrictions: z.array(z.string()).optional(),
+  age: z.number().int().min(14).max(100).optional(),
+  sex: z.enum(['male', 'female']).optional(),
+  weightKg: z.number().positive().max(400).optional(),
+  targetWeightKg: z.number().positive().max(400).optional(),
+  trainingDaysPerWeek: z.number().int().min(1).max(7).optional(),
 });
 
 // Validador para logs de nutrición

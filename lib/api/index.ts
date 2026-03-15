@@ -193,6 +193,8 @@ export const workoutsApi = {
     trainingEnvironment: 'gym' | 'home' | 'outdoor';
     targetMuscles?: string[];
     equipment?: string[];
+    age?: number;
+    sex?: 'male' | 'female';
   }): Promise<Workout> {
     return apiClient.post<Workout>('/workouts/generate', params);
   },
@@ -379,9 +381,15 @@ export const nutritionApi = {
   async generateMealPlan(params: {
     goal?: string;
     difficulty?: 'facil' | 'medio' | 'dificil';
+    dietType?: 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente';
     maxIngredients?: number;
     includeIngredients?: string[];
     dietaryRestrictions?: string[];
+    age?: number;
+    sex?: 'male' | 'female';
+    weightKg?: number;
+    targetWeightKg?: number;
+    trainingDaysPerWeek?: number;
   }): Promise<MealPlan> {
     return apiClient.post<MealPlan>('/nutrition/meal-plans/generate', params);
   },

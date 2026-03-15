@@ -88,6 +88,8 @@ export function WorkoutGenerator() {
         trainingEnvironment: preferences.trainingEnvironment,
         targetMuscles: preferences.targetMuscles.length > 0 ? preferences.targetMuscles : undefined,
         equipment: preferences.equipment.length > 0 ? preferences.equipment : undefined,
+        age: profile.age ?? undefined,
+        sex: profile.sex ?? undefined,
       })
 
       // Si se proporcionó un nombre personalizado, actualizarlo
@@ -133,6 +135,13 @@ export function WorkoutGenerator() {
                   {isSpanish ? "Propuesta cargada desde tu perfil" : "Proposal loaded from your profile"}
                 </p>
                 <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-300">{profile.recommendedPlan.summary}</p>
+              </div>
+            ) : null}
+            {profile.age && profile.age >= 40 ? (
+              <div className="rounded-2xl border border-orange-200/70 bg-orange-50/80 p-4 text-sm text-orange-800 dark:border-orange-500/20 dark:bg-orange-500/10 dark:text-orange-200">
+                {isSpanish
+                  ? `Este entrenamiento se ajustará con criterios 40+: más prioridad a fuerza, movilidad, recuperación y composición corporal${profile.sex ? ` para ${profile.sex === "female" ? "mujer" : "hombre"}` : ""}.`
+                  : `This workout will use 40+ rules: more emphasis on strength, mobility, recovery and body composition${profile.sex ? ` for a ${profile.sex === "female" ? "female" : "male"} profile` : ""}.`}
               </div>
             ) : null}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
