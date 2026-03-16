@@ -3,6 +3,8 @@
  * Más de 100 ejercicios categorizados y detallados
  */
 
+import { expandedHomeOutdoorExercises } from './expanded-home-outdoor-exercises';
+
 export interface ExerciseData {
   name: string;
   category: string;
@@ -2718,6 +2720,7 @@ const homeExercisesDatabase: ExerciseData[] = [
 export const completeExercisesDatabase: ExerciseData[] = [
   ...baseExercisesDatabase,
   ...homeExercisesDatabase,
+  ...expandedHomeOutdoorExercises,
 ];
 
 // Función helper para obtener ejercicios por categoría

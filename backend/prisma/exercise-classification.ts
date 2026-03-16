@@ -85,26 +85,6 @@ export function mapDifficulty(difficulty: string) {
 }
 
 const homeFriendlyEquipment = new Set(['bodyweight', 'dumbbells', 'resistance_bands']);
-const outdoorFriendlyEquipment = new Set(['bodyweight', 'jump_rope', 'stairs', 'pull_up_bar']);
-
-const gymOnlyExerciseNames = new Set([
-  'bench press',
-  'dumbbell flyes',
-  'incline bench press',
-  'decline bench press',
-  'cable crossover',
-  'chest dips',
-  'pec deck machine',
-  'incline dumbbell press',
-  'decline dumbbell press',
-  'chest press machine',
-  'lat pulldown',
-  'seated cable row',
-  't-bar row',
-  'preacher curl',
-  'hyperextensions',
-  'rowing machine',
-]);
 
 const outdoorPriorityNames = new Set([
   'sprint intervals',
@@ -113,38 +93,45 @@ const outdoorPriorityNames = new Set([
   'pull-ups',
   'chin-ups',
   'hanging knee raises',
+  'high knees',
+  'battle ropes',
+  'brisk walk intervals',
+  'tempo brisk walk intervals',
+  'hill walk intervals',
+  'tempo hill walk intervals',
+  'stair climb intervals',
+  'tempo stair climb intervals',
+  'park bench sit-to-stand',
+  'tempo park bench sit-to-stand',
+  'park bench incline push-ups',
+  'tempo park bench incline push-ups',
+  'outdoor resistance band row',
+  'tempo outdoor resistance band row',
+  'outdoor resistance band chest press',
+  'tempo outdoor resistance band chest press',
+  'outdoor pallof press walkout',
+  'tempo outdoor pallof press walkout',
+  'marching high knees walk',
+  'tempo marching high knees walk',
+  'low impact skater step',
+  'tempo low impact skater step',
+  'outdoor farmer carry march',
+  'tempo outdoor farmer carry march',
 ]);
 
 function deriveTrainingEnvironments(exercise: ExerciseData): TrainingEnvironment[] {
   const mappedEquipment = mapEquipment(exercise.equipment);
   const normalizedName = normalizeToken(exercise.name);
-  const environments = new Set<TrainingEnvironment>();
+
+  if (outdoorPriorityNames.has(normalizedName) || ['jump_rope', 'stairs', 'pull_up_bar'].includes(mappedEquipment)) {
+    return ['outdoor'];
+  }
 
   if (homeFriendlyEquipment.has(mappedEquipment)) {
-    environments.add('home');
+    return ['home'];
   }
 
-  if (mappedEquipment === 'bodyweight') {
-    environments.add('outdoor');
-  }
-
-  if (outdoorFriendlyEquipment.has(mappedEquipment) || outdoorPriorityNames.has(normalizedName)) {
-    environments.add('outdoor');
-  }
-
-  if (
-    environments.size === 0 ||
-    gymOnlyExerciseNames.has(normalizedName) ||
-    ['barbell', 'cables', 'machine', 'landmine', 't_bar', 'smith_bar', 'dip_bars', 'hyperextension_bench', 'incline_bench', 'bench', 'weight_plate', 'plyo_box', 'preacher_bench', 'rowing_machine', 'assault_bike'].includes(mappedEquipment)
-  ) {
-    environments.add('gym');
-  }
-
-  if (mappedEquipment === 'dumbbells' || mappedEquipment === 'resistance_bands') {
-    environments.add('gym');
-  }
-
-  return Array.from(environments);
+  return ['gym'];
 }
 
 export function normalizeExerciseSeed(exercise: ExerciseData): NormalizedExerciseSeed {
