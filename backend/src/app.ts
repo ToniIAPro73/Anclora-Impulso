@@ -78,7 +78,8 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Servir archivos estáticos (dashboard)
+// Servir archivos estáticos
+app.use('/exercises', express.static('public/exercises'));
 app.use('/dashboard', express.static('public'));
 
 // Logging middleware

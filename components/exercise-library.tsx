@@ -19,6 +19,24 @@ import { ExerciseIllustration } from "@/components/exercise-illustration"
 import { useExercises } from "@/hooks/use-exercises"
 import { useLanguage } from "@/lib/contexts/language-context"
 
+function resolveExerciseImageUrl(imageUrl?: string | null) {
+  if (!imageUrl) {
+    return null
+  }
+
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    return imageUrl
+  }
+
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  if (!apiUrl) {
+    return imageUrl
+  }
+
+  const assetBase = apiUrl.replace(/\/api\/?$/, "")
+  return `${assetBase}${imageUrl.startsWith("/") ? imageUrl : `/${imageUrl}`}`
+}
+
 export function ExerciseLibrary() {
   const { language } = useLanguage()
   const isSpanish = language === "es"
@@ -83,6 +101,27 @@ export function ExerciseLibrary() {
       default:
         return "⚡"
     }
+  }
+
+  const renderExerciseMedia = (exercise: { name: string; imageUrl?: string | null }, compact = false) => {
+    const resolvedImageUrl = resolveExerciseImageUrl(exercise.imageUrl)
+
+    if (resolvedImageUrl) {
+      return (
+        <div
+          className={`overflow-hidden rounded-[24px] border border-orange-100/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_48%),linear-gradient(145deg,_rgba(255,247,237,0.95),_rgba(255,255,255,0.9))] shadow-inner dark:border-orange-500/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.18),_transparent_46%),linear-gradient(145deg,_rgba(15,23,42,0.92),_rgba(2,6,23,0.92))] ${compact ? "h-48" : "h-72"} ${compact ? "mb-4" : "mb-6"}`}
+        >
+          <img
+            src={resolvedImageUrl}
+            alt={exercise.name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+
+    return <ExerciseIllustration name={exercise.name} compact={compact} className={compact ? "mb-4" : "mb-6"} />
   }
 
   // Mostrar loading
@@ -217,7 +256,7 @@ export function ExerciseLibrary() {
             <DialogTrigger asChild>
                 <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-xl transition-all duration-200 cursor-pointer group">
                 <CardHeader className="pb-3">
-                  <ExerciseIllustration name={exercise.name} compact className="mb-4" />
+                  {renderExerciseMedia(exercise, true)}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{getCategoryIcon(exercise.category)}</span>
@@ -256,7 +295,7 @@ export function ExerciseLibrary() {
             </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <ExerciseIllustration name={exercise.name} className="mb-6" />
+                {renderExerciseMedia(exercise)}
                 <div className="flex items-center gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
                   <div>

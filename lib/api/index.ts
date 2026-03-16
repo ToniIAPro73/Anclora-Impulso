@@ -12,6 +12,8 @@ export interface Exercise {
   difficulty: string;
   description: string;
   instructions: string[];
+  imageUrl?: string | null;
+  videoUrl?: string | null;
   createdAt: string;
   updatedAt: string;
 }
