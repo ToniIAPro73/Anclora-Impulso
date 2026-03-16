@@ -56,7 +56,11 @@ function isAllowedOrigin(origin: string) {
 app.set('trust proxy', 1);
 
 // Middleware de seguridad
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 
 // CORS
 app.use(
@@ -79,7 +83,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Servir archivos estáticos
-app.use('/exercises', express.static('public/exercises'));
+app.use(
+  '/exercises',
+  express.static('public/exercises', {
+    setHeaders(res) {
+      res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    },
+  })
+);
 app.use('/dashboard', express.static('public'));
 
 // Logging middleware
