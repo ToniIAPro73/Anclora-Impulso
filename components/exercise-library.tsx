@@ -108,12 +108,12 @@ export function ExerciseLibrary() {
     if (resolvedImageUrl) {
       return (
         <div
-          className={`overflow-hidden rounded-[24px] border border-orange-100/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_48%),linear-gradient(145deg,_rgba(255,247,237,0.95),_rgba(255,255,255,0.9))] shadow-inner dark:border-orange-500/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.18),_transparent_46%),linear-gradient(145deg,_rgba(15,23,42,0.92),_rgba(2,6,23,0.92))] ${compact ? "h-48" : "h-72"} ${compact ? "mb-4" : "mb-6"}`}
+          className={`flex items-center justify-center overflow-hidden rounded-[24px] border border-orange-100/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_48%),linear-gradient(145deg,_rgba(255,247,237,0.95),_rgba(255,255,255,0.9))] shadow-inner dark:border-orange-500/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.18),_transparent_46%),linear-gradient(145deg,_rgba(15,23,42,0.92),_rgba(2,6,23,0.92))] ${compact ? "h-48 p-3" : "h-72 p-4" } ${compact ? "mb-4" : "mb-6"}`}
         >
           <img
             src={resolvedImageUrl}
             alt={exercise.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain object-center"
             loading="lazy"
           />
         </div>
