@@ -1,0 +1,26 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Refactorizaci\u00f3n de nombres de im\u00e1genes a formato legible",
+      "status": "COMPLETED",
+      "assigned_to": "Especialista_Organizacion",
+      "details": "Renombrando image.png a [nombre_ejercicio].png y creando carpetas faltantes."
+    },
+    {
+      "id": 2,
+      "title": "Generaci\u00f3n batch de 99 im\u00e1genes restantes",
+      "status": "RUNNING",
+      "assigned_to": "Especialista_ImageGen",
+      "provider": "together_ai"
+    },
+    {
+      "id": 3,
+      "title": "Generaci\u00f3n batch de 99 im\u00e1genes restantes",
+      "status": "RUNNING",
+      "assigned_to": "Especialista_ImageGen",
+      "provider": "together_ai"
+    }
+  ],
+  "members": []
+}
