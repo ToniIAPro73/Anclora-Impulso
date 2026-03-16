@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { profileApi } from "@/lib/api"
 import { authApi, type User } from "@/lib/api/auth"
 import {
   buildRecommendedPlan,
@@ -14,34 +15,85 @@ interface AuthContextType {
   profile: UserProfile
   login: (email: string, password: string) => Promise<void>
   signup: (email: string, password: string, fullName: string) => Promise<void>
-  updateProfile: (nextProfile: Partial<UserProfile>) => void
+  updateProfile: (nextProfile: Partial<UserProfile>) => Promise<void>
   logout: () => void
   isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+function normalizeProfile(source?: Partial<UserProfile> | null) {
+  const mergedProfile = mergeUserProfile(source)
+  mergedProfile.recommendedPlan = buildRecommendedPlan(mergedProfile)
+  return mergedProfile
+}
+
+function hasPersistedProfileData(source?: Partial<UserProfile> | null) {
+  if (!source) {
+    return false
+  }
+
+  const { recommendedPlan: _recommendedPlan, ...persistedFields } = source
+  return Object.values(persistedFields).some((value) => value !== null && value !== undefined && value !== "")
+}
+
+function readLegacyProfile(userId: string) {
+  if (typeof window === "undefined") {
+    return null
+  }
+
+  const stored = window.localStorage.getItem(getProfileStorageKey(userId))
+  if (!stored) {
+    return null
+  }
+
+  try {
+    return mergeUserProfile(JSON.parse(stored))
+  } catch {
+    return null
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile>(mergeUserProfile())
   const [isLoading, setIsLoading] = useState(true)
 
-  const loadProfile = (nextUser: User | null) => {
-    if (typeof window === "undefined" || !nextUser) {
+  const loadProfile = async (nextUser: User | null) => {
+    if (!nextUser) {
       setProfile(mergeUserProfile())
       return
     }
 
-    const stored = window.localStorage.getItem(getProfileStorageKey(nextUser.id))
-    const mergedProfile = mergeUserProfile(stored ? JSON.parse(stored) : null)
-    mergedProfile.recommendedPlan = buildRecommendedPlan(mergedProfile)
-    setProfile(mergedProfile)
+    const remoteProfile = await profileApi.get()
+    const legacyProfile = readLegacyProfile(nextUser.id)
+
+    if (!hasPersistedProfileData(remoteProfile) && hasPersistedProfileData(legacyProfile)) {
+      const migratedProfile = await profileApi.update({
+        avatarDataUrl: legacyProfile?.avatarDataUrl ?? null,
+        sex: legacyProfile?.sex ?? null,
+        age: legacyProfile?.age ?? null,
+        heightCm: legacyProfile?.heightCm ?? null,
+        weightKg: legacyProfile?.weightKg ?? null,
+        targetWeightKg: legacyProfile?.targetWeightKg ?? null,
+        timeframeWeeks: legacyProfile?.timeframeWeeks ?? null,
+        trainingDaysPerWeek: legacyProfile?.trainingDaysPerWeek ?? null,
+      })
+
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem(getProfileStorageKey(nextUser.id))
+      }
+
+      setProfile(normalizeProfile(migratedProfile))
+      return
+    }
+
+    setProfile(normalizeProfile(remoteProfile))
   }
 
   useEffect(() => {
-    // Verificar si hay una sesión activa
     const checkSession = async () => {
-      const token = localStorage.getItem('accessToken')
+      const token = localStorage.getItem("accessToken")
       if (!token) {
         setIsLoading(false)
         return
@@ -50,10 +102,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const currentUser = await authApi.getCurrentUser()
         setUser(currentUser)
-        loadProfile(currentUser)
+        await loadProfile(currentUser)
       } catch (error) {
-        console.error('Error al verificar sesión:', error)
-        // Si el token es inválido, limpiar
+        console.error("Error al verificar sesión:", error)
         authApi.logout()
         setProfile(mergeUserProfile())
       } finally {
@@ -66,39 +117,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const response = await authApi.login({ email, password })
-    
-    // Guardar refresh token
-    localStorage.setItem('refreshToken', response.refreshToken)
-    
+
+    localStorage.setItem("refreshToken", response.refreshToken)
     setUser(response.user)
-    loadProfile(response.user)
+    await loadProfile(response.user)
   }
 
   const signup = async (email: string, password: string, fullName: string) => {
     const response = await authApi.register({ email, password, fullName })
-    
-    // Guardar refresh token
-    localStorage.setItem('refreshToken', response.refreshToken)
-    
+
+    localStorage.setItem("refreshToken", response.refreshToken)
     setUser(response.user)
-    loadProfile(response.user)
+    await loadProfile(response.user)
   }
 
-  const updateProfile = (nextProfile: Partial<UserProfile>) => {
-    setProfile((currentProfile) => {
-      const mergedProfile = mergeUserProfile({
-        ...currentProfile,
-        ...nextProfile,
-      })
+  const updateProfile = async (nextProfile: Partial<UserProfile>) => {
+    const { recommendedPlan: _recommendedPlan, ...persistedFields } = nextProfile
 
-      mergedProfile.recommendedPlan = buildRecommendedPlan(mergedProfile)
+    if (!user) {
+      setProfile((currentProfile) => normalizeProfile({ ...currentProfile, ...persistedFields }))
+      return
+    }
 
-      if (typeof window !== "undefined" && user) {
-        window.localStorage.setItem(getProfileStorageKey(user.id), JSON.stringify(mergedProfile))
-      }
+    const updatedProfile = await profileApi.update(persistedFields)
+    setProfile(normalizeProfile(updatedProfile))
 
-      return mergedProfile
-    })
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(getProfileStorageKey(user.id))
+    }
   }
 
   const logout = () => {

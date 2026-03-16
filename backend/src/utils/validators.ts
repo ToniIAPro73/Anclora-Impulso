@@ -12,6 +12,17 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'La contraseña es requerida'),
 });
 
+export const updateProfileSchema = z.object({
+  avatarDataUrl: z.string().max(2_000_000).nullable().optional(),
+  sex: z.enum(['male', 'female']).nullable().optional(),
+  age: z.number().int().min(14).max(100).nullable().optional(),
+  heightCm: z.number().positive().max(300).nullable().optional(),
+  weightKg: z.number().positive().max(400).nullable().optional(),
+  targetWeightKg: z.number().positive().max(400).nullable().optional(),
+  timeframeWeeks: z.number().int().min(1).max(260).nullable().optional(),
+  trainingDaysPerWeek: z.number().int().min(1).max(7).nullable().optional(),
+});
+
 // Validadores de entrenamientos
 export const createWorkoutSchema = z.object({
   name: z.string().min(1, 'El nombre es requerido'),
@@ -112,6 +123,7 @@ export const createNutritionLogSchema = z.object({
 
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type CreateWorkoutInput = z.infer<typeof createWorkoutSchema>;
 export type CreateSessionInput = z.infer<typeof createSessionSchema>;
 export type CreateMeasurementInput = z.infer<typeof createMeasurementSchema>;

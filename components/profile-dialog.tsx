@@ -30,6 +30,7 @@ function toNumber(value: string) {
 export function ProfileDialog({ children }: ProfileDialogProps) {
   const { user, profile, updateProfile } = useAuth()
   const [open, setOpen] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [form, setForm] = useState({
     sex: profile.sex ?? "",
     age: profile.age?.toString() ?? "",
@@ -87,19 +88,25 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
     setForm((current) => ({ ...current, avatarDataUrl: dataUrl }))
   }
 
-  const handleSave = () => {
-    updateProfile({
-      sex: (form.sex || null) as ProfileSex | null,
-      age: toNumber(form.age),
-      heightCm: toNumber(form.heightCm),
-      weightKg: toNumber(form.weightKg),
-      targetWeightKg: toNumber(form.targetWeightKg),
-      timeframeWeeks: toNumber(form.timeframeWeeks),
-      trainingDaysPerWeek: toNumber(form.trainingDaysPerWeek),
-      avatarDataUrl: form.avatarDataUrl || null,
-      recommendedPlan,
-    })
-    setOpen(false)
+  const handleSave = async () => {
+    setIsSaving(true)
+
+    try {
+      await updateProfile({
+        sex: (form.sex || null) as ProfileSex | null,
+        age: toNumber(form.age),
+        heightCm: toNumber(form.heightCm),
+        weightKg: toNumber(form.weightKg),
+        targetWeightKg: toNumber(form.targetWeightKg),
+        timeframeWeeks: toNumber(form.timeframeWeeks),
+        trainingDaysPerWeek: toNumber(form.trainingDaysPerWeek),
+        avatarDataUrl: form.avatarDataUrl || null,
+        recommendedPlan,
+      })
+      setOpen(false)
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const primaryMetrics = [
@@ -367,8 +374,12 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => setOpen(false)}>
                       Cancelar
                     </Button>
-                    <Button className="h-6.5 flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 px-2 text-[10px] hover:from-orange-600 hover:to-rose-600" onClick={handleSave}>
-                      Guardar
+                    <Button
+                      className="h-6.5 flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 px-2 text-[10px] hover:from-orange-600 hover:to-rose-600"
+                      onClick={handleSave}
+                      disabled={isSaving}
+                    >
+                      {isSaving ? "Guardando..." : "Guardar"}
                     </Button>
                   </div>
                 </div>

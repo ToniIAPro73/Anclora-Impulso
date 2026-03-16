@@ -1,3 +1,4 @@
+import type { UserProfile } from '@/lib/user-profile';
 import { apiClient } from './client';
 
 // ========== TYPES ==========
@@ -116,6 +117,8 @@ export interface CompleteProgress {
     frequency: Array<{ week: string; count: number }>;
   };
 }
+
+export type ProfilePayload = Omit<UserProfile, 'recommendedPlan'>;
 
 // ========== EXERCISES API ==========
 
@@ -299,6 +302,16 @@ export const progressApi = {
 
   async deleteMeasurement(id: string): Promise<void> {
     return apiClient.delete(`/progress/measurements/${id}`);
+  },
+};
+
+export const profileApi = {
+  async get(): Promise<ProfilePayload> {
+    return apiClient.get<ProfilePayload>('/profile');
+  },
+
+  async update(data: Partial<ProfilePayload>): Promise<ProfilePayload> {
+    return apiClient.put<ProfilePayload>('/profile', data);
   },
 };
 

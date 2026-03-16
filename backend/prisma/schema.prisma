@@ -15,6 +15,14 @@ model User {
   email        String   @unique
   passwordHash String
   fullName     String
+  avatarDataUrl String?
+  sex          String?
+  age          Int?
+  heightCm     Float?
+  weightKg     Float?
+  targetWeightKg Float?
+  timeframeWeeks Int?
+  trainingDaysPerWeek Int?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
