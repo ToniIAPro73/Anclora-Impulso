@@ -2292,6 +2292,426 @@ const homeExercisesDatabase: ExerciseData[] = [
       'Termina con brazos arriba y abdomen firme',
       'Baja controladamente al punto inicial'
     ]
+  },
+  {
+    name: 'Dumbbell Sit-to-Stand',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Sentarse y levantarse con carga ligera, ideal para fuerza funcional y autonomía diaria a partir de los 40.',
+    instructions: [
+      'Siéntate en el borde de una silla o banco estable con una mancuerna junto al pecho',
+      'Apoya bien los pies y mantén el torso alto',
+      'Inclina ligeramente el pecho al frente y ponte de pie empujando el suelo',
+      'Aprieta glúteos al final del movimiento',
+      'Desciende de forma lenta y controlada hasta volver a sentarte'
+    ]
+  },
+  {
+    name: 'Supported Split Squat',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Sentadilla dividida con apoyo externo para mejorar fuerza de piernas y equilibrio sin impacto.',
+    instructions: [
+      'Colócate en posición de zancada sujetándote a una pared o silla si lo necesitas',
+      'Mantén el pecho elevado y la pelvis estable',
+      'Baja en vertical hasta flexionar ambas rodillas con control',
+      'Empuja con la pierna adelantada para volver arriba',
+      'Completa todas las repeticiones y cambia de lado'
+    ]
+  },
+  {
+    name: 'Reverse Lunge to Chair Support',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Zancada atrás asistida con apoyo para ganar estabilidad y fuerza en piernas y cadera.',
+    instructions: [
+      'Colócate de pie junto a una silla o pared para ayudarte con una mano',
+      'Da un paso atrás con una pierna manteniendo el torso erguido',
+      'Baja hasta sentir carga estable en ambas piernas',
+      'Empuja el suelo con la pierna delantera para volver',
+      'Alterna repeticiones de forma suave y controlada'
+    ]
+  },
+  {
+    name: 'Supported Single-Leg Dumbbell Romanian Deadlift',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Bisagra unilateral con apoyo para glúteos, isquios y equilibrio, muy útil en trabajo preventivo 40+.',
+    instructions: [
+      'Sujeta una mancuerna con una mano y apóyate con la otra en una pared o silla',
+      'Carga el peso sobre una pierna con ligera flexión de rodilla',
+      'Lleva la cadera hacia atrás mientras inclinas el torso',
+      'Mantén la espalda neutra y siente tensión en glúteo e isquios',
+      'Vuelve a la posición inicial empujando la cadera al frente'
+    ]
+  },
+  {
+    name: 'Glute Bridge March',
+    category: 'Core',
+    muscleGroup: 'Glúteos',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Puente con marcha alterna para glúteos, core y control lumbo-pélvico.',
+    instructions: [
+      'Acuéstate sobre una colchoneta con rodillas flexionadas y pies apoyados',
+      'Eleva las caderas hasta formar una línea entre hombros y rodillas',
+      'Mantén la pelvis estable mientras levantas un pie unos centímetros',
+      'Apoya de nuevo y repite con la otra pierna',
+      'Mantén el abdomen activo durante toda la serie'
+    ]
+  },
+  {
+    name: 'Banded Clamshell',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Ejercicio suave y eficaz para glúteo medio y estabilidad de cadera.',
+    instructions: [
+      'Coloca una mini banda por encima de las rodillas',
+      'Túmbate de lado sobre una colchoneta con rodillas flexionadas',
+      'Mantén los pies juntos y abre la rodilla superior contra la banda',
+      'Evita girar la pelvis hacia atrás',
+      'Baja con control y repite antes de cambiar de lado'
+    ]
+  },
+  {
+    name: 'Banded Good Morning',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Bisagra de cadera de bajo impacto para cadena posterior, útil para aprender el patrón sin cargar la espalda.',
+    instructions: [
+      'Pisa la banda con ambos pies y coloca el otro extremo sobre hombros o trapecios',
+      'Desbloquea ligeramente las rodillas',
+      'Lleva la cadera hacia atrás manteniendo la espalda neutra',
+      'Desciende hasta sentir tensión en glúteos e isquios',
+      'Vuelve a subir empujando las caderas al frente'
+    ]
+  },
+  {
+    name: 'Seated Resistance Band Row',
+    category: 'Fuerza',
+    muscleGroup: 'Espalda',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Remo sentado con banda para mejorar postura y fuerza de espalda alta desde casa.',
+    instructions: [
+      'Siéntate en el suelo o colchoneta con piernas extendidas',
+      'Pasa la banda por la planta de los pies y sujeta los extremos',
+      'Mantén el pecho abierto y los hombros bajos',
+      'Tira de los codos hacia atrás acercando las manos al torso',
+      'Vuelve lentamente sin perder la postura'
+    ]
+  },
+  {
+    name: 'Resistance Band External Rotation',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Trabajo específico del manguito rotador para hombros más estables y sanos.',
+    instructions: [
+      'Sujeta una banda ligera con ambos codos pegados al cuerpo a 90 grados',
+      'Mantén las escápulas estables y el pecho abierto',
+      'Separa las manos girando externamente los hombros',
+      'Haz una pausa breve al final del recorrido',
+      'Regresa con control evitando balanceos'
+    ]
+  },
+  {
+    name: 'Face Pull to External Rotation',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Banda elástica',
+    difficulty: 'Intermedio',
+    description: 'Combina retracción escapular y rotación externa para postura y salud del hombro.',
+    instructions: [
+      'Ancla la banda a la altura de la cara y agarra con ambas manos',
+      'Tira hacia la cara separando las manos y abriendo los codos',
+      'Finaliza con antebrazos verticales y hombros lejos de las orejas',
+      'Mantén un segundo la contracción',
+      'Extiende de nuevo los brazos de forma controlada'
+    ]
+  },
+  {
+    name: 'Wall Push-ups',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Flexión en pared de muy bajo impacto, excelente para volver a entrenar tren superior con seguridad.',
+    instructions: [
+      'Colócate frente a una pared con manos a la altura del pecho',
+      'Separa los pies lo justo para inclinar el cuerpo',
+      'Dobla los codos y acerca el pecho a la pared',
+      'Empuja hasta volver a la posición inicial',
+      'Mantén abdomen y glúteos activos en todo momento'
+    ]
+  },
+  {
+    name: 'Incline Push-ups on Bench',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Flexión inclinada con apoyo elevado para trabajar pecho y brazos con menos carga que en el suelo.',
+    instructions: [
+      'Apoya las manos sobre un banco, sofá firme o superficie elevada',
+      'Camina con los pies hacia atrás hasta formar una línea recta',
+      'Baja el pecho controlando la posición del tronco',
+      'Empuja con las manos hasta extender los brazos',
+      'Evita que la zona lumbar se hunda'
+    ]
+  },
+  {
+    name: 'Bird Dog',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Ejercicio clásico de estabilidad para columna, core y coordinación cruzada.',
+    instructions: [
+      'Colócate en cuadrupedia sobre una colchoneta',
+      'Activa el abdomen sin redondear la espalda',
+      'Extiende a la vez un brazo y la pierna contraria',
+      'Haz una breve pausa manteniendo la pelvis quieta',
+      'Vuelve al centro y cambia de lado'
+    ]
+  },
+  {
+    name: 'Bird Dog Row',
+    category: 'Core',
+    muscleGroup: 'Espalda',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Remo en apoyo cuadrúpedo que combina estabilidad del core con fuerza de espalda.',
+    instructions: [
+      'Colócate a cuatro apoyos con una mancuerna junto a una mano',
+      'Apoya firmemente rodillas y mano contraria en la colchoneta',
+      'Agarra la mancuerna y tira del codo hacia la cadera',
+      'Evita girar el torso mientras remas',
+      'Baja con control y repite antes de cambiar de lado'
+    ]
+  },
+  {
+    name: 'Dead Bug Heel Taps',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Variante accesible del dead bug para reforzar el control lumbo-pélvico.',
+    instructions: [
+      'Acuéstate boca arriba en una colchoneta con piernas elevadas a 90 grados',
+      'Presiona suavemente la zona lumbar contra el suelo',
+      'Baja un talón hacia el suelo sin perder la posición del tronco',
+      'Vuelve al centro y alterna con la otra pierna',
+      'Respira despacio mientras mantienes el abdomen activo'
+    ]
+  },
+  {
+    name: 'Suitcase March',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Marcha unilateral con mancuerna para estabilidad del tronco, equilibrio y control postural.',
+    instructions: [
+      'Sujeta una mancuerna en una sola mano junto al cuerpo',
+      'Ponte erguido y evita inclinarte hacia el lado de la carga',
+      'Eleva una rodilla hasta la altura de la cadera',
+      'Baja con control y alterna las piernas',
+      'Mantén costillas abajo y pasos lentos durante toda la serie'
+    ]
+  },
+  {
+    name: 'Front Rack Dumbbell March',
+    category: 'Core',
+    muscleGroup: 'Full Body',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Marcha con mancuernas en rack frontal para estabilidad central, postura y resistencia local.',
+    instructions: [
+      'Sostén una o dos mancuernas a la altura de los hombros',
+      'Mantén el tronco alto y el abdomen firme',
+      'Marcha en el sitio elevando una rodilla cada vez',
+      'Controla que el cuerpo no se balancee',
+      'Continúa a ritmo estable durante el tiempo marcado'
+    ]
+  },
+  {
+    name: 'Half-Kneeling Single-Arm Dumbbell Press',
+    category: 'Fuerza',
+    muscleGroup: 'Hombros',
+    equipment: 'Mancuernas',
+    difficulty: 'Intermedio',
+    description: 'Press unilateral en media rodilla para hombro, core y estabilidad de cadera.',
+    instructions: [
+      'Colócate en media rodilla sobre una colchoneta con una mancuerna en el lado contrario a la pierna adelantada',
+      'Aprieta glúteo de la pierna atrasada y mantén el torso vertical',
+      'Empuja la mancuerna por encima de la cabeza',
+      'Baja con control hasta la posición inicial',
+      'Completa el lado antes de cambiar'
+    ]
+  },
+  {
+    name: 'Tall-Kneeling Band Press-Out',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Press anti-extensión en posición arrodillada para core, glúteos y postura.',
+    instructions: [
+      'Arrodíllate erguido sobre una colchoneta sosteniendo una banda anclada detrás',
+      'Lleva las manos al esternón y activa glúteos y abdomen',
+      'Extiende los brazos al frente sin arquear la espalda',
+      'Mantén una pausa breve con el tronco estable',
+      'Vuelve lentamente al pecho'
+    ]
+  },
+  {
+    name: 'Dumbbell Floor Press',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Press en el suelo amable con los hombros para ganar fuerza de pecho y tríceps desde casa.',
+    instructions: [
+      'Túmbate boca arriba sobre una colchoneta con una mancuerna en cada mano',
+      'Coloca los codos apoyados en el suelo con antebrazos verticales',
+      'Empuja las mancuernas hacia arriba hasta extender los brazos',
+      'Baja hasta tocar suavemente el suelo con los tríceps',
+      'Repite manteniendo muñecas neutras'
+    ]
+  },
+  {
+    name: 'Seated Band Chest Press',
+    category: 'Fuerza',
+    muscleGroup: 'Pecho',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Press sentado con banda para trabajar pecho y brazos con alta estabilidad.',
+    instructions: [
+      'Siéntate erguido y pasa la banda alrededor de la espalda alta',
+      'Sujeta un extremo en cada mano a la altura del pecho',
+      'Empuja las manos hacia adelante hasta extender los brazos',
+      'Mantén el pecho abierto sin elevar los hombros',
+      'Vuelve lentamente a la posición inicial'
+    ]
+  },
+  {
+    name: 'Side-Lying Leg Raises',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Peso corporal',
+    difficulty: 'Principiante',
+    description: 'Elevación lateral de pierna en colchoneta para glúteo medio y control de cadera.',
+    instructions: [
+      'Túmbate de lado con la cabeza apoyada y piernas alineadas',
+      'Activa el abdomen para no rodar hacia atrás',
+      'Eleva la pierna superior manteniendo la punta del pie ligeramente hacia abajo',
+      'Haz una breve pausa arriba',
+      'Baja con control y repite antes de cambiar de lado'
+    ]
+  },
+  {
+    name: 'Dumbbell Triceps Kickback',
+    category: 'Fuerza',
+    muscleGroup: 'Brazos',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Extensión de tríceps con mancuerna y bajo impacto para fortalecer brazos y estabilidad escapular.',
+    instructions: [
+      'Inclina el torso hacia adelante con una mancuerna en cada mano',
+      'Lleva los codos pegados al cuerpo y doblados a 90 grados',
+      'Extiende los codos hacia atrás sin mover los hombros',
+      'Aprieta los tríceps al final del recorrido',
+      'Regresa lentamente a la posición inicial'
+    ]
+  },
+  {
+    name: 'Seated Hammer Curl',
+    category: 'Fuerza',
+    muscleGroup: 'Brazos',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Curl martillo sentado para trabajar bíceps y antebrazo con mayor control postural.',
+    instructions: [
+      'Siéntate erguido con una mancuerna en cada mano y palmas enfrentadas',
+      'Mantén los codos cerca del torso',
+      'Flexiona los codos sin balancear el cuerpo',
+      'Haz una pausa arriba apretando los bíceps',
+      'Baja lentamente hasta extender de nuevo los brazos'
+    ]
+  },
+  {
+    name: 'Dumbbell Pullover on Floor',
+    category: 'Fuerza',
+    muscleGroup: 'Espalda',
+    equipment: 'Mancuernas',
+    difficulty: 'Principiante',
+    description: 'Pullover en el suelo para dorsales, serrato y estabilidad costal con rango controlado.',
+    instructions: [
+      'Acuéstate sobre una colchoneta con una mancuerna sostenida con ambas manos sobre el pecho',
+      'Mantén las costillas recogidas y una ligera flexión en codos',
+      'Lleva la mancuerna por detrás de la cabeza hasta donde controles',
+      'Devuelve la carga al punto inicial activando dorsales y pecho',
+      'Evita arquear en exceso la zona lumbar'
+    ]
+  },
+  {
+    name: 'Banded Hip Abduction',
+    category: 'Fuerza',
+    muscleGroup: 'Glúteos',
+    equipment: 'Banda elástica',
+    difficulty: 'Principiante',
+    description: 'Abducción de cadera con banda para reforzar glúteo medio y estabilidad de pelvis.',
+    instructions: [
+      'Coloca una banda por encima de los tobillos o rodillas',
+      'Ponte de pie con ligera flexión de rodillas y manos apoyadas si hace falta',
+      'Separa una pierna lateralmente sin inclinar el tronco',
+      'Vuelve despacio manteniendo tensión en la banda',
+      'Completa todas las repeticiones y cambia de lado'
+    ]
+  },
+  {
+    name: 'Supine Banded Hamstring Curl',
+    category: 'Fuerza',
+    muscleGroup: 'Piernas',
+    equipment: 'Banda elástica',
+    difficulty: 'Intermedio',
+    description: 'Curl femoral tumbado con banda para reforzar isquios sin necesidad de máquina.',
+    instructions: [
+      'Túmbate boca abajo o boca arriba según el anclaje disponible y fija la banda a un punto estable',
+      'Coloca la banda en los tobillos',
+      'Flexiona las rodillas acercando los talones hacia los glúteos',
+      'Aprieta isquiotibiales al final del movimiento',
+      'Extiende de nuevo las piernas con control'
+    ]
+  },
+  {
+    name: 'Toe Tap Plank',
+    category: 'Core',
+    muscleGroup: 'Core',
+    equipment: 'Peso corporal',
+    difficulty: 'Intermedio',
+    description: 'Plancha con toques laterales de pie para core, hombros y estabilidad sin impacto.',
+    instructions: [
+      'Adopta una plancha alta sobre la colchoneta con manos bajo los hombros',
+      'Mantén el cuerpo alineado y el abdomen firme',
+      'Lleva un pie hacia un lado y vuelve al centro',
+      'Alterna lados manteniendo la pelvis lo más estable posible',
+      'Respira de forma constante durante toda la serie'
+    ]
   }
 ];
 

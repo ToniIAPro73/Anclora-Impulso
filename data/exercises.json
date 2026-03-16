@@ -1,6 +1,6 @@
 [
   {
-    "id": "36040e24-1935-4b99-9da5-f5f3a92bbc26",
+    "id": "d9dd972a-d43e-4d31-8309-f2b8e825d858",
     "name": "Ab Wheel Rollouts",
     "category": "strength",
     "muscleGroup": "core",
@@ -14,18 +14,18 @@
     "difficulty": "advanced",
     "description": "Ejercicio avanzado con rueda abdominal.",
     "instructions": [
-      "Arrod\u00edllate sosteniendo la rueda abdominal",
+      "Arrodíllate sosteniendo la rueda abdominal",
       "Rueda hacia adelante extendiendo el cuerpo",
-      "Mant\u00e9n el core apretado",
-      "Vuelve a la posici\u00f3n inicial"
+      "Mantén el core apretado",
+      "Vuelve a la posición inicial"
     ],
-    "imageUrl": "/exercises/36040e24-1935-4b99-9da5-f5f3a92bbc26/ab_wheel_rollouts.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.595Z",
-    "updatedAt": "2026-03-15T21:37:42.438Z"
+    "createdAt": "2026-03-16T13:18:24.235Z",
+    "updatedAt": "2026-03-16T13:18:24.235Z"
   },
   {
-    "id": "e678b8e1-e58c-4716-b6b0-fb04c7c7e716",
+    "id": "5c81041d-c8d8-49cd-8b7b-989aa37bd7a1",
     "name": "Alternating Reverse Lunge with Dumbbells",
     "category": "strength",
     "muscleGroup": "legs",
@@ -38,21 +38,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Zancada atr\u00e1s alterna con mancuernas para piernas y gl\u00fateos.",
+    "description": "Zancada atrás alterna con mancuernas para piernas y glúteos.",
     "instructions": [
       "Ponte de pie con una mancuerna en cada mano",
-      "Da un paso largo hacia atr\u00e1s con una pierna",
+      "Da un paso largo hacia atrás con una pierna",
       "Baja hasta que ambas rodillas queden flexionadas",
       "Empuja con la pierna adelantada para volver",
-      "Alterna el lado en cada repetici\u00f3n"
+      "Alterna el lado en cada repetición"
     ],
-    "imageUrl": "/exercises/e678b8e1-e58c-4716-b6b0-fb04c7c7e716/alternating_reverse_lunge_with_dumbbells.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.956Z",
-    "updatedAt": "2026-03-15T21:37:44.636Z"
+    "createdAt": "2026-03-16T13:18:25.271Z",
+    "updatedAt": "2026-03-16T13:18:25.271Z"
   },
   {
-    "id": "2da244fa-fcf5-4804-9198-ade74f057563",
+    "id": "7459b8a0-a0bd-45bb-aa96-3b78a4aeb1a5",
     "name": "Arnold Press",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -65,21 +65,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Variante del press de hombros con rotaci\u00f3n.",
+    "description": "Variante del press de hombros con rotación.",
     "instructions": [
-      "Si\u00e9ntate con mancuernas a la altura del pecho",
+      "Siéntate con mancuernas a la altura del pecho",
       "Palmas mirando hacia ti",
       "Empuja las mancuernas hacia arriba mientras rotas las palmas hacia adelante",
       "Al final, las palmas deben mirar hacia adelante",
       "Invierte el movimiento al bajar"
     ],
-    "imageUrl": "/exercises/2da244fa-fcf5-4804-9198-ade74f057563/arnold_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.420Z",
-    "updatedAt": "2026-03-15T21:37:39.486Z"
+    "createdAt": "2026-03-16T13:18:22.833Z",
+    "updatedAt": "2026-03-16T13:18:22.833Z"
   },
   {
-    "id": "18479595-24cd-49e0-b60c-5eb29ce4a9ec",
+    "id": "e63bb310-e3e1-4655-adbf-15743dc4e797",
     "name": "Assault Bike",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -93,18 +93,99 @@
     "difficulty": "intermediate",
     "description": "Bicicleta de aire para cardio intenso.",
     "instructions": [
-      "Si\u00e9ntate en la bicicleta",
+      "Siéntate en la bicicleta",
       "Pedalea mientras empujas y jalas los mangos",
-      "Mant\u00e9n un ritmo constante o haz intervalos",
-      "Cuanto m\u00e1s r\u00e1pido, m\u00e1s resistencia"
+      "Mantén un ritmo constante o haz intervalos",
+      "Cuanto más rápido, más resistencia"
     ],
-    "imageUrl": "/exercises/18479595-24cd-49e0-b60c-5eb29ce4a9ec/assault_bike.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.140Z",
-    "updatedAt": "2026-03-15T21:37:43.836Z"
+    "createdAt": "2026-03-16T13:18:24.908Z",
+    "updatedAt": "2026-03-16T13:18:24.908Z"
   },
   {
-    "id": "4d7b4333-4542-491e-8b7d-3c26c17ac59d",
+    "id": "609413ab-6733-4d08-b5fd-c2a4049ba164",
+    "name": "Banded Clamshell",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Ejercicio suave y eficaz para glúteo medio y estabilidad de cadera.",
+    "instructions": [
+      "Coloca una mini banda por encima de las rodillas",
+      "Túmbate de lado sobre una colchoneta con rodillas flexionadas",
+      "Mantén los pies juntos y abre la rodilla superior contra la banda",
+      "Evita girar la pelvis hacia atrás",
+      "Baja con control y repite antes de cambiar de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.719Z",
+    "updatedAt": "2026-03-16T13:18:25.719Z"
+  },
+  {
+    "id": "a59fd027-740a-4c75-a726-4f289deb1cb7",
+    "name": "Banded Good Morning",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Bisagra de cadera de bajo impacto para cadena posterior, útil para aprender el patrón sin cargar la espalda.",
+    "instructions": [
+      "Pisa la banda con ambos pies y coloca el otro extremo sobre hombros o trapecios",
+      "Desbloquea ligeramente las rodillas",
+      "Lleva la cadera hacia atrás manteniendo la espalda neutra",
+      "Desciende hasta sentir tensión en glúteos e isquios",
+      "Vuelve a subir empujando las caderas al frente"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.762Z",
+    "updatedAt": "2026-03-16T13:18:25.762Z"
+  },
+  {
+    "id": "f220aafd-0c32-4ea8-9259-3942defce47a",
+    "name": "Banded Hip Abduction",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Abducción de cadera con banda para reforzar glúteo medio y estabilidad de pelvis.",
+    "instructions": [
+      "Coloca una banda por encima de los tobillos o rodillas",
+      "Ponte de pie con ligera flexión de rodillas y manos apoyadas si hace falta",
+      "Separa una pierna lateralmente sin inclinar el tronco",
+      "Vuelve despacio manteniendo tensión en la banda",
+      "Completa todas las repeticiones y cambia de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.605Z",
+    "updatedAt": "2026-03-16T13:18:26.605Z"
+  },
+  {
+    "id": "d0d4d660-6cde-496b-be1d-4703cd7ffb01",
     "name": "Banded Lateral Walk",
     "category": "strength",
     "muscleGroup": "glutes",
@@ -117,21 +198,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Paso lateral con banda para activar gl\u00fateo medio y estabilizadores.",
+    "description": "Paso lateral con banda para activar glúteo medio y estabilizadores.",
     "instructions": [
       "Coloca la banda por encima de las rodillas o en los tobillos",
       "Flexiona ligeramente caderas y rodillas",
-      "Da pasos laterales cortos manteniendo tensi\u00f3n",
+      "Da pasos laterales cortos manteniendo tensión",
       "No dejes que las rodillas colapsen hacia dentro",
       "Completa ambos lados"
     ],
-    "imageUrl": "/exercises/4d7b4333-4542-491e-8b7d-3c26c17ac59d/banded_lateral_walk.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:42.057Z",
-    "updatedAt": "2026-03-15T21:37:44.726Z"
+    "createdAt": "2026-03-16T13:18:25.314Z",
+    "updatedAt": "2026-03-16T13:18:25.314Z"
   },
   {
-    "id": "d707a3e7-2227-460f-881c-44429b560f70",
+    "id": "9e0113d3-4e99-4fc2-a3a3-64308ee66926",
     "name": "Barbell Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -143,21 +224,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl de b\u00edceps con barra.",
+    "description": "Curl de bíceps con barra.",
     "instructions": [
-      "P\u00e1rate con una barra sostenida con agarre supino",
+      "Párate con una barra sostenida con agarre supino",
       "Manos a la anchura de los hombros",
       "Flexiona los codos llevando la barra hacia los hombros",
-      "Mant\u00e9n los codos fijos",
+      "Mantén los codos fijos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/d707a3e7-2227-460f-881c-44429b560f70/barbell_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.549Z",
-    "updatedAt": "2026-03-15T21:37:40.540Z"
+    "createdAt": "2026-03-16T13:18:23.333Z",
+    "updatedAt": "2026-03-16T13:18:23.333Z"
   },
   {
-    "id": "3ef3ea31-1269-42d4-9b42-0fcb6addb771",
+    "id": "8d81d52d-5d81-487d-af3c-47885f1b0afd",
     "name": "Battle Ropes",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -171,18 +252,18 @@
     "difficulty": "intermediate",
     "description": "Ejercicio con cuerdas para cardio y fuerza.",
     "instructions": [
-      "Sost\u00e9n un extremo de cada cuerda",
-      "P\u00e1rate con los pies a la anchura de los hombros",
+      "Sostén un extremo de cada cuerda",
+      "Párate con los pies a la anchura de los hombros",
       "Crea ondas con las cuerdas",
-      "Alterna los brazos o mu\u00e9velos simult\u00e1neamente"
+      "Alterna los brazos o muévelos simultáneamente"
     ],
-    "imageUrl": "/exercises/3ef3ea31-1269-42d4-9b42-0fcb6addb771/battle_ropes.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.728Z",
-    "updatedAt": "2026-03-15T21:37:43.448Z"
+    "createdAt": "2026-03-16T13:18:24.729Z",
+    "updatedAt": "2026-03-16T13:18:24.729Z"
   },
   {
-    "id": "ffdf6d7f-c8cb-4e03-a43d-809dfd966a58",
+    "id": "a21a6840-23e3-4cbe-8b69-950b9e1b6a7c",
     "name": "Bench Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -194,21 +275,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio cl\u00e1sico de press de banca para desarrollar masa muscular en el pecho.",
+    "description": "Ejercicio clásico de press de banca para desarrollar masa muscular en el pecho.",
     "instructions": [
-      "Acu\u00e9state en el banco con los pies firmes en el suelo",
-      "Agarra la barra con las manos ligeramente m\u00e1s anchas que los hombros",
+      "Acuéstate en el banco con los pies firmes en el suelo",
+      "Agarra la barra con las manos ligeramente más anchas que los hombros",
       "Baja la barra de forma controlada hasta el pecho",
       "Empuja la barra hacia arriba hasta extender los brazos",
-      "Mant\u00e9n los om\u00f3platos retra\u00eddos durante todo el movimiento"
+      "Mantén los omóplatos retraídos durante todo el movimiento"
     ],
-    "imageUrl": "/exercises/ffdf6d7f-c8cb-4e03-a43d-809dfd966a58/bench_press.png",
+    "imageUrl": "/exercises/bench-press.png",
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:30.862Z",
-    "updatedAt": "2026-03-15T21:37:34.215Z"
+    "createdAt": "2026-03-16T13:18:20.401Z",
+    "updatedAt": "2026-03-16T13:18:20.401Z"
   },
   {
-    "id": "0121a1bb-1227-4759-b023-64509028ca13",
+    "id": "9fb4d429-4cd3-4833-a507-2b87976ba841",
     "name": "Bent Over Rows",
     "category": "strength",
     "muscleGroup": "back",
@@ -222,19 +303,19 @@
     "difficulty": "intermediate",
     "description": "Ejercicio compuesto para desarrollar grosor en la espalda media.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Incl\u00ednate hacia adelante desde las caderas manteniendo la espalda recta",
+      "Párate con los pies a la anchura de los hombros",
+      "Inclínate hacia adelante desde las caderas manteniendo la espalda recta",
       "Agarra la barra con las manos a la anchura de los hombros",
       "Tira de la barra hacia el abdomen bajo",
       "Baja controladamente hasta extender los brazos"
     ],
-    "imageUrl": "/exercises/0121a1bb-1227-4759-b023-64509028ca13/bent_over_rows.png",
+    "imageUrl": "/exercises/bent-over-rows.png",
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.446Z",
-    "updatedAt": "2026-03-15T21:37:35.727Z"
+    "createdAt": "2026-03-16T13:18:21.099Z",
+    "updatedAt": "2026-03-16T13:18:21.099Z"
   },
   {
-    "id": "437e90e3-5a81-4099-b1cc-ccf1273f4576",
+    "id": "090a8e27-ef1d-4b45-bf07-36a73aa02c28",
     "name": "Bicep Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -247,21 +328,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl de b\u00edceps con mancuernas.",
+    "description": "Curl de bíceps con mancuernas.",
     "instructions": [
-      "P\u00e1rate con una mancuerna en cada mano",
+      "Párate con una mancuerna en cada mano",
       "Brazos extendidos a los lados, palmas hacia adelante",
       "Flexiona los codos llevando las mancuernas hacia los hombros",
-      "Mant\u00e9n los codos pegados al torso",
+      "Mantén los codos pegados al torso",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/437e90e3-5a81-4099-b1cc-ccf1273f4576/bicep_curls.png",
+    "imageUrl": "/exercises/bicep-curls.png",
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.141Z",
-    "updatedAt": "2026-03-15T21:37:40.153Z"
+    "createdAt": "2026-03-16T13:18:23.144Z",
+    "updatedAt": "2026-03-16T13:18:23.144Z"
   },
   {
-    "id": "9374b8fb-2a46-456a-8f15-c4f1b9416b33",
+    "id": "42ecbd06-c877-4cd0-ab52-e6ddc838108c",
     "name": "Bicycle Crunches",
     "category": "strength",
     "muscleGroup": "core",
@@ -276,19 +357,73 @@
     "difficulty": "intermediate",
     "description": "Crunch con movimiento de bicicleta para abdominales y oblicuos.",
     "instructions": [
-      "Acu\u00e9state boca arriba con las manos detr\u00e1s de la cabeza",
+      "Acuéstate boca arriba con las manos detrás de la cabeza",
       "Eleva los hombros del suelo",
       "Lleva el codo derecho hacia la rodilla izquierda",
       "Extiende la pierna derecha",
       "Alterna los lados en un movimiento de pedaleo"
     ],
-    "imageUrl": "/exercises/9374b8fb-2a46-456a-8f15-c4f1b9416b33/bicycle_crunches.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.117Z",
-    "updatedAt": "2026-03-15T21:37:41.974Z"
+    "createdAt": "2026-03-16T13:18:24.010Z",
+    "updatedAt": "2026-03-16T13:18:24.010Z"
   },
   {
-    "id": "a80166f6-5b01-4dfc-9bba-8bb19153568d",
+    "id": "3bbcb838-f621-4239-baf0-cc01fbe952e3",
+    "name": "Bird Dog",
+    "category": "strength",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Ejercicio clásico de estabilidad para columna, core y coordinación cruzada.",
+    "instructions": [
+      "Colócate en cuadrupedia sobre una colchoneta",
+      "Activa el abdomen sin redondear la espalda",
+      "Extiende a la vez un brazo y la pierna contraria",
+      "Haz una breve pausa manteniendo la pelvis quieta",
+      "Vuelve al centro y cambia de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.027Z",
+    "updatedAt": "2026-03-16T13:18:26.027Z"
+  },
+  {
+    "id": "df4621b0-0691-42d9-b373-95a01a8f06a6",
+    "name": "Bird Dog Row",
+    "category": "strength",
+    "muscleGroup": "back",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Remo en apoyo cuadrúpedo que combina estabilidad del core con fuerza de espalda.",
+    "instructions": [
+      "Colócate a cuatro apoyos con una mancuerna junto a una mano",
+      "Apoya firmemente rodillas y mano contraria en la colchoneta",
+      "Agarra la mancuerna y tira del codo hacia la cadera",
+      "Evita girar el torso mientras remas",
+      "Baja con control y repite antes de cambiar de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.072Z",
+    "updatedAt": "2026-03-16T13:18:26.072Z"
+  },
+  {
+    "id": "bb7ce75a-df4a-45d2-a485-d5ac4a34f361",
     "name": "Box Jumps (Conditioning)",
     "category": "hiit",
     "muscleGroup": "legs",
@@ -300,21 +435,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Saltos explosivos al caj\u00f3n.",
+    "description": "Saltos explosivos al cajón.",
     "instructions": [
-      "P\u00e1rate frente a un caj\u00f3n estable",
+      "Párate frente a un cajón estable",
       "Flexiona ligeramente las rodillas",
-      "Salta explosivamente sobre el caj\u00f3n",
+      "Salta explosivamente sobre el cajón",
       "Aterriza suavemente con ambos pies",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/a80166f6-5b01-4dfc-9bba-8bb19153568d/box_jumps_conditioning.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:43.357Z",
-    "updatedAt": "2026-03-15T21:37:43.357Z"
+    "createdAt": "2026-03-16T13:18:24.684Z",
+    "updatedAt": "2026-03-16T13:18:24.684Z"
   },
   {
-    "id": "fdedd774-2439-4f02-b384-3724fa9d0cf0",
+    "id": "025503d0-cff6-434d-9525-a687266d1653",
     "name": "Box Jumps (Power Focus)",
     "category": "hiit",
     "muscleGroup": "legs",
@@ -328,19 +463,19 @@
     "difficulty": "intermediate",
     "description": "Ejercicio explosivo para potencia de piernas.",
     "instructions": [
-      "P\u00e1rate frente a un caj\u00f3n estable",
+      "Párate frente a un cajón estable",
       "Flexiona ligeramente las rodillas",
-      "Salta explosivamente sobre el caj\u00f3n",
+      "Salta explosivamente sobre el cajón",
       "Aterriza suavemente con ambos pies",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/fdedd774-2439-4f02-b384-3724fa9d0cf0/box_jumps_power_focus.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:38.166Z",
-    "updatedAt": "2026-03-15T21:37:38.166Z"
+    "createdAt": "2026-03-16T13:18:22.214Z",
+    "updatedAt": "2026-03-16T13:18:22.214Z"
   },
   {
-    "id": "a862bb1c-2169-4091-bdca-cc4864385a8a",
+    "id": "1971cb76-bfc8-4864-a7d3-165c06b320f5",
     "name": "Bulgarian Split Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -352,21 +487,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Sentadilla unilateral elevada para piernas y gl\u00fateos.",
+    "description": "Sentadilla unilateral elevada para piernas y glúteos.",
     "instructions": [
-      "Coloca un pie en un banco detr\u00e1s de ti",
-      "El otro pie adelante en posici\u00f3n de zancada",
-      "Baja las caderas hasta que la rodilla delantera est\u00e9 a 90 grados",
-      "Empuja con el tal\u00f3n delantero para subir",
+      "Coloca un pie en un banco detrás de ti",
+      "El otro pie adelante en posición de zancada",
+      "Baja las caderas hasta que la rodilla delantera esté a 90 grados",
+      "Empuja con el talón delantero para subir",
       "Completa todas las repeticiones antes de cambiar de pierna"
     ],
-    "imageUrl": "/exercises/a862bb1c-2169-4091-bdca-cc4864385a8a/bulgarian_split_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.489Z",
-    "updatedAt": "2026-03-15T21:37:37.681Z"
+    "createdAt": "2026-03-16T13:18:21.990Z",
+    "updatedAt": "2026-03-16T13:18:21.990Z"
   },
   {
-    "id": "8cd5192f-b9ea-4127-94c8-85987ece5d25",
+    "id": "f40fa5ec-65f7-4e87-9d2b-2f347505b232",
     "name": "Burpees",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -381,20 +516,20 @@
     "difficulty": "intermediate",
     "description": "Ejercicio de cuerpo completo de alta intensidad.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Ag\u00e1chate y coloca las manos en el suelo",
-      "Salta con los pies hacia atr\u00e1s a posici\u00f3n de plancha",
-      "Haz una flexi\u00f3n (opcional)",
+      "Párate con los pies a la anchura de los hombros",
+      "Agáchate y coloca las manos en el suelo",
+      "Salta con los pies hacia atrás a posición de plancha",
+      "Haz una flexión (opcional)",
       "Salta con los pies hacia adelante",
       "Salta explosivamente hacia arriba con los brazos sobre la cabeza"
     ],
-    "imageUrl": "/exercises/8cd5192f-b9ea-4127-94c8-85987ece5d25/burpees.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.783Z",
-    "updatedAt": "2026-03-15T21:37:43.084Z"
+    "createdAt": "2026-03-16T13:18:24.549Z",
+    "updatedAt": "2026-03-16T13:18:24.549Z"
   },
   {
-    "id": "fc4e81e0-cabf-412c-8629-6a95789dc408",
+    "id": "4c1af937-0f33-40cb-ac43-194bd07d44f8",
     "name": "Cable Crossover",
     "category": "strength",
     "muscleGroup": "chest",
@@ -406,22 +541,22 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio de aislamiento con tensi\u00f3n constante en el pecho.",
+    "description": "Ejercicio de aislamiento con tensión constante en el pecho.",
     "instructions": [
-      "Col\u00f3cate en el centro de una m\u00e1quina de cables con poleas altas",
+      "Colócate en el centro de una máquina de cables con poleas altas",
       "Agarra los mangos con las palmas hacia abajo",
       "Da un paso adelante con una pierna para estabilidad",
       "Lleva los mangos hacia abajo y adelante en un arco",
       "Cruza las manos frente al cuerpo",
-      "Vuelve controladamente a la posici\u00f3n inicial"
+      "Vuelve controladamente a la posición inicial"
     ],
-    "imageUrl": "/exercises/fc4e81e0-cabf-412c-8629-6a95789dc408/cable_crossover.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.324Z",
-    "updatedAt": "2026-03-15T21:37:34.605Z"
+    "createdAt": "2026-03-16T13:18:20.595Z",
+    "updatedAt": "2026-03-16T13:18:20.595Z"
   },
   {
-    "id": "c3bf6572-e45f-41df-a9e6-f70efb190380",
+    "id": "e3e24110-2c12-4e36-8110-eca18bd4378b",
     "name": "Cable Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -433,21 +568,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl de b\u00edceps con cable.",
+    "description": "Curl de bíceps con cable.",
     "instructions": [
-      "P\u00e1rate frente a una polea baja",
+      "Párate frente a una polea baja",
       "Agarra la barra con agarre supino",
       "Flexiona los codos llevando la barra hacia arriba",
-      "Mant\u00e9n los codos fijos",
+      "Mantén los codos fijos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/c3bf6572-e45f-41df-a9e6-f70efb190380/cable_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.164Z",
-    "updatedAt": "2026-03-15T21:37:41.114Z"
+    "createdAt": "2026-03-16T13:18:23.608Z",
+    "updatedAt": "2026-03-16T13:18:23.608Z"
   },
   {
-    "id": "e86d1527-c79c-404c-9861-2776b81010ef",
+    "id": "308aee12-4d5d-470e-8a8b-e1abdacb9a54",
     "name": "Cable Lateral Raises",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -461,18 +596,18 @@
     "difficulty": "beginner",
     "description": "Elevaciones laterales con cable.",
     "instructions": [
-      "P\u00e1rate de lado a una polea baja",
-      "Agarra el mango con la mano m\u00e1s alejada",
+      "Párate de lado a una polea baja",
+      "Agarra el mango con la mano más alejada",
       "Eleva el brazo lateralmente",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/e86d1527-c79c-404c-9861-2776b81010ef/cable_lateral_raises.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.038Z",
-    "updatedAt": "2026-03-15T21:37:40.058Z"
+    "createdAt": "2026-03-16T13:18:23.100Z",
+    "updatedAt": "2026-03-16T13:18:23.100Z"
   },
   {
-    "id": "1d610395-5825-43ab-974b-1da05ee35a91",
+    "id": "bd9d26d6-f0c8-4d88-911a-a301671a6e13",
     "name": "Calf Raises",
     "category": "strength",
     "muscleGroup": "legs",
@@ -487,19 +622,19 @@
     "difficulty": "beginner",
     "description": "Ejercicio para desarrollar los gemelos.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de las caderas",
+      "Párate con los pies a la anchura de las caderas",
       "Eleva los talones del suelo",
-      "Sube lo m\u00e1s alto posible sobre las puntas de los pies",
-      "Mant\u00e9n un segundo en la parte superior",
+      "Sube lo más alto posible sobre las puntas de los pies",
+      "Mantén un segundo en la parte superior",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/1d610395-5825-43ab-974b-1da05ee35a91/calf_raises.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.200Z",
-    "updatedAt": "2026-03-15T21:37:38.354Z"
+    "createdAt": "2026-03-16T13:18:22.300Z",
+    "updatedAt": "2026-03-16T13:18:22.300Z"
   },
   {
-    "id": "c4aa79d6-cd5a-43af-9b23-af1909b35a16",
+    "id": "4187b2e2-9a84-44a1-9884-76dd92faac01",
     "name": "Chest Dips",
     "category": "strength",
     "muscleGroup": "chest",
@@ -511,21 +646,21 @@
       "gym"
     ],
     "difficulty": "advanced",
-    "description": "Ejercicio avanzado que trabaja pecho, hombros y tr\u00edceps.",
+    "description": "Ejercicio avanzado que trabaja pecho, hombros y tríceps.",
     "instructions": [
-      "Agarra las barras paralelas y el\u00e9vate",
-      "Incl\u00ednate hacia adelante unos 30 grados",
+      "Agarra las barras paralelas y elévate",
+      "Inclínate hacia adelante unos 30 grados",
       "Baja el cuerpo doblando los codos hasta 90 grados",
       "Empuja hacia arriba hasta extender los brazos",
-      "Mant\u00e9n los codos ligeramente hacia afuera"
+      "Mantén los codos ligeramente hacia afuera"
     ],
-    "imageUrl": "/exercises/c4aa79d6-cd5a-43af-9b23-af1909b35a16/chest_dips.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.428Z",
-    "updatedAt": "2026-03-15T21:37:34.703Z"
+    "createdAt": "2026-03-16T13:18:20.640Z",
+    "updatedAt": "2026-03-16T13:18:20.640Z"
   },
   {
-    "id": "82046b1e-d80a-4567-8553-e592aa7c75b5",
+    "id": "acc81764-4c0c-4de4-af87-301b3c77737d",
     "name": "Chest Press Machine",
     "category": "strength",
     "muscleGroup": "chest",
@@ -537,20 +672,20 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Press de pecho en m\u00e1quina guiada.",
+    "description": "Press de pecho en máquina guiada.",
     "instructions": [
-      "Ajusta el asiento para que los mangos est\u00e9n a la altura del pecho",
+      "Ajusta el asiento para que los mangos estén a la altura del pecho",
       "Agarra los mangos y empuja hacia adelante",
       "Extiende los brazos completamente",
       "Vuelve controladamente"
     ],
-    "imageUrl": "/exercises/82046b1e-d80a-4567-8553-e592aa7c75b5/chest_press_machine.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.036Z",
-    "updatedAt": "2026-03-15T21:37:35.337Z"
+    "createdAt": "2026-03-16T13:18:20.917Z",
+    "updatedAt": "2026-03-16T13:18:20.917Z"
   },
   {
-    "id": "1d64b240-18a5-48c4-9699-432f75d0c637",
+    "id": "1df38253-79c4-43f2-b7a9-148b3143bf0f",
     "name": "Chest Supported Row",
     "category": "strength",
     "muscleGroup": "back",
@@ -564,19 +699,19 @@
     "difficulty": "intermediate",
     "description": "Remo con apoyo de pecho para aislar la espalda.",
     "instructions": [
-      "Acu\u00e9state boca abajo en un banco inclinado",
-      "Sost\u00e9n mancuernas con los brazos colgando",
+      "Acuéstate boca abajo en un banco inclinado",
+      "Sostén mancuernas con los brazos colgando",
       "Tira de las mancuernas hacia las caderas",
-      "Aprieta los om\u00f3platos",
+      "Aprieta los omóplatos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/1d64b240-18a5-48c4-9699-432f75d0c637/chest_supported_row.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.468Z",
-    "updatedAt": "2026-03-15T21:37:36.706Z"
+    "createdAt": "2026-03-16T13:18:21.537Z",
+    "updatedAt": "2026-03-16T13:18:21.537Z"
   },
   {
-    "id": "0321d980-1c9c-4232-a3f1-de4d844cbbfa",
+    "id": "5bd318e9-59e4-47cb-a100-30d89dd9eef5",
     "name": "Chin-ups",
     "category": "strength",
     "muscleGroup": "back",
@@ -588,20 +723,20 @@
       "outdoor"
     ],
     "difficulty": "intermediate",
-    "description": "Dominadas con agarre supino que enfatizan b\u00edceps.",
+    "description": "Dominadas con agarre supino que enfatizan bíceps.",
     "instructions": [
       "Agarra la barra con las palmas hacia ti",
       "Cuelga con los brazos extendidos",
       "Tira hasta que la barbilla supere la barra",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/0321d980-1c9c-4232-a3f1-de4d844cbbfa/chin_ups.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.367Z",
-    "updatedAt": "2026-03-15T21:37:36.590Z"
+    "createdAt": "2026-03-16T13:18:21.494Z",
+    "updatedAt": "2026-03-16T13:18:21.494Z"
   },
   {
-    "id": "33e83a16-5f0c-40c5-bde4-2f8d3eff612a",
+    "id": "1c79f958-7bdc-404d-891a-fac26cbc06f1",
     "name": "Close Grip Bench Press",
     "category": "strength",
     "muscleGroup": "arms",
@@ -613,21 +748,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Press de banca con agarre cerrado para tr\u00edceps.",
+    "description": "Press de banca con agarre cerrado para tríceps.",
     "instructions": [
-      "Acu\u00e9state en un banco",
+      "Acuéstate en un banco",
       "Agarra la barra con las manos a la anchura de los hombros",
       "Baja la barra al pecho",
-      "Mant\u00e9n los codos cerca del torso",
+      "Mantén los codos cerca del torso",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/33e83a16-5f0c-40c5-bde4-2f8d3eff612a/close_grip_bench_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.855Z",
-    "updatedAt": "2026-03-15T21:37:40.827Z"
+    "createdAt": "2026-03-16T13:18:23.475Z",
+    "updatedAt": "2026-03-16T13:18:23.475Z"
   },
   {
-    "id": "98e2f132-5209-452e-8c7d-a4ecac587425",
+    "id": "0182a138-dd0a-4f3f-823b-a03f4f60aff8",
     "name": "Concentration Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -640,21 +775,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl concentrado para aislamiento de b\u00edceps.",
+    "description": "Curl concentrado para aislamiento de bíceps.",
     "instructions": [
-      "Si\u00e9ntate en un banco con las piernas abiertas",
-      "Sost\u00e9n una mancuerna con un brazo",
+      "Siéntate en un banco con las piernas abiertas",
+      "Sostén una mancuerna con un brazo",
       "Apoya el codo en la parte interna del muslo",
       "Flexiona el codo llevando la mancuerna hacia el hombro",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/98e2f132-5209-452e-8c7d-a4ecac587425/concentration_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.957Z",
-    "updatedAt": "2026-03-15T21:37:40.923Z"
+    "createdAt": "2026-03-16T13:18:23.519Z",
+    "updatedAt": "2026-03-16T13:18:23.519Z"
   },
   {
-    "id": "7a7fb5dc-fe05-41c5-ad87-846c91eb93ea",
+    "id": "c498d8bd-4008-4d8b-a90c-57d377961c45",
     "name": "Crunches",
     "category": "strength",
     "muscleGroup": "core",
@@ -667,21 +802,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio cl\u00e1sico para el recto abdominal.",
+    "description": "Ejercicio clásico para el recto abdominal.",
     "instructions": [
-      "Acu\u00e9state boca arriba con las rodillas flexionadas",
+      "Acuéstate boca arriba con las rodillas flexionadas",
       "Pies planos en el suelo",
-      "Manos detr\u00e1s de la cabeza o cruzadas en el pecho",
+      "Manos detrás de la cabeza o cruzadas en el pecho",
       "Eleva los hombros del suelo contrayendo el abdomen",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/7a7fb5dc-fe05-41c5-ad87-846c91eb93ea/crunches.png",
+    "imageUrl": "/exercises/crunches.png",
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.778Z",
-    "updatedAt": "2026-03-15T21:37:41.690Z"
+    "createdAt": "2026-03-16T13:18:23.877Z",
+    "updatedAt": "2026-03-16T13:18:23.877Z"
   },
   {
-    "id": "340a0942-dce0-4f08-8a6b-59b445a038cf",
+    "id": "48bd97e6-148f-4b9a-9967-dafb7e27afef",
     "name": "Dead Bug",
     "category": "strength",
     "muscleGroup": "core",
@@ -694,21 +829,48 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio de anti-extensi\u00f3n para el core.",
+    "description": "Ejercicio de anti-extensión para el core.",
     "instructions": [
-      "Acu\u00e9state boca arriba con brazos extendidos hacia el techo",
+      "Acuéstate boca arriba con brazos extendidos hacia el techo",
       "Rodillas flexionadas a 90 grados",
       "Baja un brazo y la pierna opuesta hacia el suelo",
-      "Mant\u00e9n la espalda baja pegada al suelo",
+      "Mantén la espalda baja pegada al suelo",
       "Vuelve y alterna"
     ],
-    "imageUrl": "/exercises/340a0942-dce0-4f08-8a6b-59b445a038cf/dead_bug.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.290Z",
-    "updatedAt": "2026-03-15T21:37:42.158Z"
+    "createdAt": "2026-03-16T13:18:24.099Z",
+    "updatedAt": "2026-03-16T13:18:24.099Z"
   },
   {
-    "id": "91b715ce-c0eb-470e-86f5-46ba57f369bf",
+    "id": "f056f883-d433-4875-b01c-3e5c388a5ceb",
+    "name": "Dead Bug Heel Taps",
+    "category": "strength",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Variante accesible del dead bug para reforzar el control lumbo-pélvico.",
+    "instructions": [
+      "Acuéstate boca arriba en una colchoneta con piernas elevadas a 90 grados",
+      "Presiona suavemente la zona lumbar contra el suelo",
+      "Baja un talón hacia el suelo sin perder la posición del tronco",
+      "Vuelve al centro y alterna con la otra pierna",
+      "Respira despacio mientras mantienes el abdomen activo"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.115Z",
+    "updatedAt": "2026-03-16T13:18:26.115Z"
+  },
+  {
+    "id": "2ca899d0-cc79-4e0e-98f1-2dfe59843b12",
     "name": "Deadlifts",
     "category": "strength",
     "muscleGroup": "back",
@@ -722,20 +884,20 @@
     "difficulty": "advanced",
     "description": "El rey de los ejercicios compuestos, trabaja toda la cadena posterior.",
     "instructions": [
-      "Col\u00f3cate con los pies debajo de la barra, a la anchura de las caderas",
+      "Colócate con los pies debajo de la barra, a la anchura de las caderas",
       "Agarra la barra con las manos justo fuera de las piernas",
-      "Mant\u00e9n la espalda recta, pecho arriba, caderas bajas",
+      "Mantén la espalda recta, pecho arriba, caderas bajas",
       "Empuja el suelo con los pies y extiende las caderas",
-      "Mant\u00e9n la barra cerca del cuerpo durante todo el movimiento",
+      "Mantén la barra cerca del cuerpo durante todo el movimiento",
       "Baja controladamente invirtiendo el movimiento"
     ],
-    "imageUrl": "/exercises/91b715ce-c0eb-470e-86f5-46ba57f369bf/deadlifts.png",
+    "imageUrl": "/exercises/deadlifts.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.901Z",
-    "updatedAt": "2026-03-15T21:37:35.824Z"
+    "createdAt": "2026-03-16T13:18:21.142Z",
+    "updatedAt": "2026-03-16T13:18:21.142Z"
   },
   {
-    "id": "6034bc36-90ae-41f4-aa99-cb2fb3855961",
+    "id": "d7328f59-c573-4dff-9385-cd5b5387b540",
     "name": "Decline Bench Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -749,18 +911,18 @@
     "difficulty": "intermediate",
     "description": "Variante que enfatiza la parte inferior del pecho.",
     "instructions": [
-      "Ajusta el banco a 15-30 grados de declinaci\u00f3n",
+      "Ajusta el banco a 15-30 grados de declinación",
       "Asegura los pies en los soportes",
-      "Agarra la barra y b\u00e1jala hasta la parte inferior del pecho",
+      "Agarra la barra y bájala hasta la parte inferior del pecho",
       "Empuja hacia arriba hasta extender los brazos"
     ],
-    "imageUrl": "/exercises/6034bc36-90ae-41f4-aa99-cb2fb3855961/decline_bench_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.221Z",
-    "updatedAt": "2026-03-15T21:37:34.508Z"
+    "createdAt": "2026-03-16T13:18:20.550Z",
+    "updatedAt": "2026-03-16T13:18:20.550Z"
   },
   {
-    "id": "4a4bca8b-361d-427e-b8f5-9f4931c9480e",
+    "id": "d183a39d-f532-49f3-a7af-f78904a1bdb8",
     "name": "Decline Dumbbell Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -775,18 +937,18 @@
     "difficulty": "intermediate",
     "description": "Press declinado con mancuernas para pecho inferior.",
     "instructions": [
-      "Ajusta el banco a 15-30 grados de declinaci\u00f3n",
-      "Acu\u00e9state con una mancuerna en cada mano",
+      "Ajusta el banco a 15-30 grados de declinación",
+      "Acuéstate con una mancuerna en cada mano",
       "Empuja las mancuernas hacia arriba",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/4a4bca8b-361d-427e-b8f5-9f4931c9480e/decline_dumbbell_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.933Z",
-    "updatedAt": "2026-03-15T21:37:35.239Z"
+    "createdAt": "2026-03-16T13:18:20.872Z",
+    "updatedAt": "2026-03-16T13:18:20.872Z"
   },
   {
-    "id": "10ec962d-a58c-4269-8e8c-9a131cc61be9",
+    "id": "4018fc6e-61ea-479e-9f8c-b6041659ef64",
     "name": "Diamond Push-ups (Chest Focus)",
     "category": "strength",
     "muscleGroup": "chest",
@@ -799,20 +961,20 @@
       "outdoor"
     ],
     "difficulty": "intermediate",
-    "description": "Variante de flexiones que enfatiza tr\u00edceps y pecho interno.",
+    "description": "Variante de flexiones que enfatiza tríceps y pecho interno.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de flexi\u00f3n",
-      "Junta las manos formando un diamante con los pulgares e \u00edndices",
+      "Colócate en posición de flexión",
+      "Junta las manos formando un diamante con los pulgares e índices",
       "Baja el cuerpo manteniendo los codos cerca del torso",
-      "Empuja hacia arriba hasta la posici\u00f3n inicial"
+      "Empuja hacia arriba hasta la posición inicial"
     ],
-    "imageUrl": "/exercises/10ec962d-a58c-4269-8e8c-9a131cc61be9/diamond_push_ups_chest_focus.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:34.896Z",
-    "updatedAt": "2026-03-15T21:37:34.896Z"
+    "createdAt": "2026-03-16T13:18:20.734Z",
+    "updatedAt": "2026-03-16T13:18:20.734Z"
   },
   {
-    "id": "3d2f704c-cdd5-414b-a0d2-d74ea8cb463a",
+    "id": "56a56f3c-4c64-4760-89b4-cfbdbfa365e7",
     "name": "Diamond Push-ups (Triceps Focus)",
     "category": "strength",
     "muscleGroup": "arms",
@@ -825,20 +987,47 @@
       "outdoor"
     ],
     "difficulty": "intermediate",
-    "description": "Flexiones con manos juntas para tr\u00edceps.",
+    "description": "Flexiones con manos juntas para tríceps.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de flexi\u00f3n",
+      "Colócate en posición de flexión",
       "Junta las manos formando un diamante",
       "Baja el cuerpo manteniendo los codos cerca",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/3d2f704c-cdd5-414b-a0d2-d74ea8cb463a/diamond_push_ups_triceps_focus.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:41.307Z",
-    "updatedAt": "2026-03-15T21:37:41.307Z"
+    "createdAt": "2026-03-16T13:18:23.697Z",
+    "updatedAt": "2026-03-16T13:18:23.697Z"
   },
   {
-    "id": "69563e15-fbcf-4658-ba0c-655a5c26401b",
+    "id": "cbfbdc5c-0baf-41fd-8fe7-f07f4e34d008",
+    "name": "Dumbbell Floor Press",
+    "category": "strength",
+    "muscleGroup": "chest",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Press en el suelo amable con los hombros para ganar fuerza de pecho y tríceps desde casa.",
+    "instructions": [
+      "Túmbate boca arriba sobre una colchoneta con una mancuerna en cada mano",
+      "Coloca los codos apoyados en el suelo con antebrazos verticales",
+      "Empuja las mancuernas hacia arriba hasta extender los brazos",
+      "Baja hasta tocar suavemente el suelo con los tríceps",
+      "Repite manteniendo muñecas neutras"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.336Z",
+    "updatedAt": "2026-03-16T13:18:26.336Z"
+  },
+  {
+    "id": "207e6d4e-4d50-4e3a-a4e7-30fc5abfaa22",
     "name": "Dumbbell Flyes",
     "category": "strength",
     "muscleGroup": "chest",
@@ -851,21 +1040,48 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio de aislamiento para estirar y contraer los m\u00fasculos pectorales.",
+    "description": "Ejercicio de aislamiento para estirar y contraer los músculos pectorales.",
     "instructions": [
-      "Acu\u00e9state en un banco plano con una mancuerna en cada mano",
+      "Acuéstate en un banco plano con una mancuerna en cada mano",
       "Extiende los brazos sobre el pecho con las palmas enfrentadas",
       "Baja las mancuernas en un arco amplio hasta sentir estiramiento en el pecho",
-      "Mant\u00e9n una ligera flexi\u00f3n en los codos",
-      "Vuelve a la posici\u00f3n inicial apretando el pecho"
+      "Mantén una ligera flexión en los codos",
+      "Vuelve a la posición inicial apretando el pecho"
     ],
-    "imageUrl": "/exercises/69563e15-fbcf-4658-ba0c-655a5c26401b/dumbbell_flyes.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.015Z",
-    "updatedAt": "2026-03-15T21:37:34.312Z"
+    "createdAt": "2026-03-16T13:18:20.452Z",
+    "updatedAt": "2026-03-16T13:18:20.452Z"
   },
   {
-    "id": "6fc4f2fc-c0ab-45cf-8418-a9bc090b73f0",
+    "id": "e2e9c642-670f-48ff-9fde-ecbfb41de103",
+    "name": "Dumbbell Pullover on Floor",
+    "category": "strength",
+    "muscleGroup": "back",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Pullover en el suelo para dorsales, serrato y estabilidad costal con rango controlado.",
+    "instructions": [
+      "Acuéstate sobre una colchoneta con una mancuerna sostenida con ambas manos sobre el pecho",
+      "Mantén las costillas recogidas y una ligera flexión en codos",
+      "Lleva la mancuerna por detrás de la cabeza hasta donde controles",
+      "Devuelve la carga al punto inicial activando dorsales y pecho",
+      "Evita arquear en exceso la zona lumbar"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.560Z",
+    "updatedAt": "2026-03-16T13:18:26.560Z"
+  },
+  {
+    "id": "77d697da-b378-4c57-b8de-4a71276f227f",
     "name": "Dumbbell Push Press",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -886,13 +1102,13 @@
       "Termina con brazos arriba y abdomen firme",
       "Baja controladamente al punto inicial"
     ],
-    "imageUrl": "/exercises/6fc4f2fc-c0ab-45cf-8418-a9bc090b73f0/dumbbell_push_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:42.365Z",
-    "updatedAt": "2026-03-15T21:37:45.000Z"
+    "createdAt": "2026-03-16T13:18:25.453Z",
+    "updatedAt": "2026-03-16T13:18:25.453Z"
   },
   {
-    "id": "d4ebde66-1dba-44a7-aab3-65e4527d9099",
+    "id": "5927ecc3-0fdd-42d1-8aad-c6fa57e84d9f",
     "name": "Dumbbell Romanian Deadlift",
     "category": "strength",
     "muscleGroup": "legs",
@@ -905,21 +1121,48 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Bisagra de cadera con mancuernas para gl\u00fateos e isquiosurales.",
+    "description": "Bisagra de cadera con mancuernas para glúteos e isquiosurales.",
     "instructions": [
       "Sujeta dos mancuernas delante de los muslos",
-      "Empuja la cadera hacia atr\u00e1s con ligera flexi\u00f3n de rodillas",
+      "Empuja la cadera hacia atrás con ligera flexión de rodillas",
       "Baja las mancuernas rozando las piernas",
-      "Mant\u00e9n la espalda neutra",
-      "Vuelve arriba contrayendo gl\u00fateos"
+      "Mantén la espalda neutra",
+      "Vuelve arriba contrayendo glúteos"
     ],
-    "imageUrl": "/exercises/d4ebde66-1dba-44a7-aab3-65e4527d9099/dumbbell_romanian_deadlift.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.752Z",
-    "updatedAt": "2026-03-15T21:37:44.425Z"
+    "createdAt": "2026-03-16T13:18:25.178Z",
+    "updatedAt": "2026-03-16T13:18:25.178Z"
   },
   {
-    "id": "c3ed99fd-65f5-40ec-bf6a-ebe40aff11b1",
+    "id": "a88c6785-28e2-4aaa-b497-4ee328b79bb8",
+    "name": "Dumbbell Sit-to-Stand",
+    "category": "strength",
+    "muscleGroup": "legs",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Sentarse y levantarse con carga ligera, ideal para fuerza funcional y autonomía diaria a partir de los 40.",
+    "instructions": [
+      "Siéntate en el borde de una silla o banco estable con una mancuerna junto al pecho",
+      "Apoya bien los pies y mantén el torso alto",
+      "Inclina ligeramente el pecho al frente y ponte de pie empujando el suelo",
+      "Aprieta glúteos al final del movimiento",
+      "Desciende de forma lenta y controlada hasta volver a sentarte"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.497Z",
+    "updatedAt": "2026-03-16T13:18:25.497Z"
+  },
+  {
+    "id": "8c18a777-b631-4a69-bfad-08a2fbd36632",
     "name": "Dumbbell Thruster",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -932,21 +1175,75 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Sentadilla m\u00e1s press por encima de la cabeza para elevar pulsaciones en casa.",
+    "description": "Sentadilla más press por encima de la cabeza para elevar pulsaciones en casa.",
     "instructions": [
-      "Sost\u00e9n las mancuernas a la altura de los hombros",
+      "Sostén las mancuernas a la altura de los hombros",
       "Haz una sentadilla completa",
       "Al subir, impulsa las mancuernas sobre la cabeza",
       "Bloquea el abdomen para no arquear la espalda",
       "Baja las mancuernas de nuevo a los hombros"
     ],
-    "imageUrl": "/exercises/c3ed99fd-65f5-40ec-bf6a-ebe40aff11b1/dumbbell_thruster.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.854Z",
-    "updatedAt": "2026-03-15T21:37:44.515Z"
+    "createdAt": "2026-03-16T13:18:25.227Z",
+    "updatedAt": "2026-03-16T13:18:25.227Z"
   },
   {
-    "id": "b0774d32-ab04-4054-961a-24b18854638f",
+    "id": "e1e10be4-1e31-478b-8cec-a6c15ed5c2f1",
+    "name": "Dumbbell Triceps Kickback",
+    "category": "strength",
+    "muscleGroup": "arms",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Extensión de tríceps con mancuerna y bajo impacto para fortalecer brazos y estabilidad escapular.",
+    "instructions": [
+      "Inclina el torso hacia adelante con una mancuerna en cada mano",
+      "Lleva los codos pegados al cuerpo y doblados a 90 grados",
+      "Extiende los codos hacia atrás sin mover los hombros",
+      "Aprieta los tríceps al final del recorrido",
+      "Regresa lentamente a la posición inicial"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.469Z",
+    "updatedAt": "2026-03-16T13:18:26.469Z"
+  },
+  {
+    "id": "f3a08746-b4e8-433b-a2ee-8effed41f03e",
+    "name": "Face Pull to External Rotation",
+    "category": "strength",
+    "muscleGroup": "shoulders",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Combina retracción escapular y rotación externa para postura y salud del hombro.",
+    "instructions": [
+      "Ancla la banda a la altura de la cara y agarra con ambas manos",
+      "Tira hacia la cara separando las manos y abriendo los codos",
+      "Finaliza con antebrazos verticales y hombros lejos de las orejas",
+      "Mantén un segundo la contracción",
+      "Extiende de nuevo los brazos de forma controlada"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.892Z",
+    "updatedAt": "2026-03-16T13:18:25.892Z"
+  },
+  {
+    "id": "a38af587-84bf-4388-b1c4-fdf788e1ff2b",
     "name": "Face Pulls (Rear Delt Focus)",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -964,15 +1261,15 @@
       "Agarra la cuerda con ambas manos",
       "Tira de la cuerda hacia la cara",
       "Separa las manos al final",
-      "Aprieta los om\u00f3platos"
+      "Aprieta los omóplatos"
     ],
-    "imageUrl": "/exercises/b0774d32-ab04-4054-961a-24b18854638f/face_pulls_rear_delt_focus.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:39.674Z",
-    "updatedAt": "2026-03-15T21:37:39.674Z"
+    "createdAt": "2026-03-16T13:18:22.920Z",
+    "updatedAt": "2026-03-16T13:18:22.920Z"
   },
   {
-    "id": "28dbc710-aa61-42cc-b4ab-1111536c808d",
+    "id": "73dbcf15-e204-4ab1-b8e6-8dc2b4cc1ff8",
     "name": "Face Pulls (Upper Back Focus)",
     "category": "strength",
     "muscleGroup": "back",
@@ -990,15 +1287,42 @@
       "Agarra la cuerda con ambas manos",
       "Tira de la cuerda hacia la cara",
       "Separa las manos al final del movimiento",
-      "Aprieta los om\u00f3platos juntos"
+      "Aprieta los omóplatos juntos"
     ],
-    "imageUrl": "/exercises/28dbc710-aa61-42cc-b4ab-1111536c808d/face_pulls_upper_back_focus.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:37:36.303Z",
-    "updatedAt": "2026-03-15T21:37:36.303Z"
+    "createdAt": "2026-03-16T13:18:21.361Z",
+    "updatedAt": "2026-03-16T13:18:21.361Z"
   },
   {
-    "id": "b48159df-c870-4a4e-9bef-7dbbd06b18ba",
+    "id": "825323bf-beb6-47c8-9e2d-d04163913076",
+    "name": "Front Rack Dumbbell March",
+    "category": "strength",
+    "muscleGroup": "full_body",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Marcha con mancuernas en rack frontal para estabilidad central, postura y resistencia local.",
+    "instructions": [
+      "Sostén una o dos mancuernas a la altura de los hombros",
+      "Mantén el tronco alto y el abdomen firme",
+      "Marcha en el sitio elevando una rodilla cada vez",
+      "Controla que el cuerpo no se balancee",
+      "Continúa a ritmo estable durante el tiempo marcado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.207Z",
+    "updatedAt": "2026-03-16T13:18:26.207Z"
+  },
+  {
+    "id": "5cc762a8-ce90-4cc4-b65b-6c8c2ca14d6f",
     "name": "Front Raises",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -1013,19 +1337,19 @@
     "difficulty": "beginner",
     "description": "Elevaciones frontales para el deltoides anterior.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Sost\u00e9n una mancuerna en cada mano frente a los muslos",
+      "Párate con los pies a la anchura de los hombros",
+      "Sostén una mancuerna en cada mano frente a los muslos",
       "Eleva una mancuerna hacia adelante",
       "Sube hasta la altura de los hombros",
       "Baja controladamente y alterna"
     ],
-    "imageUrl": "/exercises/b48159df-c870-4a4e-9bef-7dbbd06b18ba/front_raises.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.115Z",
-    "updatedAt": "2026-03-15T21:37:39.201Z"
+    "createdAt": "2026-03-16T13:18:22.702Z",
+    "updatedAt": "2026-03-16T13:18:22.702Z"
   },
   {
-    "id": "109083dd-8669-41f7-a6d4-cd2341dcb8e7",
+    "id": "e4087d4b-0dff-4204-81d4-70290e2ee3ce",
     "name": "Front Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1037,21 +1361,48 @@
       "gym"
     ],
     "difficulty": "advanced",
-    "description": "Sentadilla con barra al frente que enfatiza cu\u00e1driceps.",
+    "description": "Sentadilla con barra al frente que enfatiza cuádriceps.",
     "instructions": [
       "Coloca la barra en la parte frontal de los hombros",
       "Cruza los brazos o usa agarre limpio",
-      "Mant\u00e9n los codos altos",
+      "Mantén los codos altos",
       "Baja en sentadilla manteniendo el torso erguido",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/109083dd-8669-41f7-a6d4-cd2341dcb8e7/front_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.692Z",
-    "updatedAt": "2026-03-15T21:37:37.882Z"
+    "createdAt": "2026-03-16T13:18:22.081Z",
+    "updatedAt": "2026-03-16T13:18:22.081Z"
   },
   {
-    "id": "27e5e6d5-cdac-47c1-ba0e-2efb6345ade2",
+    "id": "96a6bfe1-2891-4508-8fd2-88da51b9779e",
+    "name": "Glute Bridge March",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Puente con marcha alterna para glúteos, core y control lumbo-pélvico.",
+    "instructions": [
+      "Acuéstate sobre una colchoneta con rodillas flexionadas y pies apoyados",
+      "Eleva las caderas hasta formar una línea entre hombros y rodillas",
+      "Mantén la pelvis estable mientras levantas un pie unos centímetros",
+      "Apoya de nuevo y repite con la otra pierna",
+      "Mantén el abdomen activo durante toda la serie"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.677Z",
+    "updatedAt": "2026-03-16T13:18:25.677Z"
+  },
+  {
+    "id": "dda240b3-6873-4b8a-a2fb-beaf19e2eba8",
     "name": "Glute Bridges",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1064,21 +1415,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio para gl\u00fateos e isquiotibiales.",
+    "description": "Ejercicio para glúteos e isquiotibiales.",
     "instructions": [
-      "Acu\u00e9state boca arriba con las rodillas flexionadas",
+      "Acuéstate boca arriba con las rodillas flexionadas",
       "Pies planos en el suelo a la anchura de las caderas",
-      "Empuja a trav\u00e9s de los talones para elevar las caderas",
-      "Aprieta los gl\u00fateos en la parte superior",
+      "Empuja a través de los talones para elevar las caderas",
+      "Aprieta los glúteos en la parte superior",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/27e5e6d5-cdac-47c1-ba0e-2efb6345ade2/glute_bridges.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.303Z",
-    "updatedAt": "2026-03-15T21:37:38.448Z"
+    "createdAt": "2026-03-16T13:18:22.343Z",
+    "updatedAt": "2026-03-16T13:18:22.343Z"
   },
   {
-    "id": "ae64bdc7-f4fe-47ab-8f81-0f7af17adbe2",
+    "id": "0cb8d6ef-b835-4ebf-8db7-05dc28472042",
     "name": "Goblet Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1093,19 +1444,19 @@
     "difficulty": "beginner",
     "description": "Sentadilla con mancuerna sostenida al pecho.",
     "instructions": [
-      "Sost\u00e9n una mancuerna verticalmente contra el pecho",
-      "P\u00e1rate con los pies ligeramente m\u00e1s anchos que los hombros",
+      "Sostén una mancuerna verticalmente contra el pecho",
+      "Párate con los pies ligeramente más anchos que los hombros",
       "Baja en sentadilla manteniendo el pecho elevado",
       "Los codos deben pasar entre las rodillas",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/ae64bdc7-f4fe-47ab-8f81-0f7af17adbe2/goblet_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.590Z",
-    "updatedAt": "2026-03-15T21:37:37.777Z"
+    "createdAt": "2026-03-16T13:18:22.033Z",
+    "updatedAt": "2026-03-16T13:18:22.033Z"
   },
   {
-    "id": "b93e5cbe-4cf2-4ee2-a51a-8d9f05a90e89",
+    "id": "4944b371-cb4a-492c-97e3-21c540e6f9dc",
     "name": "Hack Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1117,21 +1468,48 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Sentadilla en m\u00e1quina hack squat.",
+    "description": "Sentadilla en máquina hack squat.",
     "instructions": [
-      "Col\u00f3cate en la m\u00e1quina con la espalda contra el respaldo",
+      "Colócate en la máquina con la espalda contra el respaldo",
       "Pies en la plataforma a la anchura de los hombros",
       "Libera los seguros",
       "Baja doblando las rodillas",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/b93e5cbe-4cf2-4ee2-a51a-8d9f05a90e89/hack_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.810Z",
-    "updatedAt": "2026-03-15T21:37:38.918Z"
+    "createdAt": "2026-03-16T13:18:22.570Z",
+    "updatedAt": "2026-03-16T13:18:22.570Z"
   },
   {
-    "id": "303337fa-960f-4983-8c76-d9d6e65698f0",
+    "id": "893c01cb-e132-49bb-b34e-fb5a33c3c563",
+    "name": "Half-Kneeling Single-Arm Dumbbell Press",
+    "category": "strength",
+    "muscleGroup": "shoulders",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Press unilateral en media rodilla para hombro, core y estabilidad de cadera.",
+    "instructions": [
+      "Colócate en media rodilla sobre una colchoneta con una mancuerna en el lado contrario a la pierna adelantada",
+      "Aprieta glúteo de la pierna atrasada y mantén el torso vertical",
+      "Empuja la mancuerna por encima de la cabeza",
+      "Baja con control hasta la posición inicial",
+      "Completa el lado antes de cambiar"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.250Z",
+    "updatedAt": "2026-03-16T13:18:26.250Z"
+  },
+  {
+    "id": "ea91c7ce-fb0b-4eeb-b3c1-2072fff17bee",
     "name": "Hammer Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -1144,21 +1522,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl con agarre neutro para b\u00edceps y braquial.",
+    "description": "Curl con agarre neutro para bíceps y braquial.",
     "instructions": [
-      "P\u00e1rate con una mancuerna en cada mano",
+      "Párate con una mancuerna en cada mano",
       "Palmas enfrentadas (agarre neutro)",
       "Flexiona los codos llevando las mancuernas hacia los hombros",
-      "Mant\u00e9n las palmas enfrentadas durante todo el movimiento",
+      "Mantén las palmas enfrentadas durante todo el movimiento",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/303337fa-960f-4983-8c76-d9d6e65698f0/hammer_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.343Z",
-    "updatedAt": "2026-03-15T21:37:40.345Z"
+    "createdAt": "2026-03-16T13:18:23.243Z",
+    "updatedAt": "2026-03-16T13:18:23.243Z"
   },
   {
-    "id": "c9a339f0-d13b-494d-84df-3dcfad010b0d",
+    "id": "e989186c-09c3-475e-ad56-154dde9f718d",
     "name": "Hanging Knee Raises",
     "category": "strength",
     "muscleGroup": "core",
@@ -1177,13 +1555,13 @@
       "Contrae el abdomen",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/c9a339f0-d13b-494d-84df-3dcfad010b0d/hanging_knee_raises.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.493Z",
-    "updatedAt": "2026-03-15T21:37:42.345Z"
+    "createdAt": "2026-03-16T13:18:24.190Z",
+    "updatedAt": "2026-03-16T13:18:24.190Z"
   },
   {
-    "id": "8b0d8414-e660-4622-8f14-afec9f001fde",
+    "id": "217ba1d2-fb5d-48a4-88bf-27aa5194b66f",
     "name": "High Knees",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -1198,18 +1576,18 @@
     "difficulty": "beginner",
     "description": "Carrera en el lugar con rodillas altas.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de las caderas",
-      "Corre en el lugar elevando las rodillas lo m\u00e1s alto posible",
-      "Alterna r\u00e1pidamente las piernas",
+      "Párate con los pies a la anchura de las caderas",
+      "Corre en el lugar elevando las rodillas lo más alto posible",
+      "Alterna rápidamente las piernas",
       "Balancea los brazos"
     ],
-    "imageUrl": "/exercises/8b0d8414-e660-4622-8f14-afec9f001fde/high_knees.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.558Z",
-    "updatedAt": "2026-03-15T21:37:43.175Z"
+    "createdAt": "2026-03-16T13:18:24.594Z",
+    "updatedAt": "2026-03-16T13:18:24.594Z"
   },
   {
-    "id": "0fdf2778-1a69-4022-b85d-26dc34750c8e",
+    "id": "435e71d5-373f-4bb8-aae6-1bb723ba4f2c",
     "name": "Hip Thrusts",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1221,22 +1599,22 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio avanzado para gl\u00fateos.",
+    "description": "Ejercicio avanzado para glúteos.",
     "instructions": [
-      "Si\u00e9ntate en el suelo con la espalda superior contra un banco",
+      "Siéntate en el suelo con la espalda superior contra un banco",
       "Coloca una barra sobre las caderas",
       "Flexiona las rodillas con los pies planos",
-      "Empuja a trav\u00e9s de los talones para elevar las caderas",
-      "Aprieta los gl\u00fateos en la parte superior",
+      "Empuja a través de los talones para elevar las caderas",
+      "Aprieta los glúteos en la parte superior",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/0fdf2778-1a69-4022-b85d-26dc34750c8e/hip_thrusts.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.404Z",
-    "updatedAt": "2026-03-15T21:37:38.543Z"
+    "createdAt": "2026-03-16T13:18:22.392Z",
+    "updatedAt": "2026-03-16T13:18:22.392Z"
   },
   {
-    "id": "8b940820-60a7-4eb4-b131-f00eb9ac0e06",
+    "id": "b9bb2c39-b2fc-4008-9f0f-58c9627f6e2b",
     "name": "Hollow Body Hold",
     "category": "strength",
     "muscleGroup": "core",
@@ -1249,21 +1627,21 @@
       "outdoor"
     ],
     "difficulty": "intermediate",
-    "description": "Posici\u00f3n isom\u00e9trica de gimnasia.",
+    "description": "Posición isométrica de gimnasia.",
     "instructions": [
-      "Acu\u00e9state boca arriba",
+      "Acuéstate boca arriba",
       "Eleva hombros y piernas del suelo",
       "Brazos extendidos sobre la cabeza",
       "Forma una ligera curva con el cuerpo",
-      "Mant\u00e9n la espalda baja pegada al suelo"
+      "Mantén la espalda baja pegada al suelo"
     ],
-    "imageUrl": "/exercises/8b940820-60a7-4eb4-b131-f00eb9ac0e06/hollow_body_hold.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.115Z",
-    "updatedAt": "2026-03-15T21:37:42.896Z"
+    "createdAt": "2026-03-16T13:18:24.458Z",
+    "updatedAt": "2026-03-16T13:18:24.458Z"
   },
   {
-    "id": "883f0486-81d9-49a6-b914-e717be47ca29",
+    "id": "e53fd3f4-8c7c-4d9c-8aca-fd880fc36788",
     "name": "Hyperextensions",
     "category": "strength",
     "muscleGroup": "back",
@@ -1275,21 +1653,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio para la espalda baja y gl\u00fateos.",
+    "description": "Ejercicio para la espalda baja y glúteos.",
     "instructions": [
-      "Col\u00f3cate en el banco de hiperextensiones",
+      "Colócate en el banco de hiperextensiones",
       "Cruza los brazos sobre el pecho",
       "Baja el torso hacia el suelo",
-      "Sube hasta que el cuerpo est\u00e9 recto",
+      "Sube hasta que el cuerpo esté recto",
       "No hiperextendas la espalda"
     ],
-    "imageUrl": "/exercises/883f0486-81d9-49a6-b914-e717be47ca29/hyperextensions.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.265Z",
-    "updatedAt": "2026-03-15T21:37:36.496Z"
+    "createdAt": "2026-03-16T13:18:21.451Z",
+    "updatedAt": "2026-03-16T13:18:21.451Z"
   },
   {
-    "id": "a498add9-ddb7-4b10-ba59-81b1016784e0",
+    "id": "40232d10-d76a-4818-939d-42a68fe27268",
     "name": "Incline Bench Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -1303,19 +1681,19 @@
     "difficulty": "intermediate",
     "description": "Variante del press de banca que enfatiza la parte superior del pecho.",
     "instructions": [
-      "Ajusta el banco a 30-45 grados de inclinaci\u00f3n",
-      "Acu\u00e9state con los pies firmes en el suelo",
+      "Ajusta el banco a 30-45 grados de inclinación",
+      "Acuéstate con los pies firmes en el suelo",
       "Agarra la barra con las manos a la anchura de los hombros",
       "Baja la barra hasta la parte superior del pecho",
       "Empuja hacia arriba hasta extender los brazos"
     ],
-    "imageUrl": "/exercises/a498add9-ddb7-4b10-ba59-81b1016784e0/incline_bench_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.117Z",
-    "updatedAt": "2026-03-15T21:37:34.411Z"
+    "createdAt": "2026-03-16T13:18:20.503Z",
+    "updatedAt": "2026-03-16T13:18:20.503Z"
   },
   {
-    "id": "ce0297ee-7eea-4282-9eed-532e0a39d291",
+    "id": "bc1b73d8-8867-4c88-a375-a1ee79598262",
     "name": "Incline Dumbbell Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -1331,17 +1709,44 @@
     "description": "Press inclinado con mancuernas para pecho superior.",
     "instructions": [
       "Ajusta el banco a 30-45 grados",
-      "Si\u00e9ntate con una mancuerna en cada mano",
+      "Siéntate con una mancuerna en cada mano",
       "Empuja las mancuernas hacia arriba hasta extender los brazos",
-      "Baja controladamente hasta que las mancuernas est\u00e9n a la altura del pecho"
+      "Baja controladamente hasta que las mancuernas estén a la altura del pecho"
     ],
-    "imageUrl": "/exercises/ce0297ee-7eea-4282-9eed-532e0a39d291/incline_dumbbell_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.831Z",
-    "updatedAt": "2026-03-15T21:37:35.135Z"
+    "createdAt": "2026-03-16T13:18:20.829Z",
+    "updatedAt": "2026-03-16T13:18:20.829Z"
   },
   {
-    "id": "5a34ac9d-1373-4a1d-8dfb-25d64da4955d",
+    "id": "bab08228-87ff-4f4d-982b-f35cee1b9b97",
+    "name": "Incline Push-ups on Bench",
+    "category": "strength",
+    "muscleGroup": "chest",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Flexión inclinada con apoyo elevado para trabajar pecho y brazos con menos carga que en el suelo.",
+    "instructions": [
+      "Apoya las manos sobre un banco, sofá firme o superficie elevada",
+      "Camina con los pies hacia atrás hasta formar una línea recta",
+      "Baja el pecho controlando la posición del tronco",
+      "Empuja con las manos hasta extender los brazos",
+      "Evita que la zona lumbar se hunda"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.984Z",
+    "updatedAt": "2026-03-16T13:18:25.984Z"
+  },
+  {
+    "id": "dda0d80a-23f4-455b-a3ab-1e56d2587ff8",
     "name": "Inverted Rows",
     "category": "strength",
     "muscleGroup": "back",
@@ -1355,19 +1760,19 @@
     "difficulty": "beginner",
     "description": "Remo invertido con peso corporal.",
     "instructions": [
-      "Col\u00f3cate debajo de una barra baja",
+      "Colócate debajo de una barra baja",
       "Agarra la barra con las manos a la anchura de los hombros",
-      "Mant\u00e9n el cuerpo recto",
+      "Mantén el cuerpo recto",
       "Tira del pecho hacia la barra",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/5a34ac9d-1373-4a1d-8dfb-25d64da4955d/inverted_rows.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.164Z",
-    "updatedAt": "2026-03-15T21:37:36.399Z"
+    "createdAt": "2026-03-16T13:18:21.407Z",
+    "updatedAt": "2026-03-16T13:18:21.407Z"
   },
   {
-    "id": "2917281c-cc9c-4a55-a046-c1d6c3cbd845",
+    "id": "a80f7778-3ed8-4fa1-b78b-0c2c6b123f7f",
     "name": "Jump Rope",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -1381,18 +1786,18 @@
     "difficulty": "beginner",
     "description": "Saltar la cuerda para cardio.",
     "instructions": [
-      "Sost\u00e9n los mangos de la cuerda",
-      "Gira la cuerda con las mu\u00f1ecas",
+      "Sostén los mangos de la cuerda",
+      "Gira la cuerda con las muñecas",
       "Salta cuando la cuerda pase bajo los pies",
       "Aterriza en las puntas de los pies"
     ],
-    "imageUrl": "/exercises/2917281c-cc9c-4a55-a046-c1d6c3cbd845/jump_rope.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.525Z",
-    "updatedAt": "2026-03-15T21:37:43.268Z"
+    "createdAt": "2026-03-16T13:18:24.638Z",
+    "updatedAt": "2026-03-16T13:18:24.638Z"
   },
   {
-    "id": "e6444aa6-a23b-4d1d-8e90-4a747b04fa0d",
+    "id": "904d3875-a81b-48a7-b7a9-9e8507947fe4",
     "name": "Jumping Jacks",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -1405,20 +1810,20 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio cardiovascular cl\u00e1sico de calentamiento.",
+    "description": "Ejercicio cardiovascular clásico de calentamiento.",
     "instructions": [
-      "P\u00e1rate con los pies juntos y brazos a los lados",
+      "Párate con los pies juntos y brazos a los lados",
       "Salta separando los pies y elevando los brazos sobre la cabeza",
       "Salta de nuevo juntando los pies y bajando los brazos",
       "Repite en un movimiento fluido"
     ],
-    "imageUrl": "/exercises/e6444aa6-a23b-4d1d-8e90-4a747b04fa0d/jumping_jacks.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.170Z",
-    "updatedAt": "2026-03-15T21:37:42.987Z"
+    "createdAt": "2026-03-16T13:18:24.504Z",
+    "updatedAt": "2026-03-16T13:18:24.504Z"
   },
   {
-    "id": "94cfb0a6-71af-4ab8-ac49-3b6012f851b3",
+    "id": "0518b91c-7fc0-4852-beab-51c7dee983bc",
     "name": "Landmine Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -1434,16 +1839,16 @@
     "instructions": [
       "Coloca una barra en un landmine o esquina",
       "Agarra el extremo de la barra con ambas manos",
-      "Empuja la barra hacia arriba en \u00e1ngulo",
+      "Empuja la barra hacia arriba en ángulo",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/94cfb0a6-71af-4ab8-ac49-3b6012f851b3/landmine_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.241Z",
-    "updatedAt": "2026-03-15T21:37:35.530Z"
+    "createdAt": "2026-03-16T13:18:21.007Z",
+    "updatedAt": "2026-03-16T13:18:21.007Z"
   },
   {
-    "id": "48bc2b4b-57df-45f0-9837-f08bdfe06928",
+    "id": "8f39985f-c159-45bd-9f80-7d708f368dde",
     "name": "Lat Pulldowns",
     "category": "strength",
     "muscleGroup": "back",
@@ -1455,21 +1860,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio en m\u00e1quina para desarrollar los dorsales.",
+    "description": "Ejercicio en máquina para desarrollar los dorsales.",
     "instructions": [
-      "Si\u00e9ntate en la m\u00e1quina con los muslos asegurados bajo las almohadillas",
-      "Agarra la barra con las manos m\u00e1s anchas que los hombros",
+      "Siéntate en la máquina con los muslos asegurados bajo las almohadillas",
+      "Agarra la barra con las manos más anchas que los hombros",
       "Tira de la barra hacia el pecho superior",
-      "Aprieta los om\u00f3platos al final del movimiento",
-      "Vuelve controladamente a la posici\u00f3n inicial"
+      "Aprieta los omóplatos al final del movimiento",
+      "Vuelve controladamente a la posición inicial"
     ],
-    "imageUrl": "/exercises/48bc2b4b-57df-45f0-9837-f08bdfe06928/lat_pulldowns.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.651Z",
-    "updatedAt": "2026-03-15T21:37:35.922Z"
+    "createdAt": "2026-03-16T13:18:21.188Z",
+    "updatedAt": "2026-03-16T13:18:21.188Z"
   },
   {
-    "id": "565fe58f-ada4-43dc-8acb-4e2f1409a4b4",
+    "id": "2fae73f6-461e-4878-b052-62dfcad8d303",
     "name": "Lateral Raises",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -1484,19 +1889,19 @@
     "difficulty": "beginner",
     "description": "Elevaciones laterales para el deltoides medio.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Sost\u00e9n una mancuerna en cada mano a los lados",
+      "Párate con los pies a la anchura de los hombros",
+      "Sostén una mancuerna en cada mano a los lados",
       "Con los codos ligeramente flexionados, eleva los brazos lateralmente",
-      "Sube hasta que los brazos est\u00e9n paralelos al suelo",
+      "Sube hasta que los brazos estén paralelos al suelo",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/565fe58f-ada4-43dc-8acb-4e2f1409a4b4/lateral_raises.png",
+    "imageUrl": "/exercises/lateral-raises.png",
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.014Z",
-    "updatedAt": "2026-03-15T21:37:39.107Z"
+    "createdAt": "2026-03-16T13:18:22.657Z",
+    "updatedAt": "2026-03-16T13:18:22.657Z"
   },
   {
-    "id": "82805442-8373-4034-94e7-1c2d90652d66",
+    "id": "30e4529e-a13b-40c0-90c8-9bbc0a214412",
     "name": "Leg Curls",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1510,19 +1915,19 @@
     "difficulty": "beginner",
     "description": "Ejercicio de aislamiento para los isquiotibiales.",
     "instructions": [
-      "Acu\u00e9state boca abajo en la m\u00e1quina",
-      "Ajusta el rodillo para que est\u00e9 justo encima de los talones",
+      "Acuéstate boca abajo en la máquina",
+      "Ajusta el rodillo para que esté justo encima de los talones",
       "Agarra los mangos para estabilidad",
-      "Flexiona las rodillas llevando los talones hacia los gl\u00fateos",
+      "Flexiona las rodillas llevando los talones hacia los glúteos",
       "Baja controladamente hasta extender las piernas"
     ],
-    "imageUrl": "/exercises/82805442-8373-4034-94e7-1c2d90652d66/leg_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.184Z",
-    "updatedAt": "2026-03-15T21:37:37.399Z"
+    "createdAt": "2026-03-16T13:18:21.852Z",
+    "updatedAt": "2026-03-16T13:18:21.852Z"
   },
   {
-    "id": "05ffb66b-79f1-4e7c-a87e-1859dcdde40f",
+    "id": "b8484582-ce6b-4e7a-a1cd-37201d03fb1d",
     "name": "Leg Extensions",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1534,21 +1939,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio de aislamiento para los cu\u00e1driceps.",
+    "description": "Ejercicio de aislamiento para los cuádriceps.",
     "instructions": [
-      "Si\u00e9ntate en la m\u00e1quina con la espalda contra el respaldo",
-      "Ajusta el rodillo para que est\u00e9 en la parte baja de las espinillas",
+      "Siéntate en la máquina con la espalda contra el respaldo",
+      "Ajusta el rodillo para que esté en la parte baja de las espinillas",
       "Agarra los mangos laterales",
-      "Extiende las piernas hasta que est\u00e9n rectas",
+      "Extiende las piernas hasta que estén rectas",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/05ffb66b-79f1-4e7c-a87e-1859dcdde40f/leg_extensions.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.386Z",
-    "updatedAt": "2026-03-15T21:37:37.587Z"
+    "createdAt": "2026-03-16T13:18:21.947Z",
+    "updatedAt": "2026-03-16T13:18:21.947Z"
   },
   {
-    "id": "0f7704d5-37c1-4271-a807-41e90d5f9535",
+    "id": "a3a3268a-559c-4467-9946-860c4cbac22a",
     "name": "Leg Press",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1560,21 +1965,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio en m\u00e1quina para cu\u00e1driceps y gl\u00fateos.",
+    "description": "Ejercicio en máquina para cuádriceps y glúteos.",
     "instructions": [
-      "Si\u00e9ntate en la m\u00e1quina con la espalda contra el respaldo",
+      "Siéntate en la máquina con la espalda contra el respaldo",
       "Coloca los pies en la plataforma a la anchura de los hombros",
       "Libera los seguros y baja la plataforma doblando las rodillas",
-      "Desciende hasta que las rodillas est\u00e9n a 90 grados",
+      "Desciende hasta que las rodillas estén a 90 grados",
       "Empuja la plataforma hacia arriba hasta casi extender las piernas"
     ],
-    "imageUrl": "/exercises/0f7704d5-37c1-4271-a807-41e90d5f9535/leg_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.082Z",
-    "updatedAt": "2026-03-15T21:37:37.305Z"
+    "createdAt": "2026-03-16T13:18:21.808Z",
+    "updatedAt": "2026-03-16T13:18:21.808Z"
   },
   {
-    "id": "7863c602-2626-4b25-9bc0-fce62ed1dc0f",
+    "id": "33c895c9-dd0a-4079-b70a-3dccb7c7b054",
     "name": "Leg Raises",
     "category": "strength",
     "muscleGroup": "core",
@@ -1589,19 +1994,19 @@
     "difficulty": "intermediate",
     "description": "Elevaciones de piernas para el abdomen bajo.",
     "instructions": [
-      "Acu\u00e9state boca arriba con las piernas extendidas",
-      "Manos bajo los gl\u00fateos o a los lados",
+      "Acuéstate boca arriba con las piernas extendidas",
+      "Manos bajo los glúteos o a los lados",
       "Eleva las piernas hacia arriba manteniendo las rodillas rectas",
-      "Sube hasta que las piernas est\u00e9n perpendiculares al suelo",
+      "Sube hasta que las piernas estén perpendiculares al suelo",
       "Baja controladamente sin tocar el suelo"
     ],
-    "imageUrl": "/exercises/7863c602-2626-4b25-9bc0-fce62ed1dc0f/leg_raises.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.450Z",
-    "updatedAt": "2026-03-15T21:37:42.067Z"
+    "createdAt": "2026-03-16T13:18:24.054Z",
+    "updatedAt": "2026-03-16T13:18:24.054Z"
   },
   {
-    "id": "826c8526-b33e-492f-8e5f-f7959ed6f7d3",
+    "id": "215c3595-b2b5-42b0-a749-6a2430a8d853",
     "name": "Lunges",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1614,22 +2019,22 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio unilateral para cu\u00e1driceps, gl\u00fateos y equilibrio.",
+    "description": "Ejercicio unilateral para cuádriceps, glúteos y equilibrio.",
     "instructions": [
-      "P\u00e1rate con los pies juntos",
+      "Párate con los pies juntos",
       "Da un paso largo hacia adelante con una pierna",
-      "Baja las caderas hasta que ambas rodillas est\u00e9n a 90 grados",
+      "Baja las caderas hasta que ambas rodillas estén a 90 grados",
       "La rodilla trasera debe casi tocar el suelo",
-      "Empuja con el tal\u00f3n delantero para volver a la posici\u00f3n inicial",
+      "Empuja con el talón delantero para volver a la posición inicial",
       "Alterna las piernas"
     ],
-    "imageUrl": "/exercises/826c8526-b33e-492f-8e5f-f7959ed6f7d3/lunges.png",
+    "imageUrl": "/exercises/lunges.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.727Z",
-    "updatedAt": "2026-03-15T21:37:37.213Z"
+    "createdAt": "2026-03-16T13:18:21.759Z",
+    "updatedAt": "2026-03-16T13:18:21.759Z"
   },
   {
-    "id": "4208171c-b859-4d36-90a3-569d5d73284f",
+    "id": "a129bbaa-519a-491a-8f25-451e7d2f2b95",
     "name": "Meadows Row",
     "category": "strength",
     "muscleGroup": "back",
@@ -1644,18 +2049,18 @@
     "description": "Remo unilateral con barra para la espalda.",
     "instructions": [
       "Coloca una barra en una esquina",
-      "P\u00e1rate perpendicular a la barra",
+      "Párate perpendicular a la barra",
       "Agarra el extremo de la barra con una mano",
       "Tira de la barra hacia la cadera",
-      "Mant\u00e9n el torso estable"
+      "Mantén el torso estable"
     ],
-    "imageUrl": "/exercises/4208171c-b859-4d36-90a3-569d5d73284f/meadows_row.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.570Z",
-    "updatedAt": "2026-03-15T21:37:36.814Z"
+    "createdAt": "2026-03-16T13:18:21.581Z",
+    "updatedAt": "2026-03-16T13:18:21.581Z"
   },
   {
-    "id": "af2f3363-3f2d-4bfc-8007-8c5607b52975",
+    "id": "735055ca-fa05-47b3-92cc-3883492187ed",
     "name": "Military Press",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -1669,19 +2074,19 @@
     "difficulty": "intermediate",
     "description": "Press militar de pie con barra.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Sost\u00e9n la barra a la altura de los hombros",
-      "Empuja la barra hacia arriba en l\u00ednea recta",
-      "Mueve la cabeza ligeramente hacia atr\u00e1s",
+      "Párate con los pies a la anchura de los hombros",
+      "Sostén la barra a la altura de los hombros",
+      "Empuja la barra hacia arriba en línea recta",
+      "Mueve la cabeza ligeramente hacia atrás",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/af2f3363-3f2d-4bfc-8007-8c5607b52975/military_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.524Z",
-    "updatedAt": "2026-03-15T21:37:39.581Z"
+    "createdAt": "2026-03-16T13:18:22.877Z",
+    "updatedAt": "2026-03-16T13:18:22.877Z"
   },
   {
-    "id": "8e44f332-4635-4438-bcb3-50eca520a478",
+    "id": "fd5c09fd-bc20-47dd-b059-7d2b083bbc12",
     "name": "Mountain Climbers",
     "category": "cardio",
     "muscleGroup": "core",
@@ -1694,21 +2099,21 @@
       "outdoor"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio din\u00e1mico que combina core y cardio.",
+    "description": "Ejercicio dinámico que combina core y cardio.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de plancha alta",
+      "Colócate en posición de plancha alta",
       "Lleva una rodilla hacia el pecho",
-      "R\u00e1pidamente cambia de pierna",
+      "Rápidamente cambia de pierna",
       "Alterna las piernas en un movimiento de carrera",
-      "Mant\u00e9n las caderas bajas"
+      "Mantén las caderas bajas"
     ],
-    "imageUrl": "/exercises/8e44f332-4635-4438-bcb3-50eca520a478/mountain_climbers.png",
+    "imageUrl": "/exercises/mountain-climbers.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.955Z",
-    "updatedAt": "2026-03-15T21:37:41.879Z"
+    "createdAt": "2026-03-16T13:18:23.965Z",
+    "updatedAt": "2026-03-16T13:18:23.965Z"
   },
   {
-    "id": "d5dd6cc5-7e2e-4191-8967-1a9aaeb8f7fd",
+    "id": "62255295-6373-4c7d-8edb-76fcde41d89e",
     "name": "Nordic Curls",
     "category": "strength",
     "muscleGroup": "legs",
@@ -1721,21 +2126,21 @@
       "outdoor"
     ],
     "difficulty": "advanced",
-    "description": "Ejercicio exc\u00e9ntrico avanzado para isquiotibiales.",
+    "description": "Ejercicio excéntrico avanzado para isquiotibiales.",
     "instructions": [
-      "Arrod\u00edllate con alguien sosteniendo tus tobillos",
-      "Mant\u00e9n el cuerpo recto desde las rodillas",
+      "Arrodíllate con alguien sosteniendo tus tobillos",
+      "Mantén el cuerpo recto desde las rodillas",
       "Baja lentamente hacia adelante",
-      "Resiste la ca\u00edda con los isquiotibiales",
+      "Resiste la caída con los isquiotibiales",
       "Usa las manos para amortiguar al final"
     ],
-    "imageUrl": "/exercises/d5dd6cc5-7e2e-4191-8967-1a9aaeb8f7fd/nordic_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.708Z",
-    "updatedAt": "2026-03-15T21:37:38.824Z"
+    "createdAt": "2026-03-16T13:18:22.525Z",
+    "updatedAt": "2026-03-16T13:18:22.525Z"
   },
   {
-    "id": "523f63ab-edd0-4874-85ef-2566dc01d105",
+    "id": "f3f0c7c0-c4c2-438f-bb7d-4f1245fb5672",
     "name": "Overhead Press",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -1749,18 +2154,18 @@
     "difficulty": "intermediate",
     "description": "Press sobre la cabeza con barra.",
     "instructions": [
-      "P\u00e1rate con la barra a la altura de los hombros",
+      "Párate con la barra a la altura de los hombros",
       "Empuja la barra directamente hacia arriba",
       "Extiende completamente los brazos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/523f63ab-edd0-4874-85ef-2566dc01d105/overhead_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.934Z",
-    "updatedAt": "2026-03-15T21:37:39.962Z"
+    "createdAt": "2026-03-16T13:18:23.056Z",
+    "updatedAt": "2026-03-16T13:18:23.056Z"
   },
   {
-    "id": "dd9e833e-46aa-4660-ad2d-73056001d5ed",
+    "id": "df9a8500-6036-4df4-869d-db23c396d28e",
     "name": "Overhead Tricep Extension",
     "category": "strength",
     "muscleGroup": "arms",
@@ -1773,21 +2178,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Extensi\u00f3n de tr\u00edceps sobre la cabeza.",
+    "description": "Extensión de tríceps sobre la cabeza.",
     "instructions": [
-      "Si\u00e9ntate o p\u00e1rate sosteniendo una mancuerna con ambas manos",
+      "Siéntate o párate sosteniendo una mancuerna con ambas manos",
       "Eleva la mancuerna sobre la cabeza",
-      "Baja la mancuerna detr\u00e1s de la cabeza doblando los codos",
-      "Mant\u00e9n los codos apuntando hacia arriba",
+      "Baja la mancuerna detrás de la cabeza doblando los codos",
+      "Mantén los codos apuntando hacia arriba",
       "Extiende los brazos para volver arriba"
     ],
-    "imageUrl": "/exercises/dd9e833e-46aa-4660-ad2d-73056001d5ed/overhead_tricep_extension.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.652Z",
-    "updatedAt": "2026-03-15T21:37:40.636Z"
+    "createdAt": "2026-03-16T13:18:23.386Z",
+    "updatedAt": "2026-03-16T13:18:23.386Z"
   },
   {
-    "id": "3c933127-6251-45cc-bdd2-880cf586ec29",
+    "id": "35a8de8c-ab43-450b-b988-f627ba344e1f",
     "name": "Pallof Press",
     "category": "strength",
     "muscleGroup": "core",
@@ -1799,21 +2204,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio de anti-rotaci\u00f3n para el core.",
+    "description": "Ejercicio de anti-rotación para el core.",
     "instructions": [
-      "P\u00e1rate de lado a una polea media",
-      "Sost\u00e9n el mango con ambas manos al pecho",
+      "Párate de lado a una polea media",
+      "Sostén el mango con ambas manos al pecho",
       "Empuja el mango hacia adelante",
-      "Resiste la rotaci\u00f3n",
+      "Resiste la rotación",
       "Vuelve al pecho"
     ],
-    "imageUrl": "/exercises/3c933127-6251-45cc-bdd2-880cf586ec29/pallof_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.696Z",
-    "updatedAt": "2026-03-15T21:37:42.532Z"
+    "createdAt": "2026-03-16T13:18:24.280Z",
+    "updatedAt": "2026-03-16T13:18:24.280Z"
   },
   {
-    "id": "3c66a35d-1f73-4511-8e0b-2fe02fabeb6a",
+    "id": "1c8ca5af-dd5a-4882-844d-09c9d4eed0b9",
     "name": "Pec Deck Machine",
     "category": "strength",
     "muscleGroup": "chest",
@@ -1825,21 +2230,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio de aislamiento en m\u00e1quina para el pecho.",
+    "description": "Ejercicio de aislamiento en máquina para el pecho.",
     "instructions": [
-      "Ajusta el asiento para que los mangos est\u00e9n a la altura del pecho",
-      "Si\u00e9ntate con la espalda contra el respaldo",
+      "Ajusta el asiento para que los mangos estén a la altura del pecho",
+      "Siéntate con la espalda contra el respaldo",
       "Agarra los mangos con los antebrazos paralelos al suelo",
       "Junta los mangos frente a tu pecho",
-      "Vuelve controladamente a la posici\u00f3n inicial"
+      "Vuelve controladamente a la posición inicial"
     ],
-    "imageUrl": "/exercises/3c66a35d-1f73-4511-8e0b-2fe02fabeb6a/pec_deck_machine.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.529Z",
-    "updatedAt": "2026-03-15T21:37:34.799Z"
+    "createdAt": "2026-03-16T13:18:20.690Z",
+    "updatedAt": "2026-03-16T13:18:20.690Z"
   },
   {
-    "id": "c1d48ccf-8425-47f6-8966-23484ea7e547",
+    "id": "29ebd7e2-8047-4f22-94c4-c5a86f8198ac",
     "name": "Pike Push-ups",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -1854,19 +2259,19 @@
     "difficulty": "intermediate",
     "description": "Flexiones en pica para hombros.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de V invertida",
+      "Colócate en posición de V invertida",
       "Manos y pies en el suelo, caderas arriba",
       "Baja la cabeza hacia el suelo",
       "Empuja hacia arriba",
-      "Mant\u00e9n las caderas altas"
+      "Mantén las caderas altas"
     ],
-    "imageUrl": "/exercises/c1d48ccf-8425-47f6-8966-23484ea7e547/pike_push_ups.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.831Z",
-    "updatedAt": "2026-03-15T21:37:39.863Z"
+    "createdAt": "2026-03-16T13:18:23.007Z",
+    "updatedAt": "2026-03-16T13:18:23.007Z"
   },
   {
-    "id": "2958b15a-ef7b-4799-accd-10d122bd4162",
+    "id": "e33b7cbc-8a25-44ee-9c0b-6cd50ae00149",
     "name": "Plank",
     "category": "strength",
     "muscleGroup": "core",
@@ -1879,21 +2284,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio isom\u00e9trico fundamental para el core.",
+    "description": "Ejercicio isométrico fundamental para el core.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de plancha sobre los antebrazos",
+      "Colócate en posición de plancha sobre los antebrazos",
       "Codos directamente bajo los hombros",
-      "Cuerpo en l\u00ednea recta desde la cabeza hasta los talones",
-      "Mant\u00e9n el core apretado y las caderas niveladas",
-      "Mant\u00e9n la posici\u00f3n el tiempo deseado"
+      "Cuerpo en línea recta desde la cabeza hasta los talones",
+      "Mantén el core apretado y las caderas niveladas",
+      "Mantén la posición el tiempo deseado"
     ],
-    "imageUrl": "/exercises/2958b15a-ef7b-4799-accd-10d122bd4162/plank.png",
+    "imageUrl": "/exercises/plank.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.674Z",
-    "updatedAt": "2026-03-15T21:37:41.592Z"
+    "createdAt": "2026-03-16T13:18:23.833Z",
+    "updatedAt": "2026-03-16T13:18:23.833Z"
   },
   {
-    "id": "ebc21f4b-1986-4a4a-b571-727e21268575",
+    "id": "f96a9514-e58f-4efe-9985-b7551541e4cd",
     "name": "Plank to Downward Dog",
     "category": "strength",
     "muscleGroup": "core",
@@ -1906,21 +2311,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Transici\u00f3n din\u00e1mica de plancha a perro boca abajo.",
+    "description": "Transición dinámica de plancha a perro boca abajo.",
     "instructions": [
-      "Empieza en posici\u00f3n de plancha",
+      "Empieza en posición de plancha",
       "Eleva las caderas hacia arriba",
       "Forma una V invertida",
       "Vuelve a la plancha",
       "Repite el movimiento"
     ],
-    "imageUrl": "/exercises/ebc21f4b-1986-4a4a-b571-727e21268575/plank_to_downward_dog.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.001Z",
-    "updatedAt": "2026-03-15T21:37:42.807Z"
+    "createdAt": "2026-03-16T13:18:24.413Z",
+    "updatedAt": "2026-03-16T13:18:24.413Z"
   },
   {
-    "id": "06d85855-9665-4920-b13d-3c03d46b997c",
+    "id": "4c58d9d3-fe62-4225-a939-830a1083c6de",
     "name": "Preacher Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -1932,21 +2337,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Curl de b\u00edceps en banco predicador.",
+    "description": "Curl de bíceps en banco predicador.",
     "instructions": [
-      "Si\u00e9ntate en el banco predicador",
+      "Siéntate en el banco predicador",
       "Coloca los brazos sobre la almohadilla",
-      "Sost\u00e9n una barra o mancuernas",
+      "Sostén una barra o mancuernas",
       "Flexiona los codos llevando el peso hacia arriba",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/06d85855-9665-4920-b13d-3c03d46b997c/preacher_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.754Z",
-    "updatedAt": "2026-03-15T21:37:40.732Z"
+    "createdAt": "2026-03-16T13:18:23.429Z",
+    "updatedAt": "2026-03-16T13:18:23.429Z"
   },
   {
-    "id": "d12cf7ce-7667-40dd-a74e-e8d140ef5ac9",
+    "id": "484881af-46c0-4aa7-95a2-d0a765fdd8e4",
     "name": "Pull-ups",
     "category": "strength",
     "muscleGroup": "back",
@@ -1963,16 +2368,16 @@
       "Agarra la barra con las palmas hacia adelante, manos a la anchura de los hombros",
       "Cuelga con los brazos completamente extendidos",
       "Tira de tu cuerpo hacia arriba hasta que la barbilla supere la barra",
-      "Baja controladamente hasta la posici\u00f3n inicial",
-      "Mant\u00e9n el core activado y evita balancearte"
+      "Baja controladamente hasta la posición inicial",
+      "Mantén el core activado y evita balancearte"
     ],
-    "imageUrl": "/exercises/d12cf7ce-7667-40dd-a74e-e8d140ef5ac9/pull_ups.png",
+    "imageUrl": "/exercises/pull-ups.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.622Z",
-    "updatedAt": "2026-03-15T21:37:35.627Z"
+    "createdAt": "2026-03-16T13:18:21.055Z",
+    "updatedAt": "2026-03-16T13:18:21.055Z"
   },
   {
-    "id": "3ca39c0b-cadc-490a-9715-ff1467165313",
+    "id": "2b3e15b7-b468-4c15-ab9b-55e9b41674a4",
     "name": "Push-ups",
     "category": "strength",
     "muscleGroup": "chest",
@@ -1985,21 +2390,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio fundamental para desarrollar pecho, hombros y tr\u00edceps usando el peso corporal.",
+    "description": "Ejercicio fundamental para desarrollar pecho, hombros y tríceps usando el peso corporal.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de plancha con las manos a la anchura de los hombros",
-      "Mant\u00e9n el cuerpo recto desde la cabeza hasta los talones",
+      "Colócate en posición de plancha con las manos a la anchura de los hombros",
+      "Mantén el cuerpo recto desde la cabeza hasta los talones",
       "Baja el cuerpo doblando los codos hasta que el pecho casi toque el suelo",
-      "Empuja hacia arriba hasta la posici\u00f3n inicial",
-      "Mant\u00e9n el core activado durante todo el movimiento"
+      "Empuja hacia arriba hasta la posición inicial",
+      "Mantén el core activado durante todo el movimiento"
     ],
-    "imageUrl": "/exercises/3ca39c0b-cadc-490a-9715-ff1467165313/push_ups.png",
+    "imageUrl": "/exercises/push-ups.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.456Z",
-    "updatedAt": "2026-03-15T21:37:34.071Z"
+    "createdAt": "2026-03-16T13:18:20.307Z",
+    "updatedAt": "2026-03-16T13:18:20.307Z"
   },
   {
-    "id": "3353ab25-472d-4a08-9bc0-54ad3b19c480",
+    "id": "6af41d6f-b851-478d-9249-528ecedca029",
     "name": "Rack Pulls",
     "category": "strength",
     "muscleGroup": "back",
@@ -2016,16 +2421,16 @@
       "Coloca la barra en un rack a la altura de las rodillas",
       "Agarra la barra como en un peso muerto",
       "Tira de la barra hacia arriba extendiendo las caderas",
-      "Aprieta los om\u00f3platos al final",
+      "Aprieta los omóplatos al final",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/3353ab25-472d-4a08-9bc0-54ad3b19c480/rack_pulls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.776Z",
-    "updatedAt": "2026-03-15T21:37:37.015Z"
+    "createdAt": "2026-03-16T13:18:21.672Z",
+    "updatedAt": "2026-03-16T13:18:21.672Z"
   },
   {
-    "id": "bc7ce686-e6b0-42c7-b497-85e038962678",
+    "id": "da76e710-011f-4aef-9fe5-9e32f4ea0828",
     "name": "Rear Delt Flyes",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2040,19 +2445,19 @@
     "difficulty": "intermediate",
     "description": "Aperturas para el deltoides posterior.",
     "instructions": [
-      "Incl\u00ednate hacia adelante con la espalda recta",
-      "Sost\u00e9n mancuernas con los brazos colgando",
+      "Inclínate hacia adelante con la espalda recta",
+      "Sostén mancuernas con los brazos colgando",
       "Eleva los brazos lateralmente",
-      "Aprieta los om\u00f3platos juntos",
+      "Aprieta los omóplatos juntos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/bc7ce686-e6b0-42c7-b497-85e038962678/rear_delt_flyes.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.216Z",
-    "updatedAt": "2026-03-15T21:37:39.295Z"
+    "createdAt": "2026-03-16T13:18:22.746Z",
+    "updatedAt": "2026-03-16T13:18:22.746Z"
   },
   {
-    "id": "fa121ccf-2c58-4f89-b0cf-35cc48f688c2",
+    "id": "b7901b92-a439-4e20-a90e-b65a814997b2",
     "name": "Resistance Band Chest Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -2067,19 +2472,46 @@
     "difficulty": "beginner",
     "description": "Press de pecho de pie con banda, ideal para entrenar en casa sin banco.",
     "instructions": [
-      "Ancla la banda detr\u00e1s del torso",
+      "Ancla la banda detrás del torso",
       "Coloca un pie adelante para ganar estabilidad",
       "Empuja los brazos al frente hasta extenderlos",
-      "Mant\u00e9n el pecho alto y el abdomen firme",
-      "Regresa controlando la tensi\u00f3n"
+      "Mantén el pecho alto y el abdomen firme",
+      "Regresa controlando la tensión"
     ],
-    "imageUrl": "/exercises/fa121ccf-2c58-4f89-b0cf-35cc48f688c2/resistance_band_chest_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.345Z",
-    "updatedAt": "2026-03-15T21:37:44.020Z"
+    "createdAt": "2026-03-16T13:18:24.999Z",
+    "updatedAt": "2026-03-16T13:18:24.999Z"
   },
   {
-    "id": "fbebeda8-a99e-41f8-a74d-f10a2ddd4cf5",
+    "id": "dc7413d5-3465-4431-a0e7-efa52e4dfe90",
+    "name": "Resistance Band External Rotation",
+    "category": "strength",
+    "muscleGroup": "shoulders",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Trabajo específico del manguito rotador para hombros más estables y sanos.",
+    "instructions": [
+      "Sujeta una banda ligera con ambos codos pegados al cuerpo a 90 grados",
+      "Mantén las escápulas estables y el pecho abierto",
+      "Separa las manos girando externamente los hombros",
+      "Haz una pausa breve al final del recorrido",
+      "Regresa con control evitando balanceos"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.849Z",
+    "updatedAt": "2026-03-16T13:18:25.849Z"
+  },
+  {
+    "id": "12da3c09-8995-40f7-aa3d-be74502dafe4",
     "name": "Resistance Band Face Pull",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2100,13 +2532,13 @@
       "Aprieta la parte alta de la espalda",
       "Regresa de forma controlada"
     ],
-    "imageUrl": "/exercises/fbebeda8-a99e-41f8-a74d-f10a2ddd4cf5/resistance_band_face_pull.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.548Z",
-    "updatedAt": "2026-03-15T21:37:44.242Z"
+    "createdAt": "2026-03-16T13:18:25.089Z",
+    "updatedAt": "2026-03-16T13:18:25.089Z"
   },
   {
-    "id": "598be529-1647-424b-bd42-c82c7b72efcd",
+    "id": "f13a94c5-3b2e-4f20-9b7b-12775eca76d3",
     "name": "Resistance Band Pull Apart",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2123,17 +2555,17 @@
     "instructions": [
       "Sujeta la banda frente al pecho con brazos estirados",
       "Separa las manos abriendo la banda",
-      "Lleva los hombros hacia atr\u00e1s y abajo",
+      "Lleva los hombros hacia atrás y abajo",
       "Pausa un instante al final",
       "Vuelve lentamente al centro"
     ],
-    "imageUrl": "/exercises/598be529-1647-424b-bd42-c82c7b72efcd/resistance_band_pull_apart.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.446Z",
-    "updatedAt": "2026-03-15T21:37:44.150Z"
+    "createdAt": "2026-03-16T13:18:25.043Z",
+    "updatedAt": "2026-03-16T13:18:25.043Z"
   },
   {
-    "id": "432965c4-f16b-4255-b634-566523424cc4",
+    "id": "646ea648-95a5-4149-a449-83c5d7113deb",
     "name": "Resistance Band Row",
     "category": "strength",
     "muscleGroup": "back",
@@ -2149,18 +2581,18 @@
     "description": "Remo horizontal con banda para trabajar espalda alta y dorsales desde casa.",
     "instructions": [
       "Ancla la banda a la altura del ombligo",
-      "Sujeta ambos extremos y da un paso atr\u00e1s para crear tensi\u00f3n",
-      "Lleva los codos hacia atr\u00e1s pegados al cuerpo",
-      "Aprieta las esc\u00e1pulas al final",
-      "Vuelve despacio a la posici\u00f3n inicial"
+      "Sujeta ambos extremos y da un paso atrás para crear tensión",
+      "Lleva los codos hacia atrás pegados al cuerpo",
+      "Aprieta las escápulas al final",
+      "Vuelve despacio a la posición inicial"
     ],
-    "imageUrl": "/exercises/432965c4-f16b-4255-b634-566523424cc4/resistance_band_row.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.241Z",
-    "updatedAt": "2026-03-15T21:37:43.928Z"
+    "createdAt": "2026-03-16T13:18:24.954Z",
+    "updatedAt": "2026-03-16T13:18:24.954Z"
   },
   {
-    "id": "4af725c9-8da4-4bc6-9d56-b26a9a154458",
+    "id": "dee62ed0-d8dc-4298-be42-a5cb400091d9",
     "name": "Reverse Crunches",
     "category": "strength",
     "muscleGroup": "core",
@@ -2175,18 +2607,18 @@
     "difficulty": "beginner",
     "description": "Crunch inverso para el abdomen bajo.",
     "instructions": [
-      "Acu\u00e9state boca arriba con las rodillas flexionadas",
+      "Acuéstate boca arriba con las rodillas flexionadas",
       "Eleva las rodillas hacia el pecho",
       "Levanta las caderas del suelo",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/4af725c9-8da4-4bc6-9d56-b26a9a154458/reverse_crunches.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.798Z",
-    "updatedAt": "2026-03-15T21:37:42.627Z"
+    "createdAt": "2026-03-16T13:18:24.324Z",
+    "updatedAt": "2026-03-16T13:18:24.324Z"
   },
   {
-    "id": "0af43a54-361f-48fe-835d-fea76681ccc4",
+    "id": "961a9f1f-5f21-4bd4-a577-e27f57922605",
     "name": "Reverse Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2200,19 +2632,46 @@
     "difficulty": "beginner",
     "description": "Curl con agarre prono para antebrazos.",
     "instructions": [
-      "P\u00e1rate sosteniendo una barra con agarre prono",
+      "Párate sosteniendo una barra con agarre prono",
       "Palmas hacia abajo",
       "Flexiona los codos llevando la barra hacia arriba",
-      "Mant\u00e9n los codos fijos",
+      "Mantén los codos fijos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/0af43a54-361f-48fe-835d-fea76681ccc4/reverse_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.266Z",
-    "updatedAt": "2026-03-15T21:37:41.211Z"
+    "createdAt": "2026-03-16T13:18:23.652Z",
+    "updatedAt": "2026-03-16T13:18:23.652Z"
   },
   {
-    "id": "9fcb5da6-cc44-46c4-8c86-cf67e35428c4",
+    "id": "7e770ff0-ab70-4034-aca3-700e7a4ee53b",
+    "name": "Reverse Lunge to Chair Support",
+    "category": "strength",
+    "muscleGroup": "legs",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Zancada atrás asistida con apoyo para ganar estabilidad y fuerza en piernas y cadera.",
+    "instructions": [
+      "Colócate de pie junto a una silla o pared para ayudarte con una mano",
+      "Da un paso atrás con una pierna manteniendo el torso erguido",
+      "Baja hasta sentir carga estable en ambas piernas",
+      "Empuja el suelo con la pierna delantera para volver",
+      "Alterna repeticiones de forma suave y controlada"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.587Z",
+    "updatedAt": "2026-03-16T13:18:25.587Z"
+  },
+  {
+    "id": "eca10215-04ee-47ad-802f-b7177e538f2b",
     "name": "Romanian Deadlifts",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2226,20 +2685,20 @@
     "difficulty": "intermediate",
     "description": "Variante de peso muerto que enfatiza los isquiotibiales.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de las caderas sosteniendo una barra",
-      "Mant\u00e9n las rodillas ligeramente flexionadas",
-      "Incl\u00ednate hacia adelante desde las caderas bajando la barra",
-      "Mant\u00e9n la espalda recta y la barra cerca de las piernas",
+      "Párate con los pies a la anchura de las caderas sosteniendo una barra",
+      "Mantén las rodillas ligeramente flexionadas",
+      "Inclínate hacia adelante desde las caderas bajando la barra",
+      "Mantén la espalda recta y la barra cerca de las piernas",
       "Desciende hasta sentir estiramiento en los isquiotibiales",
-      "Vuelve a la posici\u00f3n inicial extendiendo las caderas"
+      "Vuelve a la posición inicial extendiendo las caderas"
     ],
-    "imageUrl": "/exercises/9fcb5da6-cc44-46c4-8c86-cf67e35428c4/romanian_deadlifts.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.285Z",
-    "updatedAt": "2026-03-15T21:37:37.493Z"
+    "createdAt": "2026-03-16T13:18:21.896Z",
+    "updatedAt": "2026-03-16T13:18:21.896Z"
   },
   {
-    "id": "c794337f-96b5-484c-b782-282307f9fe72",
+    "id": "44d2edd5-c667-4eba-9b26-e96cfb7924c5",
     "name": "Rowing Machine",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -2251,22 +2710,22 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Remo en m\u00e1quina para cardio de bajo impacto.",
+    "description": "Remo en máquina para cardio de bajo impacto.",
     "instructions": [
-      "Si\u00e9ntate en la m\u00e1quina con los pies asegurados",
+      "Siéntate en la máquina con los pies asegurados",
       "Agarra el mango",
       "Empuja con las piernas primero",
-      "Luego incl\u00ednate hacia atr\u00e1s",
+      "Luego inclínate hacia atrás",
       "Finalmente tira del mango hacia el pecho",
       "Invierte el movimiento para volver"
     ],
-    "imageUrl": "/exercises/c794337f-96b5-484c-b782-282307f9fe72/rowing_machine.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.932Z",
-    "updatedAt": "2026-03-15T21:37:43.630Z"
+    "createdAt": "2026-03-16T13:18:24.818Z",
+    "updatedAt": "2026-03-16T13:18:24.818Z"
   },
   {
-    "id": "7a610ade-a0fb-407b-8c84-6c911d03f1bc",
+    "id": "ca68b22c-de2e-4095-8fdd-f20afb6ac1ec",
     "name": "Russian Twists",
     "category": "strength",
     "muscleGroup": "core",
@@ -2281,19 +2740,46 @@
     "difficulty": "intermediate",
     "description": "Ejercicio rotacional para oblicuos.",
     "instructions": [
-      "Si\u00e9ntate en el suelo con las rodillas flexionadas",
-      "Incl\u00ednate ligeramente hacia atr\u00e1s",
+      "Siéntate en el suelo con las rodillas flexionadas",
+      "Inclínate ligeramente hacia atrás",
       "Eleva los pies del suelo (opcional)",
       "Rota el torso de lado a lado",
       "Toca el suelo a cada lado"
     ],
-    "imageUrl": "/exercises/7a610ade-a0fb-407b-8c84-6c911d03f1bc/russian_twists.png",
+    "imageUrl": "/exercises/russian-twists.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.279Z",
-    "updatedAt": "2026-03-15T21:37:41.786Z"
+    "createdAt": "2026-03-16T13:18:23.921Z",
+    "updatedAt": "2026-03-16T13:18:23.921Z"
   },
   {
-    "id": "31da9746-8162-4e22-8440-559e7ee5b481",
+    "id": "c3b4b9e0-21d1-4d1c-a9a6-0ea833fd49bc",
+    "name": "Seated Band Chest Press",
+    "category": "strength",
+    "muscleGroup": "chest",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Press sentado con banda para trabajar pecho y brazos con alta estabilidad.",
+    "instructions": [
+      "Siéntate erguido y pasa la banda alrededor de la espalda alta",
+      "Sujeta un extremo en cada mano a la altura del pecho",
+      "Empuja las manos hacia adelante hasta extender los brazos",
+      "Mantén el pecho abierto sin elevar los hombros",
+      "Vuelve lentamente a la posición inicial"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.379Z",
+    "updatedAt": "2026-03-16T13:18:26.379Z"
+  },
+  {
+    "id": "7d3fe46a-a694-4a3f-b976-a077c415abc5",
     "name": "Seated Cable Rows",
     "category": "strength",
     "muscleGroup": "back",
@@ -2307,19 +2793,73 @@
     "difficulty": "beginner",
     "description": "Ejercicio de remo sentado para la espalda media.",
     "instructions": [
-      "Si\u00e9ntate en la m\u00e1quina con los pies en los soportes",
+      "Siéntate en la máquina con los pies en los soportes",
       "Agarra el mango con ambas manos",
       "Tira del mango hacia el abdomen",
-      "Aprieta los om\u00f3platos juntos",
+      "Aprieta los omóplatos juntos",
       "Extiende los brazos controladamente"
     ],
-    "imageUrl": "/exercises/31da9746-8162-4e22-8440-559e7ee5b481/seated_cable_rows.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.755Z",
-    "updatedAt": "2026-03-15T21:37:36.018Z"
+    "createdAt": "2026-03-16T13:18:21.231Z",
+    "updatedAt": "2026-03-16T13:18:21.231Z"
   },
   {
-    "id": "33dbbd37-62b4-4175-a33e-1a3769b9a9d1",
+    "id": "c669298b-75c7-4b8f-a1a4-93620aaa0b30",
+    "name": "Seated Hammer Curl",
+    "category": "strength",
+    "muscleGroup": "arms",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Curl martillo sentado para trabajar bíceps y antebrazo con mayor control postural.",
+    "instructions": [
+      "Siéntate erguido con una mancuerna en cada mano y palmas enfrentadas",
+      "Mantén los codos cerca del torso",
+      "Flexiona los codos sin balancear el cuerpo",
+      "Haz una pausa arriba apretando los bíceps",
+      "Baja lentamente hasta extender de nuevo los brazos"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.514Z",
+    "updatedAt": "2026-03-16T13:18:26.514Z"
+  },
+  {
+    "id": "4103f647-6368-4950-86db-709cc4eb24ec",
+    "name": "Seated Resistance Band Row",
+    "category": "strength",
+    "muscleGroup": "back",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Remo sentado con banda para mejorar postura y fuerza de espalda alta desde casa.",
+    "instructions": [
+      "Siéntate en el suelo o colchoneta con piernas extendidas",
+      "Pasa la banda por la planta de los pies y sujeta los extremos",
+      "Mantén el pecho abierto y los hombros bajos",
+      "Tira de los codos hacia atrás acercando las manos al torso",
+      "Vuelve lentamente sin perder la postura"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.805Z",
+    "updatedAt": "2026-03-16T13:18:25.805Z"
+  },
+  {
+    "id": "456649e8-8328-4688-b468-4d9b269a523d",
     "name": "Shoulder Press",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2334,19 +2874,19 @@
     "difficulty": "intermediate",
     "description": "Press de hombros con mancuernas para deltoides.",
     "instructions": [
-      "Si\u00e9ntate en un banco con respaldo vertical",
-      "Sost\u00e9n una mancuerna en cada mano a la altura de los hombros",
+      "Siéntate en un banco con respaldo vertical",
+      "Sostén una mancuerna en cada mano a la altura de los hombros",
       "Las palmas deben mirar hacia adelante",
       "Empuja las mancuernas hacia arriba hasta extender los brazos",
-      "Baja controladamente hasta la posici\u00f3n inicial"
+      "Baja controladamente hasta la posición inicial"
     ],
-    "imageUrl": "/exercises/33dbbd37-62b4-4175-a33e-1a3769b9a9d1/shoulder_press.png",
+    "imageUrl": "/exercises/shoulder-press.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.063Z",
-    "updatedAt": "2026-03-15T21:37:39.012Z"
+    "createdAt": "2026-03-16T13:18:22.613Z",
+    "updatedAt": "2026-03-16T13:18:22.613Z"
   },
   {
-    "id": "c20ed39c-b042-458d-9ecf-5ae5dcfe3ec4",
+    "id": "caf556f8-4a6b-47a5-b793-b13f3d809182",
     "name": "Shrugs",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2361,19 +2901,19 @@
     "difficulty": "beginner",
     "description": "Encogimientos para los trapecios.",
     "instructions": [
-      "P\u00e1rate con una mancuerna en cada mano",
+      "Párate con una mancuerna en cada mano",
       "Brazos extendidos a los lados",
       "Eleva los hombros hacia las orejas",
-      "Mant\u00e9n un segundo arriba",
+      "Mantén un segundo arriba",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/c20ed39c-b042-458d-9ecf-5ae5dcfe3ec4/shrugs.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.729Z",
-    "updatedAt": "2026-03-15T21:37:39.768Z"
+    "createdAt": "2026-03-16T13:18:22.963Z",
+    "updatedAt": "2026-03-16T13:18:22.963Z"
   },
   {
-    "id": "6f28c640-a191-44e9-8dfd-817d80123e4f",
+    "id": "8ab5f723-34ed-4131-9a18-0028d58ebef0",
     "name": "Side Plank",
     "category": "strength",
     "muscleGroup": "core",
@@ -2388,19 +2928,46 @@
     "difficulty": "intermediate",
     "description": "Plancha lateral para oblicuos.",
     "instructions": [
-      "Acu\u00e9state de lado apoyado en un antebrazo",
+      "Acuéstate de lado apoyado en un antebrazo",
       "Codo directamente bajo el hombro",
       "Eleva las caderas del suelo",
-      "Cuerpo en l\u00ednea recta",
-      "Mant\u00e9n la posici\u00f3n"
+      "Cuerpo en línea recta",
+      "Mantén la posición"
     ],
-    "imageUrl": "/exercises/6f28c640-a191-44e9-8dfd-817d80123e4f/side_plank.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.391Z",
-    "updatedAt": "2026-03-15T21:37:42.251Z"
+    "createdAt": "2026-03-16T13:18:24.144Z",
+    "updatedAt": "2026-03-16T13:18:24.144Z"
   },
   {
-    "id": "4ae27e52-8c51-4072-9ebe-d2c727f058c9",
+    "id": "dab95ee1-3eda-4509-9ee6-c7d84fa631af",
+    "name": "Side-Lying Leg Raises",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Elevación lateral de pierna en colchoneta para glúteo medio y control de cadera.",
+    "instructions": [
+      "Túmbate de lado con la cabeza apoyada y piernas alineadas",
+      "Activa el abdomen para no rodar hacia atrás",
+      "Eleva la pierna superior manteniendo la punta del pie ligeramente hacia abajo",
+      "Haz una breve pausa arriba",
+      "Baja con control y repite antes de cambiar de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.426Z",
+    "updatedAt": "2026-03-16T13:18:26.426Z"
+  },
+  {
+    "id": "04a04dab-a414-4b81-a185-b294e9e21222",
     "name": "Single Arm Dumbbell Row",
     "category": "strength",
     "muscleGroup": "back",
@@ -2416,18 +2983,18 @@
     "description": "Remo unilateral con mancuerna para la espalda.",
     "instructions": [
       "Apoya una rodilla y mano en un banco",
-      "Sost\u00e9n una mancuerna con la otra mano",
+      "Sostén una mancuerna con la otra mano",
       "Tira de la mancuerna hacia la cadera",
-      "Mant\u00e9n el torso paralelo al suelo",
+      "Mantén el torso paralelo al suelo",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/4ae27e52-8c51-4072-9ebe-d2c727f058c9/single_arm_dumbbell_row.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.858Z",
-    "updatedAt": "2026-03-15T21:37:36.113Z"
+    "createdAt": "2026-03-16T13:18:21.276Z",
+    "updatedAt": "2026-03-16T13:18:21.276Z"
   },
   {
-    "id": "94357f7f-72c5-4657-8e09-906962cc7c75",
+    "id": "9c23a307-ceeb-48d9-b584-ab5c70421633",
     "name": "Single-Arm Dumbbell Floor Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -2440,21 +3007,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Press unilateral en el suelo para pecho y tr\u00edceps sin necesidad de banco.",
+    "description": "Press unilateral en el suelo para pecho y tríceps sin necesidad de banco.",
     "instructions": [
-      "T\u00fambate en el suelo con una mancuerna en una mano",
-      "Dobla las rodillas y mant\u00e9n la otra mano apoyada",
+      "Túmbate en el suelo con una mancuerna en una mano",
+      "Dobla las rodillas y mantén la otra mano apoyada",
       "Empuja la mancuerna hacia arriba hasta extender el brazo",
-      "Baja hasta que el tr\u00edceps toque suavemente el suelo",
+      "Baja hasta que el tríceps toque suavemente el suelo",
       "Completa todas las repeticiones y cambia de lado"
     ],
-    "imageUrl": "/exercises/94357f7f-72c5-4657-8e09-906962cc7c75/single_arm_dumbbell_floor_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.649Z",
-    "updatedAt": "2026-03-15T21:37:44.332Z"
+    "createdAt": "2026-03-16T13:18:25.133Z",
+    "updatedAt": "2026-03-16T13:18:25.133Z"
   },
   {
-    "id": "b9a085f1-33fc-4624-b028-b30b5168b3eb",
+    "id": "d74d868d-6b31-4bbc-90e0-a96c4645ba65",
     "name": "Sissy Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2467,21 +3034,21 @@
       "outdoor"
     ],
     "difficulty": "advanced",
-    "description": "Ejercicio avanzado de aislamiento para cu\u00e1driceps.",
+    "description": "Ejercicio avanzado de aislamiento para cuádriceps.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Ag\u00e1rrate de algo para equilibrio",
-      "Incl\u00ednate hacia atr\u00e1s desde las rodillas",
-      "Baja manteniendo el cuerpo en l\u00ednea recta",
+      "Párate con los pies a la anchura de los hombros",
+      "Agárrate de algo para equilibrio",
+      "Inclínate hacia atrás desde las rodillas",
+      "Baja manteniendo el cuerpo en línea recta",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/b9a085f1-33fc-4624-b028-b30b5168b3eb/sissy_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.607Z",
-    "updatedAt": "2026-03-15T21:37:38.731Z"
+    "createdAt": "2026-03-16T13:18:22.478Z",
+    "updatedAt": "2026-03-16T13:18:22.478Z"
   },
   {
-    "id": "97f6723c-3448-429d-9565-dadbeaa5d4c7",
+    "id": "4f02a1d3-480e-47b4-8052-905e216e7825",
     "name": "Skull Crushers",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2493,21 +3060,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Extensiones de tr\u00edceps acostado.",
+    "description": "Extensiones de tríceps acostado.",
     "instructions": [
-      "Acu\u00e9state en un banco sosteniendo una barra",
+      "Acuéstate en un banco sosteniendo una barra",
       "Brazos extendidos sobre el pecho",
       "Baja la barra hacia la frente doblando solo los codos",
-      "Mant\u00e9n los codos apuntando hacia arriba",
+      "Mantén los codos apuntando hacia arriba",
       "Extiende los brazos"
     ],
-    "imageUrl": "/exercises/97f6723c-3448-429d-9565-dadbeaa5d4c7/skull_crushers.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.060Z",
-    "updatedAt": "2026-03-15T21:37:41.018Z"
+    "createdAt": "2026-03-16T13:18:23.564Z",
+    "updatedAt": "2026-03-16T13:18:23.564Z"
   },
   {
-    "id": "368d7d55-7123-4448-8e3e-7b7209582714",
+    "id": "9e87b206-d2d0-404c-b169-6a78e1c58193",
     "name": "Sprint Intervals",
     "category": "cardio",
     "muscleGroup": "full_body",
@@ -2523,17 +3090,17 @@
     "description": "Sprints de alta intensidad.",
     "instructions": [
       "Calienta con trote ligero",
-      "Sprint a m\u00e1xima velocidad por 20-30 segundos",
+      "Sprint a máxima velocidad por 20-30 segundos",
       "Recupera con trote o caminata por 1-2 minutos",
       "Repite el ciclo"
     ],
-    "imageUrl": "/exercises/368d7d55-7123-4448-8e3e-7b7209582714/sprint_intervals.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:40.830Z",
-    "updatedAt": "2026-03-15T21:37:43.539Z"
+    "createdAt": "2026-03-16T13:18:24.774Z",
+    "updatedAt": "2026-03-16T13:18:24.774Z"
   },
   {
-    "id": "9f29d619-b28a-4e73-8294-1793816e1b25",
+    "id": "1ee380df-b857-406a-82b7-72d740a93aa4",
     "name": "Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2545,22 +3112,22 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "El rey de los ejercicios de piernas, trabaja cu\u00e1driceps, gl\u00fateos y core.",
+    "description": "El rey de los ejercicios de piernas, trabaja cuádriceps, glúteos y core.",
     "instructions": [
       "Coloca la barra en la parte superior de la espalda (trap bar)",
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Baja las caderas hacia atr\u00e1s y abajo como si te sentaras",
-      "Desciende hasta que los muslos est\u00e9n paralelos al suelo",
-      "Empuja a trav\u00e9s de los talones para volver arriba",
-      "Mant\u00e9n el pecho elevado y la espalda recta"
+      "Párate con los pies a la anchura de los hombros",
+      "Baja las caderas hacia atrás y abajo como si te sentaras",
+      "Desciende hasta que los muslos estén paralelos al suelo",
+      "Empuja a través de los talones para volver arriba",
+      "Mantén el pecho elevado y la espalda recta"
     ],
-    "imageUrl": "/exercises/9f29d619-b28a-4e73-8294-1793816e1b25/squats.png",
+    "imageUrl": "/exercises/squats.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:52.568Z",
-    "updatedAt": "2026-03-15T21:37:37.119Z"
+    "createdAt": "2026-03-16T13:18:21.715Z",
+    "updatedAt": "2026-03-16T13:18:21.715Z"
   },
   {
-    "id": "01ac15f5-6b51-4486-a1cf-455c2cae2372",
+    "id": "a4c8035f-762f-455d-8fa8-9c2a25a77abb",
     "name": "Stair Climbing",
     "category": "cardio",
     "muscleGroup": "legs",
@@ -2575,17 +3142,17 @@
     "description": "Subir escaleras para cardio.",
     "instructions": [
       "Sube escaleras a un ritmo constante",
-      "Mant\u00e9n el torso erguido",
+      "Mantén el torso erguido",
       "Usa los brazos para impulso",
       "Baja caminando para recuperar"
     ],
-    "imageUrl": "/exercises/01ac15f5-6b51-4486-a1cf-455c2cae2372/stair_climbing.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:41.034Z",
-    "updatedAt": "2026-03-15T21:37:43.722Z"
+    "createdAt": "2026-03-16T13:18:24.864Z",
+    "updatedAt": "2026-03-16T13:18:24.864Z"
   },
   {
-    "id": "e8621d83-1ae0-4aa0-8e70-b93fc950a918",
+    "id": "8e3fd25e-74f3-405c-9449-6c362a50a531",
     "name": "Standing Resistance Band Lat Pulldown",
     "category": "strength",
     "muscleGroup": "back",
@@ -2598,21 +3165,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Jal\u00f3n vertical con banda anclada arriba para dorsales y espalda alta.",
+    "description": "Jalón vertical con banda anclada arriba para dorsales y espalda alta.",
     "instructions": [
       "Ancla la banda por encima de la cabeza",
       "Agarra los extremos con brazos estirados",
-      "Tira de los codos hacia abajo y atr\u00e1s",
+      "Tira de los codos hacia abajo y atrás",
       "Lleva las manos hacia la parte alta del pecho",
       "Vuelve lentamente hasta extender los brazos"
     ],
-    "imageUrl": "/exercises/e8621d83-1ae0-4aa0-8e70-b93fc950a918/standing_resistance_band_lat_pulldown.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:42.160Z",
-    "updatedAt": "2026-03-15T21:37:44.817Z"
+    "createdAt": "2026-03-16T13:18:25.358Z",
+    "updatedAt": "2026-03-16T13:18:25.358Z"
   },
   {
-    "id": "7a5961d2-1e26-4f30-977a-ec81f1e0f4a0",
+    "id": "964cd1c0-eb2c-4946-917e-4397dc5c4b76",
     "name": "Standing Resistance Band Pallof Press",
     "category": "strength",
     "muscleGroup": "core",
@@ -2625,21 +3192,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Press antirotaci\u00f3n excelente para core y estabilidad central.",
+    "description": "Press antirotación excelente para core y estabilidad central.",
     "instructions": [
       "Ancla la banda al lado del cuerpo",
-      "Sujeta la banda frente al estern\u00f3n",
+      "Sujeta la banda frente al esternón",
       "Extiende los brazos al frente sin girar el torso",
-      "Mant\u00e9n las costillas abajo y gl\u00fateos activos",
+      "Mantén las costillas abajo y glúteos activos",
       "Regresa al pecho y repite por ambos lados"
     ],
-    "imageUrl": "/exercises/7a5961d2-1e26-4f30-977a-ec81f1e0f4a0/standing_resistance_band_pallof_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:42.262Z",
-    "updatedAt": "2026-03-15T21:37:44.908Z"
+    "createdAt": "2026-03-16T13:18:25.405Z",
+    "updatedAt": "2026-03-16T13:18:25.405Z"
   },
   {
-    "id": "602116d9-133f-45fe-8b1a-41bcc70b2fed",
+    "id": "2d1e3a47-9b0a-49c3-8386-62ea14b84745",
     "name": "Step-ups",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2653,19 +3220,19 @@
     "difficulty": "beginner",
     "description": "Ejercicio unilateral de subida a banco.",
     "instructions": [
-      "P\u00e1rate frente a un banco o caj\u00f3n",
+      "Párate frente a un banco o cajón",
       "Coloca un pie completamente en el banco",
       "Empuja con ese pie para subir",
       "Lleva el otro pie al banco",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/602116d9-133f-45fe-8b1a-41bcc70b2fed/step_ups.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.098Z",
-    "updatedAt": "2026-03-15T21:37:38.259Z"
+    "createdAt": "2026-03-16T13:18:22.257Z",
+    "updatedAt": "2026-03-16T13:18:22.257Z"
   },
   {
-    "id": "6722b6f6-b998-4479-9c31-39258eb88262",
+    "id": "b27f3673-9098-427e-aff5-0fd318e5b332",
     "name": "Straight Arm Pulldown",
     "category": "strength",
     "muscleGroup": "back",
@@ -2679,19 +3246,46 @@
     "difficulty": "intermediate",
     "description": "Ejercicio de aislamiento para los dorsales.",
     "instructions": [
-      "P\u00e1rate frente a una polea alta",
+      "Párate frente a una polea alta",
       "Agarra la barra con los brazos extendidos",
       "Tira de la barra hacia los muslos",
-      "Mant\u00e9n los brazos rectos",
+      "Mantén los brazos rectos",
       "Vuelve controladamente"
     ],
-    "imageUrl": "/exercises/6722b6f6-b998-4479-9c31-39258eb88262/straight_arm_pulldown.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:33.673Z",
-    "updatedAt": "2026-03-15T21:37:36.914Z"
+    "createdAt": "2026-03-16T13:18:21.628Z",
+    "updatedAt": "2026-03-16T13:18:21.628Z"
   },
   {
-    "id": "71f1a640-551f-4fc9-9657-93206d306e02",
+    "id": "bdef11fc-3a38-4834-aece-dba35b0a37f3",
+    "name": "Suitcase March",
+    "category": "strength",
+    "muscleGroup": "core",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Marcha unilateral con mancuerna para estabilidad del tronco, equilibrio y control postural.",
+    "instructions": [
+      "Sujeta una mancuerna en una sola mano junto al cuerpo",
+      "Ponte erguido y evita inclinarte hacia el lado de la carga",
+      "Eleva una rodilla hasta la altura de la cadera",
+      "Baja con control y alterna las piernas",
+      "Mantén costillas abajo y pasos lentos durante toda la serie"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.162Z",
+    "updatedAt": "2026-03-16T13:18:26.162Z"
+  },
+  {
+    "id": "286bd18f-9b04-43b1-bdd4-d97d476d0fa9",
     "name": "Sumo Squats",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2704,21 +3298,102 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Sentadilla con stance amplio que enfatiza aductores y gl\u00fateos.",
+    "description": "Sentadilla con stance amplio que enfatiza aductores y glúteos.",
     "instructions": [
-      "P\u00e1rate con los pies mucho m\u00e1s anchos que los hombros",
+      "Párate con los pies mucho más anchos que los hombros",
       "Apunta los dedos de los pies hacia afuera",
       "Baja las caderas manteniendo el torso erguido",
-      "Desciende hasta que los muslos est\u00e9n paralelos al suelo",
+      "Desciende hasta que los muslos estén paralelos al suelo",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/71f1a640-551f-4fc9-9657-93206d306e02/sumo_squats.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.794Z",
-    "updatedAt": "2026-03-15T21:37:37.977Z"
+    "createdAt": "2026-03-16T13:18:22.125Z",
+    "updatedAt": "2026-03-16T13:18:22.125Z"
   },
   {
-    "id": "005cd816-fd41-4d43-8f3f-051557e2cc62",
+    "id": "8735e9b0-f6b9-4709-b9be-5db13b15584a",
+    "name": "Supine Banded Hamstring Curl",
+    "category": "strength",
+    "muscleGroup": "legs",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Curl femoral tumbado con banda para reforzar isquios sin necesidad de máquina.",
+    "instructions": [
+      "Túmbate boca abajo o boca arriba según el anclaje disponible y fija la banda a un punto estable",
+      "Coloca la banda en los tobillos",
+      "Flexiona las rodillas acercando los talones hacia los glúteos",
+      "Aprieta isquiotibiales al final del movimiento",
+      "Extiende de nuevo las piernas con control"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.648Z",
+    "updatedAt": "2026-03-16T13:18:26.648Z"
+  },
+  {
+    "id": "ae91fcb9-f9cb-413c-b1c2-d79f0b097490",
+    "name": "Supported Single-Leg Dumbbell Romanian Deadlift",
+    "category": "strength",
+    "muscleGroup": "glutes",
+    "equipment": "dumbbells",
+    "requiredEquipment": [
+      "dumbbells"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "intermediate",
+    "description": "Bisagra unilateral con apoyo para glúteos, isquios y equilibrio, muy útil en trabajo preventivo 40+.",
+    "instructions": [
+      "Sujeta una mancuerna con una mano y apóyate con la otra en una pared o silla",
+      "Carga el peso sobre una pierna con ligera flexión de rodilla",
+      "Lleva la cadera hacia atrás mientras inclinas el torso",
+      "Mantén la espalda neutra y siente tensión en glúteo e isquios",
+      "Vuelve a la posición inicial empujando la cadera al frente"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.632Z",
+    "updatedAt": "2026-03-16T13:18:25.632Z"
+  },
+  {
+    "id": "7ce96027-a896-4643-8f54-6162e1f9ae94",
+    "name": "Supported Split Squat",
+    "category": "strength",
+    "muscleGroup": "legs",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Sentadilla dividida con apoyo externo para mejorar fuerza de piernas y equilibrio sin impacto.",
+    "instructions": [
+      "Colócate en posición de zancada sujetándote a una pared o silla si lo necesitas",
+      "Mantén el pecho elevado y la pelvis estable",
+      "Baja en vertical hasta flexionar ambas rodillas con control",
+      "Empuja con la pierna adelantada para volver arriba",
+      "Completa todas las repeticiones y cambia de lado"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.544Z",
+    "updatedAt": "2026-03-16T13:18:25.544Z"
+  },
+  {
+    "id": "3f82a434-67cf-4238-b32d-d8b75491feeb",
     "name": "Svend Press",
     "category": "strength",
     "muscleGroup": "chest",
@@ -2730,20 +3405,20 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Ejercicio \u00fanico que trabaja el pecho interno.",
+    "description": "Ejercicio único que trabaja el pecho interno.",
     "instructions": [
-      "Sost\u00e9n un disco de peso con ambas manos frente al pecho",
+      "Sostén un disco de peso con ambas manos frente al pecho",
       "Aprieta el disco con las palmas",
       "Extiende los brazos hacia adelante",
-      "Mant\u00e9n la tensi\u00f3n y vuelve al pecho"
+      "Mantén la tensión y vuelve al pecho"
     ],
-    "imageUrl": "/exercises/005cd816-fd41-4d43-8f3f-051557e2cc62/svend_press.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.139Z",
-    "updatedAt": "2026-03-15T21:37:35.433Z"
+    "createdAt": "2026-03-16T13:18:20.960Z",
+    "updatedAt": "2026-03-16T13:18:20.960Z"
   },
   {
-    "id": "148bab98-df96-4cf0-83c6-70c715f8c366",
+    "id": "003bb4d6-7650-4a5a-bca0-88b25d146597",
     "name": "T-Bar Row",
     "category": "strength",
     "muscleGroup": "back",
@@ -2757,19 +3432,73 @@
     "difficulty": "intermediate",
     "description": "Remo con barra T para grosor de espalda.",
     "instructions": [
-      "Col\u00f3cate a horcajadas sobre la barra T",
-      "Incl\u00ednate hacia adelante con la espalda recta",
+      "Colócate a horcajadas sobre la barra T",
+      "Inclínate hacia adelante con la espalda recta",
       "Agarra los mangos",
       "Tira de la barra hacia el pecho",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/148bab98-df96-4cf0-83c6-70c715f8c366/t_bar_row.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:32.961Z",
-    "updatedAt": "2026-03-15T21:37:36.207Z"
+    "createdAt": "2026-03-16T13:18:21.319Z",
+    "updatedAt": "2026-03-16T13:18:21.319Z"
   },
   {
-    "id": "d028d43c-b439-4e58-be60-71f6ea7d1d16",
+    "id": "13cf3202-c84e-4954-9bf9-959344776340",
+    "name": "Tall-Kneeling Band Press-Out",
+    "category": "strength",
+    "muscleGroup": "core",
+    "equipment": "resistance_bands",
+    "requiredEquipment": [
+      "resistance_bands"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "gym"
+    ],
+    "difficulty": "beginner",
+    "description": "Press anti-extensión en posición arrodillada para core, glúteos y postura.",
+    "instructions": [
+      "Arrodíllate erguido sobre una colchoneta sosteniendo una banda anclada detrás",
+      "Lleva las manos al esternón y activa glúteos y abdomen",
+      "Extiende los brazos al frente sin arquear la espalda",
+      "Mantén una pausa breve con el tronco estable",
+      "Vuelve lentamente al pecho"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.294Z",
+    "updatedAt": "2026-03-16T13:18:26.294Z"
+  },
+  {
+    "id": "c60380f2-8d2f-4f86-a227-513836a82802",
+    "name": "Toe Tap Plank",
+    "category": "strength",
+    "muscleGroup": "core",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "intermediate",
+    "description": "Plancha con toques laterales de pie para core, hombros y estabilidad sin impacto.",
+    "instructions": [
+      "Adopta una plancha alta sobre la colchoneta con manos bajo los hombros",
+      "Mantén el cuerpo alineado y el abdomen firme",
+      "Lleva un pie hacia un lado y vuelve al centro",
+      "Alterna lados manteniendo la pelvis lo más estable posible",
+      "Respira de forma constante durante toda la serie"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:26.691Z",
+    "updatedAt": "2026-03-16T13:18:26.691Z"
+  },
+  {
+    "id": "14dbd198-42ca-409b-a31b-496d3ba87726",
     "name": "Tricep Dips",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2781,21 +3510,21 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Fondos para tr\u00edceps.",
+    "description": "Fondos para tríceps.",
     "instructions": [
       "Agarra las barras paralelas",
-      "Mant\u00e9n el cuerpo vertical (no inclinado)",
+      "Mantén el cuerpo vertical (no inclinado)",
       "Baja doblando los codos",
-      "Desciende hasta que los codos est\u00e9n a 90 grados",
+      "Desciende hasta que los codos estén a 90 grados",
       "Empuja hacia arriba"
     ],
-    "imageUrl": "/exercises/d028d43c-b439-4e58-be60-71f6ea7d1d16/tricep_dips.png",
+    "imageUrl": "/exercises/tricep-dips.png",
     "videoUrl": null,
-    "createdAt": "2026-03-12T21:55:53.226Z",
-    "updatedAt": "2026-03-15T21:37:40.249Z"
+    "createdAt": "2026-03-16T13:18:23.194Z",
+    "updatedAt": "2026-03-16T13:18:23.194Z"
   },
   {
-    "id": "2be0db06-17c2-4f6c-bc9b-7225b4193ae6",
+    "id": "b34f2f71-6e96-4097-b0f8-10e855b372df",
     "name": "Tricep Pushdowns",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2807,21 +3536,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Extensiones de tr\u00edceps en polea alta.",
+    "description": "Extensiones de tríceps en polea alta.",
     "instructions": [
-      "P\u00e1rate frente a una polea alta",
+      "Párate frente a una polea alta",
       "Agarra la barra con las manos a la anchura de los hombros",
       "Codos pegados al torso",
       "Empuja la barra hacia abajo hasta extender los brazos",
       "Vuelve controladamente"
     ],
-    "imageUrl": "/exercises/2be0db06-17c2-4f6c-bc9b-7225b4193ae6/tricep_pushdowns.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:37.447Z",
-    "updatedAt": "2026-03-15T21:37:40.439Z"
+    "createdAt": "2026-03-16T13:18:23.290Z",
+    "updatedAt": "2026-03-16T13:18:23.290Z"
   },
   {
-    "id": "2543574f-6075-4500-af4a-4629117f0ea2",
+    "id": "8e947056-01dc-452d-b1d0-77f108eb15c0",
     "name": "Upright Rows",
     "category": "strength",
     "muscleGroup": "shoulders",
@@ -2835,19 +3564,19 @@
     "difficulty": "intermediate",
     "description": "Remo vertical para hombros y trapecios.",
     "instructions": [
-      "P\u00e1rate con los pies a la anchura de los hombros",
-      "Sost\u00e9n una barra con agarre estrecho frente a los muslos",
+      "Párate con los pies a la anchura de los hombros",
+      "Sostén una barra con agarre estrecho frente a los muslos",
       "Tira de la barra hacia arriba cerca del cuerpo",
-      "Los codos deben subir m\u00e1s alto que las manos",
+      "Los codos deben subir más alto que las manos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/2543574f-6075-4500-af4a-4629117f0ea2/upright_rows.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:36.318Z",
-    "updatedAt": "2026-03-15T21:37:39.392Z"
+    "createdAt": "2026-03-16T13:18:22.789Z",
+    "updatedAt": "2026-03-16T13:18:22.789Z"
   },
   {
-    "id": "b41ce3e6-14f0-4585-8850-446ae87f779c",
+    "id": "8046438f-0439-459d-9a5a-696dd4b28bdd",
     "name": "V-Ups",
     "category": "strength",
     "muscleGroup": "core",
@@ -2862,19 +3591,19 @@
     "difficulty": "advanced",
     "description": "Ejercicio avanzado en forma de V.",
     "instructions": [
-      "Acu\u00e9state boca arriba con brazos y piernas extendidos",
-      "Simult\u00e1neamente eleva brazos y piernas",
+      "Acuéstate boca arriba con brazos y piernas extendidos",
+      "Simultáneamente eleva brazos y piernas",
       "Forma una V con el cuerpo",
       "Toca los pies con las manos",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/b41ce3e6-14f0-4585-8850-446ae87f779c/v_ups.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:39.899Z",
-    "updatedAt": "2026-03-15T21:37:42.716Z"
+    "createdAt": "2026-03-16T13:18:24.368Z",
+    "updatedAt": "2026-03-16T13:18:24.368Z"
   },
   {
-    "id": "4ae839b0-4695-43a2-b200-aa540ca96380",
+    "id": "907e1b4e-19b1-4ca9-9df2-c4d04aeee600",
     "name": "Walking Lunges",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2889,19 +3618,46 @@
     "difficulty": "beginner",
     "description": "Zancadas caminando para piernas y equilibrio.",
     "instructions": [
-      "P\u00e1rate con los pies juntos",
+      "Párate con los pies juntos",
       "Da un paso largo hacia adelante",
-      "Baja hasta que ambas rodillas est\u00e9n a 90 grados",
+      "Baja hasta que ambas rodillas estén a 90 grados",
       "Empuja con el pie trasero para dar el siguiente paso",
-      "Contin\u00faa caminando hacia adelante"
+      "Continúa caminando hacia adelante"
     ],
-    "imageUrl": "/exercises/4ae839b0-4695-43a2-b200-aa540ca96380/walking_lunges.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:34.897Z",
-    "updatedAt": "2026-03-15T21:37:38.073Z"
+    "createdAt": "2026-03-16T13:18:22.169Z",
+    "updatedAt": "2026-03-16T13:18:22.169Z"
   },
   {
-    "id": "24357952-9a89-404d-abe9-942779334cfe",
+    "id": "1a22e85e-4451-46d7-8360-b67d03636e92",
+    "name": "Wall Push-ups",
+    "category": "strength",
+    "muscleGroup": "chest",
+    "equipment": "bodyweight",
+    "requiredEquipment": [
+      "bodyweight"
+    ],
+    "trainingEnvironments": [
+      "home",
+      "outdoor"
+    ],
+    "difficulty": "beginner",
+    "description": "Flexión en pared de muy bajo impacto, excelente para volver a entrenar tren superior con seguridad.",
+    "instructions": [
+      "Colócate frente a una pared con manos a la altura del pecho",
+      "Separa los pies lo justo para inclinar el cuerpo",
+      "Dobla los codos y acerca el pecho a la pared",
+      "Empuja hasta volver a la posición inicial",
+      "Mantén abdomen y glúteos activos en todo momento"
+    ],
+    "imageUrl": null,
+    "videoUrl": null,
+    "createdAt": "2026-03-16T13:18:25.940Z",
+    "updatedAt": "2026-03-16T13:18:25.940Z"
+  },
+  {
+    "id": "8d7fda70-f566-4f85-80f8-a3a70c0a50ce",
     "name": "Wall Sits",
     "category": "strength",
     "muscleGroup": "legs",
@@ -2914,21 +3670,21 @@
       "outdoor"
     ],
     "difficulty": "beginner",
-    "description": "Ejercicio isom\u00e9trico para resistencia de cu\u00e1driceps.",
+    "description": "Ejercicio isométrico para resistencia de cuádriceps.",
     "instructions": [
       "Apoya la espalda contra una pared",
-      "Desl\u00edzate hacia abajo hasta que las rodillas est\u00e9n a 90 grados",
+      "Deslízate hacia abajo hasta que las rodillas estén a 90 grados",
       "Los muslos deben estar paralelos al suelo",
-      "Mant\u00e9n la posici\u00f3n el tiempo deseado",
-      "Mant\u00e9n la espalda plana contra la pared"
+      "Mantén la posición el tiempo deseado",
+      "Mantén la espalda plana contra la pared"
     ],
-    "imageUrl": "/exercises/24357952-9a89-404d-abe9-942779334cfe/wall_sits.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:35.504Z",
-    "updatedAt": "2026-03-15T21:37:38.637Z"
+    "createdAt": "2026-03-16T13:18:22.434Z",
+    "updatedAt": "2026-03-16T13:18:22.434Z"
   },
   {
-    "id": "81654165-587f-4d0c-9e05-9b5c09b4540a",
+    "id": "9f213502-ec8a-4cd4-867f-640702f72688",
     "name": "Wide Grip Push-ups",
     "category": "strength",
     "muscleGroup": "chest",
@@ -2943,18 +3699,18 @@
     "difficulty": "beginner",
     "description": "Flexiones con agarre amplio para enfatizar el pecho externo.",
     "instructions": [
-      "Col\u00f3cate en posici\u00f3n de flexi\u00f3n",
-      "Separa las manos m\u00e1s all\u00e1 de la anchura de los hombros",
+      "Colócate en posición de flexión",
+      "Separa las manos más allá de la anchura de los hombros",
       "Baja el cuerpo hasta que el pecho casi toque el suelo",
-      "Empuja hacia arriba hasta la posici\u00f3n inicial"
+      "Empuja hacia arriba hasta la posición inicial"
     ],
-    "imageUrl": "/exercises/81654165-587f-4d0c-9e05-9b5c09b4540a/wide_grip_push_ups.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:31.730Z",
-    "updatedAt": "2026-03-15T21:37:35.038Z"
+    "createdAt": "2026-03-16T13:18:20.778Z",
+    "updatedAt": "2026-03-16T13:18:20.778Z"
   },
   {
-    "id": "62ba4fc1-b12e-4b40-a5ad-7e7f712d5063",
+    "id": "13ae9086-22ec-4a5a-9c55-492d6273900d",
     "name": "Wrist Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2966,21 +3722,21 @@
       "gym"
     ],
     "difficulty": "beginner",
-    "description": "Curl de mu\u00f1ecas para antebrazos.",
+    "description": "Curl de muñecas para antebrazos.",
     "instructions": [
-      "Si\u00e9ntate con los antebrazos apoyados en los muslos",
-      "Sost\u00e9n una barra con las palmas hacia arriba",
-      "Mu\u00f1ecas colgando m\u00e1s all\u00e1 de las rodillas",
-      "Flexiona las mu\u00f1ecas hacia arriba",
+      "Siéntate con los antebrazos apoyados en los muslos",
+      "Sostén una barra con las palmas hacia arriba",
+      "Muñecas colgando más allá de las rodillas",
+      "Flexiona las muñecas hacia arriba",
       "Baja controladamente"
     ],
-    "imageUrl": "/exercises/62ba4fc1-b12e-4b40-a5ad-7e7f712d5063/wrist_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.469Z",
-    "updatedAt": "2026-03-15T21:37:41.402Z"
+    "createdAt": "2026-03-16T13:18:23.744Z",
+    "updatedAt": "2026-03-16T13:18:23.744Z"
   },
   {
-    "id": "da38949a-1665-4b24-b0e6-5cedd29e62d1",
+    "id": "9e13855a-2e8e-4219-938f-195a9928194f",
     "name": "Zottman Curls",
     "category": "strength",
     "muscleGroup": "arms",
@@ -2993,17 +3749,17 @@
       "gym"
     ],
     "difficulty": "intermediate",
-    "description": "Curl con rotaci\u00f3n para b\u00edceps y antebrazos.",
+    "description": "Curl con rotación para bíceps y antebrazos.",
     "instructions": [
-      "P\u00e1rate con mancuernas con agarre supino",
+      "Párate con mancuernas con agarre supino",
       "Flexiona los codos llevando las mancuernas hacia arriba",
-      "En la parte superior, rota las mu\u00f1ecas a agarre prono",
+      "En la parte superior, rota las muñecas a agarre prono",
       "Baja con las palmas hacia abajo",
       "Rota de nuevo a supino abajo"
     ],
-    "imageUrl": "/exercises/da38949a-1665-4b24-b0e6-5cedd29e62d1/zottman_curls.png",
+    "imageUrl": null,
     "videoUrl": null,
-    "createdAt": "2026-03-15T21:33:38.571Z",
-    "updatedAt": "2026-03-15T21:37:41.497Z"
+    "createdAt": "2026-03-16T13:18:23.788Z",
+    "updatedAt": "2026-03-16T13:18:23.788Z"
   }
 ]
