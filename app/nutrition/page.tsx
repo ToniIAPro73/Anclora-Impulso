@@ -133,10 +133,10 @@ function NutritionPageContent() {
   const isProfileReady = isProfileReadyForPlanGeneration(profile)
 
   return (
-    <div className="space-y-6 px-4 py-5 sm:px-6 lg:px-8">
+    <div className="space-y-5 px-3 py-4 sm:space-y-6 sm:px-5 sm:py-5 lg:px-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
             {t ? 'Nutrición' : 'Nutrition'}
           </h1>
@@ -144,10 +144,10 @@ function NutritionPageContent() {
             {t ? 'Planes de comida y seguimiento nutricional' : 'Meal plans and nutrition tracking'}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
           <Dialog open={logOpen} onOpenChange={setLogOpen}>
             <DialogTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
                 {t ? 'Registrar Comida' : 'Log Meal'}
               </Button>
@@ -179,7 +179,7 @@ function NutritionPageContent() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
                     <Label>{t ? 'Fecha' : 'Date'}</Label>
                     <Input type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
@@ -200,7 +200,7 @@ function NutritionPageContent() {
                   <Label>{t ? 'Nombre' : 'Name'}</Label>
                   <Input value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
                     <Label>{t ? 'Calorías' : 'Calories'}</Label>
                     <Input type="number" value={logData.calories} onChange={(e) => setLogData(d => ({ ...d, calories: +e.target.value }))} />
@@ -227,12 +227,12 @@ function NutritionPageContent() {
 
           <Dialog open={generateOpen} onOpenChange={(v) => { setGenerateOpen(v); if (!v) setGenerateError(null) }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-green-600 to-emerald-600 text-white" disabled={!isProfileReady}>
+              <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white sm:w-auto" disabled={!isProfileReady}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 {t ? 'Generar Plan IA' : 'Generate AI Plan'}
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-xl">
               <DialogHeader>
                 <DialogTitle>{t ? 'Generar Plan de Comidas' : 'Generate Meal Plan'}</DialogTitle>
                 <DialogDescription>
@@ -314,7 +314,7 @@ function NutritionPageContent() {
 
       {/* Resumen del día */}
       {summary && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           <Card>
             <CardContent className="pt-4 text-center">
               <Flame className="w-6 h-6 mx-auto text-orange-500 mb-1" />
@@ -347,7 +347,7 @@ function NutritionPageContent() {
       )}
 
       {fastingState?.enabled && (
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-3 md:grid-cols-3 md:gap-4">
           <Card>
             <CardContent className="pt-4 text-center">
               <TimerReset className="mx-auto mb-1 h-6 w-6 text-emerald-500" />
@@ -382,8 +382,8 @@ function NutritionPageContent() {
       {latestPlan && (
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
                   {t ? 'Plan Semanal Actual' : 'Current Weekly Plan'}
@@ -397,11 +397,11 @@ function NutritionPageContent() {
                   )}
                 </CardDescription>
               </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
                   {t ? 'Ver Completo' : 'View Full'}
                 </Button>
-                <Button variant="destructive" size="sm" onClick={() => handleDeleteMealPlan(latestPlan.id)} disabled={isDeleting}>
+                <Button variant="destructive" size="sm" className="w-full sm:w-auto" onClick={() => handleDeleteMealPlan(latestPlan.id)} disabled={isDeleting}>
                   {t ? 'Eliminar' : 'Delete'}
                 </Button>
               </div>
@@ -409,9 +409,9 @@ function NutritionPageContent() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="0">
-              <TabsList className="w-full grid grid-cols-7">
+              <TabsList className="flex w-full min-w-0 gap-1 overflow-x-auto whitespace-nowrap">
                 {dayNames.map((day, i) => (
-                  <TabsTrigger key={i} value={String(i)} className="text-xs px-1">
+                  <TabsTrigger key={i} value={String(i)} className="shrink-0 px-3 text-xs">
                     {day.slice(0, 3)}
                   </TabsTrigger>
                 ))}
@@ -429,7 +429,7 @@ function NutritionPageContent() {
                       dayMeals.map((meal) => (
                         <Card key={meal.id} className="bg-muted/30">
                           <CardContent className="py-3">
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                               <div className="flex items-center gap-2">
                                 <UtensilsCrossed className="w-4 h-4 text-green-600" />
                                 <span className="font-medium capitalize">{meal.mealType}</span>
@@ -446,7 +446,7 @@ function NutritionPageContent() {
                             {meal.recipes.map((mr) => (
                               <div key={mr.id} className="mt-2">
                                 <p className="font-medium">{mr.recipe.name}</p>
-                                <div className="flex gap-4 mt-1 text-xs text-muted-foreground">
+                                <div className="mt-1 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-muted-foreground sm:flex sm:flex-wrap sm:gap-4">
                                   <span>{Math.round((mr.recipe.calories || 0) * meal.servingMultiplier)} kcal</span>
                                   <span>P: {mr.recipe.protein}g</span>
                                   <span>C: {mr.recipe.carbs}g</span>
@@ -477,12 +477,12 @@ function NutritionPageContent() {
           </CardHeader>
           <CardContent className="space-y-2">
             {logs.map((log) => (
-              <div key={log.id} className="flex items-center justify-between py-2 border-b last:border-0">
-                <div>
+              <div key={log.id} className="flex flex-col gap-1 py-2 border-b last:border-0 sm:flex-row sm:items-center sm:justify-between">
+                <div className="min-w-0">
                   <span className="font-medium capitalize">{log.mealType}</span>
-                  {log.name && <span className="text-muted-foreground ml-2">— {log.name}</span>}
+                  {log.name && <span className="text-muted-foreground ml-2 break-words">— {log.name}</span>}
                 </div>
-                <div className="flex gap-3 text-sm text-muted-foreground">
+                <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-muted-foreground">
                   {log.consumedAt && <span>{formatLocalTime(log.consumedAt, t ? "es-ES" : "en-US")}</span>}
                   <span>{log.calories} kcal</span>
                   <span>P:{log.protein}g</span>

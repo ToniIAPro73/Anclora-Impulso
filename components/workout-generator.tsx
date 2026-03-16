@@ -139,7 +139,7 @@ export function WorkoutGenerator() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {!isProfileReady ? (
         <Card className="border border-amber-200 bg-amber-50/90 shadow-sm dark:border-amber-500/20 dark:bg-amber-500/10">
           <CardContent className="pt-6">
@@ -172,11 +172,11 @@ export function WorkoutGenerator() {
                     {new Date(workout.createdAt).toLocaleDateString(isSpanish ? "es-ES" : "en-US")} · {workout.exercises.length} {isSpanish ? "ejercicios" : "exercises"}
                   </p>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" onClick={() => router.push(`/workouts/${workout.id}`)}>
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Button variant="outline" className="w-full sm:w-auto" onClick={() => router.push(`/workouts/${workout.id}`)}>
                     {isSpanish ? "Ver" : "View"}
                   </Button>
-                  <Button variant="destructive" onClick={() => handleDeleteWorkout(workout.id)} disabled={isDeleting}>
+                  <Button variant="destructive" className="w-full sm:w-auto" onClick={() => handleDeleteWorkout(workout.id)} disabled={isDeleting}>
                     {isSpanish ? "Eliminar" : "Delete"}
                   </Button>
                 </div>
@@ -211,7 +211,7 @@ export function WorkoutGenerator() {
                   : `This workout will use 40+ rules: more emphasis on strength, mobility, recovery and body composition${profile.sex ? ` for a ${profile.sex === "female" ? "female" : "male"} profile` : ""}.`}
               </div>
             ) : null}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
               <div className="space-y-2">
                 <Label>{isSpanish ? "Nombre del Entrenamiento (Opcional)" : "Workout Name (Optional)"}</Label>
                 <Input
@@ -294,7 +294,7 @@ export function WorkoutGenerator() {
 
             <div className="space-y-3">
               <Label>{isSpanish ? "Grupos Musculares Objetivo (Opcional)" : "Target Muscle Groups (Optional)"}</Label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {muscleGroups.map((muscle) => (
                   <div key={muscle} className="flex items-center space-x-2">
                     <Checkbox
@@ -340,7 +340,7 @@ export function WorkoutGenerator() {
                       ? "Incluye equipamiento propio de sala de musculación."
                       : "Includes standard gym-floor equipment."}
               </p>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
                 {equipmentTypes.map((equipment) => (
                   <div key={equipment} className="flex items-center space-x-2">
                     <Checkbox
@@ -419,10 +419,10 @@ export function WorkoutGenerator() {
           {/* Generated Workout */}
           <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
             <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
                   <CardTitle className="text-2xl">{generatedWorkout.name}</CardTitle>
-                  <CardDescription className="flex items-center gap-4 mt-2">
+                  <CardDescription className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                     <span className="flex items-center gap-1">
                       <Clock className="w-4 h-4" />
                       {preferences.duration} min
@@ -467,16 +467,16 @@ export function WorkoutGenerator() {
 
               <Separator className="my-6" />
 
-              <div className="flex gap-3">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
                   onClick={handleStartWorkout}
-                  className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                  className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 sm:flex-1"
                   size="lg"
                 >
                   <Play className="w-4 h-4 mr-2" />
                   {isSpanish ? "Comenzar Entrenamiento" : "Start Workout"}
                 </Button>
-                <Button onClick={handleGenerateAnother} variant="outline" size="lg">
+                <Button onClick={handleGenerateAnother} variant="outline" size="lg" className="w-full sm:w-auto">
                   {isSpanish ? "Generar Otro" : "Generate Another"}
                 </Button>
               </div>

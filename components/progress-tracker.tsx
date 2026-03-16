@@ -102,9 +102,9 @@ export function ProgressTracker() {
   const { stats, measurements, charts } = progress
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-pink-50 dark:from-orange-900/20 dark:to-pink-900/20">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -182,10 +182,10 @@ export function ProgressTracker() {
 
       {/* Tabs */}
       <Tabs defaultValue="charts" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="charts">{isSpanish ? "Gráficos" : "Charts"}</TabsTrigger>
-          <TabsTrigger value="measurements">{isSpanish ? "Medidas" : "Measurements"}</TabsTrigger>
-          <TabsTrigger value="records">{isSpanish ? "Récords" : "Records"}</TabsTrigger>
+        <TabsList className="flex w-full gap-2 overflow-x-auto whitespace-nowrap">
+          <TabsTrigger value="charts" className="shrink-0">{isSpanish ? "Gráficos" : "Charts"}</TabsTrigger>
+          <TabsTrigger value="measurements" className="shrink-0">{isSpanish ? "Medidas" : "Measurements"}</TabsTrigger>
+          <TabsTrigger value="records" className="shrink-0">{isSpanish ? "Récords" : "Records"}</TabsTrigger>
         </TabsList>
 
         {/* Charts Tab */}
@@ -201,15 +201,17 @@ export function ProgressTracker() {
                 <CardDescription>{isSpanish ? "Seguimiento de tu peso corporal en el tiempo" : "Track your body weight over time"}</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={charts.weight}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="weight" stroke="#f97316" strokeWidth={2} />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className="h-60 sm:h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={charts.weight}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis width={36} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="weight" stroke="#f97316" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -225,15 +227,17 @@ export function ProgressTracker() {
                 <CardDescription>{isSpanish ? "Seguimiento de tu composición corporal" : "Track your body composition"}</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={charts.bodyFat}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="bodyFat" stroke="#3b82f6" strokeWidth={2} />
-                  </LineChart>
-                </ResponsiveContainer>
+                <div className="h-60 sm:h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={charts.bodyFat}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="date" />
+                      <YAxis width={36} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="bodyFat" stroke="#3b82f6" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -249,15 +253,17 @@ export function ProgressTracker() {
                 <CardDescription>{isSpanish ? "Entrenamientos por semana" : "Workouts per week"}</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={charts.frequency}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="week" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#10b981" />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className="h-60 sm:h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={charts.frequency}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="week" />
+                      <YAxis width={36} />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#10b981" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </CardContent>
             </Card>
           )}
@@ -265,8 +271,8 @@ export function ProgressTracker() {
 
         {/* Measurements Tab */}
         <TabsContent value="measurements" className="space-y-6">
-          <div className="flex justify-between items-center">
-            <div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
               <h3 className="text-lg font-semibold">{isSpanish ? "Medidas Corporales" : "Body Measurements"}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {isSpanish ? "Registra tus medidas para seguir tu evolución" : "Log your measurements to track your evolution"}
@@ -274,18 +280,18 @@ export function ProgressTracker() {
             </div>
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-gradient-to-r from-orange-500 to-pink-500">
+                <Button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 sm:w-auto">
                   <Plus className="w-4 h-4 mr-2" />
                   {isSpanish ? "Agregar Medida" : "Add Measurement"}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-md">
+              <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>{isSpanish ? "Nueva Medida Corporal" : "New Body Measurement"}</DialogTitle>
                   <DialogDescription>{isSpanish ? "Registra tus medidas actuales" : "Log your current measurements"}</DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label>{isSpanish ? "Peso (kg)" : "Weight (kg)"}</Label>
                       <Input
