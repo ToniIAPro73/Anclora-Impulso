@@ -1,15 +1,16 @@
 {
-  "name": "my-v0-project",
+  "name": "anclora-impulso-web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "node -e \"console.log('Lint not configured in this repository')\"",
+    "lint": "next lint",
     "start": "next start",
     "test": "jest --watch",
     "test:ci": "jest --ci --coverage",
     "test:coverage": "jest --coverage",
+    "typecheck": "tsc --noEmit",
     "exercise:prompts": "tsx scripts/exercise-image-ai/generatePromptsGroq.ts",
     "exercise:manifest": "tsx scripts/exercise-image-ai/generateManifest.ts",
     "exercise:images": "node scripts/exercise-image-ai/generator/generateImages.js"
@@ -75,6 +76,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.9",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.16",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",

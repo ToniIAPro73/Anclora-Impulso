@@ -18,6 +18,17 @@ export interface Exercise {
   updatedAt: string;
 }
 
+export interface ExercisesResponse {
+  data: Exercise[];
+  pagination?: {
+    page: number;
+    limit: number;
+    total: number;
+    pages: number;
+    hasMore: boolean;
+  };
+}
+
 export interface WorkoutExercise {
   id: string;
   exerciseId: string;
@@ -116,11 +127,15 @@ export const exercisesApi = {
     environment?: string;
     difficulty?: string;
     search?: string;
-  }): Promise<Exercise[]> {
+    page?: number;
+    limit?: number;
+  }): Promise<Exercise[] | ExercisesResponse> {
     const params = new URLSearchParams();
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
-        if (value) params.append(key, value);
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, String(value));
+        }
       });
     }
     const query = params.toString() ? `?${params.toString()}` : '';

@@ -17,7 +17,7 @@ Este directorio concentra toda la documentacion no esencial para el arranque del
 ### Para entender el repo
 
 1. `../README.md`
-2. `internal/CLAUDE.md`
+2. `../CLAUDE.md`
 3. `development/INTEGRATION.md`
 
 ### Para desarrollo

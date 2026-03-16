@@ -664,12 +664,10 @@ Anclora-Impulso/
 │   └── logs/                      # Winston logs (daily rotation)
 │
 ├── public/                        # Static assets
-├── styles/                        # Global CSS
 ├── middleware.ts                  # CSP & security headers (NEW)
 │
 ├── docs/
 │   ├── README.md                  # Documentation index
-│   ├── internal/CLAUDE.md         # This file
 │   ├── archive/                   # Phase summaries and historical docs
 │   ├── development/               # Integration, references, roadmap
 │   ├── operations/                # Deployment and operational guides
@@ -725,8 +723,8 @@ Anclora-Impulso/
 - **docs/development/INTEGRATION.md** - Frontend-backend integration details
 
 ### Monitoring & Configuration
-- **backend/DASHBOARD.md** - Dashboard metrics and configuration
-- **backend/LOGGING.md** - Logging and monitoring guide
+- **backend/docs/DASHBOARD.md** - Dashboard metrics and configuration
+- **backend/docs/LOGGING.md** - Logging and monitoring guide
 
 ### Business Documentation
 - **docs/business/EXECUTIVE-SUMMARY.md**

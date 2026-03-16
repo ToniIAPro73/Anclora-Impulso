@@ -85,15 +85,21 @@ pnpm dev
 
 El servidor estará disponible en `http://localhost:3001`
 
-## Producción
+## Produccion
 
-1. **Compilar TypeScript:**
+1. **Aplicar migraciones de Prisma:**
+
+```bash
+pnpm prisma:deploy
+```
+
+2. **Compilar TypeScript:**
 
 ```bash
 pnpm build
 ```
 
-2. **Iniciar servidor:**
+3. **Iniciar servidor:**
 
 ```bash
 pnpm start
@@ -104,8 +110,12 @@ pnpm start
 - `pnpm dev` - Iniciar en modo desarrollo
 - `pnpm build` - Compilar TypeScript a JavaScript
 - `pnpm start` - Iniciar servidor de producción
+- `pnpm test` - Ejecutar tests del backend en modo watch
+- `pnpm test:ci` - Ejecutar tests del backend con cobertura
 - `pnpm prisma:generate` - Generar cliente de Prisma
 - `pnpm prisma:migrate` - Ejecutar migraciones
+- `pnpm prisma:deploy` - Aplicar migraciones pendientes en entornos desplegados
+- `pnpm prisma:push` - Sincronizar esquema sin crear migracion
 - `pnpm prisma:studio` - Abrir Prisma Studio (GUI)
 - `pnpm prisma:seed` - Poblar base de datos
 
@@ -113,6 +123,9 @@ pnpm start
 
 ```
 backend/
+├── docs/                # Documentacion operativa del backend
+├── scripts/             # Utilidades de desarrollo y seed manual
+├── tests/               # Tests del backend
 ├── src/
 │   ├── config/          # Configuración (DB, env, JWT)
 │   ├── middleware/      # Middleware (auth, validate, errors)
@@ -120,12 +133,13 @@ backend/
 │   ├── controllers/     # Controladores
 │   ├── services/        # Lógica de negocio
 │   ├── utils/           # Utilidades (password, jwt, validators)
-│   ├── types/           # Tipos TypeScript
 │   ├── app.ts           # Configuración de Express
 │   └── server.ts        # Punto de entrada
 ├── prisma/
 │   ├── schema.prisma    # Esquema de la base de datos
+│   ├── migrations/      # Migraciones versionadas
 │   └── seed.ts          # Datos iniciales
+├── jest.config.js
 ├── package.json
 ├── tsconfig.json
 └── .env.example

@@ -27,6 +27,12 @@ interface WorkoutPreferences {
   workoutName: string
 }
 
+const ENVIRONMENT_EQUIPMENT_MAP: Record<WorkoutPreferences["trainingEnvironment"], string[]> = {
+  gym: ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar', 'cables', 'machine'],
+  home: ['bodyweight', 'dumbbells', 'resistance_bands'],
+  outdoor: ['bodyweight', 'jump_rope', 'pull_up_bar'],
+}
+
 export function WorkoutGenerator() {
   const { profile } = useAuth()
   const { language } = useLanguage()
@@ -64,17 +70,12 @@ export function WorkoutGenerator() {
   }, [profile.recommendedPlan])
 
   const muscleGroups = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'glutes']
-  const environmentEquipmentMap: Record<WorkoutPreferences["trainingEnvironment"], string[]> = {
-    gym: ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar', 'cables', 'machine'],
-    home: ['bodyweight', 'dumbbells', 'resistance_bands'],
-    outdoor: ['bodyweight', 'jump_rope', 'pull_up_bar'],
-  }
-  const equipmentTypes = environmentEquipmentMap[preferences.trainingEnvironment]
+  const equipmentTypes = ENVIRONMENT_EQUIPMENT_MAP[preferences.trainingEnvironment]
 
   useEffect(() => {
     setPreferences((current) => ({
       ...current,
-      equipment: current.equipment.filter((equipment) => environmentEquipmentMap[current.trainingEnvironment].includes(equipment)),
+      equipment: current.equipment.filter((equipment) => ENVIRONMENT_EQUIPMENT_MAP[current.trainingEnvironment].includes(equipment)),
     }))
   }, [preferences.trainingEnvironment])
 

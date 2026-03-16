@@ -22,6 +22,11 @@
         "name": "next"
       }
     ],
+    "types": [
+      "node",
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "@/*": [
         "./*"
@@ -37,6 +42,14 @@
     ".next-build/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "backend",
+    "docs",
+    "coverage",
+    "__tests__",
+    "scripts",
+    ".next",
+    ".next-build",
+    ".next-dev"
   ]
 }

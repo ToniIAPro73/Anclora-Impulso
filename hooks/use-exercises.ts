@@ -1,5 +1,5 @@
-import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { exercisesApi, type Exercise } from '@/lib/api';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { exercisesApi, type Exercise, type ExercisesResponse } from '@/lib/api';
 
 export interface ExerciseFilters {
   category?: string;
@@ -10,17 +10,6 @@ export interface ExerciseFilters {
   search?: string;
   page?: number;
   limit?: number;
-}
-
-interface ExercisesResponse {
-  data: Exercise[];
-  pagination?: {
-    page: number;
-    limit: number;
-    total: number;
-    pages: number;
-    hasMore: boolean;
-  };
 }
 
 /**
@@ -59,8 +48,9 @@ export function useExercises(filters?: ExerciseFilters) {
 }
 
 /**
- * Hook para infinite scroll de ejercicios
- * Carga automáticamente la siguiente página al llegar al final
+ * Hook para infinite scroll local sobre la lista de ejercicios.
+ * El backend devuelve la colección completa, así que la paginación
+ * se resuelve en cliente manteniendo una API estable para la UI.
  */
 export function useExercisesInfinite(filters?: Omit<ExerciseFilters, 'page'>) {
   const query = useInfiniteQuery<ExercisesResponse>({
@@ -68,10 +58,29 @@ export function useExercisesInfinite(filters?: Omit<ExerciseFilters, 'page'>) {
     queryFn: async ({ pageParam = 1 }) => {
       const response = await exercisesApi.getAll({
         ...filters,
-        page: pageParam,
+        page: pageParam as number,
         limit: 20,
       });
-      return response as ExercisesResponse;
+
+      if (Array.isArray(response)) {
+        const page = pageParam as number;
+        const limit = 20;
+        const total = response.length;
+        const pages = Math.max(1, Math.ceil(total / limit));
+
+        return {
+          data: response.slice((page - 1) * limit, page * limit),
+          pagination: {
+            page,
+            limit,
+            total,
+            pages,
+            hasMore: page < pages,
+          },
+        };
+      }
+
+      return response;
     },
     getNextPageParam: (lastPage) =>
       lastPage.pagination?.hasMore ? lastPage.pagination.page + 1 : undefined,

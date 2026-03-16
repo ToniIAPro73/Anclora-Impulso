@@ -12,7 +12,6 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 export const metadata: Metadata = {
   title: "Anclora Impulso - Tu Entrenador Personal con IA",
   description: "Entrenamientos personalizados con IA y seguimiento inteligente de progreso",
-  generator: "v0.app",
   icons: {
     icon: [
       { url: "/impulso_favicon.ico", sizes: "any" },

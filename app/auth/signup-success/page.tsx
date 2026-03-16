@@ -21,13 +21,13 @@ export default function SignupSuccessPage() {
           <CardContent className="text-center space-y-6">
             <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
               <p className="text-sm text-blue-800 dark:text-blue-200">
-                We've sent a confirmation email to your inbox. Please click the link in the email to activate your
+                We&apos;ve sent a confirmation email to your inbox. Please click the link in the email to activate your
                 account and start your fitness journey.
               </p>
             </div>
             <div className="space-y-3">
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Didn't receive the email? Check your spam folder or try signing up again.
+                Didn&apos;t receive the email? Check your spam folder or try signing up again.
               </p>
               <Button asChild variant="outline" className="w-full bg-transparent">
                 <Link href="/auth/login">Back to Sign In</Link>

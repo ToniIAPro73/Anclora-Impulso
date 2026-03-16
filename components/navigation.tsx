@@ -29,7 +29,7 @@ interface NavigationProps {
 
 export function Navigation({ isCollapsed, setIsCollapsed }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ""
   const { t } = useLanguage()
 
   const navigationItems = [

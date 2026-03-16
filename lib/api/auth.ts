@@ -4,15 +4,11 @@ export interface User {
   id: string;
   email: string;
   fullName: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface AuthResponse {
-  user: {
-    id: string;
-    email: string;
-    fullName: string;
-  };
+  user: User;
   accessToken: string;
   refreshToken: string;
 }

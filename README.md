@@ -73,7 +73,7 @@ pnpm test:coverage
 ## Documentacion
 
 - Indice general: `docs/README.md`
-- Documentacion interna: `docs/internal/CLAUDE.md`
+- Documentacion interna y guia para Claude Code: `CLAUDE.md`
 - Operacion y despliegue: `docs/operations/DEPLOY.md`
 - Desarrollo e integracion: `docs/development/`
 - Estandares internos: `docs/standards/`
