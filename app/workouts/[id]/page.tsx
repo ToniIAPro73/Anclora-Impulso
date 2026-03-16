@@ -83,7 +83,7 @@ function WorkoutDetailContent() {
   }
 
   return (
-    <div className="space-y-4 p-4 sm:p-6">
+    <div className="space-y-4 px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="min-w-0">
           <Button variant="ghost" size="sm" className="mb-2 -ml-3 rounded-2xl" onClick={() => router.push("/workouts/generate")}>
@@ -98,15 +98,15 @@ function WorkoutDetailContent() {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           <Badge variant="secondary" className="rounded-xl px-3 py-1">
             <Dumbbell className="mr-2 h-3.5 w-3.5" />
             {workout.exercises.length} {isSpanish ? "ejercicios" : "exercises"}
           </Badge>
-          <Button variant="destructive" onClick={handleDeleteWorkout} disabled={isDeleting} className="rounded-2xl">
+          <Button variant="destructive" onClick={handleDeleteWorkout} disabled={isDeleting} className="w-full rounded-2xl sm:w-auto">
             {isSpanish ? "Eliminar plan" : "Delete plan"}
           </Button>
-          <Button onClick={() => router.push("/progress")} className="rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600">
+          <Button onClick={() => router.push("/progress")} className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 sm:w-auto">
             <Play className="mr-2 h-4 w-4" />
             {isSpanish ? "Registrar al finalizar" : "Log after finishing"}
           </Button>

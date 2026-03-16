@@ -163,7 +163,7 @@ export function ExerciseLibrary() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* Filters */}
       <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
         <CardHeader>
@@ -173,7 +173,7 @@ export function ExerciseLibrary() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">{isSpanish ? "Buscar" : "Search"}</label>
               <div className="relative">
@@ -253,7 +253,7 @@ export function ExerciseLibrary() {
       </Card>
 
       {/* Results */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-gray-600 dark:text-gray-400">
           {isSpanish
             ? `Mostrando ${exercises.length} ejercicio${exercises.length !== 1 ? "s" : ""}`
@@ -262,7 +262,7 @@ export function ExerciseLibrary() {
       </div>
 
       {/* Exercise Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {exercises.map((exercise) => (
           <Dialog key={exercise.id}>
             <DialogTrigger asChild>
@@ -305,10 +305,10 @@ export function ExerciseLibrary() {
                 </CardContent>
               </Card>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogContent className="max-h-[85dvh] overflow-y-auto sm:max-w-2xl">
               <DialogHeader>
                 {renderExerciseMedia(exercise)}
-                <div className="flex items-center gap-3">
+                <div className="flex items-start gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
                   <div>
                     <DialogTitle className="text-2xl">{exercise.name}</DialogTitle>

@@ -36,8 +36,8 @@ function AchievementsPageContent() {
   const locked = achievements?.filter((a) => !a.unlocked) ?? []
 
   return (
-    <div className="space-y-6 px-4 py-5 pb-8 sm:px-6 lg:px-8">
-      <div>
+    <div className="space-y-5 px-3 py-4 pb-8 sm:space-y-6 sm:px-5 sm:py-5 lg:px-8">
+      <div className="min-w-0">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
           {t ? 'Gamificación' : 'Gamification'}
         </h1>
@@ -48,7 +48,7 @@ function AchievementsPageContent() {
 
       {/* Status Cards */}
       {status && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
           <Card className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200 dark:border-amber-800">
             <CardContent className="pt-4 text-center">
               <Star className="w-8 h-8 mx-auto text-amber-500 mb-2" />
@@ -84,7 +84,7 @@ function AchievementsPageContent() {
       {status && (
         <Card>
           <CardContent className="pt-6">
-            <div className="flex items-center justify-between mb-2">
+            <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-sm font-medium">
                 {t ? 'Nivel' : 'Level'} {status.level}
               </span>
@@ -110,7 +110,7 @@ function AchievementsPageContent() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {unlocked.map((achievement) => (
               <Card key={achievement.id} className="border-amber-200 dark:border-amber-800 bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
-                <CardContent className="flex items-center gap-4 py-4">
+                <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0">
                     <DynamicIcon name={achievement.icon} className="w-6 h-6 text-white" />
                   </div>
@@ -143,7 +143,7 @@ function AchievementsPageContent() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {locked.map((achievement) => (
               <Card key={achievement.id} className="opacity-60">
-                <CardContent className="flex items-center gap-4 py-4">
+                <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
                     <Lock className="w-5 h-5 text-gray-400" />
                   </div>
@@ -171,8 +171,8 @@ function AchievementsPageContent() {
           <CardContent>
             <div className="space-y-2">
               {xpHistory.map((event) => (
-                <div key={event.id} className="flex items-center justify-between py-2 border-b last:border-0">
-                  <div>
+                <div key={event.id} className="flex flex-col gap-1 py-2 border-b last:border-0 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="min-w-0">
                     <span className="text-sm font-medium capitalize">
                       {event.action.replace(/_/g, ' ')}
                     </span>

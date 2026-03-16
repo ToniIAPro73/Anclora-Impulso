@@ -10,8 +10,8 @@ export default function ExercisesPage() {
 
   return (
     <ProtectedDashboardPage>
-      <div className="p-6 pb-8">
-        <div className="mb-8">
+      <div className="px-3 py-4 sm:px-5 sm:py-5 lg:px-6 lg:pb-8">
+        <div className="mb-6 sm:mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {isSpanish ? "Biblioteca de Ejercicios" : "Exercise Library"}
           </h1>
