@@ -667,17 +667,15 @@ Anclora-Impulso/
 ├── styles/                        # Global CSS
 ├── middleware.ts                  # CSP & security headers (NEW)
 │
-├── Documentation/
-│   ├── CLAUDE.md                  # This file (UPDATED)
-│   ├── PROJECT_COMPLETION_SUMMARY.md  # Project overview (NEW)
-│   ├── PHASE1_COMPLETED.md        # Security & Testing (NEW)
-│   ├── PHASE2_COMPLETED.md        # Performance & UX (NEW)
-│   ├── PHASE3_COMPLETED.md        # Quality & Accessibility (NEW)
-│   ├── QUICK_REFERENCE_PHASE3.md  # Quick usage guide (NEW)
-│   ├── DOCUMENTATION_INDEX.md     # Doc navigation (NEW)
-│   ├── README.md                  # User-facing docs
-│   ├── DEPLOY.md                  # Deployment guide
-│   └── INTEGRATION.md             # API integration guide
+├── docs/
+│   ├── README.md                  # Documentation index
+│   ├── internal/CLAUDE.md         # This file
+│   ├── archive/                   # Phase summaries and historical docs
+│   ├── development/               # Integration, references, roadmap
+│   ├── operations/                # Deployment and operational guides
+│   ├── standards/                 # Internal implementation contracts
+│   ├── business/                  # Executive business material
+│   └── investors/                 # Investor package
 │
 ├── .github/workflows/
 │   └── test.yml                   # CI/CD pipeline (NEW)
@@ -712,26 +710,27 @@ Anclora-Impulso/
 ## Additional Resources
 
 ### Project Documentation
-- **PROJECT_COMPLETION_SUMMARY.md** - Complete project overview (all 3 phases)
-- **QUICK_REFERENCE_PHASE3.md** - Quick code examples and usage patterns
-- **DOCUMENTATION_INDEX.md** - Navigation guide for all documentation
+- **docs/README.md** - Navigation guide for all documentation
+- **docs/archive/PROJECT_COMPLETION_SUMMARY.md** - Complete project overview
+- **docs/development/QUICK_REFERENCE_PHASE3.md** - Quick code examples and usage patterns
 
 ### Phase Documentation
-- **PHASE1_COMPLETED.md** - Security vulnerabilities fixes, testing setup
-- **PHASE2_COMPLETED.md** - React Query caching, error boundaries, loading states
-- **PHASE3_COMPLETED.md** - Accessibility (WCAG 2.1 AA), input sanitization, CSP, logging, Swagger
+- **docs/archive/PHASE1_COMPLETED.md** - Security vulnerabilities fixes, testing setup
+- **docs/archive/PHASE2_COMPLETED.md** - React Query caching, error boundaries, loading states
+- **docs/archive/PHASE3_COMPLETED.md** - Accessibility, sanitization, CSP, logging, Swagger
 
 ### User & Deployment Guides
-- **README.md** - User-facing features, quick start, API endpoints
-- **DEPLOY.md** - Complete deployment guide for Vercel, Railway, Neon
-- **INTEGRATION.md** - Frontend-backend integration details
+- **README.md** - User-facing quick start and repo entry point
+- **docs/operations/DEPLOY.md** - Deployment guide for Vercel, Railway, Neon
+- **docs/development/INTEGRATION.md** - Frontend-backend integration details
 
 ### Monitoring & Configuration
 - **backend/DASHBOARD.md** - Dashboard metrics and configuration
 - **backend/LOGGING.md** - Logging and monitoring guide
 
 ### Business Documentation
-- **EXECUTIVE-SUMMARY.md**, **INVESTOR-FAQ.md** - Business documentation
+- **docs/business/EXECUTIVE-SUMMARY.md**
+- **docs/investors/INVESTOR-FAQ.md**
 
 ### External Links
 - **API Documentation:** http://localhost:3001/api/docs/api (interactive Swagger UI)

@@ -124,7 +124,7 @@ Documento exhaustivo con 17 preguntas frecuentes de inversores respondidas en pr
 
 ---
 
-### 6. **README.md** 📖
+### 6. **../../README.md** 📖
 **Duración de lectura:** 15 minutos
 
 Documentación técnica completa del proyecto, incluyendo arquitectura, features, instalación y roadmap.
@@ -142,7 +142,7 @@ Documentación técnica completa del proyecto, incluyendo arquitectura, features
 
 ---
 
-### 7. **INTEGRATION.md** 🔌
+### 7. **../development/INTEGRATION.md** 🔌
 **Duración de lectura:** 20 minutos
 
 Guía detallada de integración frontend-backend, documentación de API y ejemplos de uso.
@@ -159,7 +159,7 @@ Guía detallada de integración frontend-backend, documentación de API y ejempl
 
 ---
 
-### 8. **DEPLOY.md** 🚀
+### 8. **../operations/DEPLOY.md** 🚀
 **Duración de lectura:** 25 minutos
 
 Guía completa de despliegue en producción con opciones 100% gratuitas.
@@ -189,13 +189,13 @@ Guía completa de despliegue en producción con opciones 100% gratuitas.
 2. **PITCH-SCRIPT.md** (30 min)
 3. **FINANCIAL-MODEL.md** (45 min)
 4. **INVESTOR-FAQ.md** - Todas las categorías (30 min)
-5. **README.md** (15 min)
+5. **../../README.md** (15 min)
 
 ### Para Inversores Técnicos
 1. **EXECUTIVE-SUMMARY.md** (10 min)
-2. **README.md** (15 min)
-3. **INTEGRATION.md** (20 min)
-4. **DEPLOY.md** (25 min)
+2. **../../README.md** (15 min)
+3. **../development/INTEGRATION.md** (20 min)
+4. **../operations/DEPLOY.md** (25 min)
 5. **INVESTOR-FAQ.md** - Sección de Producto y Tecnología (15 min)
 
 ### Para Due Diligence Completa
