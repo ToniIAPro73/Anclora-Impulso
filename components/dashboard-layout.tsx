@@ -24,13 +24,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   }, [])
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="flex min-h-dvh flex-col bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
       <Navigation isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-      <div className={`flex flex-1 flex-col overflow-hidden transition-[padding] duration-300 ${isCollapsed ? "lg:pl-24" : "lg:pl-64"}`}>
+      <div className={`flex min-h-0 flex-1 flex-col transition-[padding] duration-300 ${isCollapsed ? "lg:pl-24" : "lg:pl-64"}`}>
         <DashboardHeader />
         <main
           className={cn(
-            "h-full overflow-y-auto overflow-x-visible",
+            "min-h-0 flex-1 overflow-y-auto overflow-x-clip",
             isDashboardRoute && "lg:overflow-hidden"
           )}
         >

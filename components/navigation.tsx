@@ -139,7 +139,7 @@ export function Navigation({ isCollapsed, setIsCollapsed }: NavigationProps) {
       </nav>
 
       <div className="lg:hidden">
-        <div className="flex items-center justify-between border-b border-orange-200/70 bg-white/80 px-4 py-3 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/80">
+        <div className="sticky top-0 z-40 flex items-center justify-between border-b border-orange-200/70 bg-white/80 px-4 py-3 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/80">
           <div className="flex items-center gap-3">
             <BrandLogo size={42} priority className="rounded-2xl" />
             <div>
@@ -155,8 +155,8 @@ export function Navigation({ isCollapsed, setIsCollapsed }: NavigationProps) {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="border-b border-orange-200/70 bg-white/95 px-4 py-4 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/95">
-            <div className="space-y-2">
+          <div className="fixed inset-x-0 top-[73px] bottom-0 z-40 overflow-y-auto border-t border-orange-200/70 bg-white/95 px-4 py-4 backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/95">
+            <div className="mx-auto flex w-full max-w-md flex-col gap-3 pb-6">
               {navigationItems.map((item) => {
                 const isActive = pathname === item.href || pathname.startsWith(item.href + "/")
 
@@ -166,7 +166,7 @@ export function Navigation({ isCollapsed, setIsCollapsed }: NavigationProps) {
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-2xl border px-3 py-3 text-sm font-medium transition-all",
+                      "flex items-center gap-3 rounded-2xl border px-4 py-3.5 text-sm font-medium transition-all",
                       uiMotion.frame,
                       isActive
                         ? "border-orange-300/80 bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-[0_18px_32px_-22px_rgba(239,68,68,0.7)]"
