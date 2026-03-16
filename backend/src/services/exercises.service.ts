@@ -1,6 +1,7 @@
 import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
 import type { CreateExerciseInput } from '../utils/validators';
+import { resolveExerciseImageUrl } from './exercise-image-resolver';
 
 export interface ExerciseFilters {
   category?: string;
@@ -49,7 +50,10 @@ export async function getAllExercises(filters: ExerciseFilters = {}) {
     orderBy: { name: 'asc' },
   });
 
-  return exercises;
+  return exercises.map((exercise) => ({
+    ...exercise,
+    imageUrl: resolveExerciseImageUrl(exercise.name),
+  }));
 }
 
 /**
@@ -64,7 +68,10 @@ export async function getExerciseById(id: string) {
     throw new AppError(404, 'Ejercicio no encontrado');
   }
 
-  return exercise;
+  return {
+    ...exercise,
+    imageUrl: resolveExerciseImageUrl(exercise.name),
+  };
 }
 
 /**
