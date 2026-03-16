@@ -2,6 +2,22 @@ import { Request, Response, NextFunction } from 'express';
 import * as exercisesService from '../services/exercises.service';
 import type { CreateExerciseInput } from '../utils/validators';
 
+function withAbsoluteImageUrl<T extends { imageUrl?: string | null }>(req: Request, exercise: T): T {
+  if (!exercise.imageUrl || /^https?:\/\//i.test(exercise.imageUrl)) {
+    return exercise;
+  }
+
+  const host = req.get('host');
+  if (!host) {
+    return exercise;
+  }
+
+  return {
+    ...exercise,
+    imageUrl: `${req.protocol}://${host}${exercise.imageUrl}`,
+  };
+}
+
 /**
  * GET /api/exercises
  */
@@ -21,8 +37,8 @@ export async function getAllExercises(
     };
 
     const exercises = await exercisesService.getAllExercises(filters);
-    
-    res.json(exercises);
+
+    res.json(exercises.map((exercise) => withAbsoluteImageUrl(req, exercise)));
   } catch (error) {
     next(error);
   }
@@ -38,8 +54,8 @@ export async function getExerciseById(
 ): Promise<void> {
   try {
     const exercise = await exercisesService.getExerciseById(req.params.id);
-    
-    res.json(exercise);
+
+    res.json(withAbsoluteImageUrl(req, exercise));
   } catch (error) {
     next(error);
   }
