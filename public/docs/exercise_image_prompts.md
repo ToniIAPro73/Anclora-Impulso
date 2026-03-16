@@ -1,6 +1,6 @@
 # Prompts de Generación de Imágenes — Ejercicios Pendientes
 
-> **Total pendiente**: 99 ejercicios
+> **Total pendiente**: 88 ejercicios
 > **Fecha**: 2026-03-16
 
 ## Instrucciones de Uso
@@ -16,152 +16,9 @@ Cada imagen incluye dos poses (START y END) con etiquetas y una flecha de movimi
 
 ---
 
-## Chest (16 ejercicios)
+## Chest (5 ejercicios)
 
-### 1. Bench Press
-
-- **ID**: `ffdf6d7f-c8cb-4e03-a43d-809dfd966a58`
-- **Carpeta destino**: `app/exercises/ffdf6d7f-c8cb-4e03-a43d-809dfd966a58/`
-- **Archivo**: `bench_press.png`
-- **Equipamiento**: barbell
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Bench Press with barbell. Two poses in same image: LEFT = Acuéstate en el banco con los pies firmes en el suelo; RIGHT = Empuja la barra hacia arriba hasta extender los brazos. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 2. Cable Crossover
-
-- **ID**: `fc4e81e0-cabf-412c-8629-6a95789dc408`
-- **Carpeta destino**: `app/exercises/fc4e81e0-cabf-412c-8629-6a95789dc408/`
-- **Archivo**: `cable_crossover.png`
-- **Equipamiento**: cables
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Cable Crossover with cables. Two poses in same image: LEFT = Colócate en el centro de una máquina de cables con poleas altas; RIGHT = Cruza las manos frente al cuerpo. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 3. Chest Dips
-
-- **ID**: `c4aa79d6-cd5a-43af-9b23-af1909b35a16`
-- **Carpeta destino**: `app/exercises/c4aa79d6-cd5a-43af-9b23-af1909b35a16/`
-- **Archivo**: `chest_dips.png`
-- **Equipamiento**: barbell
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Chest Dips with barbell. Two poses in same image: LEFT = Agarra las barras paralelas y elévate; RIGHT = Empuja hacia arriba hasta extender los brazos. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 4. Chest Press Machine
-
-- **ID**: `82046b1e-d80a-4567-8553-e592aa7c75b5`
-- **Carpeta destino**: `app/exercises/82046b1e-d80a-4567-8553-e592aa7c75b5/`
-- **Archivo**: `chest_press_machine.png`
-- **Equipamiento**: machine
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Chest Press Machine with machine. Two poses in same image: LEFT = Ajusta el asiento para que los mangos estén a la altura del pecho; RIGHT = Extiende los brazos completamente. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 5. Decline Bench Press
-
-- **ID**: `6034bc36-90ae-41f4-aa99-cb2fb3855961`
-- **Carpeta destino**: `app/exercises/6034bc36-90ae-41f4-aa99-cb2fb3855961/`
-- **Archivo**: `decline_bench_press.png`
-- **Equipamiento**: barbell
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Decline Bench Press with barbell. Two poses in same image: LEFT = Ajusta el banco a 15-30 grados de declinación; RIGHT = Agarra la barra y bájala hasta la parte inferior del pecho. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 6. Decline Dumbbell Press
-
-- **ID**: `4a4bca8b-361d-427e-b8f5-9f4931c9480e`
-- **Carpeta destino**: `app/exercises/4a4bca8b-361d-427e-b8f5-9f4931c9480e/`
-- **Archivo**: `decline_dumbbell_press.png`
-- **Equipamiento**: dumbbells
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Decline Dumbbell Press with dumbbells. Two poses in same image: LEFT = Ajusta el banco a 15-30 grados de declinación; RIGHT = Empuja las mancuernas hacia arriba. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 7. Diamond Push-ups (Chest Focus)
-
-- **ID**: `10ec962d-a58c-4269-8e8c-9a131cc61be9`
-- **Carpeta destino**: `app/exercises/10ec962d-a58c-4269-8e8c-9a131cc61be9/`
-- **Archivo**: `diamond_push_ups_chest_focus.png`
-- **Equipamiento**: bodyweight
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Diamond Push-ups (Chest Focus). Two poses in same image: LEFT = Colócate en posición de flexión; RIGHT = Baja el cuerpo manteniendo los codos cerca del torso. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 8. Incline Bench Press
-
-- **ID**: `a498add9-ddb7-4b10-ba59-81b1016784e0`
-- **Carpeta destino**: `app/exercises/a498add9-ddb7-4b10-ba59-81b1016784e0/`
-- **Archivo**: `incline_bench_press.png`
-- **Equipamiento**: barbell
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Incline Bench Press with barbell. Two poses in same image: LEFT = Ajusta el banco a 30-45 grados de inclinación; RIGHT = Baja la barra hasta la parte superior del pecho. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 9. Incline Dumbbell Press
-
-- **ID**: `ce0297ee-7eea-4282-9eed-532e0a39d291`
-- **Carpeta destino**: `app/exercises/ce0297ee-7eea-4282-9eed-532e0a39d291/`
-- **Archivo**: `incline_dumbbell_press.png`
-- **Equipamiento**: dumbbells
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Incline Dumbbell Press with dumbbells. Two poses in same image: LEFT = Ajusta el banco a 30-45 grados; RIGHT = Empuja las mancuernas hacia arriba hasta extender los brazos. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 10. Landmine Press
-
-- **ID**: `94cfb0a6-71af-4ab8-ac49-3b6012f851b3`
-- **Carpeta destino**: `app/exercises/94cfb0a6-71af-4ab8-ac49-3b6012f851b3/`
-- **Archivo**: `landmine_press.png`
-- **Equipamiento**: landmine
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Landmine Press with landmine. Two poses in same image: LEFT = Coloca una barra en un landmine o esquina; RIGHT = Empuja la barra hacia arriba en ángulo. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 11. Pec Deck Machine
-
-- **ID**: `3c66a35d-1f73-4511-8e0b-2fe02fabeb6a`
-- **Carpeta destino**: `app/exercises/3c66a35d-1f73-4511-8e0b-2fe02fabeb6a/`
-- **Archivo**: `pec_deck_machine.png`
-- **Equipamiento**: machine
-
-**Prompt:**
-
-```
-Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Pec Deck Machine with machine. Two poses in same image: LEFT = Ajusta el asiento para que los mangos estén a la altura del pecho; RIGHT = Junta los mangos frente a tu pecho. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
-```
-
-### 12. Push-ups
+### 1. Push-ups
 
 - **ID**: `3ca39c0b-cadc-490a-9715-ff1467165313`
 - **Carpeta destino**: `app/exercises/3ca39c0b-cadc-490a-9715-ff1467165313/`
@@ -174,7 +31,7 @@ Professional 3D fitness instructional illustration of a stylized 3D cartoon male
 Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Push-ups. Two poses in same image: LEFT = Colócate en posición de plancha con las manos a la anchura de los hombros; RIGHT = Empuja hacia arriba hasta la posición inicial. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
 ```
 
-### 13. Resistance Band Chest Press
+### 2. Resistance Band Chest Press
 
 - **ID**: `fa121ccf-2c58-4f89-b0cf-35cc48f688c2`
 - **Carpeta destino**: `app/exercises/fa121ccf-2c58-4f89-b0cf-35cc48f688c2/`
@@ -187,7 +44,7 @@ Professional 3D fitness instructional illustration of a stylized 3D cartoon male
 Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Resistance Band Chest Press with resistance_bands. Two poses in same image: LEFT = Ancla la banda detrás del torso; RIGHT = Mantén el pecho alto y el abdomen firme. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
 ```
 
-### 14. Single-Arm Dumbbell Floor Press
+### 3. Single-Arm Dumbbell Floor Press
 
 - **ID**: `94357f7f-72c5-4657-8e09-906962cc7c75`
 - **Carpeta destino**: `app/exercises/94357f7f-72c5-4657-8e09-906962cc7c75/`
@@ -200,7 +57,7 @@ Professional 3D fitness instructional illustration of a stylized 3D cartoon male
 Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Single-Arm Dumbbell Floor Press with dumbbells. Two poses in same image: LEFT = Túmbate en el suelo con una mancuerna en una mano; RIGHT = Baja hasta que el tríceps toque suavemente el suelo. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
 ```
 
-### 15. Svend Press
+### 4. Svend Press
 
 - **ID**: `005cd816-fd41-4d43-8f3f-051557e2cc62`
 - **Carpeta destino**: `app/exercises/005cd816-fd41-4d43-8f3f-051557e2cc62/`
@@ -213,7 +70,7 @@ Professional 3D fitness instructional illustration of a stylized 3D cartoon male
 Professional 3D fitness instructional illustration of a stylized 3D cartoon male character: short brown hair, VIVID GREEN EYES, moustache. Black athletic t-shirt, black shorts, black training shoes. Exercise: Svend Press with weight_plate. Two poses in same image: LEFT = Sostén un disco de peso con ambas manos frente al pecho; RIGHT = Extiende los brazos hacia adelante. Added small labels START and END, subtle movement arrow. Minimal white fitness studio background. Modern fitness app style, high quality. Biomechanically correct posture. Character eyes must be green.
 ```
 
-### 16. Wide Grip Push-ups
+### 5. Wide Grip Push-ups
 
 - **ID**: `81654165-587f-4d0c-9e05-9b5c09b4540a`
 - **Carpeta destino**: `app/exercises/81654165-587f-4d0c-9e05-9b5c09b4540a/`
