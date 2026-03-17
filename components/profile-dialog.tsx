@@ -357,7 +357,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </div>
 
               <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
-                <div className="flex items-start justify-between gap-2">
+                <div className="flex flex-col items-start justify-between gap-2 sm:flex-row">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen</p>
                     <p className="mt-0.5 text-[10px] leading-3.5 text-slate-600 dark:text-slate-400">
@@ -382,7 +382,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     </p>
                   </div>
                 </div>
-                <div className="mt-1 flex gap-1">
+                <div className="mt-1 flex flex-col gap-1 sm:flex-row">
                     <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => handleOpenChange(false)}>
                       Cancelar
                     </Button>
