@@ -16,6 +16,7 @@ import type { Workout } from "@/lib/api"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
+import { trackProductEvent } from "@/lib/product-events"
 
 interface WorkoutPreferences {
   workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
@@ -107,6 +108,17 @@ export function WorkoutGenerator() {
       }
 
       setGeneratedWorkout(workout)
+      await trackProductEvent({
+        action: "workout_generated",
+        category: "fitness",
+        source: "workout_generator",
+        metadata: {
+          workoutId: workout.id,
+          workoutType: preferences.workoutType,
+          duration: preferences.duration,
+          environment: preferences.trainingEnvironment,
+        },
+      })
     } catch (err) {
       setError(err instanceof Error ? err.message : isSpanish ? "Error al generar entrenamiento" : "Error generating workout")
     } finally {

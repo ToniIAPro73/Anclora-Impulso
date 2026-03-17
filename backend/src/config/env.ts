@@ -23,6 +23,11 @@ export const env = {
     .map((url) => url.trim())
     .filter(Boolean),
 
+  adminEmails: (process.env.ADMIN_EMAILS || '')
+    .split(',')
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean),
+
   // LLM (Groq / modelos open source)
   llmProvider: process.env.LLM_PROVIDER || 'groq',
   groqApiKey: process.env.GROQ_API_KEY || '',

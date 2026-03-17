@@ -16,6 +16,7 @@ import { Progress } from "@/components/ui/progress"
 import { sessionsApi, workoutsApi } from "@/lib/api"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { useAuth } from "@/lib/contexts/auth-context"
+import { trackProductEvent } from "@/lib/product-events"
 
 type ExerciseSetState = {
   reps: string
@@ -84,6 +85,20 @@ function ActiveWorkoutPageContent() {
   }, [draftKey, workout])
 
   useEffect(() => {
+    if (!workout) return
+
+    void trackProductEvent({
+      action: "workout_started",
+      category: "fitness",
+      source: "active_workout",
+      metadata: {
+        workoutId: workout.id,
+        exerciseCount: workout.exercises.length,
+      },
+    })
+  }, [workout])
+
+  useEffect(() => {
     if (!draftKey || !workout || Object.keys(setState).length === 0) return
     const draft: WorkoutDraft = {
       startedAt,
@@ -144,6 +159,17 @@ function ActiveWorkoutPageContent() {
       if (draftKey) {
         window.localStorage.removeItem(draftKey)
       }
+
+      await trackProductEvent({
+        action: "workout_completed",
+        category: "fitness",
+        source: "active_workout",
+        metadata: {
+          workoutId: workout.id,
+          duration: elapsedSeconds,
+          completionRate,
+        },
+      })
 
       router.push("/progress")
     } finally {

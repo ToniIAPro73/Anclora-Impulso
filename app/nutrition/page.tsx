@@ -16,6 +16,7 @@ import { useAuth } from "@/lib/contexts/auth-context"
 import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar, UtensilsCrossed, Clock3, TimerReset } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
+import { trackProductEvent } from "@/lib/product-events"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
@@ -83,6 +84,15 @@ function NutritionPageContent() {
         targetWeightKg: profile.targetWeightKg ?? undefined,
         trainingDaysPerWeek: profile.trainingDaysPerWeek ?? undefined,
       })
+      await trackProductEvent({
+        action: 'meal_plan_generated',
+        category: 'nutrition',
+        source: 'nutrition_page',
+        metadata: {
+          goal: generateParams.goal || null,
+          dietType: generateParams.dietType || null,
+        },
+      })
       setGenerateOpen(false)
     } catch (err) {
       setGenerateError(err instanceof Error ? err.message : t ? 'Error al generar el plan' : 'Error generating plan')
@@ -101,6 +111,16 @@ function NutritionPageContent() {
         fat: logData.fat,
         date: consumedAt.toISOString(),
         consumedAt: consumedAt.toISOString(),
+      })
+      await trackProductEvent({
+        action: 'nutrition_logged',
+        category: 'nutrition',
+        source: 'nutrition_page',
+        metadata: {
+          mealType: logData.mealType,
+          calories: logData.calories,
+          date: consumedAt.toISOString(),
+        },
       })
       setLogOpen(false)
       setLogData({

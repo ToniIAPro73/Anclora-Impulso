@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as exercisesService from '../services/exercises.service';
-import type { CreateExerciseInput } from '../utils/validators';
+import type { CreateExerciseInput, UpdateExerciseInput } from '../utils/validators';
 
 function withAbsoluteImageUrl<T extends { imageUrl?: string | null }>(req: Request, exercise: T): T {
   if (!exercise.imageUrl || /^https?:\/\//i.test(exercise.imageUrl)) {
@@ -82,7 +82,7 @@ export async function createExercise(
  * PUT /api/exercises/:id
  */
 export async function updateExercise(
-  req: Request<{ id: string }, {}, Partial<CreateExerciseInput>>,
+  req: Request<{ id: string }, {}, UpdateExerciseInput>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -158,6 +158,19 @@ export async function getEquipment(
     const equipment = await exercisesService.getEquipment();
     
     res.json(equipment);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getEditorialSummary(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const summary = await exercisesService.getEditorialSummary();
+    res.json(summary);
   } catch (error) {
     next(error);
   }

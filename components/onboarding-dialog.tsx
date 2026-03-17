@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { getProfileCompletion, type ExperienceLevel, type ProfileSex, type TrainingEnvironment, type TrainingGoal } from "@/lib/user-profile"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { trackProductEvent } from "@/lib/product-events"
 
 interface OnboardingDialogProps {
   open: boolean
@@ -123,6 +124,16 @@ export function OnboardingDialog({ open, onOpenChange }: OnboardingDialogProps) 
         trainingDaysPerWeek: toNumber(form.trainingDaysPerWeek),
         limitations: parsedLimitations,
         onboardingCompletedAt: new Date().toISOString(),
+      })
+      await trackProductEvent({
+        action: "onboarding_completed",
+        category: "activation",
+        source: "onboarding_dialog",
+        metadata: {
+          profileCompletion: previewCompletion.percentage,
+          trainingGoal: form.trainingGoal || null,
+          trainingEnvironment: form.preferredTrainingEnvironment || null,
+        },
       })
       onOpenChange(false)
     } finally {

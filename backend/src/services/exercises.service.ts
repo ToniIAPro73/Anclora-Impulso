@@ -1,6 +1,6 @@
 import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
-import type { CreateExerciseInput } from '../utils/validators';
+import type { CreateExerciseInput, UpdateExerciseInput } from '../utils/validators';
 import { resolveExerciseImageUrl } from './exercise-image-resolver';
 
 export interface ExerciseFilters {
@@ -10,6 +10,52 @@ export interface ExerciseFilters {
   environment?: string;
   difficulty?: string;
   search?: string;
+}
+
+function calculateExerciseQuality(exercise: {
+  name: string;
+  description: string;
+  instructions: string[];
+  trainingEnvironments: string[];
+  difficulty: string;
+}) {
+  const resolvedImageUrl = resolveExerciseImageUrl(exercise.name);
+  const checks = {
+    hasDescription: exercise.description.trim().length >= 40,
+    hasEnoughInstructions: exercise.instructions.length >= 3,
+    hasEnvironment: exercise.trainingEnvironments.length > 0,
+    hasImage: Boolean(resolvedImageUrl),
+    hasDifficulty: Boolean(exercise.difficulty),
+  };
+
+  const passedChecks = Object.values(checks).filter(Boolean).length;
+  return {
+    qualityScore: Math.round((passedChecks / Object.keys(checks).length) * 100),
+    editorialStatus: passedChecks >= 5 ? 'ready' : passedChecks >= 3 ? 'review' : 'needs_work',
+    checks,
+  };
+}
+
+function decorateExercise<T extends {
+  name: string;
+  description: string;
+  instructions: string[];
+  trainingEnvironments: string[];
+  imageUrl: string | null;
+  difficulty: string;
+}>(exercise: T) {
+  const resolvedImageUrl = resolveExerciseImageUrl(exercise.name);
+  return {
+    ...exercise,
+    imageUrl: resolvedImageUrl,
+    editorial: calculateExerciseQuality({
+      name: exercise.name,
+      description: exercise.description,
+      instructions: exercise.instructions,
+      trainingEnvironments: exercise.trainingEnvironments,
+      difficulty: exercise.difficulty,
+    }),
+  };
 }
 
 /**
@@ -50,10 +96,7 @@ export async function getAllExercises(filters: ExerciseFilters = {}) {
     orderBy: { name: 'asc' },
   });
 
-  return exercises.map((exercise) => ({
-    ...exercise,
-    imageUrl: resolveExerciseImageUrl(exercise.name),
-  }));
+  return exercises.map((exercise) => decorateExercise(exercise));
 }
 
 /**
@@ -68,10 +111,7 @@ export async function getExerciseById(id: string) {
     throw new AppError(404, 'Ejercicio no encontrado');
   }
 
-  return {
-    ...exercise,
-    imageUrl: resolveExerciseImageUrl(exercise.name),
-  };
+  return decorateExercise(exercise);
 }
 
 /**
@@ -82,19 +122,19 @@ export async function createExercise(data: CreateExerciseInput) {
     data,
   });
 
-  return exercise;
+  return decorateExercise(exercise);
 }
 
 /**
  * Actualizar un ejercicio
  */
-export async function updateExercise(id: string, data: Partial<CreateExerciseInput>) {
+export async function updateExercise(id: string, data: UpdateExerciseInput) {
   const exercise = await prisma.exercise.update({
     where: { id },
     data,
   });
 
-  return exercise;
+  return decorateExercise(exercise);
 }
 
 /**
@@ -151,4 +191,28 @@ export async function getTrainingEnvironments() {
   });
 
   return Array.from(new Set(exercises.flatMap((exercise) => exercise.trainingEnvironments))).sort();
+}
+
+export async function getEditorialSummary() {
+  const exercises = await prisma.exercise.findMany({
+    orderBy: { updatedAt: 'desc' },
+  });
+
+  const decorated = exercises.map((exercise) => decorateExercise(exercise));
+  const byStatus = {
+    ready: decorated.filter((exercise) => exercise.editorial.editorialStatus === 'ready').length,
+    review: decorated.filter((exercise) => exercise.editorial.editorialStatus === 'review').length,
+    needs_work: decorated.filter((exercise) => exercise.editorial.editorialStatus === 'needs_work').length,
+  };
+  const averageQualityScore =
+    decorated.length > 0
+      ? Math.round(decorated.reduce((sum, exercise) => sum + exercise.editorial.qualityScore, 0) / decorated.length)
+      : 0;
+
+  return {
+    total: decorated.length,
+    averageQualityScore,
+    byStatus,
+    exercises: decorated,
+  };
 }

@@ -3,12 +3,14 @@ import { hashPassword, comparePassword } from '../utils/password';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt';
 import { AppError } from '../middleware/errorHandler';
 import type { RegisterInput, LoginInput } from '../utils/validators';
+import { isAdminEmail } from '../middleware/admin';
 
 export interface AuthResponse {
   user: {
     id: string;
     email: string;
     fullName: string;
+    isAdmin: boolean;
   };
   accessToken: string;
   refreshToken: string;
@@ -55,6 +57,7 @@ export async function register(data: RegisterInput): Promise<AuthResponse> {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      isAdmin: isAdminEmail(user.email),
     },
     accessToken,
     refreshToken,
@@ -97,6 +100,7 @@ export async function login(data: LoginInput): Promise<AuthResponse> {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      isAdmin: isAdminEmail(user.email),
     },
     accessToken,
     refreshToken,
@@ -121,5 +125,8 @@ export async function getCurrentUser(userId: string) {
     throw new AppError(404, 'Usuario no encontrado');
   }
 
-  return user;
+  return {
+    ...user,
+    isAdmin: isAdminEmail(user.email),
+  };
 }

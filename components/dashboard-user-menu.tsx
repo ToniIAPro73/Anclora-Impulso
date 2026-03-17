@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { LogOut, UserCircle, ChevronDown } from "lucide-react"
+import { LogOut, UserCircle, ChevronDown, ShieldCheck } from "lucide-react"
+import Link from "next/link"
 
 import { ProfileDialog } from "@/components/profile-dialog"
 import { UserAvatar } from "@/components/user-avatar"
@@ -58,6 +59,14 @@ export function DashboardUserMenu() {
           <UserCircle className="mr-2 h-4 w-4" />
           <span className={cn("text-sm")}>{t.navigation.profile}</span>
         </DropdownMenuItem>
+        {user?.isAdmin ? (
+          <DropdownMenuItem asChild className="rounded-xl px-3 py-2.5">
+            <Link href="/admin/content" onClick={() => setMenuOpen(false)}>
+              <ShieldCheck className="mr-2 h-4 w-4" />
+              <span className="text-sm">Admin Content</span>
+            </Link>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {

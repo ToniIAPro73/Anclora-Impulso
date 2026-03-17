@@ -15,6 +15,17 @@ export interface Exercise {
   instructions: string[];
   imageUrl?: string | null;
   videoUrl?: string | null;
+  editorial?: {
+    qualityScore: number;
+    editorialStatus: 'ready' | 'review' | 'needs_work';
+    checks: {
+      hasDescription: boolean;
+      hasEnoughInstructions: boolean;
+      hasEnvironment: boolean;
+      hasImage: boolean;
+      hasDifficulty: boolean;
+    };
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -28,6 +39,17 @@ export interface ExercisesResponse {
     pages: number;
     hasMore: boolean;
   };
+}
+
+export interface EditorialSummary {
+  total: number;
+  averageQualityScore: number;
+  byStatus: {
+    ready: number;
+    review: number;
+    needs_work: number;
+  };
+  exercises: Exercise[];
 }
 
 export interface WorkoutExercise {
@@ -178,6 +200,36 @@ export const exercisesApi = {
 
   async getEquipment(): Promise<string[]> {
     return apiClient.get<string[]>('/exercises/meta/equipment');
+  },
+
+  async getEditorialSummary(): Promise<EditorialSummary> {
+    return apiClient.get<EditorialSummary>('/exercises/editorial/summary');
+  },
+
+  async create(data: {
+    name: string;
+    category: string;
+    muscleGroup: string;
+    equipment: string;
+    trainingEnvironments: Array<'gym' | 'home' | 'outdoor'>;
+    difficulty: string;
+    description: string;
+    instructions: string[];
+  }): Promise<Exercise> {
+    return apiClient.post<Exercise>('/exercises', data);
+  },
+
+  async update(id: string, data: Partial<{
+    name: string;
+    category: string;
+    muscleGroup: string;
+    equipment: string;
+    trainingEnvironments: Array<'gym' | 'home' | 'outdoor'>;
+    difficulty: string;
+    description: string;
+    instructions: string[];
+  }>): Promise<Exercise> {
+    return apiClient.put<Exercise>(`/exercises/${id}`, data);
   },
 };
 
@@ -331,6 +383,26 @@ export const profileApi = {
 
   async update(data: Partial<ProfilePayload>): Promise<ProfilePayload> {
     return apiClient.put<ProfilePayload>('/profile', data);
+  },
+};
+
+export const eventsApi = {
+  async track(data: {
+    action: string;
+    category: string;
+    source?: string;
+    metadata?: Record<string, unknown>;
+  }) {
+    return apiClient.post('/events', data);
+  },
+
+  async getSummary(): Promise<{
+    totalLast28Days: number;
+    last7Days: Array<{ action: string; count: number }>;
+    topActions: Array<{ action: string; category: string; count: number }>;
+    topSources: Array<{ source: string | null; count: number }>;
+  }> {
+    return apiClient.get('/events/summary');
   },
 };
 

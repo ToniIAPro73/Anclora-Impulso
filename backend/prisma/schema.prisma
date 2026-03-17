@@ -45,6 +45,7 @@ model User {
   gamification    UserGamification?
   achievements    UserAchievement[]
   xpEvents        XPEvent[]
+  productEvents   ProductEvent[]
 
   @@map("users")
 }
@@ -307,6 +308,24 @@ model NutritionLog {
   @@index([date])
   @@index([mealType])
   @@map("nutrition_logs")
+}
+
+model ProductEvent {
+  id        String   @id @default(uuid())
+  userId     String?
+  action    String
+  category  String
+  source    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([category])
+  @@index([createdAt])
+  @@map("product_events")
 }
 
 model UserNutritionBalance {
