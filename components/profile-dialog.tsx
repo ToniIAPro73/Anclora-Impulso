@@ -224,7 +224,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
           </div>
 
           <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:overflow-y-auto lg:py-2.5">
-            <div className="mb-0.5 flex items-center justify-end max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:-mx-3 max-lg:mb-2 max-lg:border-b max-lg:border-orange-100/70 max-lg:bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(255,255,255,0.92))] max-lg:px-3 max-lg:pb-2 max-lg:pt-1 dark:max-lg:border-orange-400/10 dark:max-lg:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.92))] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="mb-0.5 flex items-center justify-end max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:-mx-3 max-lg:mb-2 max-lg:border-b max-lg:border-orange-100/70 max-lg:bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(255,255,255,0.92))] max-lg:px-3 max-lg:pb-2 max-lg:pt-1 dark:max-lg:border-orange-400/10 dark:max-lg:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.92))] lg:-mt-1 lg:mb-1.5 lg:px-0 lg:pb-0 lg:pt-0">
               <DialogClose asChild>
                 <button
                   type="button"
@@ -313,13 +313,13 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
             </div>
 
             <section className="mt-1 grid min-h-0 flex-1 gap-1 pb-0 max-lg:gap-2 max-lg:pb-1 xl:grid-cols-[minmax(0,1fr)_188px]">
-              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45 lg:min-h-[210px]">
                 <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                   <CalendarClock className="h-4 w-4 text-orange-500" />
                   Plan sugerido
                 </div>
                 {recommendedPlan ? (
-                  <div className="grid h-full gap-1 lg:grid-cols-[minmax(0,1fr)_146px]">
+                  <div className="grid h-full gap-1 lg:min-h-[176px] lg:grid-cols-[minmax(0,1fr)_146px]">
                     <div className="min-w-0 overflow-hidden">
                       <p className="truncate text-[12px] font-semibold tracking-tight text-slate-900 dark:text-white">{recommendedPlan.title}</p>
                       <p className="mt-0.5 line-clamp-2 text-[10px] leading-4 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
