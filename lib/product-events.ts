@@ -14,3 +14,8 @@ export async function trackProductEvent(input: {
     // Telemetry must never break product flows.
   }
 }
+
+export function buildDismissedNudgeKey(userId: string, nudgeId: string, dateKey?: string) {
+  const key = dateKey ?? new Date().toISOString().slice(0, 10)
+  return `anclora-dismissed-nudge:${userId}:${key}:${nudgeId}`
+}

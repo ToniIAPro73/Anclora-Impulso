@@ -22,6 +22,7 @@ import nutritionRoutes from './routes/nutrition.routes';
 import gamificationRoutes from './routes/gamification.routes';
 import profileRoutes from './routes/profile.routes';
 import productEventsRoutes from './routes/product-events.routes';
+import engagementRoutes from './routes/engagement.routes';
 
 const app: Express = express();
 
@@ -146,6 +147,7 @@ app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/gamification', gamificationRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/events', productEventsRoutes);
+app.use('/api/engagement', engagementRoutes);
 
 // Manejo de rutas no encontradas
 app.use(notFoundHandler);

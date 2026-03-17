@@ -82,6 +82,14 @@ export interface RecommendationExplanation {
   averageRest?: number | null;
 }
 
+export interface EngagementNudge {
+  id: string;
+  kind: 'onboarding' | 'workout' | 'nutrition' | 'weekly_review' | 'reactivation';
+  priority: 'high' | 'medium' | 'low';
+  href: string;
+  context?: Record<string, string | number | boolean | null>;
+}
+
 export interface Workout {
   id: string;
   userId: string;
@@ -424,6 +432,16 @@ export const eventsApi = {
     topSources: Array<{ source: string | null; count: number }>;
   }> {
     return apiClient.get('/events/summary');
+  },
+};
+
+export const engagementApi = {
+  async getNudges(): Promise<{
+    reminderTime: string | null;
+    remindersEnabled: boolean;
+    nudges: EngagementNudge[];
+  }> {
+    return apiClient.get('/engagement/nudges');
   },
 };
 

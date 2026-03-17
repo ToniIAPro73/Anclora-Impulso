@@ -17,7 +17,8 @@ import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 import { getProfileCompletion } from "@/lib/user-profile"
 import { OnboardingDialog } from "@/components/onboarding-dialog"
-import { trackProductEvent } from "@/lib/product-events"
+import { buildDismissedNudgeKey, trackProductEvent } from "@/lib/product-events"
+import { engagementApi, type EngagementNudge } from "@/lib/api"
 
 export function DashboardContent() {
   const { profile, user, updateProfile } = useAuth()
@@ -29,6 +30,8 @@ export function DashboardContent() {
   const [onboardingOpen, setOnboardingOpen] = useState(false)
   const [draftWorkoutId, setDraftWorkoutId] = useState<string | null>(null)
   const [isSavingReminders, setIsSavingReminders] = useState(false)
+  const [nudges, setNudges] = useState<EngagementNudge[]>([])
+  const [isLoadingNudges, setIsLoadingNudges] = useState(true)
   const [reminderDraft, setReminderDraft] = useState({
     remindersEnabled: true,
     reminderTime: "20:00",
@@ -141,19 +144,6 @@ export function DashboardContent() {
           }
   const PrimaryActionIcon = primaryAction.icon
   const latestRecommendation = latestWorkout?.explanation ?? latestMealPlan?.explanation ?? null
-  const reminderPreviews = reminderDraft.remindersEnabled
-    ? [
-        reminderDraft.reminderWorkout && (draftWorkoutId || latestWorkout) ? t.dashboard.reminderPreviewWorkout : null,
-        reminderDraft.reminderNutrition && !hasNutritionData ? t.dashboard.reminderPreviewNutrition : null,
-        reminderDraft.reminderWeeklyReview && ((weeklyTarget && stats.workoutsThisWeek < weeklyTarget) || progressInsights?.stagnationRisk === "high")
-          ? t.dashboard.reminderPreviewWeekly
-          : null,
-        reminderDraft.reminderReactivation && stats.totalWorkouts > 0 && stats.workoutsThisWeek === 0
-          ? t.dashboard.reminderPreviewReactivation
-          : null,
-      ].filter(Boolean) as string[]
-    : []
-
   const saveReminderPreferences = async () => {
     setIsSavingReminders(true)
     try {
@@ -166,6 +156,129 @@ export function DashboardContent() {
       })
     } finally {
       setIsSavingReminders(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!user) {
+      setNudges([])
+      setIsLoadingNudges(false)
+      return
+    }
+
+    let isMounted = true
+    const loadNudges = async () => {
+      setIsLoadingNudges(true)
+      try {
+        const response = await engagementApi.getNudges()
+        const activeNudges = response.nudges.filter((nudge) => {
+          if (typeof window === "undefined") {
+            return true
+          }
+          return !window.localStorage.getItem(buildDismissedNudgeKey(user.id, nudge.id))
+        })
+
+        if (isMounted) {
+          setNudges(activeNudges)
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingNudges(false)
+        }
+      }
+    }
+
+    void loadNudges()
+    return () => {
+      isMounted = false
+    }
+  }, [user, profile.remindersEnabled, profile.reminderTime, profile.reminderWorkout, profile.reminderNutrition, profile.reminderWeeklyReview, profile.reminderReactivation])
+
+  const dismissNudge = async (nudge: EngagementNudge) => {
+    if (!user || typeof window === "undefined") return
+    window.localStorage.setItem(buildDismissedNudgeKey(user.id, nudge.id), "1")
+    setNudges((current) => current.filter((item) => item.id !== nudge.id))
+    await trackProductEvent({
+      action: "nudge_dismissed",
+      category: "engagement",
+      source: "dashboard_nudges",
+      metadata: { nudgeId: nudge.id, kind: nudge.kind, priority: nudge.priority },
+    })
+  }
+
+  const handleNudgeClick = async (nudge: EngagementNudge) => {
+    await trackProductEvent({
+      action: "nudge_clicked",
+      category: "engagement",
+      source: "dashboard_nudges",
+      metadata: { nudgeId: nudge.id, kind: nudge.kind, priority: nudge.priority, href: nudge.href },
+    })
+  }
+
+  const priorityLabel = (priority: EngagementNudge["priority"]) => {
+    if (priority === "high") return t.dashboard.highPriority
+    if (priority === "medium") return t.dashboard.mediumPriority
+    return t.dashboard.lowPriority
+  }
+
+  const interpolate = (template: string, values: Record<string, string | number | boolean | null | undefined>) =>
+    Object.entries(values).reduce(
+      (current, [key, value]) => current.replace(`{{${key}}}`, String(value ?? "")),
+      template,
+    )
+
+  const resolveNudgeCopy = (nudge: EngagementNudge) => {
+    switch (nudge.kind) {
+      case "onboarding":
+        return {
+          title: t.dashboard.nudgeOnboardingTitle,
+          body: t.dashboard.nudgeOnboardingBody,
+          ctaLabel: t.dashboard.nudgeOnboardingCta,
+          reason: interpolate(t.dashboard.nudgeReasonOnboarding, {
+            count: nudge.context?.missingFieldsCount ?? 0,
+          }),
+        }
+      case "workout":
+        return {
+          title: t.dashboard.nudgeWorkoutTitle,
+          body: t.dashboard.nudgeWorkoutBody,
+          ctaLabel: t.dashboard.nudgeWorkoutCta,
+          reason: interpolate(t.dashboard.nudgeReasonWorkout, {
+            done: nudge.context?.workoutsLast7Days ?? 0,
+            target: nudge.context?.weeklyTarget ?? 0,
+          }),
+        }
+      case "nutrition":
+        return {
+          title: t.dashboard.nudgeNutritionTitle,
+          body: t.dashboard.nudgeNutritionBody,
+          ctaLabel: t.dashboard.nudgeNutritionCta,
+          reason: t.dashboard.nudgeReasonNutrition,
+        }
+      case "weekly_review":
+        return {
+          title: t.dashboard.nudgeWeeklyTitle,
+          body: t.dashboard.nudgeWeeklyBody,
+          ctaLabel: t.dashboard.nudgeWeeklyCta,
+          reason:
+            nudge.context?.stagnationRisk === "high"
+              ? t.dashboard.nudgeReasonWeeklyHigh
+              : t.dashboard.nudgeReasonWeeklyLow,
+        }
+      case "reactivation":
+        return {
+          title: t.dashboard.nudgeReactivationTitle,
+          body: t.dashboard.nudgeReactivationBody,
+          ctaLabel: nudge.context?.hasWorkout ? t.dashboard.nudgeReactivationCtaWorkout : t.dashboard.nudgeReactivationCtaDashboard,
+          reason: t.dashboard.nudgeReasonReactivation,
+        }
+      default:
+        return {
+          title: "",
+          body: "",
+          ctaLabel: "",
+          reason: "",
+        }
     }
   }
 
@@ -522,20 +635,56 @@ export function DashboardContent() {
             </div>
 
             <div className="rounded-2xl border border-slate-200/70 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/50">
-              <p className="text-sm font-semibold text-slate-900 dark:text-white">{t.dashboard.reminderPreviewTitle}</p>
-              <div className="mt-3 space-y-2">
-                {reminderPreviews.length > 0 ? (
-                  reminderPreviews.map((preview) => (
-                    <div key={preview} className={cn("rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200", uiMotion.frame)}>
-                      {preview}
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{t.dashboard.nudgesTitle}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{t.dashboard.nudgesDesc}</p>
+              </div>
+              <div className="mt-3 space-y-3">
+                {!reminderDraft.remindersEnabled ? (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.dashboard.reminderPreviewPaused}</p>
+                ) : isLoadingNudges ? (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.dashboard.nudgesLoading}</p>
+                ) : nudges.length > 0 ? (
+                  nudges.map((nudge) => (
+                    <div key={nudge.id} className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 dark:border-slate-700 dark:bg-slate-950/40">
+                      {(() => {
+                        const copy = resolveNudgeCopy(nudge)
+                        return (
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-semibold text-slate-900 dark:text-white">{copy.title}</p>
+                            <Badge className={cn(
+                              "rounded-full px-2.5 py-0.5 text-[11px]",
+                              nudge.priority === "high"
+                                ? "bg-red-500 text-white"
+                                : nudge.priority === "medium"
+                                  ? "bg-orange-500 text-white"
+                                  : "bg-slate-600 text-white"
+                            )}>
+                              {priorityLabel(nudge.priority)}
+                            </Badge>
+                          </div>
+                          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{copy.body}</p>
+                          <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                            {t.dashboard.nudgeReason}: {copy.reason}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 flex-col gap-2 sm:w-[180px]">
+                          <Button asChild className="rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600" onClick={() => void handleNudgeClick(nudge)}>
+                            <Link href={nudge.href}>{copy.ctaLabel}</Link>
+                          </Button>
+                          <Button type="button" variant="outline" className="rounded-2xl" onClick={() => void dismissNudge(nudge)}>
+                            {t.dashboard.dismissNudge}
+                          </Button>
+                        </div>
+                      </div>
+                        )
+                      })()}
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    {reminderDraft.remindersEnabled
-                      ? t.dashboard.reminderPreviewNone
-                      : t.dashboard.reminderPreviewPaused}
-                  </p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{t.dashboard.nudgesEmpty}</p>
                 )}
               </div>
             </div>
