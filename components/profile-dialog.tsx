@@ -200,21 +200,21 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                   </div>
                 </div>
 
-                <div className="overflow-hidden rounded-[18px] border border-white/60 bg-[linear-gradient(160deg,rgba(15,23,42,0.94),rgba(30,41,59,0.88))] p-2 text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)] dark:border-white/5">
-                  <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-200">
-                    <Sparkles className="h-4 w-4 text-orange-400" />
+                <div className="overflow-hidden rounded-[18px] border border-orange-200/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.18),_transparent_52%),linear-gradient(160deg,rgba(255,247,237,0.96),rgba(255,255,255,0.92))] p-2 text-slate-900 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.94),rgba(30,41,59,0.88))] dark:text-white dark:shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
+                  <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-200">
+                    <Sparkles className="h-4 w-4 text-orange-500 dark:text-orange-400" />
                     Enfoque
                   </div>
                   {recommendedPlan ? (
                     <>
                       <p className="line-clamp-2 text-[12px] font-semibold leading-4.5">{recommendedPlan.title}</p>
                       <div className="mt-1.5 flex flex-wrap gap-1">
-                        <Badge className="rounded-full border-0 bg-white/10 px-2 py-1 text-[10px] text-white">{recommendedPlan.duration} min</Badge>
-                        <Badge title={recommendedPlan.difficulty} className="max-w-full truncate rounded-full border-0 bg-white/10 px-2 py-1 text-[10px] text-white">{recommendedPlan.difficulty}</Badge>
+                        <Badge className="rounded-full border-0 bg-orange-100 px-2 py-1 text-[10px] text-orange-800 dark:bg-white/10 dark:text-white">{recommendedPlan.duration} min</Badge>
+                        <Badge title={recommendedPlan.difficulty} className="max-w-full truncate rounded-full border-0 bg-orange-100 px-2 py-1 text-[10px] text-orange-800 dark:bg-white/10 dark:text-white">{recommendedPlan.difficulty}</Badge>
                       </div>
                     </>
                   ) : (
-                    <p className="text-[12px] leading-4.5 text-slate-300">
+                    <p className="text-[12px] leading-4.5 text-slate-600 dark:text-slate-300">
                       Completa tus metricas para generar una propuesta inicial.
                     </p>
                   )}
@@ -224,7 +224,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
           </div>
 
           <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:overflow-y-auto lg:py-2.5">
-            <div className="mb-0.5 flex items-center justify-end">
+            <div className="sticky top-0 z-10 -mx-3 mb-2 flex items-center justify-end border-b border-orange-100/70 bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(255,255,255,0.92))] px-3 pb-2 pt-1 dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.92))] lg:static lg:mx-0 lg:border-b-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-0">
               <DialogClose asChild>
                 <button
                   type="button"
@@ -236,7 +236,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </DialogClose>
             </div>
 
-            <div className="grid gap-1 xl:grid-cols-[minmax(0,1fr)_210px]">
+            <div className="grid gap-2 xl:grid-cols-[minmax(0,1fr)_210px]">
               <section className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-2 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-1.5 flex items-center justify-between gap-3">
                   <div>
@@ -312,7 +312,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </section>
             </div>
 
-            <section className="mt-1 grid min-h-0 flex-1 gap-1 xl:grid-cols-[minmax(0,1fr)_188px]">
+            <section className="mt-1 grid min-h-0 flex-1 gap-2 pb-1 xl:grid-cols-[minmax(0,1fr)_188px]">
               <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                   <CalendarClock className="h-4 w-4 text-orange-500" />
