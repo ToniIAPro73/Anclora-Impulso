@@ -140,7 +140,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
       {children ? <DialogTrigger asChild>{children}</DialogTrigger> : null}
       <DialogContent
         showCloseButton={false}
-        className="h-[calc(100dvh-0.75rem)] w-[calc(100vw-0.75rem)] max-h-[960px] max-w-[1200px] overflow-hidden rounded-[24px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]"
+        className="h-[calc(100dvh-0.75rem)] w-[calc(100vw-0.75rem)] max-h-[960px] max-w-[1200px] overflow-hidden rounded-[24px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-h-none lg:max-w-[1440px] dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]"
       >
         <div className="grid h-full min-h-0 grid-cols-1 overflow-y-auto lg:grid-cols-[240px_minmax(0,1fr)] lg:overflow-hidden">
           <div className="flex flex-col border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-3 py-3 lg:min-h-0 lg:border-r lg:border-b-0 lg:py-2.5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
