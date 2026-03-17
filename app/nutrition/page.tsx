@@ -69,7 +69,7 @@ function NutritionPageContent() {
     setGenerateError(null)
     try {
       if (!isProfileReady) {
-        setGenerateError(t ? 'Completa tu perfil antes de generar un plan.' : 'Complete your profile before generating a plan.')
+        setGenerateError(t ? 'Completa el onboarding antes de generar un plan.' : 'Complete onboarding before generating a plan.')
         return
       }
 
@@ -243,8 +243,8 @@ function NutritionPageContent() {
                 {!isProfileReady ? (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/20 dark:bg-amber-950/20 dark:text-amber-300">
                     {t
-                      ? 'Completa sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento en tu perfil antes de generar nutrición.'
-                      : 'Complete sex, age, height, current weight, target weight, timeframe and training days in your profile before generating nutrition.'}
+                      ? 'Completa objetivo, entorno, nivel, sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento antes de generar nutrición.'
+                      : 'Complete goal, environment, level, sex, age, height, current weight, target weight, timeframe and training days before generating nutrition.'}
                   </div>
                 ) : null}
                 {profile.age && profile.age >= 40 ? (

@@ -1,34 +1,31 @@
 "use client"
 
+import { useEffect, useMemo, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import Link from "next/link"
-import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple } from "lucide-react"
+import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple, ArrowRight, CheckCircle2, Flame } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
 import { useMealPlans, useNutritionSummary } from "@/hooks/use-nutrition"
+import { useWorkouts } from "@/hooks/use-workouts"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
+import { getProfileCompletion } from "@/lib/user-profile"
+import { OnboardingDialog } from "@/components/onboarding-dialog"
 
 export function DashboardContent() {
-  const { profile } = useAuth()
+  const { profile, user } = useAuth()
   const { progress, isLoading } = useProgress()
   const { data: nutritionSummary, isLoading: isNutritionLoading } = useNutritionSummary("day")
   const { mealPlans } = useMealPlans()
+  const { workouts } = useWorkouts()
   const { t, language } = useLanguage()
-
-  if (isLoading) {
-    return (
-      <div className="p-6 flex items-center justify-center py-12">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
-          <p className="text-gray-600 dark:text-gray-400">{t.dashboard.loading}</p>
-        </div>
-      </div>
-    )
-  }
+  const [onboardingOpen, setOnboardingOpen] = useState(false)
+  const [draftWorkoutId, setDraftWorkoutId] = useState<string | null>(null)
 
   const stats = progress?.stats || {
     totalWorkouts: 0,
@@ -42,6 +39,78 @@ export function DashboardContent() {
   const nutritionCalories = nutritionSummary?.totals.calories ?? 0
   const nutritionProtein = Math.round(nutritionSummary?.totals.protein ?? 0)
   const showGettingStarted = stats.totalWorkouts === 0
+  const progressInsights = progress?.insights
+  const profileCompletion = useMemo(() => getProfileCompletion(profile), [profile])
+  const latestWorkout = workouts[0] ?? null
+  const weeklyTarget = progressInsights?.weeklyTarget ?? profile.trainingDaysPerWeek ?? null
+  const weeklyConsistency = progressInsights?.adherenceRate ? Math.round(progressInsights.adherenceRate * 100) : 0
+  const nutritionConsistency = progressInsights?.nutritionConsistencyRate ? Math.round(progressInsights.nutritionConsistencyRate * 100) : 0
+  const needsOnboarding = !profile.onboardingCompletedAt || !profileCompletion.isComplete
+
+  useEffect(() => {
+    if (!user || workouts.length === 0) {
+      setDraftWorkoutId(null)
+      return
+    }
+
+    const foundDraft = workouts.find((workout) =>
+      typeof window !== "undefined" &&
+      window.localStorage.getItem(`anclora-active-workout:${user.id}:${workout.id}`),
+    )
+
+    setDraftWorkoutId(foundDraft?.id ?? null)
+  }, [user, workouts])
+
+  useEffect(() => {
+    if (needsOnboarding) {
+      setOnboardingOpen(true)
+    }
+  }, [needsOnboarding])
+
+  const primaryAction = needsOnboarding
+    ? {
+        href: null,
+        label: language === "es" ? "Completar onboarding" : "Complete onboarding",
+        description:
+          language === "es"
+            ? "Rellena tu perfil para desbloquear recomendaciones y un dashboard más útil."
+            : "Complete your profile to unlock better recommendations and a more useful dashboard.",
+        icon: CheckCircle2,
+        onClick: () => setOnboardingOpen(true),
+      }
+    : draftWorkoutId
+      ? {
+          href: `/workouts/${draftWorkoutId}/start`,
+          label: language === "es" ? "Reanudar entrenamiento" : "Resume workout",
+          description:
+            language === "es"
+              ? "Tienes una sesión guardada parcialmente y lista para continuar."
+              : "You have a partially saved session ready to resume.",
+          icon: Play,
+          onClick: undefined,
+        }
+      : latestWorkout
+        ? {
+            href: `/workouts/${latestWorkout.id}/start`,
+            label: language === "es" ? "Empezar entrenamiento" : "Start workout",
+            description:
+              language === "es"
+                ? "Tu siguiente mejor acción es ejecutar el plan más reciente."
+                : "Your next best action is to run your most recent plan.",
+            icon: Flame,
+            onClick: undefined,
+          }
+        : {
+            href: "/workouts/generate",
+            label: language === "es" ? "Generar entrenamiento" : "Generate workout",
+            description:
+              language === "es"
+                ? "No tienes un plan activo. Genera uno adaptado a tu perfil."
+                : "You do not have an active plan yet. Generate one for your profile.",
+            icon: Plus,
+            onClick: undefined,
+          }
+  const PrimaryActionIcon = primaryAction.icon
   const quickActions = [
     {
       href: "/workouts/generate",
@@ -81,8 +150,98 @@ export function DashboardContent() {
     },
   ]
 
+  if (isLoading) {
+    return (
+      <div className="p-6 flex items-center justify-center py-12">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 text-orange-500 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600 dark:text-gray-400">{t.dashboard.loading}</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex min-h-full flex-col gap-2.5 p-3 sm:gap-3 sm:p-4 lg:h-full lg:gap-2 lg:overflow-hidden">
+      <OnboardingDialog open={onboardingOpen} onOpenChange={setOnboardingOpen} />
+
+      <Card className="border-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white shadow-xl">
+        <CardContent className="grid gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.9fr)] lg:items-center">
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className="rounded-full border-0 bg-white/12 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-white">
+                {language === "es" ? "Centro de acción" : "Action hub"}
+              </Badge>
+              <Badge className="rounded-full border-0 bg-orange-500/20 px-3 py-1 text-[11px] text-orange-100">
+                {weeklyTarget ? `${stats.workoutsThisWeek}/${weeklyTarget} ${language === "es" ? "sesiones esta semana" : "sessions this week"}` : (language === "es" ? "Sin objetivo semanal" : "No weekly target")}
+              </Badge>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-semibold tracking-tight">
+                {needsOnboarding
+                  ? language === "es"
+                    ? "Completa tu base para activar la personalización real"
+                    : "Complete your base profile to unlock real personalization"
+                  : language === "es"
+                    ? "Tu siguiente mejor acción ya está preparada"
+                    : "Your next best action is ready"}
+              </h3>
+              <p className="mt-2 max-w-2xl text-sm text-slate-300">
+                {primaryAction.description}
+              </p>
+            </div>
+
+            {primaryAction.href ? (
+              <Button asChild className="h-11 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 text-sm font-semibold hover:from-orange-600 hover:to-pink-600">
+                <Link href={primaryAction.href}>
+                  <PrimaryActionIcon className="mr-2 h-4 w-4" />
+                  {primaryAction.label}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            ) : (
+              <Button onClick={primaryAction.onClick} className="h-11 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 px-5 text-sm font-semibold hover:from-orange-600 hover:to-pink-600">
+                <PrimaryActionIcon className="mr-2 h-4 w-4" />
+                {primaryAction.label}
+              </Button>
+            )}
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+            <div className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                {language === "es" ? "Perfil" : "Profile"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">{profileCompletion.percentage}%</p>
+              <Progress value={profileCompletion.percentage} className="mt-3 h-2.5 bg-white/10" />
+            </div>
+            <div className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                {language === "es" ? "Adherencia semanal" : "Weekly adherence"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">{weeklyConsistency}%</p>
+              <p className="mt-2 text-xs text-slate-300">
+                {language === "es"
+                  ? "Mide si tu ritmo reciente coincide con el objetivo semanal."
+                  : "Measures whether your recent pace matches your weekly target."}
+              </p>
+            </div>
+            <div className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                {language === "es" ? "Registro nutricional" : "Nutrition logging"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">{nutritionConsistency}%</p>
+              <p className="mt-2 text-xs text-slate-300">
+                {language === "es"
+                  ? "Días con registros en la última semana."
+                  : "Days with logs during the last week."}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Quick Stats */}
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-5 lg:gap-2 lg:flex-none">
         <Card className="min-w-0 min-h-[86px] border-0 bg-gradient-to-br from-blue-50 to-cyan-50 py-0 shadow-lg dark:from-blue-900/20 dark:to-cyan-900/20 lg:min-h-[78px]">

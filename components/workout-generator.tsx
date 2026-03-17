@@ -81,7 +81,7 @@ export function WorkoutGenerator() {
 
   const handleGenerateWorkout = async () => {
     if (!isProfileReady) {
-      setError(isSpanish ? "Completa tu perfil antes de generar un entrenamiento." : "Complete your profile before generating a workout.")
+      setError(isSpanish ? "Completa el onboarding antes de generar un entrenamiento." : "Complete onboarding before generating a workout.")
       return
     }
 
@@ -144,12 +144,12 @@ export function WorkoutGenerator() {
         <Card className="border border-amber-200 bg-amber-50/90 shadow-sm dark:border-amber-500/20 dark:bg-amber-500/10">
           <CardContent className="pt-6">
             <h3 className="text-base font-semibold text-amber-900 dark:text-amber-100">
-              {isSpanish ? "Completa tu perfil antes de generar planes" : "Complete your profile before generating plans"}
+              {isSpanish ? "Completa tu onboarding antes de generar planes" : "Complete your onboarding before generating plans"}
             </h3>
             <p className="mt-2 text-sm text-amber-800 dark:text-amber-200">
               {isSpanish
-                ? "Necesitamos sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento para ajustar el plan a tus características."
-                : "We need sex, age, height, current weight, target weight, timeframe and training days to tailor the plan to your profile."}
+                ? "Necesitamos objetivo, entorno, nivel, sexo, edad, altura, peso actual, peso objetivo, plazo y días de entrenamiento para ajustar bien el plan."
+                : "We need goal, environment, level, sex, age, height, current weight, target weight, timeframe and training days to tailor the plan correctly."}
             </p>
           </CardContent>
         </Card>

@@ -106,9 +106,9 @@ function WorkoutDetailContent() {
           <Button variant="destructive" onClick={handleDeleteWorkout} disabled={isDeleting} className="w-full rounded-2xl sm:w-auto">
             {isSpanish ? "Eliminar plan" : "Delete plan"}
           </Button>
-          <Button onClick={() => router.push("/progress")} className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 sm:w-auto">
+          <Button onClick={() => router.push(`/workouts/${workout.id}/start`)} className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 sm:w-auto">
             <Play className="mr-2 h-4 w-4" />
-            {isSpanish ? "Registrar al finalizar" : "Log after finishing"}
+            {isSpanish ? "Empezar entrenamiento" : "Start workout"}
           </Button>
         </div>
       </div>

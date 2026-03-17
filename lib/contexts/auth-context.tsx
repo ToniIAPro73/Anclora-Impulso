@@ -78,6 +78,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         targetWeightKg: legacyProfile?.targetWeightKg ?? null,
         timeframeWeeks: legacyProfile?.timeframeWeeks ?? null,
         trainingDaysPerWeek: legacyProfile?.trainingDaysPerWeek ?? null,
+        trainingGoal: legacyProfile?.trainingGoal ?? null,
+        preferredTrainingEnvironment: legacyProfile?.preferredTrainingEnvironment ?? null,
+        experienceLevel: legacyProfile?.experienceLevel ?? null,
+        limitations: legacyProfile?.limitations ?? [],
+        onboardingCompletedAt: legacyProfile?.onboardingCompletedAt ?? null,
       })
 
       if (typeof window !== "undefined") {

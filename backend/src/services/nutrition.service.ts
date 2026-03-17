@@ -4,6 +4,7 @@ import { generateJSON, SYSTEM_PROMPT_ES } from './llm';
 import { env } from '../config/env';
 import logger from '../config/logger';
 import { buildNutritionPersonalizationGuidance } from './forty-plus-guidance';
+import { getPersonalizationSnapshot } from './personalization.service';
 import type { Prisma } from '@prisma/client';
 import type {
   GenerateMealPlanInput,
@@ -394,12 +395,29 @@ export async function generateMealPlan(userId: string, params: GenerateMealPlanI
     throw new AppError(503, 'Servicio de IA no disponible. Configura GROQ_API_KEY.');
   }
 
+  const snapshot = await getPersonalizationSnapshot(userId);
+  const effectiveGoal =
+    params.goal ??
+    (snapshot.profile.trainingGoal === 'lose_weight'
+      ? 'perdida_peso'
+      : snapshot.profile.trainingGoal === 'build_muscle'
+        ? 'ganancia_muscular'
+        : snapshot.profile.trainingGoal === 'recomposition'
+          ? 'recomposicion'
+          : 'mantenimiento');
+  const effectiveAge = params.age ?? snapshot.profile.age ?? undefined;
+  const effectiveSex = params.sex ?? snapshot.profile.sex ?? undefined;
+  const effectiveWeightKg = params.weightKg ?? snapshot.profile.weightKg ?? undefined;
+  const effectiveTargetWeightKg = params.targetWeightKg ?? snapshot.profile.targetWeightKg ?? undefined;
+  const effectiveTrainingDays =
+    params.trainingDaysPerWeek ?? snapshot.profile.trainingDaysPerWeek ?? undefined;
+
   const ageAwareGuidance = buildNutritionPersonalizationGuidance({
-    age: params.age,
-    sex: params.sex ?? null,
-    weightKg: params.weightKg,
-    targetWeightKg: params.targetWeightKg,
-    trainingDaysPerWeek: params.trainingDaysPerWeek,
+    age: effectiveAge,
+    sex: effectiveSex ?? null,
+    weightKg: effectiveWeightKg,
+    targetWeightKg: effectiveTargetWeightKg,
+    trainingDaysPerWeek: effectiveTrainingDays,
   });
 
   const dietTypeInstructions: Record<string, string> = {
@@ -464,12 +482,17 @@ Principios obligatorios:
 
   const prompt = `
 Genera un plan de alimentación COMPLETO de 7 días (Lunes a Domingo) para un usuario con el siguiente perfil:
-- Objetivo: ${params.goal || 'mantenimiento saludable'}
-- Edad: ${params.age ?? 'no indicada'}
-- Sexo: ${params.sex === 'female' ? 'mujer' : params.sex === 'male' ? 'hombre' : 'no indicado'}
-- Peso actual: ${params.weightKg ?? 'no indicado'} kg
-- Peso objetivo: ${params.targetWeightKg ?? 'no indicado'} kg
-- Dias de entrenamiento por semana: ${params.trainingDaysPerWeek ?? 'no indicados'}
+- Objetivo: ${effectiveGoal || 'mantenimiento saludable'}
+- Edad: ${effectiveAge ?? 'no indicada'}
+- Sexo: ${effectiveSex === 'female' ? 'mujer' : effectiveSex === 'male' ? 'hombre' : 'no indicado'}
+- Peso actual: ${effectiveWeightKg ?? 'no indicado'} kg
+- Peso objetivo: ${effectiveTargetWeightKg ?? 'no indicado'} kg
+- Dias de entrenamiento por semana: ${effectiveTrainingDays ?? 'no indicados'}
+- Adherencia nutricional últimos 7 días: ${Math.round((snapshot.nutritionConsistencyRate ?? 0) * 100)}%
+- Adherencia de entrenamiento últimas 4 semanas: ${snapshot.adherenceRate !== null ? `${Math.round(snapshot.adherenceRate * 100)}%` : 'sin datos'}
+- Riesgo de estancamiento: ${snapshot.stagnationRisk}
+- Ajuste sugerido de nutrición: ${snapshot.nutritionAdjustment}
+- Limitaciones reportadas: ${snapshot.profile.limitations.join(', ') || 'ninguna'}
 
 Peticiones Específicas del Usuario:
 ${constraints.length > 0 ? constraints.join('\n') : '- Sin restricciones especiales'}
@@ -534,7 +557,7 @@ IMPORTANTE:
       data: {
         userId,
         weekStart,
-        goal: params.goal || 'mantenimiento',
+        goal: effectiveGoal || 'mantenimiento',
         dietType: params.dietType || 'ninguna',
         carryoverCaloriesApplied: pendingCarryoverCalories,
       },

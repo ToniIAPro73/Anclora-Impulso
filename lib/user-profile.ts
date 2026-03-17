@@ -10,6 +10,9 @@ export interface RecommendedWorkoutPlan {
 }
 
 export type ProfileSex = "male" | "female"
+export type TrainingGoal = "lose_weight" | "build_muscle" | "recomposition" | "maintain"
+export type TrainingEnvironment = "gym" | "home" | "outdoor"
+export type ExperienceLevel = "beginner" | "intermediate" | "advanced"
 
 export interface UserProfile {
   avatarDataUrl?: string | null
@@ -20,6 +23,11 @@ export interface UserProfile {
   targetWeightKg?: number | null
   timeframeWeeks?: number | null
   trainingDaysPerWeek?: number | null
+  trainingGoal?: TrainingGoal | null
+  preferredTrainingEnvironment?: TrainingEnvironment | null
+  experienceLevel?: ExperienceLevel | null
+  limitations?: string[]
+  onboardingCompletedAt?: string | null
   recommendedPlan?: RecommendedWorkoutPlan | null
 }
 
@@ -32,6 +40,11 @@ const DEFAULT_PROFILE: UserProfile = {
   targetWeightKg: null,
   timeframeWeeks: null,
   trainingDaysPerWeek: null,
+  trainingGoal: null,
+  preferredTrainingEnvironment: null,
+  experienceLevel: null,
+  limitations: [],
+  onboardingCompletedAt: null,
   recommendedPlan: null,
 }
 
@@ -88,8 +101,37 @@ export function isProfileReadyForPlanGeneration(profile: UserProfile) {
       profile.weightKg &&
       profile.targetWeightKg &&
       profile.timeframeWeeks &&
-      profile.trainingDaysPerWeek,
+      profile.trainingDaysPerWeek &&
+      profile.trainingGoal &&
+      profile.preferredTrainingEnvironment &&
+      profile.experienceLevel,
   )
+}
+
+const PROFILE_COMPLETION_FIELDS = [
+  "sex",
+  "age",
+  "heightCm",
+  "weightKg",
+  "targetWeightKg",
+  "timeframeWeeks",
+  "trainingDaysPerWeek",
+  "trainingGoal",
+  "preferredTrainingEnvironment",
+  "experienceLevel",
+] as const
+
+export function getProfileCompletion(profile: UserProfile) {
+  const missingFields = PROFILE_COMPLETION_FIELDS.filter((field) => {
+    const value = profile[field]
+    return value === null || value === undefined
+  })
+
+  return {
+    percentage: Math.round(((PROFILE_COMPLETION_FIELDS.length - missingFields.length) / PROFILE_COMPLETION_FIELDS.length) * 100),
+    missingFields,
+    isComplete: missingFields.length === 0,
+  }
 }
 
 export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPlan | null {
@@ -99,6 +141,9 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
   const weightKg = profile.weightKg ?? null
   const trainingDaysPerWeek = profile.trainingDaysPerWeek ?? null
   const timeframeWeeks = profile.timeframeWeeks ?? null
+  const trainingGoal = profile.trainingGoal ?? null
+  const experienceLevel = profile.experienceLevel ?? null
+  const preferredTrainingEnvironment = profile.preferredTrainingEnvironment ?? null
   const isFortyPlus = typeof age === "number" && age >= 40
 
   if (!weightKg || !targetWeightKg || !trainingDaysPerWeek || !timeframeWeeks) {
@@ -106,8 +151,9 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
   }
 
   const delta = Number((targetWeightKg - weightKg).toFixed(1))
-  const wantsToLoseWeight = delta < 0
-  const wantsToGainWeight = delta > 0
+  const wantsToLoseWeight = trainingGoal ? trainingGoal === "lose_weight" : delta < 0
+  const wantsToGainWeight = trainingGoal ? trainingGoal === "build_muscle" : delta > 0
+  const wantsRecomposition = trainingGoal === "recomposition"
 
   const workoutType = isFortyPlus
     ? wantsToLoseWeight
@@ -119,16 +165,18 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
       ? (trainingDaysPerWeek >= 4 ? "hiit" : "cardio")
       : wantsToGainWeight
         ? "strength"
-        : "full_body"
+        : wantsRecomposition
+          ? "strength"
+          : "full_body"
 
   const difficulty =
-    trainingDaysPerWeek <= 2
+    experienceLevel ?? (trainingDaysPerWeek <= 2
       ? "beginner"
       : trainingDaysPerWeek <= 4
         ? "intermediate"
         : isFortyPlus
           ? "intermediate"
-          : "advanced"
+          : "advanced")
 
   const duration = isFortyPlus
     ? trainingDaysPerWeek <= 2
@@ -220,7 +268,12 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
     duration,
     difficulty,
     targetMuscles,
-    equipment: ["bodyweight", "dumbbells", "resistance_bands"],
+    equipment:
+      preferredTrainingEnvironment === "gym"
+        ? ["machines", "barbell", "dumbbells"]
+        : preferredTrainingEnvironment === "outdoor"
+          ? ["bodyweight", "resistance_bands"]
+          : ["bodyweight", "dumbbells", "resistance_bands"],
     weeklySplit: weeklySplit.slice(0, daysToUse),
   }
 }

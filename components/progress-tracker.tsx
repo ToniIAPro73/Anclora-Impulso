@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog"
 import { useProgress } from "@/hooks/use-progress"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
-import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock, Loader2 } from "lucide-react"
+import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock, Loader2, Flame, BrainCircuit } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 export function ProgressTracker() {
@@ -99,7 +99,7 @@ export function ProgressTracker() {
     return null
   }
 
-  const { stats, measurements, charts } = progress
+  const { stats, measurements, charts, insights } = progress
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -175,6 +175,99 @@ export function ProgressTracker() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">{isSpanish ? "ejercicios" : "exercises"}</p>
               </div>
               <Target className="w-12 h-12 text-purple-500 opacity-50" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
+        <Card className="border-0 shadow-lg bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <BrainCircuit className="h-5 w-5 text-orange-400" />
+              {isSpanish ? "Lectura inteligente del progreso" : "Intelligent progress readout"}
+            </CardTitle>
+            <CardDescription className="text-slate-300">
+              {isSpanish
+                ? "Señales de adherencia, tendencia y recomendación operativa."
+                : "Adherence, trend and next-step guidance."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-white/6 p-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                {isSpanish ? "Adherencia semanal" : "Weekly adherence"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">
+                {insights.adherenceRate !== null ? `${Math.round(insights.adherenceRate * 100)}%` : "--"}
+              </p>
+              <p className="mt-2 text-sm text-slate-300">
+                {insights.weeklyTarget
+                  ? `${insights.workoutsLast7Days}/${insights.weeklyTarget} ${isSpanish ? "sesiones" : "sessions"}`
+                  : isSpanish ? "Define un objetivo semanal en onboarding." : "Set a weekly target in onboarding."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/6 p-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                {isSpanish ? "Tendencia de peso" : "Weight trend"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">
+                {insights.weightTrend.deltaKg !== null ? `${insights.weightTrend.deltaKg > 0 ? "+" : ""}${insights.weightTrend.deltaKg} kg` : "--"}
+              </p>
+              <p className="mt-2 text-sm text-slate-300">
+                {insights.weightTrend.direction === "down"
+                  ? isSpanish ? "La tendencia reciente va hacia abajo." : "Recent trend is moving down."
+                  : insights.weightTrend.direction === "up"
+                    ? isSpanish ? "La tendencia reciente va hacia arriba." : "Recent trend is moving up."
+                    : insights.weightTrend.direction === "stable"
+                      ? isSpanish ? "La tendencia reciente está estable." : "Recent trend is stable."
+                      : isSpanish ? "Aún faltan datos recientes." : "You still need more recent data."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/6 p-4">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                {isSpanish ? "Riesgo de estancamiento" : "Stagnation risk"}
+              </p>
+              <p className="mt-2 text-3xl font-semibold">
+                {insights.stagnationRisk === "high" ? (isSpanish ? "Alto" : "High") : insights.stagnationRisk === "medium" ? (isSpanish ? "Medio" : "Medium") : (isSpanish ? "Bajo" : "Low")}
+              </p>
+              <p className="mt-2 text-sm text-slate-300">
+                {insights.stagnationRisk === "high"
+                  ? isSpanish ? "Conviene simplificar o ajustar volumen y nutrición." : "It is worth simplifying or adjusting volume and nutrition."
+                  : isSpanish ? "La señal actual no apunta a bloqueo fuerte." : "Current signals do not show a strong plateau."}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Flame className="h-5 w-5 text-orange-500" />
+              {isSpanish ? "Acción recomendada" : "Recommended action"}
+            </CardTitle>
+            <CardDescription>
+              {isSpanish ? "Lo siguiente que más sentido tiene hacer con tus datos actuales." : "The next move that makes the most sense from your current signals."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">
+                {insights.workoutAdjustment === "reduce"
+                  ? isSpanish ? "Baja fricción: sesiones más cortas y sostenibles." : "Reduce friction: shorter, more sustainable sessions."
+                  : insights.workoutAdjustment === "increase"
+                    ? isSpanish ? "Puedes escalar un poco carga o duración." : "You can scale load or duration slightly."
+                    : isSpanish ? "Mantén el ritmo y consolida consistencia." : "Maintain the current pace and consolidate consistency."}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                {insights.nutritionAdjustment === "reduce"
+                  ? isSpanish ? "Simplifica el registro nutricional y prioriza continuidad diaria." : "Simplify nutrition logging and prioritize daily continuity."
+                  : insights.nutritionAdjustment === "increase"
+                    ? isSpanish ? "Puedes apretar más precisión nutricional porque ya hay buena base." : "You can push nutrition precision further because the base is solid."
+                    : isSpanish ? "Mantén la pauta nutricional y vigila la tendencia de peso." : "Keep the nutrition pattern and watch weight trend."}
+              </p>
             </div>
           </CardContent>
         </Card>

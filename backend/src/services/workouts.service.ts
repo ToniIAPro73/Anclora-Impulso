@@ -6,6 +6,7 @@ import type {
 } from "../utils/validators";
 import { env } from "../config/env";
 import { buildWorkoutPersonalizationGuidance } from "./forty-plus-guidance";
+import { getPersonalizationSnapshot } from "./personalization.service";
 
 /**
  * Obtener todos los entrenamientos de un usuario
@@ -144,19 +145,51 @@ export async function generateWorkout(
   userId: string,
   params: GenerateWorkoutInput,
 ) {
+  const snapshot = await getPersonalizationSnapshot(userId);
+  const effectiveAge = params.age ?? snapshot.profile.age ?? undefined;
+  const effectiveSex = params.sex ?? snapshot.profile.sex ?? undefined;
+  const effectiveEnvironment =
+    params.trainingEnvironment ?? snapshot.profile.preferredTrainingEnvironment ?? 'gym';
+  const effectiveTargetMuscles =
+    params.targetMuscles && params.targetMuscles.length > 0
+      ? params.targetMuscles
+      : snapshot.preferredMuscleGroups.length > 0
+        ? snapshot.preferredMuscleGroups
+        : undefined;
+
+  const difficultyFromProfile = snapshot.profile.experienceLevel ?? params.difficulty;
+  const effectiveDifficulty =
+    snapshot.workoutAdjustment === 'reduce' && difficultyFromProfile === 'advanced'
+      ? 'intermediate'
+      : snapshot.workoutAdjustment === 'reduce' && difficultyFromProfile === 'intermediate'
+        ? 'beginner'
+        : difficultyFromProfile;
+
+  const baseDuration = params.duration;
+  const durationFromHistory =
+    snapshot.averageSessionDuration && snapshot.averageSessionDuration > 0
+      ? Math.round(snapshot.averageSessionDuration / 60 / 5) * 5
+      : baseDuration;
+  const effectiveDuration =
+    snapshot.workoutAdjustment === 'reduce'
+      ? Math.max(25, Math.min(baseDuration, durationFromHistory || baseDuration, 40))
+      : snapshot.workoutAdjustment === 'increase'
+        ? Math.min(75, Math.max(baseDuration, durationFromHistory || baseDuration))
+        : Math.min(baseDuration, durationFromHistory || baseDuration);
+
   const ageAwareGuidance = buildWorkoutPersonalizationGuidance(
-    params.age,
-    params.sex ?? null,
+    effectiveAge,
+    effectiveSex ?? null,
   );
 
   // Obtener ejercicios según los parámetros
   const where: any = {
-    difficulty: params.difficulty,
-    trainingEnvironments: { has: params.trainingEnvironment },
+    difficulty: effectiveDifficulty,
+    trainingEnvironments: { has: effectiveEnvironment },
   };
 
-  if (params.targetMuscles && params.targetMuscles.length > 0) {
-    where.muscleGroup = { in: params.targetMuscles };
+  if (effectiveTargetMuscles && effectiveTargetMuscles.length > 0) {
+    where.muscleGroup = { in: effectiveTargetMuscles };
   }
 
   if (params.equipment && params.equipment.length > 0) {
@@ -181,13 +214,21 @@ export async function generateWorkout(
 
       const prompt = `Genera un entrenamiento de fitness con las siguientes características:
 - Tipo: ${params.workoutType}
-- Duración: ${params.duration} minutos
-- Dificultad: ${params.difficulty}
-- Entorno: ${params.trainingEnvironment}
-- Músculos objetivo: ${params.targetMuscles?.join(", ") || "todos"}
+- Duración: ${effectiveDuration} minutos
+- Dificultad: ${effectiveDifficulty}
+- Entorno: ${effectiveEnvironment}
+- Músculos objetivo: ${effectiveTargetMuscles?.join(", ") || "todos"}
 - Equipo disponible: ${params.equipment?.join(", ") || "cualquiera"}
-- Edad del usuario: ${params.age ?? "no indicada"}
-- Sexo del usuario: ${params.sex === "female" ? "mujer" : params.sex === "male" ? "hombre" : "no indicado"}
+- Edad del usuario: ${effectiveAge ?? "no indicada"}
+- Sexo del usuario: ${effectiveSex === "female" ? "mujer" : effectiveSex === "male" ? "hombre" : "no indicado"}
+- Objetivo principal: ${snapshot.profile.trainingGoal ?? "no indicado"}
+- Nivel declarado: ${snapshot.profile.experienceLevel ?? "no indicado"}
+- Adherencia últimas 4 semanas: ${snapshot.adherenceRate !== null ? `${Math.round(snapshot.adherenceRate * 100)}%` : "sin datos"}
+- Entrenamientos últimos 7 días: ${snapshot.workoutsLast7Days}
+- Duración media reciente: ${snapshot.averageSessionDuration ? `${Math.round(snapshot.averageSessionDuration / 60)} min` : "sin datos"}
+- Grupos musculares más trabajados: ${snapshot.preferredMuscleGroups.join(", ") || "sin datos"}
+- Riesgo de estancamiento: ${snapshot.stagnationRisk}
+- Limitaciones o molestias reportadas: ${snapshot.profile.limitations.join(", ") || "ninguna"}
 
 ${ageAwareGuidance ? `Reglas de personalizacion para este perfil:\n${ageAwareGuidance}\n` : ""}
 
@@ -229,25 +270,25 @@ IMPORTANTE: Usa SOLO los IDs de ejercicios de la lista proporcionada.`;
   // Generación básica sin IA
   const selectedExercises = availableExercises
     .sort(() => Math.random() - 0.5)
-    .slice(0, Math.min(params.age && params.age >= 40 ? 5 : 6, availableExercises.length));
+    .slice(0, Math.min(effectiveAge && effectiveAge >= 40 ? 5 : 6, availableExercises.length));
 
   const workoutData: CreateWorkoutInput = {
-    name: `Entrenamiento de ${params.workoutType} - ${params.difficulty}`,
+    name: `Entrenamiento de ${params.workoutType} - ${effectiveDifficulty}`,
     exercises: selectedExercises.map((exercise, index) => ({
       exerciseId: exercise.id,
       sets:
-        params.difficulty === "beginner"
+        effectiveDifficulty === "beginner"
           ? 3
-          : params.difficulty === "intermediate"
+          : effectiveDifficulty === "intermediate"
             ? 4
             : 5,
       reps:
-        params.difficulty === "beginner"
+        effectiveDifficulty === "beginner"
           ? 10
-          : params.difficulty === "intermediate"
+          : effectiveDifficulty === "intermediate"
             ? 12
             : 15,
-      rest: params.age && params.age >= 40 ? 75 : 60,
+      rest: effectiveAge && effectiveAge >= 40 ? 75 : snapshot.workoutAdjustment === "reduce" ? 75 : 60,
       order: index,
     })),
   };

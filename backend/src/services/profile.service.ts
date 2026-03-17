@@ -9,6 +9,11 @@ export interface UserProfile {
   targetWeightKg: number | null;
   timeframeWeeks: number | null;
   trainingDaysPerWeek: number | null;
+  trainingGoal: 'lose_weight' | 'build_muscle' | 'recomposition' | 'maintain' | null;
+  preferredTrainingEnvironment: 'gym' | 'home' | 'outdoor' | null;
+  experienceLevel: 'beginner' | 'intermediate' | 'advanced' | null;
+  limitations: string[];
+  onboardingCompletedAt: string | null;
 }
 
 export interface UpdateUserProfileInput {
@@ -20,6 +25,11 @@ export interface UpdateUserProfileInput {
   targetWeightKg?: number | null;
   timeframeWeeks?: number | null;
   trainingDaysPerWeek?: number | null;
+  trainingGoal?: 'lose_weight' | 'build_muscle' | 'recomposition' | 'maintain' | null;
+  preferredTrainingEnvironment?: 'gym' | 'home' | 'outdoor' | null;
+  experienceLevel?: 'beginner' | 'intermediate' | 'advanced' | null;
+  limitations?: string[];
+  onboardingCompletedAt?: string | null;
 }
 
 function mapUserToProfile(user: {
@@ -31,6 +41,11 @@ function mapUserToProfile(user: {
   targetWeightKg: number | null;
   timeframeWeeks: number | null;
   trainingDaysPerWeek: number | null;
+  trainingGoal: string | null;
+  preferredTrainingEnvironment: string | null;
+  experienceLevel: string | null;
+  limitations: string[];
+  onboardingCompletedAt: Date | null;
 }): UserProfile {
   return {
     avatarDataUrl: user.avatarDataUrl,
@@ -41,6 +56,11 @@ function mapUserToProfile(user: {
     targetWeightKg: user.targetWeightKg,
     timeframeWeeks: user.timeframeWeeks,
     trainingDaysPerWeek: user.trainingDaysPerWeek,
+    trainingGoal: (user.trainingGoal as UserProfile['trainingGoal']) ?? null,
+    preferredTrainingEnvironment: (user.preferredTrainingEnvironment as UserProfile['preferredTrainingEnvironment']) ?? null,
+    experienceLevel: (user.experienceLevel as UserProfile['experienceLevel']) ?? null,
+    limitations: user.limitations ?? [],
+    onboardingCompletedAt: user.onboardingCompletedAt?.toISOString() ?? null,
   };
 }
 
@@ -56,6 +76,11 @@ export async function getUserProfile(userId: string): Promise<UserProfile> {
       targetWeightKg: true,
       timeframeWeeks: true,
       trainingDaysPerWeek: true,
+      trainingGoal: true,
+      preferredTrainingEnvironment: true,
+      experienceLevel: true,
+      limitations: true,
+      onboardingCompletedAt: true,
     },
   });
 
@@ -77,6 +102,11 @@ export async function updateUserProfile(
       targetWeightKg: input.targetWeightKg,
       timeframeWeeks: input.timeframeWeeks,
       trainingDaysPerWeek: input.trainingDaysPerWeek,
+      trainingGoal: input.trainingGoal,
+      preferredTrainingEnvironment: input.preferredTrainingEnvironment,
+      experienceLevel: input.experienceLevel,
+      limitations: input.limitations,
+      onboardingCompletedAt: input.onboardingCompletedAt ? new Date(input.onboardingCompletedAt) : input.onboardingCompletedAt,
     },
     select: {
       avatarDataUrl: true,
@@ -87,6 +117,11 @@ export async function updateUserProfile(
       targetWeightKg: true,
       timeframeWeeks: true,
       trainingDaysPerWeek: true,
+      trainingGoal: true,
+      preferredTrainingEnvironment: true,
+      experienceLevel: true,
+      limitations: true,
+      onboardingCompletedAt: true,
     },
   });
 

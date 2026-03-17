@@ -2,6 +2,7 @@ import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
 import type { CreateMeasurementInput } from '../utils/validators';
 import * as sessionsService from './sessions.service';
+import { getPersonalizationSnapshot } from './personalization.service';
 
 /**
  * Obtener todas las medidas corporales de un usuario
@@ -71,7 +72,10 @@ export async function deleteMeasurement(id: string, userId: string) {
  */
 export async function getCompleteProgress(userId: string) {
   // Estadísticas de entrenamientos
-  const workoutStats = await sessionsService.getProgressStats(userId);
+  const [workoutStats, insights] = await Promise.all([
+    sessionsService.getProgressStats(userId),
+    getPersonalizationSnapshot(userId),
+  ]);
 
   // Medidas corporales
   const measurements = await getUserMeasurements(userId);
@@ -130,6 +134,22 @@ export async function getCompleteProgress(userId: string) {
       weight: weightData,
       bodyFat: bodyFatData,
       frequency: frequencyData,
+    },
+    insights: {
+      profileCompletion: insights.profileCompletion,
+      missingProfileFields: insights.missingProfileFields,
+      weeklyTarget: insights.weeklyTarget,
+      workoutsLast7Days: insights.workoutsLast7Days,
+      workoutsLast28Days: insights.workoutsLast28Days,
+      adherenceRate: insights.adherenceRate,
+      nutritionLogDaysLast7: insights.nutritionLogDaysLast7,
+      nutritionConsistencyRate: insights.nutritionConsistencyRate,
+      weightTrend: insights.weightTrend,
+      stagnationRisk: insights.stagnationRisk,
+      workoutAdjustment: insights.workoutAdjustment,
+      nutritionAdjustment: insights.nutritionAdjustment,
+      preferredMuscleGroups: insights.preferredMuscleGroups,
+      averageSessionDuration: insights.averageSessionDuration,
     },
   };
 }

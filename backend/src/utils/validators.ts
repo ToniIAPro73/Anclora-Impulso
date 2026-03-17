@@ -21,6 +21,11 @@ export const updateProfileSchema = z.object({
   targetWeightKg: z.number().positive().max(400).nullable().optional(),
   timeframeWeeks: z.number().int().min(1).max(260).nullable().optional(),
   trainingDaysPerWeek: z.number().int().min(1).max(7).nullable().optional(),
+  trainingGoal: z.enum(['lose_weight', 'build_muscle', 'recomposition', 'maintain']).nullable().optional(),
+  preferredTrainingEnvironment: z.enum(['gym', 'home', 'outdoor']).nullable().optional(),
+  experienceLevel: z.enum(['beginner', 'intermediate', 'advanced']).nullable().optional(),
+  limitations: z.array(z.string().min(1).max(80)).max(8).optional(),
+  onboardingCompletedAt: z.string().datetime().nullable().optional(),
 });
 
 // Validadores de entrenamientos

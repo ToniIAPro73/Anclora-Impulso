@@ -116,6 +116,25 @@ export interface CompleteProgress {
     bodyFat: Array<{ date: string; bodyFat: number }>;
     frequency: Array<{ week: string; count: number }>;
   };
+  insights: {
+    profileCompletion: number;
+    missingProfileFields: string[];
+    weeklyTarget: number | null;
+    workoutsLast7Days: number;
+    workoutsLast28Days: number;
+    adherenceRate: number | null;
+    nutritionLogDaysLast7: number;
+    nutritionConsistencyRate: number | null;
+    weightTrend: {
+      direction: 'up' | 'down' | 'stable' | 'insufficient_data';
+      deltaKg: number | null;
+    };
+    stagnationRisk: 'low' | 'medium' | 'high';
+    workoutAdjustment: 'reduce' | 'maintain' | 'increase';
+    nutritionAdjustment: 'reduce' | 'maintain' | 'increase';
+    preferredMuscleGroups: string[];
+    averageSessionDuration: number | null;
+  };
 }
 
 export type ProfilePayload = Omit<UserProfile, 'recommendedPlan'>;
