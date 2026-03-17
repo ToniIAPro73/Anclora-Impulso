@@ -47,19 +47,17 @@ export function DashboardUserMenu() {
           <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen}>
-          <DropdownMenuItem
-            onSelect={(event) => {
-              event.preventDefault()
-              setMenuOpen(false)
-              setProfileOpen(true)
-            }}
-            className="rounded-xl px-3 py-2.5"
-          >
-            <UserCircle className="mr-2 h-4 w-4" />
-            <span className={cn("text-sm")}>{t.navigation.profile}</span>
-          </DropdownMenuItem>
-        </ProfileDialog>
+        <DropdownMenuItem
+          onSelect={(event) => {
+            event.preventDefault()
+            setMenuOpen(false)
+            window.requestAnimationFrame(() => setProfileOpen(true))
+          }}
+          className="rounded-xl px-3 py-2.5"
+        >
+          <UserCircle className="mr-2 h-4 w-4" />
+          <span className={cn("text-sm")}>{t.navigation.profile}</span>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
@@ -72,6 +70,7 @@ export function DashboardUserMenu() {
           <span className="text-sm">{t.navigation.logout}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
+      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
     </DropdownMenu>
   )
 }
