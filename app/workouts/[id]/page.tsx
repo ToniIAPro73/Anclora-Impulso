@@ -15,7 +15,7 @@ import { useWorkouts } from "@/hooks/use-workouts"
 function WorkoutDetailContent() {
   const params = useParams<{ id: string }>()
   const router = useRouter()
-  const { language } = useLanguage()
+  const { language, t } = useLanguage()
   const isSpanish = language === "es"
 
   const workoutId = typeof params?.id === "string" ? params.id : ""
@@ -123,6 +123,42 @@ function WorkoutDetailContent() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
+          {workout.explanation ? (
+            <div className="rounded-3xl border border-orange-200/70 bg-gradient-to-r from-orange-50 to-rose-50 p-4 dark:border-orange-500/20 dark:from-orange-950/20 dark:to-rose-950/20">
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+                    {t.workouts.recommendationWhy}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+                    {workout.explanation.summary || t.workouts.recommendationSummary}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {workout.explanation.focusMuscles?.length ? (
+                    <Badge variant="secondary" className="rounded-xl px-3 py-1">
+                      {t.workouts.focusMuscles}: {workout.explanation.focusMuscles.join(", ")}
+                    </Badge>
+                  ) : null}
+                  {typeof workout.explanation.averageRest === "number" ? (
+                    <Badge variant="outline" className="rounded-xl px-3 py-1">
+                      {t.workouts.averageRest}: {workout.explanation.averageRest}s
+                    </Badge>
+                  ) : null}
+                </div>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {workout.explanation.reasons.map((reason) => (
+                  <div
+                    key={reason}
+                    className="rounded-2xl border border-orange-100 bg-white/80 px-3 py-2 text-sm text-slate-700 dark:border-orange-500/10 dark:bg-slate-950/40 dark:text-slate-200"
+                  >
+                    {reason}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
           {workout.exercises.map((workoutExercise, index) => (
             <div
               key={workoutExercise.id}

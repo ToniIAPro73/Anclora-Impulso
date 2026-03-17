@@ -28,6 +28,12 @@ model User {
   experienceLevel String?
   limitations  String[] @default([])
   onboardingCompletedAt DateTime?
+  remindersEnabled Boolean @default(true)
+  reminderTime String?
+  reminderWorkout Boolean @default(true)
+  reminderNutrition Boolean @default(true)
+  reminderWeeklyReview Boolean @default(true)
+  reminderReactivation Boolean @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

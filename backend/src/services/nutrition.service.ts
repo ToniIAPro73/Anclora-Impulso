@@ -4,7 +4,10 @@ import { generateJSON, SYSTEM_PROMPT_ES } from './llm';
 import { env } from '../config/env';
 import logger from '../config/logger';
 import { buildNutritionPersonalizationGuidance } from './forty-plus-guidance';
-import { getPersonalizationSnapshot } from './personalization.service';
+import {
+  getPersonalizationSnapshot,
+  type PersonalizationSnapshot,
+} from './personalization.service';
 import type { Prisma } from '@prisma/client';
 import type {
   GenerateMealPlanInput,
@@ -42,6 +45,57 @@ interface AIMealPlanResponse {
 
 type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
 type PrismaTx = Prisma.TransactionClient;
+
+function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
+  dietType?: string | null;
+  meals: Array<{ mealType: string; recipes: Array<{ recipe: { calories?: number | null; protein?: number | null } }> }>;
+}) {
+  const reasons: string[] = [];
+  const nutritionConsistency = snapshot.nutritionConsistencyRate ?? 0;
+
+  if (snapshot.profile.trainingGoal) {
+    reasons.push(`El plan se orienta al objetivo ${snapshot.profile.trainingGoal}.`);
+  }
+
+  if (nutritionConsistency < 0.5) {
+    reasons.push('La estructura prioriza continuidad y fricción baja porque tu registro reciente todavía es irregular.');
+  } else if (nutritionConsistency > 0.85) {
+    reasons.push('Tu buena constancia permite una pauta más afinada y controlada.');
+  } else {
+    reasons.push('La propuesta mantiene un nivel de precisión intermedio para no perder adherencia.');
+  }
+
+  if (plan.dietType === 'ayuno_intermitente') {
+    reasons.push('Se respeta la ventana de ayuno intermitente y se reajustan excesos dentro de la semana.');
+  }
+
+  if (snapshot.stagnationRisk === 'high') {
+    reasons.push('Hay riesgo de estancamiento, así que la pauta intenta hacer más visible el ajuste energético.');
+  }
+
+  return {
+    headline: 'Por qué encaja contigo',
+    summary:
+      'La nutrición propuesta usa tu objetivo, tu ritmo de entrenamiento y tu constancia reciente para evitar un plan teórico difícil de sostener.',
+    reasons,
+    adjustment:
+      snapshot.nutritionAdjustment === 'reduce'
+        ? 'Prioriza sencillez, saciedad y continuidad diaria.'
+        : snapshot.nutritionAdjustment === 'increase'
+          ? 'Tu base permite apretar algo más la precisión nutricional.'
+          : 'Mantén la pauta y observa la tendencia semanal antes de corregir.',
+  };
+}
+
+function decorateMealPlan<T extends { dietType?: string | null; meals: Array<{ mealType: string; recipes: Array<{ recipe: { calories?: number | null; protein?: number | null } }> }> }>(
+  plan: T,
+  snapshot: PersonalizationSnapshot
+) {
+  return {
+    ...plan,
+    explanation: buildMealPlanExplanation(snapshot, plan),
+  };
+}
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 const IF_FASTING_TARGET_HOURS = 16;
@@ -663,57 +717,65 @@ IMPORTANTE:
  * Obtener todos los planes de comida de un usuario
  */
 export async function getUserMealPlans(userId: string) {
-  return prisma.mealPlan.findMany({
-    where: { userId },
-    include: {
-      meals: {
-        include: {
-          recipes: {
-            include: {
-              recipe: true,
+  const [plans, snapshot] = await Promise.all([
+    prisma.mealPlan.findMany({
+      where: { userId },
+      include: {
+        meals: {
+          include: {
+            recipes: {
+              include: {
+                recipe: true,
+              },
             },
           },
         },
       },
-    },
-    orderBy: { createdAt: 'desc' },
-    take: 10,
-  });
+      orderBy: { createdAt: 'desc' },
+      take: 10,
+    }),
+    getPersonalizationSnapshot(userId),
+  ]);
+
+  return plans.map((plan) => decorateMealPlan(plan, snapshot));
 }
 
 /**
  * Obtener un plan de comida por ID
  */
 export async function getMealPlanById(id: string, userId: string) {
-  const plan = await prisma.mealPlan.findFirst({
-    where: { id, userId },
-    include: {
-      meals: {
-        include: {
-          recipes: {
-            include: {
-              recipe: {
-                include: {
-                  ingredients: {
-                    include: {
-                      ingredient: true,
+  const [plan, snapshot] = await Promise.all([
+    prisma.mealPlan.findFirst({
+      where: { id, userId },
+      include: {
+        meals: {
+          include: {
+            recipes: {
+              include: {
+                recipe: {
+                  include: {
+                    ingredients: {
+                      include: {
+                        ingredient: true,
+                      },
                     },
                   },
                 },
               },
             },
           },
+          orderBy: [{ dayOfWeek: 'asc' }, { mealType: 'asc' }],
         },
-        orderBy: [{ dayOfWeek: 'asc' }, { mealType: 'asc' }],
       },
-    },
-  });
+    }),
+    getPersonalizationSnapshot(userId),
+  ]);
 
   if (!plan) {
     throw new AppError(404, 'Plan de comidas no encontrado');
   }
 
-  return plan;
+  return decorateMealPlan(plan, snapshot);
 }
 
 export async function deleteMealPlan(id: string, userId: string) {

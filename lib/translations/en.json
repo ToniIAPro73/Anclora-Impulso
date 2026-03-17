@@ -119,7 +119,28 @@
     "stepFourTitle": "Activate Your Nutrition",
     "stepFourDesc": "Generate a weekly plan or log today's meals",
     "generateFirstWorkout": "Generate My First Workout",
-    "generateFirstMealPlan": "Create My First Meal Plan"
+    "generateFirstMealPlan": "Create My First Meal Plan",
+    "remindersTitle": "Smart reminders",
+    "remindersDesc": "Choose what should reactivate you and at what time without leaving the dashboard.",
+    "remindersActive": "Active",
+    "remindersPaused": "Paused",
+    "reminderWorkout": "Pending workout",
+    "reminderNutrition": "Nutrition logging",
+    "reminderWeeklyReview": "Weekly review",
+    "reminderReactivation": "Reactivation after inactivity",
+    "reminderTimeLabel": "Preferred time",
+    "saveReminders": "Save reminders",
+    "savingReminders": "Saving...",
+    "reminderPreviewTitle": "What we would remind you today",
+    "reminderPreviewWorkout": "You have a pending workout or a plan ready to run.",
+    "reminderPreviewNutrition": "You still need to close today's nutrition logging.",
+    "reminderPreviewWeekly": "It is worth reviewing your week and deciding the next adjustment.",
+    "reminderPreviewReactivation": "Your recent pace suggests a reactivation nudge.",
+    "reminderPreviewNone": "Your current setup does not need any extra nudge today.",
+    "reminderPreviewPaused": "Reminders are paused.",
+    "latestRecommendation": "Latest useful recommendation",
+    "recommendationWhy": "Why it is recommended",
+    "recommendationAdjustment": "Suggested adjustment"
   },
   "exercises": {
     "title": "Exercise Library",
@@ -163,6 +184,10 @@
     "saveWorkout": "Save Workout",
     "startWorkout": "Start Workout",
     "workoutGenerated": "Workout Generated!",
+    "recommendationWhy": "Why this workout is recommended",
+    "recommendationSummary": "This routine does not come from a blind generator: it uses your goal, adherence, and recent signals.",
+    "focusMuscles": "Focus muscles",
+    "averageRest": "Average rest",
     "types": {
       "strength": "Strength",
       "cardio": "Cardio",
@@ -193,6 +218,11 @@
     "workoutsThisWeek": "Workouts This Week",
     "workoutsThisMonth": "Workouts This Month",
     "averagePerWeek": "Average Per Week"
+  },
+  "nutrition": {
+    "recommendationWhy": "Why this plan is recommended",
+    "recommendationSummary": "The nutrition plan uses your goal, recent consistency, and the adjustment level most likely to protect adherence.",
+    "recommendationAdjustment": "Suggested adjustment"
   },
   "settings": {
     "title": "Settings",

@@ -14,6 +14,12 @@ export interface UserProfile {
   experienceLevel: 'beginner' | 'intermediate' | 'advanced' | null;
   limitations: string[];
   onboardingCompletedAt: string | null;
+  remindersEnabled: boolean;
+  reminderTime: string | null;
+  reminderWorkout: boolean;
+  reminderNutrition: boolean;
+  reminderWeeklyReview: boolean;
+  reminderReactivation: boolean;
 }
 
 export interface UpdateUserProfileInput {
@@ -30,6 +36,12 @@ export interface UpdateUserProfileInput {
   experienceLevel?: 'beginner' | 'intermediate' | 'advanced' | null;
   limitations?: string[];
   onboardingCompletedAt?: string | null;
+  remindersEnabled?: boolean;
+  reminderTime?: string | null;
+  reminderWorkout?: boolean;
+  reminderNutrition?: boolean;
+  reminderWeeklyReview?: boolean;
+  reminderReactivation?: boolean;
 }
 
 function mapUserToProfile(user: {
@@ -46,6 +58,12 @@ function mapUserToProfile(user: {
   experienceLevel: string | null;
   limitations: string[];
   onboardingCompletedAt: Date | null;
+  remindersEnabled: boolean;
+  reminderTime: string | null;
+  reminderWorkout: boolean;
+  reminderNutrition: boolean;
+  reminderWeeklyReview: boolean;
+  reminderReactivation: boolean;
 }): UserProfile {
   return {
     avatarDataUrl: user.avatarDataUrl,
@@ -61,6 +79,12 @@ function mapUserToProfile(user: {
     experienceLevel: (user.experienceLevel as UserProfile['experienceLevel']) ?? null,
     limitations: user.limitations ?? [],
     onboardingCompletedAt: user.onboardingCompletedAt?.toISOString() ?? null,
+    remindersEnabled: user.remindersEnabled,
+    reminderTime: user.reminderTime,
+    reminderWorkout: user.reminderWorkout,
+    reminderNutrition: user.reminderNutrition,
+    reminderWeeklyReview: user.reminderWeeklyReview,
+    reminderReactivation: user.reminderReactivation,
   };
 }
 
@@ -81,6 +105,12 @@ export async function getUserProfile(userId: string): Promise<UserProfile> {
       experienceLevel: true,
       limitations: true,
       onboardingCompletedAt: true,
+      remindersEnabled: true,
+      reminderTime: true,
+      reminderWorkout: true,
+      reminderNutrition: true,
+      reminderWeeklyReview: true,
+      reminderReactivation: true,
     },
   });
 
@@ -107,6 +137,12 @@ export async function updateUserProfile(
       experienceLevel: input.experienceLevel,
       limitations: input.limitations,
       onboardingCompletedAt: input.onboardingCompletedAt ? new Date(input.onboardingCompletedAt) : input.onboardingCompletedAt,
+      remindersEnabled: input.remindersEnabled,
+      reminderTime: input.reminderTime,
+      reminderWorkout: input.reminderWorkout,
+      reminderNutrition: input.reminderNutrition,
+      reminderWeeklyReview: input.reminderWeeklyReview,
+      reminderReactivation: input.reminderReactivation,
     },
     select: {
       avatarDataUrl: true,
@@ -122,6 +158,12 @@ export async function updateUserProfile(
       experienceLevel: true,
       limitations: true,
       onboardingCompletedAt: true,
+      remindersEnabled: true,
+      reminderTime: true,
+      reminderWorkout: true,
+      reminderNutrition: true,
+      reminderWeeklyReview: true,
+      reminderReactivation: true,
     },
   });
 

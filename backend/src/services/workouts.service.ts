@@ -6,49 +6,128 @@ import type {
 } from "../utils/validators";
 import { env } from "../config/env";
 import { buildWorkoutPersonalizationGuidance } from "./forty-plus-guidance";
-import { getPersonalizationSnapshot } from "./personalization.service";
+import {
+  getPersonalizationSnapshot,
+  type PersonalizationSnapshot,
+} from "./personalization.service";
+
+function buildWorkoutExplanation(
+  snapshot: PersonalizationSnapshot,
+  workout: {
+    exercises: Array<{
+      exercise: {
+        muscleGroup: string;
+        trainingEnvironments?: string[];
+      };
+      rest: number;
+    }>;
+  }
+) {
+  const reasons: string[] = [];
+
+  if (snapshot.profile.trainingGoal) {
+    reasons.push(`Se ha priorizado el objetivo ${snapshot.profile.trainingGoal}.`);
+  }
+
+  if (snapshot.preferredMuscleGroups.length > 0) {
+    reasons.push(
+      `Se repiten grupos musculares donde ya hay más adherencia: ${snapshot.preferredMuscleGroups.join(", ")}.`
+    );
+  }
+
+  if (snapshot.workoutAdjustment === "reduce") {
+    reasons.push("Tu ritmo reciente pide bajar fricción: menos densidad, descansos más amables y ejecución más sostenible.");
+  } else if (snapshot.workoutAdjustment === "increase") {
+    reasons.push("Tu consistencia reciente permite subir un poco la exigencia sin romper adherencia.");
+  } else {
+    reasons.push("La carga se mantiene estable porque tu patrón reciente no pide una corrección brusca.");
+  }
+
+  if (snapshot.profile.preferredTrainingEnvironment) {
+    reasons.push(`La propuesta respeta tu entorno preferido: ${snapshot.profile.preferredTrainingEnvironment}.`);
+  }
+
+  if (snapshot.stagnationRisk === "high") {
+    reasons.push("Hay señales de estancamiento, así que la selección intenta reactivar progreso sin disparar fatiga.");
+  }
+
+  const targetMuscles = Array.from(
+    new Set(workout.exercises.map((entry) => entry.exercise.muscleGroup))
+  ).slice(0, 4);
+  const averageRest =
+    workout.exercises.length > 0
+      ? Math.round(workout.exercises.reduce((sum, entry) => sum + entry.rest, 0) / workout.exercises.length)
+      : null;
+
+  return {
+    headline: "Por qué encaja contigo",
+    summary:
+      snapshot.workoutsLast28Days > 0
+        ? "La rutina combina tu objetivo, tu consistencia reciente y el tipo de esfuerzo que más probablemente mantendrá adherencia."
+        : "La rutina parte de tu onboarding y crea una primera propuesta segura para empezar con claridad.",
+    reasons,
+    focusMuscles: targetMuscles,
+    averageRest,
+  };
+}
+
+function decorateWorkout<T extends { exercises: Array<{ exercise: { muscleGroup: string; trainingEnvironments?: string[] }; rest: number }> }>(
+  workout: T,
+  snapshot: PersonalizationSnapshot
+) {
+  return {
+    ...workout,
+    explanation: buildWorkoutExplanation(snapshot, workout),
+  };
+}
 
 /**
  * Obtener todos los entrenamientos de un usuario
  */
 export async function getUserWorkouts(userId: string) {
-  const workouts = await prisma.workout.findMany({
-    where: { userId },
-    include: {
-      exercises: {
-        include: {
-          exercise: true,
+  const [workouts, snapshot] = await Promise.all([
+    prisma.workout.findMany({
+      where: { userId },
+      include: {
+        exercises: {
+          include: {
+            exercise: true,
+          },
+          orderBy: { order: "asc" },
         },
-        orderBy: { order: "asc" },
       },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    }),
+    getPersonalizationSnapshot(userId),
+  ]);
 
-  return workouts;
+  return workouts.map((workout) => decorateWorkout(workout, snapshot));
 }
 
 /**
  * Obtener un entrenamiento por ID
  */
 export async function getWorkoutById(id: string, userId: string) {
-  const workout = await prisma.workout.findFirst({
-    where: { id, userId },
-    include: {
-      exercises: {
-        include: {
-          exercise: true,
+  const [workout, snapshot] = await Promise.all([
+    prisma.workout.findFirst({
+      where: { id, userId },
+      include: {
+        exercises: {
+          include: {
+            exercise: true,
+          },
+          orderBy: { order: "asc" },
         },
-        orderBy: { order: "asc" },
       },
-    },
-  });
+    }),
+    getPersonalizationSnapshot(userId),
+  ]);
 
   if (!workout) {
     throw new AppError(404, "Entrenamiento no encontrado");
   }
 
-  return workout;
+  return decorateWorkout(workout, snapshot);
 }
 
 /**
@@ -72,7 +151,8 @@ export async function createWorkout(userId: string, data: CreateWorkoutInput) {
     },
   });
 
-  return workout;
+  const snapshot = await getPersonalizationSnapshot(userId);
+  return decorateWorkout(workout, snapshot);
 }
 
 /**
@@ -118,7 +198,8 @@ export async function updateWorkout(
     },
   });
 
-  return workout;
+  const snapshot = await getPersonalizationSnapshot(userId);
+  return decorateWorkout(workout, snapshot);
 }
 
 /**

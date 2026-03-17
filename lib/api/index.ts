@@ -62,6 +62,15 @@ export interface WorkoutExercise {
   exercise: Exercise;
 }
 
+export interface RecommendationExplanation {
+  headline: string;
+  summary: string;
+  reasons: string[];
+  adjustment?: string;
+  focusMuscles?: string[];
+  averageRest?: number | null;
+}
+
 export interface Workout {
   id: string;
   userId: string;
@@ -69,6 +78,7 @@ export interface Workout {
   createdAt: string;
   updatedAt: string;
   exercises: WorkoutExercise[];
+  explanation?: RecommendationExplanation;
 }
 
 export interface SessionSet {
@@ -461,6 +471,7 @@ export interface MealPlan {
   carryoverCaloriesApplied: number;
   createdAt: string;
   meals: Meal[];
+  explanation?: RecommendationExplanation;
 }
 
 export interface NutritionLog {

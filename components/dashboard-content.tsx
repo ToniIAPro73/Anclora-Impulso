@@ -5,8 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple, ArrowRight, CheckCircle2, Flame } from "lucide-react"
+import { Dumbbell, TrendingUp, Calendar, Play, Plus, Trophy, Target, Clock, Activity, Loader2, Apple, ArrowRight, CheckCircle2, Flame, Bell, Sparkles } from "lucide-react"
 import { useProgress } from "@/hooks/use-progress"
 import { useMealPlans, useNutritionSummary } from "@/hooks/use-nutrition"
 import { useWorkouts } from "@/hooks/use-workouts"
@@ -16,9 +17,10 @@ import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 import { getProfileCompletion } from "@/lib/user-profile"
 import { OnboardingDialog } from "@/components/onboarding-dialog"
+import { trackProductEvent } from "@/lib/product-events"
 
 export function DashboardContent() {
-  const { profile, user } = useAuth()
+  const { profile, user, updateProfile } = useAuth()
   const { progress, isLoading } = useProgress()
   const { data: nutritionSummary, isLoading: isNutritionLoading } = useNutritionSummary("day")
   const { mealPlans } = useMealPlans()
@@ -26,6 +28,15 @@ export function DashboardContent() {
   const { t, language } = useLanguage()
   const [onboardingOpen, setOnboardingOpen] = useState(false)
   const [draftWorkoutId, setDraftWorkoutId] = useState<string | null>(null)
+  const [isSavingReminders, setIsSavingReminders] = useState(false)
+  const [reminderDraft, setReminderDraft] = useState({
+    remindersEnabled: true,
+    reminderTime: "20:00",
+    reminderWorkout: true,
+    reminderNutrition: true,
+    reminderWeeklyReview: true,
+    reminderReactivation: true,
+  })
 
   const stats = progress?.stats || {
     totalWorkouts: 0,
@@ -66,6 +77,24 @@ export function DashboardContent() {
       setOnboardingOpen(true)
     }
   }, [needsOnboarding])
+
+  useEffect(() => {
+    setReminderDraft({
+      remindersEnabled: profile.remindersEnabled ?? true,
+      reminderTime: profile.reminderTime ?? "20:00",
+      reminderWorkout: profile.reminderWorkout ?? true,
+      reminderNutrition: profile.reminderNutrition ?? true,
+      reminderWeeklyReview: profile.reminderWeeklyReview ?? true,
+      reminderReactivation: profile.reminderReactivation ?? true,
+    })
+  }, [
+    profile.remindersEnabled,
+    profile.reminderTime,
+    profile.reminderWorkout,
+    profile.reminderNutrition,
+    profile.reminderWeeklyReview,
+    profile.reminderReactivation,
+  ])
 
   const primaryAction = needsOnboarding
     ? {
@@ -111,6 +140,35 @@ export function DashboardContent() {
             onClick: undefined,
           }
   const PrimaryActionIcon = primaryAction.icon
+  const latestRecommendation = latestWorkout?.explanation ?? latestMealPlan?.explanation ?? null
+  const reminderPreviews = reminderDraft.remindersEnabled
+    ? [
+        reminderDraft.reminderWorkout && (draftWorkoutId || latestWorkout) ? t.dashboard.reminderPreviewWorkout : null,
+        reminderDraft.reminderNutrition && !hasNutritionData ? t.dashboard.reminderPreviewNutrition : null,
+        reminderDraft.reminderWeeklyReview && ((weeklyTarget && stats.workoutsThisWeek < weeklyTarget) || progressInsights?.stagnationRisk === "high")
+          ? t.dashboard.reminderPreviewWeekly
+          : null,
+        reminderDraft.reminderReactivation && stats.totalWorkouts > 0 && stats.workoutsThisWeek === 0
+          ? t.dashboard.reminderPreviewReactivation
+          : null,
+      ].filter(Boolean) as string[]
+    : []
+
+  const saveReminderPreferences = async () => {
+    setIsSavingReminders(true)
+    try {
+      await updateProfile(reminderDraft)
+      await trackProductEvent({
+        action: "reminder_preferences_updated",
+        category: "engagement",
+        source: "dashboard",
+        metadata: reminderDraft,
+      })
+    } finally {
+      setIsSavingReminders(false)
+    }
+  }
+
   const quickActions = [
     {
       href: "/workouts/generate",
@@ -370,6 +428,154 @@ export function DashboardContent() {
           </CardContent>
         </Card>
       ) : null}
+
+      <div className="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.95fr)]">
+        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+          <CardHeader className="pb-3">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5 text-orange-500" />
+                  {t.dashboard.remindersTitle}
+                </CardTitle>
+                <CardDescription>{t.dashboard.remindersDesc}</CardDescription>
+              </div>
+              <Badge variant="secondary" className="rounded-xl px-3 py-1">
+                {reminderDraft.remindersEnabled ? t.dashboard.remindersActive : t.dashboard.remindersPaused}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {[
+                ["reminderWorkout", t.dashboard.reminderWorkout],
+                ["reminderNutrition", t.dashboard.reminderNutrition],
+                ["reminderWeeklyReview", t.dashboard.reminderWeeklyReview],
+                ["reminderReactivation", t.dashboard.reminderReactivation],
+              ].map(([field, label]) => {
+                const isActive = reminderDraft[field as keyof typeof reminderDraft] as boolean
+                return (
+                  <button
+                    key={field}
+                    type="button"
+                    onClick={() =>
+                      setReminderDraft((current) => ({
+                        ...current,
+                        [field]: !isActive,
+                      }))
+                    }
+                    className={cn(
+                      "ui-motion-frame flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition-colors",
+                      isActive
+                        ? "border-orange-300/70 bg-orange-50 text-orange-900 dark:border-orange-500/30 dark:bg-orange-950/20 dark:text-orange-100"
+                        : "border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-700 dark:bg-slate-900/50 dark:text-slate-300"
+                    )}
+                  >
+                    <span className="text-sm font-medium">{label}</span>
+                    <Badge className={cn("rounded-lg", isActive ? "bg-orange-500 text-white" : "bg-slate-600 text-white dark:bg-slate-700")}>
+                      {isActive ? t.dashboard.remindersActive : t.dashboard.remindersPaused}
+                    </Badge>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-[minmax(0,180px)_auto] sm:items-end">
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                  {t.dashboard.reminderTimeLabel}
+                </label>
+                <Input
+                  type="time"
+                  value={reminderDraft.reminderTime}
+                  onChange={(event) =>
+                    setReminderDraft((current) => ({
+                      ...current,
+                      reminderTime: event.target.value,
+                    }))
+                  }
+                />
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row">
+                <Button
+                  type="button"
+                  variant={reminderDraft.remindersEnabled ? "outline" : "default"}
+                  className="rounded-2xl"
+                  onClick={() =>
+                    setReminderDraft((current) => ({
+                      ...current,
+                      remindersEnabled: !current.remindersEnabled,
+                    }))
+                  }
+                >
+                  {reminderDraft.remindersEnabled ? t.dashboard.remindersActive : t.dashboard.remindersPaused}
+                </Button>
+                <Button
+                  type="button"
+                  className="rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                  onClick={saveReminderPreferences}
+                  disabled={isSavingReminders}
+                >
+                  {isSavingReminders ? t.dashboard.savingReminders : t.dashboard.saveReminders}
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200/70 bg-slate-50/80 p-4 dark:border-slate-700 dark:bg-slate-900/50">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">{t.dashboard.reminderPreviewTitle}</p>
+              <div className="mt-3 space-y-2">
+                {reminderPreviews.length > 0 ? (
+                  reminderPreviews.map((preview) => (
+                    <div key={preview} className={cn("rounded-xl px-3 py-2 text-sm text-slate-700 dark:text-slate-200", uiMotion.frame)}>
+                      {preview}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    {reminderDraft.remindersEnabled
+                      ? t.dashboard.reminderPreviewNone
+                      : t.dashboard.reminderPreviewPaused}
+                  </p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {latestRecommendation ? (
+          <Card className="ui-motion-card-subtle border-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white shadow-lg">
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-orange-300" />
+                {t.dashboard.latestRecommendation}
+              </CardTitle>
+              <CardDescription className="text-slate-300">{latestRecommendation.summary}</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+                  {t.dashboard.recommendationWhy}
+                </p>
+                <div className="mt-3 space-y-2">
+                  {latestRecommendation.reasons.map((reason) => (
+                    <div key={reason} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-100">
+                      {reason}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {latestRecommendation.adjustment ? (
+                <div className="rounded-2xl border border-orange-400/20 bg-orange-500/10 px-4 py-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-200">
+                    {t.dashboard.recommendationAdjustment}
+                  </p>
+                  <p className="mt-2 text-sm text-orange-50">{latestRecommendation.adjustment}</p>
+                </div>
+              ) : null}
+            </CardContent>
+          </Card>
+        ) : null}
+      </div>
 
       {/* Personal Records */}
       {stats.personalRecords.length > 0 && (

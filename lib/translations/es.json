@@ -119,7 +119,28 @@
     "stepFourTitle": "Activa tu Nutrición",
     "stepFourDesc": "Genera un plan semanal o registra tus comidas del día",
     "generateFirstWorkout": "Generar Mi Primer Entrenamiento",
-    "generateFirstMealPlan": "Crear Mi Primer Plan Nutricional"
+    "generateFirstMealPlan": "Crear Mi Primer Plan Nutricional",
+    "remindersTitle": "Recordatorios inteligentes",
+    "remindersDesc": "Configura qué reactivar y a qué hora, sin salir del panel.",
+    "remindersActive": "Activos",
+    "remindersPaused": "Pausados",
+    "reminderWorkout": "Entreno pendiente",
+    "reminderNutrition": "Registro nutricional",
+    "reminderWeeklyReview": "Cierre semanal",
+    "reminderReactivation": "Reactivación por inactividad",
+    "reminderTimeLabel": "Hora preferida",
+    "saveReminders": "Guardar recordatorios",
+    "savingReminders": "Guardando...",
+    "reminderPreviewTitle": "Qué te recordaríamos hoy",
+    "reminderPreviewWorkout": "Tienes entrenamiento pendiente o un plan listo para ejecutar.",
+    "reminderPreviewNutrition": "Te falta cerrar el registro nutricional del día.",
+    "reminderPreviewWeekly": "Conviene revisar tu semana y decidir el siguiente ajuste.",
+    "reminderPreviewReactivation": "Tu ritmo reciente pide una señal de reactivación.",
+    "reminderPreviewNone": "Tu configuración actual no necesita ningún empujón adicional hoy.",
+    "reminderPreviewPaused": "Los recordatorios están pausados.",
+    "latestRecommendation": "Última recomendación útil",
+    "recommendationWhy": "Por qué se recomienda",
+    "recommendationAdjustment": "Ajuste sugerido"
   },
   "exercises": {
     "title": "Biblioteca de Ejercicios",
@@ -163,6 +184,10 @@
     "saveWorkout": "Guardar Entrenamiento",
     "startWorkout": "Comenzar Entrenamiento",
     "workoutGenerated": "¡Entrenamiento Generado!",
+    "recommendationWhy": "Por qué se recomienda este entrenamiento",
+    "recommendationSummary": "La rutina no sale de un generador ciego: usa tu objetivo, adherencia y señales recientes.",
+    "focusMuscles": "Músculos foco",
+    "averageRest": "Descanso medio",
     "types": {
       "strength": "Fuerza",
       "cardio": "Cardio",
@@ -193,6 +218,11 @@
     "workoutsThisWeek": "Entrenamientos Esta Semana",
     "workoutsThisMonth": "Entrenamientos Este Mes",
     "averagePerWeek": "Promedio Por Semana"
+  },
+  "nutrition": {
+    "recommendationWhy": "Por qué se recomienda este plan",
+    "recommendationSummary": "La pauta nutricional usa tu objetivo, tu constancia reciente y el nivel de ajuste que mejor protege adherencia.",
+    "recommendationAdjustment": "Ajuste sugerido"
   },
   "settings": {
     "title": "Configuración",

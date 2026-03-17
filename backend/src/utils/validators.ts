@@ -26,6 +26,12 @@ export const updateProfileSchema = z.object({
   experienceLevel: z.enum(['beginner', 'intermediate', 'advanced']).nullable().optional(),
   limitations: z.array(z.string().min(1).max(80)).max(8).optional(),
   onboardingCompletedAt: z.string().datetime().nullable().optional(),
+  remindersEnabled: z.boolean().optional(),
+  reminderTime: z.string().regex(/^\d{2}:\d{2}$/).nullable().optional(),
+  reminderWorkout: z.boolean().optional(),
+  reminderNutrition: z.boolean().optional(),
+  reminderWeeklyReview: z.boolean().optional(),
+  reminderReactivation: z.boolean().optional(),
 });
 
 // Validadores de entrenamientos

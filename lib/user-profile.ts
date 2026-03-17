@@ -28,6 +28,12 @@ export interface UserProfile {
   experienceLevel?: ExperienceLevel | null
   limitations?: string[]
   onboardingCompletedAt?: string | null
+  remindersEnabled?: boolean
+  reminderTime?: string | null
+  reminderWorkout?: boolean
+  reminderNutrition?: boolean
+  reminderWeeklyReview?: boolean
+  reminderReactivation?: boolean
   recommendedPlan?: RecommendedWorkoutPlan | null
 }
 
@@ -45,6 +51,12 @@ const DEFAULT_PROFILE: UserProfile = {
   experienceLevel: null,
   limitations: [],
   onboardingCompletedAt: null,
+  remindersEnabled: true,
+  reminderTime: "20:00",
+  reminderWorkout: true,
+  reminderNutrition: true,
+  reminderWeeklyReview: true,
+  reminderReactivation: true,
   recommendedPlan: null,
 }
 

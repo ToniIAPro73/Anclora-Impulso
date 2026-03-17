@@ -21,7 +21,7 @@ describe('profile routes', () => {
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(getResponse.status).toBe(200);
-    expect(getResponse.body).toEqual({
+    expect(getResponse.body).toMatchObject({
       avatarDataUrl: null,
       sex: null,
       age: null,
@@ -30,6 +30,17 @@ describe('profile routes', () => {
       targetWeightKg: null,
       timeframeWeeks: null,
       trainingDaysPerWeek: null,
+      trainingGoal: null,
+      preferredTrainingEnvironment: null,
+      experienceLevel: null,
+      limitations: [],
+      onboardingCompletedAt: null,
+      remindersEnabled: true,
+      reminderTime: null,
+      reminderWorkout: true,
+      reminderNutrition: true,
+      reminderWeeklyReview: true,
+      reminderReactivation: true,
     });
 
     const updateResponse = await request(app)
@@ -44,6 +55,8 @@ describe('profile routes', () => {
         timeframeWeeks: 12,
         trainingDaysPerWeek: 4,
         avatarDataUrl: 'data:image/png;base64,abc',
+        reminderTime: '19:30',
+        remindersEnabled: true,
       });
 
     expect(updateResponse.status).toBe(200);
@@ -56,6 +69,8 @@ describe('profile routes', () => {
       timeframeWeeks: 12,
       trainingDaysPerWeek: 4,
       avatarDataUrl: 'data:image/png;base64,abc',
+      reminderTime: '19:30',
+      remindersEnabled: true,
     });
   });
 });

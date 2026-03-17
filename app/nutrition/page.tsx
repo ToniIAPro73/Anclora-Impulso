@@ -39,7 +39,7 @@ function formatLocalTime(value?: string | null, locale = "es-ES") {
 function NutritionPageContent() {
   const router = useRouter()
   const { profile } = useAuth()
-  const { language } = useLanguage()
+  const { language, t: copy } = useLanguage()
   const t = language === 'es'
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
 
@@ -365,6 +365,40 @@ function NutritionPageContent() {
           </Card>
         </div>
       )}
+
+      {latestPlan?.explanation ? (
+        <Card className="border-0 bg-gradient-to-r from-emerald-50 to-teal-50 shadow-lg dark:from-emerald-950/20 dark:to-teal-950/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-emerald-500" />
+              {copy.nutrition.recommendationWhy}
+            </CardTitle>
+            <CardDescription>{latestPlan.explanation.summary || copy.nutrition.recommendationSummary}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
+            <div className="space-y-2">
+              {latestPlan.explanation.reasons.map((reason) => (
+                <div
+                  key={reason}
+                  className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-2 text-sm text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200"
+                >
+                  {reason}
+                </div>
+              ))}
+            </div>
+            {latestPlan.explanation.adjustment ? (
+              <div className="rounded-2xl border border-emerald-200/70 bg-emerald-100/60 p-4 dark:border-emerald-500/20 dark:bg-emerald-950/20">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-300">
+                  {copy.nutrition.recommendationAdjustment}
+                </p>
+                <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-100">
+                  {latestPlan.explanation.adjustment}
+                </p>
+              </div>
+            ) : null}
+          </CardContent>
+        </Card>
+      ) : null}
 
       {fastingState?.enabled && (
         <div className="grid gap-3 md:grid-cols-3 md:gap-4">
