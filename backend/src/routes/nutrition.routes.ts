@@ -2,7 +2,8 @@ import { Router } from 'express';
 import * as nutritionController from '../controllers/nutrition.controller';
 import { validateBody } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
-import { generateMealPlanSchema, createNutritionLogSchema } from '../utils/validators';
+import { generateMealPlanSchema, createNutritionLogSchema, updateRecipeSchema } from '../utils/validators';
+import { requireAdmin } from '../middleware/admin';
 
 const router: Router = Router();
 
@@ -20,7 +21,9 @@ router.get('/meal-plans/:id', nutritionController.getMealPlanById);
 router.delete('/meal-plans/:id', nutritionController.deleteMealPlan);
 
 // Recetas
+router.get('/editorial/summary', requireAdmin, nutritionController.getRecipeEditorialSummary);
 router.get('/recipes/:id', nutritionController.getRecipeById);
+router.put('/recipes/:id', requireAdmin, validateBody(updateRecipeSchema), nutritionController.updateRecipe);
 
 // Logs de nutrición
 router.post('/log', validateBody(createNutritionLogSchema), nutritionController.createNutritionLog);

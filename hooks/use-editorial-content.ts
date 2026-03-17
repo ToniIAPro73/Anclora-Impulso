@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { eventsApi, exercisesApi, type EditorialSummary } from '@/lib/api';
+import { eventsApi, exercisesApi, nutritionApi, type EditorialSummary, type RecipeEditorialSummary } from '@/lib/api';
 
 export function useEditorialExercises() {
   const queryClient = useQueryClient();
@@ -43,13 +43,38 @@ export function useEditorialExercises() {
     staleTime: 60 * 1000,
   });
 
+  const recipesSummaryQuery = useQuery<RecipeEditorialSummary>({
+    queryKey: ['editorial-recipes'],
+    queryFn: () => nutritionApi.getRecipeEditorialSummary(),
+    staleTime: 60 * 1000,
+  });
+
+  const updateRecipeMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Parameters<typeof nutritionApi.updateRecipe>[1] }) =>
+      nutritionApi.updateRecipe(id, data),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['editorial-recipes'] });
+      await queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
+      await eventsApi.track({
+        action: 'recipe_updated',
+        category: 'editorial',
+        source: 'admin_content',
+      });
+    },
+  });
+
   return {
     summary: summaryQuery.data ?? null,
+    recipesSummary: recipesSummaryQuery.data ?? null,
     isLoading: summaryQuery.isLoading,
+    isLoadingRecipes: recipesSummaryQuery.isLoading,
     error: summaryQuery.error instanceof Error ? summaryQuery.error.message : null,
+    recipesError: recipesSummaryQuery.error instanceof Error ? recipesSummaryQuery.error.message : null,
     updateExercise: updateMutation.mutateAsync,
+    updateRecipe: updateRecipeMutation.mutateAsync,
     createExercise: createMutation.mutateAsync,
     isUpdating: updateMutation.isPending,
+    isUpdatingRecipe: updateRecipeMutation.isPending,
     isCreating: createMutation.isPending,
     eventsSummary: eventsSummaryQuery.data ?? null,
     isLoadingEventsSummary: eventsSummaryQuery.isLoading,

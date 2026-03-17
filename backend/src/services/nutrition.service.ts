@@ -12,6 +12,7 @@ import type { Prisma } from '@prisma/client';
 import type {
   GenerateMealPlanInput,
   CreateNutritionLogInput,
+  UpdateRecipeInput,
 } from '../utils/validators';
 
 interface AIRecipe {
@@ -45,6 +46,55 @@ interface AIMealPlanResponse {
 
 type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
 type PrismaTx = Prisma.TransactionClient;
+
+function calculateRecipeQuality(recipe: {
+  description?: string | null;
+  instructions: unknown;
+  imageUrl?: string | null;
+  difficulty?: string | null;
+  calories?: number | null;
+  protein?: number | null;
+  carbs?: number | null;
+  fat?: number | null;
+  tags: string[];
+  ingredients?: Array<unknown>;
+}) {
+  const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
+  const checks = {
+    hasDescription: Boolean(recipe.description && recipe.description.trim().length >= 24),
+    hasEnoughInstructions: instructions.length >= 3,
+    hasImage: Boolean(recipe.imageUrl),
+    hasDifficulty: Boolean(recipe.difficulty),
+    hasMacros: [recipe.calories, recipe.protein, recipe.carbs, recipe.fat].every((value) => typeof value === 'number' && value >= 0),
+    hasTags: Array.isArray(recipe.tags) && recipe.tags.length >= 2,
+    hasIngredients: Array.isArray(recipe.ingredients) && recipe.ingredients.length >= 3,
+  };
+
+  const passedChecks = Object.values(checks).filter(Boolean).length;
+  return {
+    qualityScore: Math.round((passedChecks / Object.keys(checks).length) * 100),
+    editorialStatus: passedChecks >= 6 ? 'ready' : passedChecks >= 4 ? 'review' : 'needs_work',
+    checks,
+  };
+}
+
+function decorateRecipe<T extends {
+  description?: string | null;
+  instructions: unknown;
+  imageUrl?: string | null;
+  difficulty?: string | null;
+  calories?: number | null;
+  protein?: number | null;
+  carbs?: number | null;
+  fat?: number | null;
+  tags: string[];
+  ingredients?: Array<unknown>;
+}>(recipe: T) {
+  return {
+    ...recipe,
+    editorial: calculateRecipeQuality(recipe),
+  };
+}
 
 function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
   dietType?: string | null;
@@ -812,7 +862,76 @@ export async function getRecipeById(id: string) {
     throw new AppError(404, 'Receta no encontrada');
   }
 
-  return recipe;
+  return decorateRecipe(recipe);
+}
+
+export async function updateRecipe(id: string, data: UpdateRecipeInput) {
+  const existingRecipe = await prisma.recipe.findUnique({
+    where: { id },
+    select: { id: true },
+  });
+
+  if (!existingRecipe) {
+    throw new AppError(404, 'Receta no encontrada');
+  }
+
+  const recipe = await prisma.recipe.update({
+    where: { id },
+    data: {
+      name: data.name,
+      nameEn: data.nameEn,
+      description: data.description,
+      instructions: data.instructions,
+      prepTime: data.prepTime,
+      cookTime: data.cookTime,
+      difficulty: data.difficulty,
+      calories: data.calories,
+      protein: data.protein,
+      carbs: data.carbs,
+      fat: data.fat,
+      fiber: data.fiber,
+      imageUrl: data.imageUrl,
+      tags: data.tags,
+    },
+    include: {
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+  });
+
+  return decorateRecipe(recipe);
+}
+
+export async function getRecipeEditorialSummary() {
+  const recipes = await prisma.recipe.findMany({
+    include: {
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+    orderBy: { updatedAt: 'desc' },
+    take: 100,
+  });
+
+  const decorated = recipes.map((recipe) => decorateRecipe(recipe));
+
+  return {
+    total: decorated.length,
+    averageQualityScore: decorated.length > 0
+      ? Math.round(decorated.reduce((sum, recipe) => sum + recipe.editorial.qualityScore, 0) / decorated.length)
+      : 0,
+    byStatus: {
+      ready: decorated.filter((recipe) => recipe.editorial.editorialStatus === 'ready').length,
+      review: decorated.filter((recipe) => recipe.editorial.editorialStatus === 'review').length,
+      needs_work: decorated.filter((recipe) => recipe.editorial.editorialStatus === 'needs_work').length,
+    },
+    recipes: decorated,
+  };
 }
 
 /**

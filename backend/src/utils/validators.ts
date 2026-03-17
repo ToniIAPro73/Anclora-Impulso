@@ -100,6 +100,23 @@ export const createProductEventSchema = z.object({
   metadata: z.record(z.any()).optional(),
 });
 
+export const updateRecipeSchema = z.object({
+  name: z.string().min(1).optional(),
+  nameEn: z.string().min(1).nullable().optional(),
+  description: z.string().min(1).nullable().optional(),
+  instructions: z.array(z.string().min(1)).min(1).optional(),
+  prepTime: z.number().int().min(0).nullable().optional(),
+  cookTime: z.number().int().min(0).nullable().optional(),
+  difficulty: z.string().min(1).nullable().optional(),
+  calories: z.number().min(0).nullable().optional(),
+  protein: z.number().min(0).nullable().optional(),
+  carbs: z.number().min(0).nullable().optional(),
+  fat: z.number().min(0).nullable().optional(),
+  fiber: z.number().min(0).nullable().optional(),
+  imageUrl: z.string().url().nullable().optional(),
+  tags: z.array(z.string().min(1)).max(12).optional(),
+});
+
 // Validador para generación de entrenamientos
 export const generateWorkoutSchema = z.object({
   workoutType: z.enum(['strength', 'cardio', 'hiit', 'flexibility', 'full_body']),
@@ -153,3 +170,4 @@ export type GenerateWorkoutInput = z.infer<typeof generateWorkoutSchema>;
 export type GenerateMealPlanInput = z.infer<typeof generateMealPlanSchema>;
 export type CreateNutritionLogInput = z.infer<typeof createNutritionLogSchema>;
 export type CreateProductEventInput = z.infer<typeof createProductEventSchema>;
+export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;

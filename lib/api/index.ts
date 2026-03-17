@@ -52,6 +52,17 @@ export interface EditorialSummary {
   exercises: Exercise[];
 }
 
+export interface RecipeEditorialSummary {
+  total: number;
+  averageQualityScore: number;
+  byStatus: {
+    ready: number;
+    review: number;
+    needs_work: number;
+  };
+  recipes: Recipe[];
+}
+
 export interface WorkoutExercise {
   id: string;
   exerciseId: string;
@@ -446,6 +457,19 @@ export interface Recipe {
   imageUrl?: string;
   tags: string[];
   ingredients: RecipeIngredient[];
+  editorial?: {
+    qualityScore: number;
+    editorialStatus: 'ready' | 'review' | 'needs_work';
+    checks: {
+      hasDescription: boolean;
+      hasEnoughInstructions: boolean;
+      hasImage: boolean;
+      hasDifficulty: boolean;
+      hasMacros: boolean;
+      hasTags: boolean;
+      hasIngredients: boolean;
+    };
+  };
 }
 
 export interface MealRecipe {
@@ -540,6 +564,32 @@ export const nutritionApi = {
 
   async getRecipeById(id: string): Promise<Recipe> {
     return apiClient.get<Recipe>(`/nutrition/recipes/${id}`);
+  },
+
+  async getRecipeEditorialSummary(): Promise<RecipeEditorialSummary> {
+    return apiClient.get<RecipeEditorialSummary>('/nutrition/editorial/summary');
+  },
+
+  async updateRecipe(
+    id: string,
+    data: Partial<{
+      name: string;
+      nameEn: string | null;
+      description: string | null;
+      instructions: string[];
+      prepTime: number | null;
+      cookTime: number | null;
+      difficulty: string | null;
+      calories: number | null;
+      protein: number | null;
+      carbs: number | null;
+      fat: number | null;
+      fiber: number | null;
+      imageUrl: string | null;
+      tags: string[];
+    }>
+  ): Promise<Recipe> {
+    return apiClient.put<Recipe>(`/nutrition/recipes/${id}`, data);
   },
 
   async logNutrition(data: {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as nutritionService from '../services/nutrition.service';
-import type { GenerateMealPlanInput, CreateNutritionLogInput } from '../utils/validators';
+import type { GenerateMealPlanInput, CreateNutritionLogInput, UpdateRecipeInput } from '../utils/validators';
 
 /**
  * POST /api/nutrition/meal-plans/generate
@@ -97,6 +97,32 @@ export async function getRecipeById(
   try {
     const recipe = await nutritionService.getRecipeById(req.params.id);
     res.json(recipe);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function updateRecipe(
+  req: Request<{ id: string }, {}, UpdateRecipeInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const recipe = await nutritionService.updateRecipe(req.params.id, req.body);
+    res.json(recipe);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getRecipeEditorialSummary(
+  _req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const summary = await nutritionService.getRecipeEditorialSummary();
+    res.json(summary);
   } catch (error) {
     next(error);
   }
