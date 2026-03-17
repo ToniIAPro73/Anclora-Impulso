@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { LogOut, UserCircle, ChevronDown } from "lucide-react"
 
 import { ProfileDialog } from "@/components/profile-dialog"
@@ -20,11 +21,13 @@ import { cn } from "@/lib/utils"
 export function DashboardUserMenu() {
   const { user, logout } = useAuth()
   const { t } = useLanguage()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
 
   const displayName = user?.fullName || user?.email?.split("@")[0] || "Usuario"
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
@@ -44,9 +47,13 @@ export function DashboardUserMenu() {
           <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user?.email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <ProfileDialog>
+        <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen}>
           <DropdownMenuItem
-            onSelect={(event) => event.preventDefault()}
+            onSelect={(event) => {
+              event.preventDefault()
+              setMenuOpen(false)
+              setProfileOpen(true)
+            }}
             className="rounded-xl px-3 py-2.5"
           >
             <UserCircle className="mr-2 h-4 w-4" />

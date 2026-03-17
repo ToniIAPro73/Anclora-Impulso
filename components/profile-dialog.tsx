@@ -16,6 +16,8 @@ import { buildRecommendedPlan, calculateBmi, interpretBmi, type ProfileSex } fro
 
 interface ProfileDialogProps {
   children: ReactNode
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
 function toNumber(value: string) {
@@ -27,10 +29,12 @@ function toNumber(value: string) {
   return Number.isFinite(number) ? number : null
 }
 
-export function ProfileDialog({ children }: ProfileDialogProps) {
+export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: ProfileDialogProps) {
   const { user, profile, updateProfile } = useAuth()
-  const [open, setOpen] = useState(false)
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : uncontrolledOpen
   const [form, setForm] = useState({
     sex: profile.sex ?? "",
     age: profile.age?.toString() ?? "",
@@ -103,7 +107,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
         avatarDataUrl: form.avatarDataUrl || null,
         recommendedPlan,
       })
-      setOpen(false)
+      handleOpenChange(false)
     } finally {
       setIsSaving(false)
     }
@@ -123,15 +127,23 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
 
   const weeklyPreview = recommendedPlan?.weeklySplit.slice(0, 4) ?? []
 
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!isControlled) {
+      setUncontrolledOpen(nextOpen)
+    }
+
+    onOpenChange?.(nextOpen)
+  }
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         showCloseButton={false}
         className="h-[calc(100dvh-0.75rem)] w-[calc(100vw-0.75rem)] max-h-[960px] max-w-[1200px] overflow-hidden rounded-[24px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]"
       >
-        <div className="grid h-full min-h-0 grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)]">
-          <div className="flex min-h-0 flex-col border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-3 py-3 lg:border-r lg:border-b-0 lg:py-2.5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
+        <div className="grid h-full min-h-0 grid-cols-1 overflow-y-auto lg:grid-cols-[240px_minmax(0,1fr)] lg:overflow-hidden">
+          <div className="flex flex-col border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-3 py-3 lg:min-h-0 lg:border-r lg:border-b-0 lg:py-2.5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
             <DialogHeader className="text-left">
               <DialogTitle className="flex items-center gap-2 text-[1.6rem] font-semibold tracking-tight text-slate-900 dark:text-white">
                 <UserRound className="h-4.5 w-4.5 text-orange-500" />
@@ -142,7 +154,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="mt-2.5 grid flex-1 grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="mt-2.5 grid grid-cols-1 gap-2 lg:flex-1">
               <div className="overflow-hidden rounded-[18px] border border-white/60 bg-white/72 p-2.5 shadow-[0_16px_40px_rgba(251,146,60,0.12)] dark:border-white/5 dark:bg-slate-950/45">
                 <div className="flex items-center gap-2.5">
                   <UserAvatar className="size-10 ring-4 ring-white/70 dark:ring-slate-900/70" fallbackClassName="text-sm" imageSrc={form.avatarDataUrl || null} />
@@ -161,7 +173,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                 <Input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
               </div>
 
-              <div className="grid gap-1">
+              <div className="grid gap-2">
                 <div className="overflow-hidden rounded-[18px] border border-white/60 bg-white/70 p-2 shadow-sm dark:border-white/5 dark:bg-slate-950/45">
                   <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                     <Calculator className="h-4 w-4 text-orange-500" />
@@ -211,7 +223,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-col overflow-y-auto bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:py-2.5">
+          <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:overflow-y-auto lg:py-2.5">
             <div className="mb-0.5 flex items-center justify-end">
               <DialogClose asChild>
                 <button
@@ -371,7 +383,7 @@ export function ProfileDialog({ children }: ProfileDialogProps) {
                     </p>
                   </div>
                   <div className="mt-1 flex gap-1">
-                    <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => setOpen(false)}>
+                    <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => handleOpenChange(false)}>
                       Cancelar
                     </Button>
                     <Button

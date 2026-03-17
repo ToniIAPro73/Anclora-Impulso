@@ -13,17 +13,23 @@ function Dialog({
 }: React.ComponentProps<typeof DialogPrimitive.Root> & {
   onOpenChange?: (open: boolean) => void
 }) {
-  const [isOpen, setIsOpen] = React.useState(props.open ?? false)
+  const isControlled = props.open !== undefined
+  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(
+    props.defaultOpen ?? false,
+  )
+  const resolvedOpen = isControlled ? props.open : uncontrolledOpen
 
   const handleOpenChange = (open: boolean) => {
-    setIsOpen(open)
+    if (!isControlled) {
+      setUncontrolledOpen(open)
+    }
     onOpenChange?.(open)
   }
 
   return (
     <DialogPrimitive.Root
       data-slot="dialog"
-      open={isOpen}
+      open={resolvedOpen}
       onOpenChange={handleOpenChange}
       {...props}
     />

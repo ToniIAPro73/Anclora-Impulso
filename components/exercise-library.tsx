@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useState, useMemo } from "react"
+import { useMemo, useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Search, Filter, Play, Target, Zap, Loader2 } from "lucide-react"
+import { Search, Filter, Play, Target, Zap, Loader2, ChevronUp, ChevronDown } from "lucide-react"
 import { useExercises } from "@/hooks/use-exercises"
 import { useLanguage } from "@/lib/contexts/language-context"
 
@@ -45,6 +45,7 @@ export function ExerciseLibrary() {
   const [equipmentFilter, setEquipmentFilter] = useState("all")
   const [environmentFilter, setEnvironmentFilter] = useState("all")
   const [difficultyFilter, setDifficultyFilter] = useState("all")
+  const exerciseCardRefs = useRef<Array<HTMLDivElement | null>>([])
 
   // Usar el hook para obtener ejercicios de la API
   const { exercises, isLoading, error } = useExercises({
@@ -134,6 +135,27 @@ export function ExerciseLibrary() {
         </div>
       </div>
     )
+  }
+
+  const scrollByExerciseStep = (direction: "up" | "down") => {
+    if (typeof window === "undefined") {
+      return
+    }
+
+    const cards = exerciseCardRefs.current.filter((card): card is HTMLDivElement => card !== null)
+    if (cards.length === 0) {
+      return
+    }
+
+    const viewportAnchor = window.innerHeight * 0.2
+    const currentIndex = cards.findIndex((card) => card.getBoundingClientRect().bottom >= viewportAnchor)
+    const safeCurrentIndex = currentIndex === -1 ? 0 : currentIndex
+    const targetIndex =
+      direction === "down"
+        ? Math.min(safeCurrentIndex + 10, cards.length - 1)
+        : Math.max(safeCurrentIndex - 10, 0)
+
+    cards[targetIndex]?.scrollIntoView({ behavior: "smooth", block: "start" })
   }
 
   // Mostrar loading
@@ -261,12 +283,42 @@ export function ExerciseLibrary() {
         </p>
       </div>
 
+      {exercises.length > 10 ? (
+        <div className="pointer-events-none fixed right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-4">
+          <Button
+            type="button"
+            size="icon"
+            variant="outline"
+            onClick={() => scrollByExerciseStep("up")}
+            className="pointer-events-auto h-11 w-11 rounded-2xl border border-slate-200/80 bg-white/72 text-slate-600 shadow-[0_16px_40px_rgba(15,23,42,0.18)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-900 dark:border-slate-700/80 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white"
+            aria-label={isSpanish ? "Subir 10 ejercicios" : "Go up 10 exercises"}
+          >
+            <ChevronUp className="h-4.5 w-4.5" />
+          </Button>
+          <Button
+            type="button"
+            size="icon"
+            variant="outline"
+            onClick={() => scrollByExerciseStep("down")}
+            className="pointer-events-auto h-11 w-11 rounded-2xl border border-slate-200/80 bg-white/72 text-slate-600 shadow-[0_16px_40px_rgba(15,23,42,0.18)] backdrop-blur-xl transition hover:translate-y-0.5 hover:bg-white hover:text-slate-900 dark:border-slate-700/80 dark:bg-slate-950/70 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white"
+            aria-label={isSpanish ? "Bajar 10 ejercicios" : "Go down 10 exercises"}
+          >
+            <ChevronDown className="h-4.5 w-4.5" />
+          </Button>
+        </div>
+      ) : null}
+
       {/* Exercise Grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        {exercises.map((exercise) => (
+        {exercises.map((exercise, index) => (
           <Dialog key={exercise.id}>
             <DialogTrigger asChild>
-                <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80 hover:shadow-xl transition-all duration-200 cursor-pointer group">
+              <div
+                ref={(element) => {
+                  exerciseCardRefs.current[index] = element
+                }}
+              >
+                <Card className="group cursor-pointer border-0 bg-white/80 shadow-lg backdrop-blur-sm transition-all duration-200 hover:shadow-xl dark:bg-gray-800/80">
                 <CardHeader className="pb-3">
                   {renderExerciseMedia(exercise, true)}
                   <div className="flex items-start justify-between">
@@ -304,6 +356,7 @@ export function ExerciseLibrary() {
                   )}
                 </CardContent>
               </Card>
+              </div>
             </DialogTrigger>
             <DialogContent className="max-h-[85dvh] overflow-y-auto sm:max-w-2xl">
               <DialogHeader>
