@@ -223,7 +223,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:overflow-y-auto lg:py-2.5">
+          <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:py-2">
             <div className="mb-0.5 flex items-center justify-end max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:-mx-3 max-lg:mb-2 max-lg:border-b max-lg:border-orange-100/70 max-lg:bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(255,255,255,0.92))] max-lg:px-3 max-lg:pb-2 max-lg:pt-1 dark:max-lg:border-orange-400/10 dark:max-lg:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.92))] lg:-mt-1 lg:mb-1.5 lg:px-0 lg:pb-0 lg:pt-0">
               <DialogClose asChild>
                 <button
@@ -236,19 +236,19 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </DialogClose>
             </div>
 
-            <div className="grid gap-1 max-lg:gap-2 xl:grid-cols-[minmax(0,1fr)_210px]">
-              <section className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-2 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
-                <div className="mb-1.5 flex items-center justify-between gap-3">
+            <div className="grid gap-1 max-lg:gap-2 xl:grid-cols-[minmax(0,1fr)_192px]">
+              <section className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+                <div className="mb-1 flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Datos base</p>
-                    <p className="mt-0.5 text-[12px] text-slate-600 dark:text-slate-400">Lo esencial para personalizar tu punto de partida.</p>
+                    <p className="mt-0.5 text-[11px] text-slate-600 dark:text-slate-400">Lo esencial para personalizar tu punto de partida.</p>
                   </div>
                   <Badge variant="outline" className="rounded-full px-2 py-0.5 text-[10px]">
                     Perfil inicial
                   </Badge>
                 </div>
                 <div className="grid gap-1 sm:grid-cols-2 lg:grid-cols-4">
-                  <div className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-2 dark:border-slate-800/80 dark:bg-slate-900/75">
+                  <div className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-1.5 dark:border-slate-800/80 dark:bg-slate-900/75">
                     <Label htmlFor="profile-sex" className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                       Sexo
                     </Label>
@@ -266,7 +266,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     </Select>
                   </div>
                   {primaryMetrics.map((field) => (
-                    <div key={field.id} className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-2 dark:border-slate-800/80 dark:bg-slate-900/75">
+                    <div key={field.id} className="min-w-0 overflow-hidden rounded-[15px] border border-slate-200/80 bg-slate-50/85 p-1.5 dark:border-slate-800/80 dark:bg-slate-900/75">
                       <Label htmlFor={field.id} className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                         {field.label}
                       </Label>
@@ -276,7 +276,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                           inputMode={field.inputMode}
                           value={field.value}
                           onChange={(event) => field.onChange(event.target.value)}
-                          className="min-w-0 h-6 border-0 bg-transparent px-0 text-[1rem] font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:text-white"
+                          className="min-w-0 h-6 border-0 bg-transparent px-0 text-[1rem] font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:bg-transparent dark:text-white"
                         />
                         {field.suffix ? <span className="shrink-0 pb-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">{field.suffix}</span> : null}
                       </div>
@@ -285,14 +285,14 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                 </div>
               </section>
 
-              <section className="overflow-hidden rounded-[18px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-2 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
-                <div className="mb-1 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-orange-100">
+              <section className="overflow-hidden rounded-[18px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-1.5 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
+                <div className="mb-1 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-orange-100">
                   <Target className="h-4 w-4 text-orange-500" />
                   Objetivo
                 </div>
                 <div className="grid gap-1 sm:grid-cols-2 md:grid-cols-3">
                   {objectiveMetrics.map((field) => (
-                    <div key={field.id} className="min-w-0 overflow-hidden rounded-[15px] border border-white/70 bg-white/70 p-2 dark:border-white/5 dark:bg-slate-950/35">
+                    <div key={field.id} className="min-w-0 overflow-hidden rounded-[15px] border border-white/70 bg-white/70 p-1.5 dark:border-white/5 dark:bg-slate-950/35">
                       <Label htmlFor={field.id} className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                         {field.label}
                       </Label>
@@ -302,7 +302,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                           inputMode={field.inputMode}
                           value={field.value}
                           onChange={(event) => field.onChange(event.target.value)}
-                          className="min-w-0 h-6 border-0 bg-transparent px-0 text-[0.95rem] font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:text-white"
+                          className="min-w-0 h-6 border-0 bg-transparent px-0 text-[0.95rem] font-semibold tracking-tight text-slate-900 shadow-none focus-visible:ring-0 dark:bg-transparent dark:text-white"
                         />
                         {field.suffix ? <span className="shrink-0 pb-0.5 text-[10px] font-medium uppercase tracking-[0.14em] text-slate-400">{field.suffix}</span> : null}
                       </div>
@@ -312,30 +312,30 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </section>
             </div>
 
-            <section className="mt-1 grid min-h-0 flex-1 gap-1 pb-0 max-lg:gap-2 max-lg:pb-1 xl:grid-cols-[minmax(0,1fr)_188px]">
-              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45 lg:min-h-[210px]">
+            <section className="mt-1 grid min-h-0 gap-1 pb-0 max-lg:gap-2 max-lg:pb-1 xl:grid-cols-[minmax(0,1fr)_192px]">
+              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                   <CalendarClock className="h-4 w-4 text-orange-500" />
                   Plan sugerido
                 </div>
                 {recommendedPlan ? (
-                  <div className="grid h-full gap-1 lg:min-h-[176px] lg:grid-cols-[minmax(0,1fr)_146px]">
+                  <div className="grid gap-1 lg:grid-cols-[minmax(0,1fr)_166px]">
                     <div className="min-w-0 overflow-hidden">
                       <p className="truncate text-[12px] font-semibold tracking-tight text-slate-900 dark:text-white">{recommendedPlan.title}</p>
-                      <p className="mt-0.5 line-clamp-2 text-[10px] leading-4 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
+                      <p className="mt-0.5 text-[10px] leading-4 text-slate-600 dark:text-slate-400">{recommendedPlan.summary}</p>
                       <div className="mt-1 grid gap-1 sm:grid-cols-2">
                         {weeklyPreview.map((day) => (
                           <div
                             key={day}
                             title={day}
-                            className="truncate rounded-[11px] border border-slate-200/80 bg-slate-50/85 px-2 py-0.5 text-[10px] leading-4 text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300"
+                            className="truncate rounded-[11px] border border-slate-200/80 bg-slate-50/85 px-2 py-0.5 text-[10px] leading-3.5 text-slate-600 dark:border-slate-800/80 dark:bg-slate-900/75 dark:text-slate-300"
                           >
                             {day}
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="grid content-start gap-1">
+                    <div className="grid content-start gap-1 self-start">
                       <div className="overflow-hidden rounded-[14px] border border-slate-200/80 bg-slate-50/85 p-1.5 dark:border-slate-800/80 dark:bg-slate-900/75">
                         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Parametros</p>
                         <div className="mt-1 space-y-0.5 text-[10px] text-slate-600 dark:text-slate-300">
@@ -350,39 +350,39 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     </div>
                   </div>
                 ) : (
-                  <div className="flex h-full items-center rounded-[15px] border border-dashed border-orange-200/80 bg-orange-50/55 p-2 text-[10px] leading-4 text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
+                  <div className="flex min-h-[88px] items-center rounded-[15px] border border-dashed border-orange-200/80 bg-orange-50/55 p-2 text-[10px] leading-4 text-slate-600 dark:border-orange-400/10 dark:bg-orange-500/5 dark:text-slate-400">
                     Completa peso actual, peso objetivo, plazo y dias de entreno para generar una propuesta automatica.
                   </div>
                 )}
               </div>
 
-              <div className="grid gap-1">
-                <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Lectura rapida</p>
-                  <div className="mt-1 grid gap-0.5">
-                    <div className="overflow-hidden rounded-[12px] bg-slate-50/85 p-1.5 dark:bg-slate-900/75">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Meta de peso</p>
-                      <p className="mt-1 truncate text-[12px] font-semibold text-slate-900 dark:text-white">
-                        {form.targetWeightKg || "--"} <span className="text-[12px] font-medium text-slate-400">kg</span>
-                      </p>
-                    </div>
-                    <div className="overflow-hidden rounded-[12px] bg-slate-50/85 p-1.5 dark:bg-slate-900/75">
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Frecuencia</p>
-                      <p className="mt-1 truncate text-[12px] font-semibold text-slate-900 dark:text-white">
-                        {form.trainingDaysPerWeek || "--"} <span className="text-[12px] font-medium text-slate-400">dias/sem</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
+              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
+                <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Estado del perfil</p>
-                    <p className="mt-1 text-[10px] leading-4 text-slate-600 dark:text-slate-400">
-                      Mantiene a mano las metricas clave para ajustar recomendaciones y progresion.
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen</p>
+                    <p className="mt-0.5 text-[10px] leading-3.5 text-slate-600 dark:text-slate-400">
+                      Ajusta tus metricas clave y guarda los cambios.
                     </p>
                   </div>
-                  <div className="mt-1 flex gap-1">
+                  <Badge variant="outline" className="rounded-full px-2 py-0.5 text-[10px]">
+                    Perfil activo
+                  </Badge>
+                </div>
+                <div className="mt-1 grid gap-1 sm:grid-cols-2">
+                  <div className="overflow-hidden rounded-[12px] bg-slate-50/85 p-1.5 dark:bg-slate-900/75">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Meta de peso</p>
+                    <p className="mt-0.5 truncate text-[12px] font-semibold text-slate-900 dark:text-white">
+                      {form.targetWeightKg || "--"} <span className="text-[12px] font-medium text-slate-400">kg</span>
+                    </p>
+                  </div>
+                  <div className="overflow-hidden rounded-[12px] bg-slate-50/85 p-1.5 dark:bg-slate-900/75">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">Frecuencia</p>
+                    <p className="mt-0.5 truncate text-[12px] font-semibold text-slate-900 dark:text-white">
+                      {form.trainingDaysPerWeek || "--"} <span className="text-[12px] font-medium text-slate-400">dias/sem</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-1 flex gap-1">
                     <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => handleOpenChange(false)}>
                       Cancelar
                     </Button>
@@ -393,7 +393,6 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     >
                       {isSaving ? "Guardando..." : "Guardar"}
                     </Button>
-                  </div>
                 </div>
               </div>
             </section>

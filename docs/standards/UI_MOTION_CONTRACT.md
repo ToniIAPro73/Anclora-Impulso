@@ -26,6 +26,12 @@ Este contrato define el comportamiento visual base de superficies interactivas e
 - Nuevos contenedores interactivos que no sean `Card` ni `Button` deben incluir `ui-motion-frame`.
 - No se deben inventar animaciones locales por pantalla si el patrón encaja en uno de los tres tipos anteriores.
 
+## Contrato de campos editables
+- En tema oscuro, los campos editables no pueden mostrar superficies claras por defecto, autofill o estilos nativos del navegador.
+- `input`, `textarea` y controles equivalentes deben respetar `color-scheme: dark` cuando la app esté en `.dark`.
+- El fondo y el color del texto de los campos editables en oscuro deben integrarse con la misma superficie oscura usada por selects y controles vecinos.
+- Cualquier override local de un campo editable debe preservar ese contrato visual y no reintroducir fondos blancos o texto oscuro en tema oscuro.
+
 ## Extensión del contrato
 Si aparece un nuevo tipo de superficie, debe añadirse en:
 - `lib/ui-motion.ts` para declarar el identificador reutilizable.
