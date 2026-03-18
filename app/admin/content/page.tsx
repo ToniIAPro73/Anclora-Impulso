@@ -227,7 +227,7 @@ function AdminContentInner() {
             </TabsList>
 
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
-              <Card className="overflow-hidden border-0 bg-white/95 shadow-lg backdrop-blur-sm dark:bg-slate-900">
+              <Card className="ui-motion-card-static overflow-hidden border-0 bg-white/95 shadow-lg backdrop-blur-sm dark:bg-slate-900">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle2 className="h-5 w-5 text-orange-500" />

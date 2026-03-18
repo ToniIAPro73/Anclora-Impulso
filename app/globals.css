@@ -189,6 +189,18 @@
     box-shadow: 0 18px 34px -28px rgba(249, 115, 22, 0.2);
   }
 
+  .ui-motion-card.ui-motion-card-static:hover,
+  .ui-motion-card.ui-motion-card-static:focus-visible {
+    transform: translateZ(0) scale(1);
+    box-shadow: inherit;
+  }
+
+  .ui-motion-card.ui-motion-card-static:hover::after,
+  .ui-motion-card.ui-motion-card-static:focus-visible::after {
+    opacity: 0;
+    border-color: transparent;
+  }
+
   .dark .ui-motion-card.ui-motion-card-subtle:hover,
   .dark .ui-motion-card.ui-motion-card-subtle:focus-visible {
     box-shadow: 0 18px 34px -28px rgba(251, 146, 60, 0.16);
