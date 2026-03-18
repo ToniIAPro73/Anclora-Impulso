@@ -86,7 +86,7 @@ function AdminContentInner() {
   if (!user?.isAdmin) {
     return (
       <div className="px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
-        <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
           <CardContent className="flex min-h-[320px] flex-col items-center justify-center gap-4 text-center">
             <ShieldCheck className="h-12 w-12 text-orange-500" />
             <div>
@@ -153,13 +153,13 @@ function AdminContentInner() {
       </div>
 
       {loading ? (
-        <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
           <CardContent className="py-12 text-center text-slate-500 dark:text-slate-400">
             {t.admin.loading}
           </CardContent>
         </Card>
       ) : currentError || !summary || !recipesSummary ? (
-        <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
           <CardContent className="py-12 text-center text-red-500">
             {currentError ?? t.admin.loadError}
           </CardContent>
@@ -185,7 +185,7 @@ function AdminContentInner() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+            <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm">{t.admin.averageQuality}</CardTitle>
               </CardHeader>
@@ -193,7 +193,7 @@ function AdminContentInner() {
                 <p className="text-3xl font-semibold text-slate-900 dark:text-white">{summary.averageQualityScore}%</p>
               </CardContent>
             </Card>
-            <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+            <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm">{t.admin.ready}</CardTitle>
               </CardHeader>
@@ -201,7 +201,7 @@ function AdminContentInner() {
                 <p className="text-3xl font-semibold text-emerald-600">{summary.byStatus.ready + recipesSummary.byStatus.ready}</p>
               </CardContent>
             </Card>
-            <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+            <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm">{t.admin.needsWork}</CardTitle>
               </CardHeader>
@@ -209,7 +209,7 @@ function AdminContentInner() {
                 <p className="text-3xl font-semibold text-orange-600">{summary.byStatus.needs_work + recipesSummary.byStatus.needs_work}</p>
               </CardContent>
             </Card>
-            <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+            <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm">{t.admin.eventsTitle}</CardTitle>
               </CardHeader>
@@ -227,7 +227,7 @@ function AdminContentInner() {
             </TabsList>
 
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
-              <Card className="overflow-hidden border-0 bg-white/95 shadow-lg backdrop-blur-sm dark:bg-gray-800/95">
+              <Card className="ui-motion-card-subtle overflow-hidden border-0 bg-white/95 shadow-lg backdrop-blur-sm dark:bg-slate-900">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle2 className="h-5 w-5 text-orange-500" />
@@ -307,7 +307,7 @@ function AdminContentInner() {
               </Card>
 
               <div className="space-y-6">
-                <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+                <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
                   <CardHeader>
                     <CardTitle>{t.admin.quickEditor}</CardTitle>
                     <CardDescription>
@@ -401,7 +401,7 @@ function AdminContentInner() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+                <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <BarChart3 className="h-5 w-5 text-orange-500" />
