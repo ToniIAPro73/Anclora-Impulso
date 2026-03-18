@@ -52,6 +52,7 @@ model User {
   achievements    UserAchievement[]
   xpEvents        XPEvent[]
   productEvents   ProductEvent[]
+  notificationDeliveries NotificationDelivery[]
 
   @@map("users")
 }
@@ -68,6 +69,9 @@ model Exercise {
   instructions String[]
   imageUrl     String?  // URL de la imagen/GIF del ejercicio
   videoUrl     String?  // URL de video tutorial (opcional)
+  editorialOverrideStatus String?
+  editorialNotes String?
+  editorialReviewedAt DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -241,6 +245,9 @@ model Recipe {
   fiber        Float?   // gramos
   imageUrl     String?
   tags         String[]
+  editorialOverrideStatus String?
+  editorialNotes String?
+  editorialReviewedAt DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -332,6 +339,34 @@ model ProductEvent {
   @@index([category])
   @@index([createdAt])
   @@map("product_events")
+}
+
+model NotificationDelivery {
+  id          String   @id @default(uuid())
+  userId      String
+  kind        String
+  channel     String
+  status      String
+  subject     String
+  body        String
+  href        String?
+  dedupeKey   String   @unique
+  metadata    Json?
+  scheduledFor DateTime
+  sentAt      DateTime?
+  openedAt    DateTime?
+  clickedAt   DateTime?
+  failureReason String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([scheduledFor])
+  @@index([createdAt])
+  @@map("notification_deliveries")
 }
 
 model UserNutritionBalance {

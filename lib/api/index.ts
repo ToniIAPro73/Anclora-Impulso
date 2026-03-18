@@ -18,6 +18,8 @@ export interface Exercise {
   editorial?: {
     qualityScore: number;
     editorialStatus: 'ready' | 'review' | 'needs_work';
+    autoEditorialStatus?: 'ready' | 'review' | 'needs_work';
+    editorialNotes?: string | null;
     checks: {
       hasDescription: boolean;
       hasEnoughInstructions: boolean;
@@ -77,6 +79,14 @@ export interface RecommendationExplanation {
   headline: string;
   summary: string;
   reasons: string[];
+  signals?: Array<{
+    label: string;
+    value: string;
+  }>;
+  nextBestAction?: {
+    label: string;
+    href: string;
+  };
   adjustment?: string;
   focusMuscles?: string[];
   averageRest?: number | null;
@@ -88,6 +98,19 @@ export interface EngagementNudge {
   priority: 'high' | 'medium' | 'low';
   href: string;
   context?: Record<string, string | number | boolean | null>;
+}
+
+export interface NotificationDelivery {
+  id: string;
+  kind: string;
+  channel: string;
+  status: 'pending' | 'sent' | 'failed';
+  subject: string;
+  body: string;
+  href?: string | null;
+  failureReason?: string | null;
+  createdAt: string;
+  sentAt?: string | null;
 }
 
 export interface Workout {
@@ -185,6 +208,7 @@ export interface CompleteProgress {
     nutritionAdjustment: 'reduce' | 'maintain' | 'increase';
     preferredMuscleGroups: string[];
     averageSessionDuration: number | null;
+    explanation?: RecommendationExplanation;
   };
 }
 
@@ -235,6 +259,14 @@ export const exercisesApi = {
     return apiClient.get<EditorialSummary>('/exercises/editorial/summary');
   },
 
+  async bulkUpdateEditorial(data: {
+    ids: string[];
+    editorialOverrideStatus: 'ready' | 'review' | 'needs_work';
+    editorialNotes?: string | null;
+  }): Promise<Exercise[]> {
+    return apiClient.post<Exercise[]>('/exercises/editorial/bulk-update', data);
+  },
+
   async create(data: {
     name: string;
     category: string;
@@ -257,6 +289,8 @@ export const exercisesApi = {
     difficulty: string;
     description: string;
     instructions: string[];
+    editorialOverrideStatus: 'ready' | 'review' | 'needs_work' | null;
+    editorialNotes: string | null;
   }>): Promise<Exercise> {
     return apiClient.put<Exercise>(`/exercises/${id}`, data);
   },
@@ -443,6 +477,15 @@ export const engagementApi = {
   }> {
     return apiClient.get('/engagement/nudges');
   },
+  async getDeliveries(): Promise<NotificationDelivery[]> {
+    return apiClient.get('/engagement/deliveries');
+  },
+  async dispatchNow(): Promise<{ created: number; sent: number; failed: number }> {
+    return apiClient.post('/engagement/admin/dispatch-now', {});
+  },
+  async getRecentDeliveries(): Promise<Array<NotificationDelivery & { user: { email: string; fullName: string } }>> {
+    return apiClient.get('/engagement/admin/deliveries');
+  },
 };
 
 // ========== NUTRITION TYPES ==========
@@ -475,9 +518,12 @@ export interface Recipe {
   imageUrl?: string;
   tags: string[];
   ingredients: RecipeIngredient[];
+  updatedAt: string;
   editorial?: {
     qualityScore: number;
     editorialStatus: 'ready' | 'review' | 'needs_work';
+    autoEditorialStatus?: 'ready' | 'review' | 'needs_work';
+    editorialNotes?: string | null;
     checks: {
       hasDescription: boolean;
       hasEnoughInstructions: boolean;
@@ -605,9 +651,19 @@ export const nutritionApi = {
       fiber: number | null;
       imageUrl: string | null;
       tags: string[];
+      editorialOverrideStatus: 'ready' | 'review' | 'needs_work' | null;
+      editorialNotes: string | null;
     }>
   ): Promise<Recipe> {
     return apiClient.put<Recipe>(`/nutrition/recipes/${id}`, data);
+  },
+
+  async bulkUpdateRecipeEditorial(data: {
+    ids: string[];
+    editorialOverrideStatus: 'ready' | 'review' | 'needs_work';
+    editorialNotes?: string | null;
+  }): Promise<Recipe[]> {
+    return apiClient.post<Recipe[]>('/nutrition/recipes/editorial/bulk-update', data);
   },
 
   async logNutrition(data: {

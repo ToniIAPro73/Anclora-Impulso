@@ -92,6 +92,19 @@ export const createExerciseSchema = z.object({
 });
 
 export const updateExerciseSchema = createExerciseSchema.partial();
+const editorialOverrideStatusSchema = z.enum(['ready', 'review', 'needs_work']).nullable().optional();
+const editorialNotesSchema = z.string().max(4000).nullable().optional();
+
+export const updateExerciseEditorialSchema = z.object({
+  editorialOverrideStatus: editorialOverrideStatusSchema,
+  editorialNotes: editorialNotesSchema,
+});
+
+export const bulkUpdateExerciseEditorialSchema = z.object({
+  ids: z.array(z.string().uuid()).min(1).max(100),
+  editorialOverrideStatus: z.enum(['ready', 'review', 'needs_work']),
+  editorialNotes: z.string().max(4000).nullable().optional(),
+});
 
 export const createProductEventSchema = z.object({
   action: z.string().min(1).max(80),
@@ -115,6 +128,14 @@ export const updateRecipeSchema = z.object({
   fiber: z.number().min(0).nullable().optional(),
   imageUrl: z.string().url().nullable().optional(),
   tags: z.array(z.string().min(1)).max(12).optional(),
+  editorialOverrideStatus: editorialOverrideStatusSchema,
+  editorialNotes: editorialNotesSchema,
+});
+
+export const bulkUpdateRecipeEditorialSchema = z.object({
+  ids: z.array(z.string().uuid()).min(1).max(100),
+  editorialOverrideStatus: z.enum(['ready', 'review', 'needs_work']),
+  editorialNotes: z.string().max(4000).nullable().optional(),
 });
 
 // Validador para generación de entrenamientos
@@ -166,8 +187,11 @@ export type CreateSessionInput = z.infer<typeof createSessionSchema>;
 export type CreateMeasurementInput = z.infer<typeof createMeasurementSchema>;
 export type CreateExerciseInput = z.infer<typeof createExerciseSchema>;
 export type UpdateExerciseInput = z.infer<typeof updateExerciseSchema>;
+export type UpdateExerciseEditorialInput = z.infer<typeof updateExerciseEditorialSchema>;
+export type BulkUpdateExerciseEditorialInput = z.infer<typeof bulkUpdateExerciseEditorialSchema>;
 export type GenerateWorkoutInput = z.infer<typeof generateWorkoutSchema>;
 export type GenerateMealPlanInput = z.infer<typeof generateMealPlanSchema>;
 export type CreateNutritionLogInput = z.infer<typeof createNutritionLogSchema>;
 export type CreateProductEventInput = z.infer<typeof createProductEventSchema>;
 export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;
+export type BulkUpdateRecipeEditorialInput = z.infer<typeof bulkUpdateRecipeEditorialSchema>;

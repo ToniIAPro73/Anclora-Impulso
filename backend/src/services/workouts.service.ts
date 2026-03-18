@@ -66,6 +66,24 @@ function buildWorkoutExplanation(
         ? "La rutina combina tu objetivo, tu consistencia reciente y el tipo de esfuerzo que más probablemente mantendrá adherencia."
         : "La rutina parte de tu onboarding y crea una primera propuesta segura para empezar con claridad.",
     reasons,
+    signals: [
+      {
+        label: "Adherencia semanal",
+        value: snapshot.weeklyTarget ? `${snapshot.workoutsLast7Days}/${snapshot.weeklyTarget}` : `${snapshot.workoutsLast7Days}`,
+      },
+      {
+        label: "Riesgo de estancamiento",
+        value: snapshot.stagnationRisk,
+      },
+      {
+        label: "Duración media",
+        value: snapshot.averageSessionDuration ? `${Math.round(snapshot.averageSessionDuration)} min` : "—",
+      },
+    ],
+    nextBestAction: {
+      label: "Ejecutar esta sesión",
+      href: "",
+    },
     focusMuscles: targetMuscles,
     averageRest,
   };
@@ -75,9 +93,18 @@ function decorateWorkout<T extends { exercises: Array<{ exercise: { muscleGroup:
   workout: T,
   snapshot: PersonalizationSnapshot
 ) {
+  const explanation = buildWorkoutExplanation(snapshot, workout);
   return {
     ...workout,
-    explanation: buildWorkoutExplanation(snapshot, workout),
+    explanation: {
+      ...explanation,
+      nextBestAction: 'id' in workout
+        ? {
+            label: 'Empezar entrenamiento',
+            href: `/workouts/${String((workout as { id: string }).id)}/start`,
+          }
+        : explanation.nextBestAction,
+    },
   };
 }
 

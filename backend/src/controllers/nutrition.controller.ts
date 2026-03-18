@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import * as nutritionService from '../services/nutrition.service';
-import type { GenerateMealPlanInput, CreateNutritionLogInput, UpdateRecipeInput } from '../utils/validators';
+import type {
+  BulkUpdateRecipeEditorialInput,
+  CreateNutritionLogInput,
+  GenerateMealPlanInput,
+  UpdateRecipeInput,
+} from '../utils/validators';
 
 /**
  * POST /api/nutrition/meal-plans/generate
@@ -123,6 +128,19 @@ export async function getRecipeEditorialSummary(
   try {
     const summary = await nutritionService.getRecipeEditorialSummary();
     res.json(summary);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function bulkUpdateRecipeEditorial(
+  req: Request<{}, {}, BulkUpdateRecipeEditorialInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const recipes = await nutritionService.bulkUpdateRecipeEditorial(req.body);
+    res.json(recipes);
   } catch (error) {
     next(error);
   }

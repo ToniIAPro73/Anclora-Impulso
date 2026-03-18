@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useParams, useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { ArrowLeft, Clock, Dumbbell, Loader2, Play, Target } from "lucide-react"
@@ -157,6 +158,23 @@ function WorkoutDetailContent() {
                   </div>
                 ))}
               </div>
+              {workout.explanation.signals?.length ? (
+                <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  {workout.explanation.signals.map((signal) => (
+                    <div key={`${signal.label}-${signal.value}`} className="rounded-2xl border border-orange-100 bg-white/80 px-3 py-3 text-sm text-slate-700 dark:border-orange-500/10 dark:bg-slate-950/40 dark:text-slate-200">
+                      <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{signal.label}</p>
+                      <p className="mt-2 font-semibold">{signal.value}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              {workout.explanation.nextBestAction ? (
+                <div className="mt-4">
+                  <Button asChild className="rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600">
+                    <Link href={workout.explanation.nextBestAction.href}>{workout.explanation.nextBestAction.label}</Link>
+                  </Button>
+                </div>
+              ) : null}
             </div>
           ) : null}
           {workout.exercises.map((workoutExercise, index) => (

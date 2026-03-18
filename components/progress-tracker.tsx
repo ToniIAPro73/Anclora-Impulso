@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -253,22 +254,34 @@ export function ProgressTracker() {
           <CardContent className="space-y-3">
             <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
               <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                {insights.workoutAdjustment === "reduce"
-                  ? isSpanish ? "Baja fricción: sesiones más cortas y sostenibles." : "Reduce friction: shorter, more sustainable sessions."
-                  : insights.workoutAdjustment === "increase"
-                    ? isSpanish ? "Puedes escalar un poco carga o duración." : "You can scale load or duration slightly."
-                    : isSpanish ? "Mantén el ritmo y consolida consistencia." : "Maintain the current pace and consolidate consistency."}
+                {insights.explanation?.summary ??
+                  (insights.workoutAdjustment === "reduce"
+                    ? isSpanish ? "Baja fricción: sesiones más cortas y sostenibles." : "Reduce friction: shorter, more sustainable sessions."
+                    : insights.workoutAdjustment === "increase"
+                      ? isSpanish ? "Puedes escalar un poco carga o duración." : "You can scale load or duration slightly."
+                      : isSpanish ? "Mantén el ritmo y consolida consistencia." : "Maintain the current pace and consolidate consistency.")}
               </p>
             </div>
-            <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
-              <p className="text-sm text-slate-600 dark:text-slate-300">
-                {insights.nutritionAdjustment === "reduce"
-                  ? isSpanish ? "Simplifica el registro nutricional y prioriza continuidad diaria." : "Simplify nutrition logging and prioritize daily continuity."
-                  : insights.nutritionAdjustment === "increase"
-                    ? isSpanish ? "Puedes apretar más precisión nutricional porque ya hay buena base." : "You can push nutrition precision further because the base is solid."
-                    : isSpanish ? "Mantén la pauta nutricional y vigila la tendencia de peso." : "Keep the nutrition pattern and watch weight trend."}
-              </p>
-            </div>
+            {insights.explanation?.reasons?.map((reason) => (
+              <div key={reason} className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+                <p className="text-sm text-slate-600 dark:text-slate-300">{reason}</p>
+              </div>
+            ))}
+            {insights.explanation?.signals?.length ? (
+              <div className="grid gap-3 sm:grid-cols-3">
+                {insights.explanation.signals.map((signal) => (
+                  <div key={`${signal.label}-${signal.value}`} className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+                    <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{signal.label}</p>
+                    <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">{signal.value}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {insights.explanation?.nextBestAction ? (
+              <Button asChild className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600">
+                <Link href={insights.explanation.nextBestAction.href}>{insights.explanation.nextBestAction.label}</Link>
+              </Button>
+            ) : null}
           </CardContent>
         </Card>
       </div>

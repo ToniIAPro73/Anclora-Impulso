@@ -28,6 +28,14 @@ export const env = {
     .map((email) => email.trim().toLowerCase())
     .filter(Boolean),
 
+  smtpHost: process.env.SMTP_HOST || '',
+  smtpPort: parseInt(process.env.SMTP_PORT || '587', 10),
+  smtpSecure: process.env.SMTP_SECURE === 'true',
+  smtpUser: process.env.SMTP_USER || '',
+  smtpPass: process.env.SMTP_PASS || '',
+  smtpFrom: process.env.SMTP_FROM || '',
+  notificationDispatchIntervalMinutes: parseInt(process.env.NOTIFICATION_DISPATCH_INTERVAL_MINUTES || '15', 10),
+
   // LLM (Groq / modelos open source)
   llmProvider: process.env.LLM_PROVIDER || 'groq',
   groqApiKey: process.env.GROQ_API_KEY || '',

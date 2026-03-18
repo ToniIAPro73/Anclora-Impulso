@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import * as exercisesService from '../services/exercises.service';
-import type { CreateExerciseInput, UpdateExerciseInput } from '../utils/validators';
+import type {
+  BulkUpdateExerciseEditorialInput,
+  CreateExerciseInput,
+  UpdateExerciseInput,
+} from '../utils/validators';
 
 function withAbsoluteImageUrl<T extends { imageUrl?: string | null }>(req: Request, exercise: T): T {
   if (!exercise.imageUrl || /^https?:\/\//i.test(exercise.imageUrl)) {
@@ -158,6 +162,19 @@ export async function getEquipment(
     const equipment = await exercisesService.getEquipment();
     
     res.json(equipment);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function bulkUpdateExerciseEditorial(
+  req: Request<{}, {}, BulkUpdateExerciseEditorialInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    const exercises = await exercisesService.bulkUpdateExerciseEditorial(req.body);
+    res.json(exercises);
   } catch (error) {
     next(error);
   }

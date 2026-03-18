@@ -3,7 +3,7 @@ import * as exercisesController from '../controllers/exercises.controller';
 import { validateBody } from '../middleware/validate';
 import { authenticate, optionalAuthenticate } from '../middleware/auth';
 import { requireAdmin } from '../middleware/admin';
-import { createExerciseSchema, updateExerciseSchema } from '../utils/validators';
+import { bulkUpdateExerciseEditorialSchema, createExerciseSchema, updateExerciseSchema } from '../utils/validators';
 
 const router: ExpressRouter = Router();
 
@@ -19,6 +19,7 @@ router.get('/', optionalAuthenticate, exercisesController.getAllExercises);
 router.get('/:id', optionalAuthenticate, exercisesController.getExerciseById);
 router.post('/', authenticate, requireAdmin, validateBody(createExerciseSchema), exercisesController.createExercise);
 router.put('/:id', authenticate, requireAdmin, validateBody(updateExerciseSchema), exercisesController.updateExercise);
+router.post('/editorial/bulk-update', authenticate, requireAdmin, validateBody(bulkUpdateExerciseEditorialSchema), exercisesController.bulkUpdateExerciseEditorial);
 router.delete('/:id', authenticate, requireAdmin, exercisesController.deleteExercise);
 
 export default router;

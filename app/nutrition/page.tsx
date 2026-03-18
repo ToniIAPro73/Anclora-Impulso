@@ -176,7 +176,7 @@ function NutritionPageContent() {
               showCloseButton={false}
               className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950"
             >
-              <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+              <div className="grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-4 sm:max-h-[calc(100dvh-1.5rem)] sm:p-5 lg:max-h-[calc(100dvh-2rem)] lg:p-6">
               <div className="mb-4 flex items-start justify-between gap-4">
               <DialogHeader className="text-left">
                 <DialogTitle>{t ? 'Registrar Comida' : 'Log Meal'}</DialogTitle>
@@ -194,7 +194,7 @@ function NutritionPageContent() {
                 {copy.common.close}
               </Button>
               </div>
-              <div className="space-y-4">
+                <div className="min-h-0 space-y-3 overflow-y-auto pr-1 sm:space-y-4">
                 {profile.age && profile.age >= 40 ? (
                   <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300">
                     {t
@@ -205,7 +205,7 @@ function NutritionPageContent() {
                 <div>
                   <Label>{t ? 'Tipo de comida' : 'Meal type'}</Label>
                   <Select value={logData.mealType} onValueChange={(v) => setLogData(d => ({ ...d, mealType: v as any }))}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="h-10"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {!isIntermittentFasting && <SelectItem value="desayuno">{t ? 'Desayuno' : 'Breakfast'}</SelectItem>}
                       <SelectItem value="almuerzo">{t ? 'Almuerzo' : 'Lunch'}</SelectItem>
@@ -214,14 +214,14 @@ function NutritionPageContent() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <Label>{t ? 'Fecha' : 'Date'}</Label>
-                    <Input type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
+                    <Input className="h-10" type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
                   </div>
                   <div>
                     <Label>{t ? 'Hora de ingesta' : 'Intake time'}</Label>
-                    <Input type="time" value={logData.consumedTime} onChange={(e) => setLogData(d => ({ ...d, consumedTime: e.target.value }))} />
+                    <Input className="h-10" type="time" value={logData.consumedTime} onChange={(e) => setLogData(d => ({ ...d, consumedTime: e.target.value }))} />
                   </div>
                 </div>
                 {isIntermittentFasting && (
@@ -233,27 +233,28 @@ function NutritionPageContent() {
                 )}
                 <div>
                   <Label>{t ? 'Nombre' : 'Name'}</Label>
-                  <Input value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
+                  <Input className="h-10" value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
                 </div>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <Label>{t ? 'Calorías' : 'Calories'}</Label>
-                    <Input type="number" value={logData.calories} onChange={(e) => setLogData(d => ({ ...d, calories: +e.target.value }))} />
+                    <Input className="h-10" type="number" value={logData.calories} onChange={(e) => setLogData(d => ({ ...d, calories: +e.target.value }))} />
                   </div>
                   <div>
                     <Label>{t ? 'Proteína (g)' : 'Protein (g)'}</Label>
-                    <Input type="number" value={logData.protein} onChange={(e) => setLogData(d => ({ ...d, protein: +e.target.value }))} />
+                    <Input className="h-10" type="number" value={logData.protein} onChange={(e) => setLogData(d => ({ ...d, protein: +e.target.value }))} />
                   </div>
                   <div>
                     <Label>{t ? 'Carbos (g)' : 'Carbs (g)'}</Label>
-                    <Input type="number" value={logData.carbs} onChange={(e) => setLogData(d => ({ ...d, carbs: +e.target.value }))} />
+                    <Input className="h-10" type="number" value={logData.carbs} onChange={(e) => setLogData(d => ({ ...d, carbs: +e.target.value }))} />
                   </div>
                   <div>
                     <Label>{t ? 'Grasa (g)' : 'Fat (g)'}</Label>
-                    <Input type="number" value={logData.fat} onChange={(e) => setLogData(d => ({ ...d, fat: +e.target.value }))} />
+                    <Input className="h-10" type="number" value={logData.fat} onChange={(e) => setLogData(d => ({ ...d, fat: +e.target.value }))} />
                   </div>
                 </div>
-                <DialogFooter className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                </div>
+                <DialogFooter className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-200/70 bg-white/95 pt-3 dark:border-slate-800/80 dark:bg-slate-950/95">
                   <Button
                     variant="outline"
                     className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
@@ -265,7 +266,6 @@ function NutritionPageContent() {
                     {isLogging ? (t ? 'Guardando...' : 'Saving...') : copy.common.save}
                   </Button>
                 </DialogFooter>
-              </div>
               </div>
             </DialogContent>
           </Dialog>
@@ -435,6 +435,16 @@ function NutritionPageContent() {
                   {reason}
                 </div>
               ))}
+              {latestPlan.explanation.signals?.length ? (
+                <div className="grid gap-2 pt-1 sm:grid-cols-3">
+                  {latestPlan.explanation.signals.map((signal) => (
+                    <div key={`${signal.label}-${signal.value}`} className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-3 text-sm text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200">
+                      <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{signal.label}</p>
+                      <p className="mt-2 font-semibold">{signal.value}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
             </div>
             {latestPlan.explanation.adjustment ? (
               <div className="rounded-2xl border border-emerald-200/70 bg-emerald-100/60 p-4 dark:border-emerald-500/20 dark:bg-emerald-950/20">
@@ -444,6 +454,16 @@ function NutritionPageContent() {
                 <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-100">
                   {latestPlan.explanation.adjustment}
                 </p>
+                {latestPlan.explanation.nextBestAction ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="mt-4 w-full rounded-2xl border-emerald-300/70 bg-white/80 text-emerald-800 hover:bg-white dark:border-emerald-500/20 dark:bg-slate-950/40 dark:text-emerald-100"
+                    onClick={() => setLogOpen(true)}
+                  >
+                    {latestPlan.explanation.nextBestAction.label}
+                  </Button>
+                ) : null}
               </div>
             ) : null}
           </CardContent>

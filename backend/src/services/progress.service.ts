@@ -127,6 +127,38 @@ export async function getCompleteProgress(userId: string) {
     count,
   }));
 
+  const explanation = {
+    headline: 'Qué hacer ahora',
+    summary:
+      insights.stagnationRisk === 'high'
+        ? 'Tus señales piden un ajuste pequeño pero inmediato para no consolidar el bloqueo.'
+        : insights.adherenceRate !== null && insights.adherenceRate < 0.7
+          ? 'Antes de subir exigencia, conviene recuperar consistencia en la semana.'
+          : 'Tu progreso actual permite mantener la dirección y afinar detalles, no rehacer todo.',
+    reasons: [
+      insights.weeklyTarget
+        ? `Vas ${insights.workoutsLast7Days}/${insights.weeklyTarget} sesiones en los últimos 7 días.`
+        : 'Aún no hay objetivo semanal definido para medir adherencia.',
+      insights.nutritionConsistencyRate !== null
+        ? `La constancia nutricional reciente está en ${Math.round(insights.nutritionConsistencyRate * 100)}%.`
+        : 'Todavía faltan días de registro nutricional para una lectura más precisa.',
+      insights.weightTrend.deltaKg !== null
+        ? `La tendencia de peso reciente muestra ${insights.weightTrend.deltaKg > 0 ? '+' : ''}${insights.weightTrend.deltaKg} kg.`
+        : 'Aún faltan mediciones recientes para estimar tendencia de peso.',
+    ],
+    signals: [
+      { label: 'Adherencia', value: insights.adherenceRate !== null ? `${Math.round(insights.adherenceRate * 100)}%` : '—' },
+      { label: 'Riesgo', value: insights.stagnationRisk },
+      { label: 'Nutrición', value: insights.nutritionConsistencyRate !== null ? `${Math.round(insights.nutritionConsistencyRate * 100)}%` : '—' },
+    ],
+    nextBestAction:
+      insights.stagnationRisk === 'high'
+        ? { label: 'Revisar progreso', href: '/progress' }
+        : insights.workoutsLast7Days === 0
+          ? { label: 'Volver a entrenar', href: '/workouts/generate' }
+          : { label: 'Mantener ritmo', href: '/dashboard' },
+  };
+
   return {
     stats: workoutStats,
     measurements,
@@ -150,6 +182,7 @@ export async function getCompleteProgress(userId: string) {
       nutritionAdjustment: insights.nutritionAdjustment,
       preferredMuscleGroups: insights.preferredMuscleGroups,
       averageSessionDuration: insights.averageSessionDuration,
+      explanation,
     },
   };
 }

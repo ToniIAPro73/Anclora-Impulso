@@ -1,6 +1,10 @@
 import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
-import type { CreateExerciseInput, UpdateExerciseInput } from '../utils/validators';
+import type {
+  BulkUpdateExerciseEditorialInput,
+  CreateExerciseInput,
+  UpdateExerciseInput,
+} from '../utils/validators';
 import { resolveExerciseImageUrl } from './exercise-image-resolver';
 
 export interface ExerciseFilters {
@@ -18,6 +22,8 @@ function calculateExerciseQuality(exercise: {
   instructions: string[];
   trainingEnvironments: string[];
   difficulty: string;
+  editorialOverrideStatus?: string | null;
+  editorialNotes?: string | null;
 }) {
   const resolvedImageUrl = resolveExerciseImageUrl(exercise.name);
   const checks = {
@@ -31,7 +37,10 @@ function calculateExerciseQuality(exercise: {
   const passedChecks = Object.values(checks).filter(Boolean).length;
   return {
     qualityScore: Math.round((passedChecks / Object.keys(checks).length) * 100),
-    editorialStatus: passedChecks >= 5 ? 'ready' : passedChecks >= 3 ? 'review' : 'needs_work',
+    editorialStatus:
+      exercise.editorialOverrideStatus ?? (passedChecks >= 5 ? 'ready' : passedChecks >= 3 ? 'review' : 'needs_work'),
+    autoEditorialStatus: passedChecks >= 5 ? 'ready' : passedChecks >= 3 ? 'review' : 'needs_work',
+    editorialNotes: exercise.editorialNotes ?? null,
     checks,
   };
 }
@@ -43,6 +52,8 @@ function decorateExercise<T extends {
   trainingEnvironments: string[];
   imageUrl: string | null;
   difficulty: string;
+  editorialOverrideStatus?: string | null;
+  editorialNotes?: string | null;
 }>(exercise: T) {
   const resolvedImageUrl = resolveExerciseImageUrl(exercise.name);
   return {
@@ -54,6 +65,8 @@ function decorateExercise<T extends {
       instructions: exercise.instructions,
       trainingEnvironments: exercise.trainingEnvironments,
       difficulty: exercise.difficulty,
+      editorialOverrideStatus: exercise.editorialOverrideStatus,
+      editorialNotes: exercise.editorialNotes,
     }),
   };
 }
@@ -135,6 +148,24 @@ export async function updateExercise(id: string, data: UpdateExerciseInput) {
   });
 
   return decorateExercise(exercise);
+}
+
+export async function bulkUpdateExerciseEditorial(data: BulkUpdateExerciseEditorialInput) {
+  await prisma.exercise.updateMany({
+    where: { id: { in: data.ids } },
+    data: {
+      editorialOverrideStatus: data.editorialOverrideStatus,
+      editorialNotes: data.editorialNotes ?? null,
+      editorialReviewedAt: new Date(),
+    },
+  });
+
+  const exercises = await prisma.exercise.findMany({
+    where: { id: { in: data.ids } },
+    orderBy: { updatedAt: 'desc' },
+  });
+
+  return exercises.map((exercise) => decorateExercise(exercise));
 }
 
 /**

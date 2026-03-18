@@ -8,6 +8,8 @@ import {
   ChevronDown,
   ChevronUp,
   ClipboardList,
+  Search,
+  Send,
   PencilLine,
   ShieldCheck,
 } from "lucide-react"
@@ -24,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useEditorialExercises } from "@/hooks/use-editorial-content"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
+import { engagementApi, type NotificationDelivery } from "@/lib/api"
 
 function AdminContentInner() {
   const { user } = useAuth()
@@ -37,11 +40,22 @@ function AdminContentInner() {
     recipesError,
     updateExercise,
     updateRecipe,
+    bulkUpdateExerciseEditorial,
+    bulkUpdateRecipeEditorial,
     isUpdating,
+    isBulkUpdating,
     isUpdatingRecipe,
+    isBulkUpdatingRecipe,
     eventsSummary,
   } = useEditorialExercises()
   const [activeTab, setActiveTab] = useState<"exercises" | "recipes">("exercises")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [statusFilter, setStatusFilter] = useState<"all" | "ready" | "review" | "needs_work">("all")
+  const [issueFilter, setIssueFilter] = useState<"all" | "missing_image" | "weak_instructions" | "few_tags" | "missing_macros">("all")
+  const [sortBy, setSortBy] = useState<"score_asc" | "score_desc" | "updated_desc" | "name_asc">("score_asc")
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [recentDeliveries, setRecentDeliveries] = useState<Array<NotificationDelivery & { user: { email: string; fullName: string } }>>([])
+  const [isDispatchingNotifications, setIsDispatchingNotifications] = useState(false)
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null)
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null)
   const exerciseItemRefs = useRef<Array<HTMLDivElement | null>>([])
@@ -59,6 +73,8 @@ function AdminContentInner() {
   const [exerciseForm, setExerciseForm] = useState({
     description: "",
     instructions: "",
+    editorialOverrideStatus: "review",
+    editorialNotes: "",
   })
   const [recipeForm, setRecipeForm] = useState({
     description: "",
@@ -71,6 +87,8 @@ function AdminContentInner() {
     protein: "",
     carbs: "",
     fat: "",
+    editorialOverrideStatus: "review",
+    editorialNotes: "",
   })
 
   useEffect(() => {
@@ -78,6 +96,8 @@ function AdminContentInner() {
     setExerciseForm({
       description: selectedExercise.description,
       instructions: selectedExercise.instructions.join("\n"),
+      editorialOverrideStatus: selectedExercise.editorial?.editorialStatus ?? "review",
+      editorialNotes: selectedExercise.editorial?.editorialNotes ?? "",
     })
   }, [selectedExercise])
 
@@ -94,24 +114,35 @@ function AdminContentInner() {
       protein: selectedRecipe.protein ? String(selectedRecipe.protein) : "",
       carbs: selectedRecipe.carbs ? String(selectedRecipe.carbs) : "",
       fat: selectedRecipe.fat ? String(selectedRecipe.fat) : "",
+      editorialOverrideStatus: selectedRecipe.editorial?.editorialStatus ?? "review",
+      editorialNotes: selectedRecipe.editorial?.editorialNotes ?? "",
     })
   }, [selectedRecipe])
 
-  if (!user?.isAdmin) {
-    return (
-      <div className="px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
-        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
-          <CardContent className="flex min-h-[320px] flex-col items-center justify-center gap-4 text-center">
-            <ShieldCheck className="h-12 w-12 text-orange-500" />
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">{t.admin.restrictedTitle}</h1>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{t.admin.restrictedDesc}</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
+  useEffect(() => {
+    setSelectedIds([])
+  }, [activeTab, searchQuery, statusFilter, issueFilter, sortBy])
+
+  useEffect(() => {
+    let isMounted = true
+    const loadRecentDeliveries = async () => {
+      try {
+        const deliveries = await engagementApi.getRecentDeliveries()
+        if (isMounted) {
+          setRecentDeliveries(deliveries)
+        }
+      } catch {
+        if (isMounted) {
+          setRecentDeliveries([])
+        }
+      }
+    }
+
+    void loadRecentDeliveries()
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const handleSaveExercise = async () => {
     if (!selectedExercise) return
@@ -123,6 +154,8 @@ function AdminContentInner() {
           .split("\n")
           .map((instruction) => instruction.trim())
           .filter(Boolean),
+        editorialOverrideStatus: exerciseForm.editorialOverrideStatus as "ready" | "review" | "needs_work",
+        editorialNotes: exerciseForm.editorialNotes || null,
       },
     })
     setSelectedExerciseId(null)
@@ -149,6 +182,8 @@ function AdminContentInner() {
         protein: recipeForm.protein ? Number(recipeForm.protein) : null,
         carbs: recipeForm.carbs ? Number(recipeForm.carbs) : null,
         fat: recipeForm.fat ? Number(recipeForm.fat) : null,
+        editorialOverrideStatus: recipeForm.editorialOverrideStatus as "ready" | "review" | "needs_work",
+        editorialNotes: recipeForm.editorialNotes || null,
       },
     })
     setSelectedRecipeId(null)
@@ -156,8 +191,102 @@ function AdminContentInner() {
 
   const currentError = error ?? recipesError
   const loading = isLoading || isLoadingRecipes
-  const activeItems = activeTab === "exercises" ? (summary?.exercises ?? []) : (recipesSummary?.recipes ?? [])
+  const normalizedQuery = searchQuery.trim().toLowerCase()
+
+  const filteredExercises = useMemo(() => {
+    const items = summary?.exercises ?? []
+    return items
+      .filter((exercise) => {
+        const matchesStatus = statusFilter === "all" || exercise.editorial?.editorialStatus === statusFilter
+        const matchesSearch = !normalizedQuery
+          || [exercise.name, exercise.category, exercise.muscleGroup, exercise.equipment].join(" ").toLowerCase().includes(normalizedQuery)
+        const issueMatch =
+          issueFilter === "all" ||
+          (issueFilter === "missing_image" && !exercise.editorial?.checks.hasImage) ||
+          (issueFilter === "weak_instructions" && !exercise.editorial?.checks.hasEnoughInstructions)
+        return matchesStatus && issueMatch && matchesSearch
+      })
+      .sort((left, right) => {
+        if (sortBy === "score_desc") return (right.editorial?.qualityScore ?? 0) - (left.editorial?.qualityScore ?? 0)
+        if (sortBy === "updated_desc") return new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime()
+        if (sortBy === "name_asc") return left.name.localeCompare(right.name)
+        return (left.editorial?.qualityScore ?? 0) - (right.editorial?.qualityScore ?? 0)
+      })
+  }, [summary, normalizedQuery, statusFilter, issueFilter, sortBy])
+
+  const filteredRecipes = useMemo(() => {
+    const items = recipesSummary?.recipes ?? []
+    return items
+      .filter((recipe) => {
+        const matchesStatus = statusFilter === "all" || recipe.editorial?.editorialStatus === statusFilter
+        const matchesSearch = !normalizedQuery || [recipe.name, ...recipe.tags].join(" ").toLowerCase().includes(normalizedQuery)
+        const issueMatch =
+          issueFilter === "all" ||
+          (issueFilter === "missing_image" && !recipe.editorial?.checks.hasImage) ||
+          (issueFilter === "weak_instructions" && !recipe.editorial?.checks.hasEnoughInstructions) ||
+          (issueFilter === "few_tags" && !recipe.editorial?.checks.hasTags) ||
+          (issueFilter === "missing_macros" && !recipe.editorial?.checks.hasMacros)
+        return matchesStatus && issueMatch && matchesSearch
+      })
+      .sort((left, right) => {
+        if (sortBy === "score_desc") return (right.editorial?.qualityScore ?? 0) - (left.editorial?.qualityScore ?? 0)
+        if (sortBy === "updated_desc") return new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime()
+        if (sortBy === "name_asc") return left.name.localeCompare(right.name)
+        return (left.editorial?.qualityScore ?? 0) - (right.editorial?.qualityScore ?? 0)
+      })
+  }, [recipesSummary, normalizedQuery, statusFilter, issueFilter, sortBy])
+
+  const activeItems = activeTab === "exercises" ? filteredExercises : filteredRecipes
   const editorialStep = Math.min(24, Math.max(4, Math.round(activeItems.length * 0.08)))
+  const allVisibleSelected = activeItems.length > 0 && activeItems.every((item) => selectedIds.includes(item.id))
+
+  const toggleItemSelection = (id: string) => {
+    setSelectedIds((current) => (current.includes(id) ? current.filter((value) => value !== id) : [...current, id]))
+  }
+
+  const toggleSelectAllVisible = () => {
+    setSelectedIds((current) =>
+      allVisibleSelected
+        ? current.filter((id) => !activeItems.some((item) => item.id === id))
+        : Array.from(new Set([...current, ...activeItems.map((item) => item.id)])),
+    )
+  }
+
+  const handleBulkStatusUpdate = async (nextStatus: "ready" | "review" | "needs_work") => {
+    if (selectedIds.length === 0) return
+    if (activeTab === "exercises") {
+      await bulkUpdateExerciseEditorial({ ids: selectedIds, editorialOverrideStatus: nextStatus })
+    } else {
+      await bulkUpdateRecipeEditorial({ ids: selectedIds, editorialOverrideStatus: nextStatus })
+    }
+    setSelectedIds([])
+  }
+
+  const dispatchNotificationsNow = async () => {
+    setIsDispatchingNotifications(true)
+    try {
+      await engagementApi.dispatchNow()
+      setRecentDeliveries(await engagementApi.getRecentDeliveries())
+    } finally {
+      setIsDispatchingNotifications(false)
+    }
+  }
+
+  if (!user?.isAdmin) {
+    return (
+      <div className="px-3 py-4 sm:px-5 sm:py-5 lg:px-6">
+        <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+          <CardContent className="flex min-h-[320px] flex-col items-center justify-center gap-4 text-center">
+            <ShieldCheck className="h-12 w-12 text-orange-500" />
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-900 dark:text-white">{t.admin.restrictedTitle}</h1>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{t.admin.restrictedDesc}</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   const scrollEditorialQueue = (direction: "up" | "down") => {
     const refs = activeTab === "exercises" ? exerciseItemRefs.current : recipeItemRefs.current
@@ -265,6 +394,71 @@ function AdminContentInner() {
               <TabsTrigger value="recipes">{t.admin.recipesTab}</TabsTrigger>
             </TabsList>
 
+            <Card className="ui-motion-card-subtle border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+              <CardContent className="grid gap-3 p-4 md:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(160px,1fr))]">
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <Input
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
+                    placeholder={t.common.search}
+                    className="pl-9"
+                  />
+                </div>
+                <select
+                  value={statusFilter}
+                  onChange={(event) => setStatusFilter(event.target.value as typeof statusFilter)}
+                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+                >
+                  <option value="all">{language === "es" ? "Todos los estados" : "All statuses"}</option>
+                  <option value="ready">ready</option>
+                  <option value="review">review</option>
+                  <option value="needs_work">needs_work</option>
+                </select>
+                <select
+                  value={issueFilter}
+                  onChange={(event) => setIssueFilter(event.target.value as typeof issueFilter)}
+                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+                >
+                  <option value="all">{language === "es" ? "Todas las incidencias" : "All issues"}</option>
+                  <option value="missing_image">{t.admin.missingImage}</option>
+                  <option value="weak_instructions">{t.admin.weakInstructions}</option>
+                  <option value="few_tags">{t.admin.fewTags}</option>
+                  <option value="missing_macros">{t.admin.missingMacros}</option>
+                </select>
+                <select
+                  value={sortBy}
+                  onChange={(event) => setSortBy(event.target.value as typeof sortBy)}
+                  className="h-10 rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+                >
+                  <option value="score_asc">{language === "es" ? "Score ascendente" : "Score ascending"}</option>
+                  <option value="score_desc">{language === "es" ? "Score descendente" : "Score descending"}</option>
+                  <option value="updated_desc">{language === "es" ? "Más recientes" : "Recently updated"}</option>
+                  <option value="name_asc">{language === "es" ? "Nombre A-Z" : "Name A-Z"}</option>
+                </select>
+              </CardContent>
+            </Card>
+
+            {selectedIds.length > 0 ? (
+              <Card className="ui-motion-card-static border border-orange-200/70 bg-orange-50/90 shadow-sm dark:border-orange-500/20 dark:bg-orange-950/10">
+                <CardContent className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between">
+                  <div className="flex items-center gap-3">
+                    <Button type="button" variant="outline" size="sm" className="rounded-xl" onClick={toggleSelectAllVisible}>
+                      {allVisibleSelected ? (language === "es" ? "Quitar visibles" : "Clear visible") : (language === "es" ? "Seleccionar visibles" : "Select visible")}
+                    </Button>
+                    <p className="text-sm text-slate-700 dark:text-slate-200">
+                      {selectedIds.length} {language === "es" ? "elementos seleccionados" : "selected items"}
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" size="sm" variant="outline" className="rounded-xl" disabled={isBulkUpdating || isBulkUpdatingRecipe} onClick={() => void handleBulkStatusUpdate("ready")}>ready</Button>
+                    <Button type="button" size="sm" variant="outline" className="rounded-xl" disabled={isBulkUpdating || isBulkUpdatingRecipe} onClick={() => void handleBulkStatusUpdate("review")}>review</Button>
+                    <Button type="button" size="sm" variant="outline" className="rounded-xl" disabled={isBulkUpdating || isBulkUpdatingRecipe} onClick={() => void handleBulkStatusUpdate("needs_work")}>needs_work</Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : null}
+
             {activeItems.length > 8 ? (
               <div className="pointer-events-none fixed right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-4">
                 <Button
@@ -303,7 +497,7 @@ function AdminContentInner() {
                 </CardHeader>
                 <CardContent className="relative isolate space-y-3 overflow-hidden">
                   {activeTab === "exercises"
-                    ? summary.exercises.map((exercise, index) => (
+                    ? filteredExercises.map((exercise, index) => (
                         <div
                           key={exercise.id}
                           ref={(element) => {
@@ -319,6 +513,12 @@ function AdminContentInner() {
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(exercise.id)}
+                                onChange={() => toggleItemSelection(exercise.id)}
+                                className="h-4 w-4 rounded border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-950"
+                              />
                               <Badge variant="outline" className="rounded-full px-3 py-1">
                                 {exercise.editorial?.qualityScore ?? 0}%
                               </Badge>
@@ -351,7 +551,7 @@ function AdminContentInner() {
                           </div>
                         </div>
                       ))
-                    : recipesSummary.recipes.map((recipe, index) => (
+                    : filteredRecipes.map((recipe, index) => (
                         <div
                           key={recipe.id}
                           ref={(element) => {
@@ -367,6 +567,12 @@ function AdminContentInner() {
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(recipe.id)}
+                                onChange={() => toggleItemSelection(recipe.id)}
+                                className="h-4 w-4 rounded border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-950"
+                              />
                               <Badge variant="outline" className="rounded-full px-3 py-1">
                                 {recipe.editorial?.qualityScore ?? 0}%
                               </Badge>
@@ -444,6 +650,29 @@ function AdminContentInner() {
                       <p className="text-sm">{t.admin.eventsEmpty}</p>
                     </div>
                   ) : null}
+                  <div className="rounded-2xl border border-slate-200/70 bg-slate-50/90 p-4 dark:border-slate-700/70 dark:bg-slate-900/50">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-medium text-slate-900 dark:text-white">{language === "es" ? "Notificaciones operativas" : "Operational notifications"}</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{language === "es" ? "Despacha recordatorios y revisa el estado reciente." : "Dispatch reminders and review recent delivery status."}</p>
+                      </div>
+                      <Button type="button" size="sm" className="rounded-xl" disabled={isDispatchingNotifications} onClick={() => void dispatchNotificationsNow()}>
+                        <Send className="mr-2 h-4 w-4" />
+                        {language === "es" ? "Despachar ahora" : "Dispatch now"}
+                      </Button>
+                    </div>
+                    <div className="mt-3 space-y-2">
+                      {recentDeliveries.slice(0, 4).map((delivery) => (
+                        <div key={delivery.id} className="flex items-center justify-between rounded-xl bg-white/85 px-3 py-2 text-sm dark:bg-slate-950/70">
+                          <div className="min-w-0">
+                            <p className="truncate font-medium text-slate-900 dark:text-white">{delivery.subject}</p>
+                            <p className="truncate text-xs text-slate-500 dark:text-slate-400">{delivery.user.email}</p>
+                          </div>
+                          <Badge variant="outline" className="rounded-full px-3 py-1">{delivery.status}</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -492,13 +721,37 @@ function AdminContentInner() {
                 </div>
 
                 <div className="grid min-h-0 gap-3 lg:grid-cols-[0.9fr_1.1fr]">
-                  <div className="min-h-0 space-y-2">
-                    <Label>{t.admin.description}</Label>
-                    <Textarea
-                      value={exerciseForm.description}
-                      onChange={(event) => setExerciseForm((current) => ({ ...current, description: event.target.value }))}
-                      className="h-[clamp(120px,24vh,180px)] resize-none"
-                    />
+                  <div className="grid min-h-0 gap-3">
+                    <div className="min-h-0 space-y-2">
+                      <Label>{t.admin.description}</Label>
+                      <Textarea
+                        value={exerciseForm.description}
+                        onChange={(event) => setExerciseForm((current) => ({ ...current, description: event.target.value }))}
+                        className="h-[clamp(120px,24vh,180px)] resize-none"
+                      />
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label>{language === "es" ? "Estado editorial" : "Editorial status"}</Label>
+                        <select
+                          value={exerciseForm.editorialOverrideStatus}
+                          onChange={(event) => setExerciseForm((current) => ({ ...current, editorialOverrideStatus: event.target.value }))}
+                          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-950"
+                        >
+                          <option value="ready">ready</option>
+                          <option value="review">review</option>
+                          <option value="needs_work">needs_work</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{language === "es" ? "Notas editoriales" : "Editorial notes"}</Label>
+                        <Textarea
+                          value={exerciseForm.editorialNotes}
+                          onChange={(event) => setExerciseForm((current) => ({ ...current, editorialNotes: event.target.value }))}
+                          className="h-24 resize-none"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="min-h-0 space-y-2">
                     <Label>{t.admin.instructionsOnePerLine}</Label>
@@ -598,6 +851,28 @@ function AdminContentInner() {
                   </div>
 
                   <div className="grid content-start gap-3">
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label>{language === "es" ? "Estado editorial" : "Editorial status"}</Label>
+                        <select
+                          value={recipeForm.editorialOverrideStatus}
+                          onChange={(event) => setRecipeForm((current) => ({ ...current, editorialOverrideStatus: event.target.value }))}
+                          className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm dark:border-slate-700 dark:bg-slate-950"
+                        >
+                          <option value="ready">ready</option>
+                          <option value="review">review</option>
+                          <option value="needs_work">needs_work</option>
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{language === "es" ? "Notas editoriales" : "Editorial notes"}</Label>
+                        <Textarea
+                          value={recipeForm.editorialNotes}
+                          onChange={(event) => setRecipeForm((current) => ({ ...current, editorialNotes: event.target.value }))}
+                          className="h-24 resize-none"
+                        />
+                      </div>
+                    </div>
                     <div className="space-y-2">
                       <Label>{t.admin.difficulty}</Label>
                       <Input value={recipeForm.difficulty} onChange={(event) => setRecipeForm((current) => ({ ...current, difficulty: event.target.value }))} />

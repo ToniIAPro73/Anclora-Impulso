@@ -713,6 +713,16 @@ export function DashboardContent() {
                   ))}
                 </div>
               </div>
+              {latestRecommendation.signals?.length ? (
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {latestRecommendation.signals.map((signal) => (
+                    <div key={`${signal.label}-${signal.value}`} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-3">
+                      <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{signal.label}</p>
+                      <p className="mt-2 text-sm font-semibold text-white">{signal.value}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
               {latestRecommendation.adjustment ? (
                 <div className="rounded-2xl border border-orange-400/20 bg-orange-500/10 px-4 py-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-200">
@@ -720,6 +730,14 @@ export function DashboardContent() {
                   </p>
                   <p className="mt-2 text-sm text-orange-50">{latestRecommendation.adjustment}</p>
                 </div>
+              ) : null}
+              {latestRecommendation.nextBestAction ? (
+                <Button asChild className="w-full rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600">
+                  <Link href={latestRecommendation.nextBestAction.href}>
+                    {latestRecommendation.nextBestAction.label}
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
               ) : null}
             </CardContent>
           </Card>

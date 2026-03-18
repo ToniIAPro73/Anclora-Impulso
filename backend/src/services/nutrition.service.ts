@@ -10,6 +10,7 @@ import {
 } from './personalization.service';
 import type { Prisma } from '@prisma/client';
 import type {
+  BulkUpdateRecipeEditorialInput,
   GenerateMealPlanInput,
   CreateNutritionLogInput,
   UpdateRecipeInput,
@@ -58,6 +59,8 @@ function calculateRecipeQuality(recipe: {
   fat?: number | null;
   tags: string[];
   ingredients?: Array<unknown>;
+  editorialOverrideStatus?: string | null;
+  editorialNotes?: string | null;
 }) {
   const instructions = Array.isArray(recipe.instructions) ? recipe.instructions : [];
   const checks = {
@@ -73,7 +76,10 @@ function calculateRecipeQuality(recipe: {
   const passedChecks = Object.values(checks).filter(Boolean).length;
   return {
     qualityScore: Math.round((passedChecks / Object.keys(checks).length) * 100),
-    editorialStatus: passedChecks >= 6 ? 'ready' : passedChecks >= 4 ? 'review' : 'needs_work',
+    editorialStatus:
+      recipe.editorialOverrideStatus ?? (passedChecks >= 6 ? 'ready' : passedChecks >= 4 ? 'review' : 'needs_work'),
+    autoEditorialStatus: passedChecks >= 6 ? 'ready' : passedChecks >= 4 ? 'review' : 'needs_work',
+    editorialNotes: recipe.editorialNotes ?? null,
     checks,
   };
 }
@@ -89,6 +95,8 @@ function decorateRecipe<T extends {
   fat?: number | null;
   tags: string[];
   ingredients?: Array<unknown>;
+  editorialOverrideStatus?: string | null;
+  editorialNotes?: string | null;
 }>(recipe: T) {
   return {
     ...recipe,
@@ -128,6 +136,24 @@ function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
     summary:
       'La nutrición propuesta usa tu objetivo, tu ritmo de entrenamiento y tu constancia reciente para evitar un plan teórico difícil de sostener.',
     reasons,
+    signals: [
+      {
+        label: 'Constancia nutricional',
+        value: `${Math.round(nutritionConsistency * 100)}%`,
+      },
+      {
+        label: 'Riesgo de estancamiento',
+        value: snapshot.stagnationRisk,
+      },
+      {
+        label: 'Objetivo semanal',
+        value: snapshot.weeklyTarget ? `${snapshot.weeklyTarget} sesiones` : '—',
+      },
+    ],
+    nextBestAction: {
+      label: 'Registrar comida',
+      href: '/nutrition',
+    },
     adjustment:
       snapshot.nutritionAdjustment === 'reduce'
         ? 'Prioriza sencillez, saciedad y continuidad diaria.'
@@ -892,6 +918,9 @@ export async function updateRecipe(id: string, data: UpdateRecipeInput) {
       fiber: data.fiber,
       imageUrl: data.imageUrl,
       tags: data.tags,
+      editorialOverrideStatus: data.editorialOverrideStatus,
+      editorialNotes: data.editorialNotes,
+      editorialReviewedAt: data.editorialOverrideStatus || data.editorialNotes ? new Date() : undefined,
     },
     include: {
       ingredients: {
@@ -903,6 +932,31 @@ export async function updateRecipe(id: string, data: UpdateRecipeInput) {
   });
 
   return decorateRecipe(recipe);
+}
+
+export async function bulkUpdateRecipeEditorial(data: BulkUpdateRecipeEditorialInput) {
+  await prisma.recipe.updateMany({
+    where: { id: { in: data.ids } },
+    data: {
+      editorialOverrideStatus: data.editorialOverrideStatus,
+      editorialNotes: data.editorialNotes ?? null,
+      editorialReviewedAt: new Date(),
+    },
+  });
+
+  const recipes = await prisma.recipe.findMany({
+    where: { id: { in: data.ids } },
+    include: {
+      ingredients: {
+        include: {
+          ingredient: true,
+        },
+      },
+    },
+    orderBy: { updatedAt: 'desc' },
+  });
+
+  return recipes.map((recipe) => decorateRecipe(recipe));
 }
 
 export async function getRecipeEditorialSummary() {
