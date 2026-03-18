@@ -38,6 +38,9 @@ Este contrato define el comportamiento visual base de superficies interactivas e
 - Un modal puede ocupar casi todo el viewport si eso evita scrolls y mejora la edición o lectura.
 - Sólo se permite `scroll` interno cuando, tras adaptar layout y tamaño, siga siendo imposible mostrar la información completa de forma usable.
 - En modales con mucha información, las columnas laterales deben colapsar o apilarse antes de comprimir el contenido principal.
+- Antes de aceptar scroll, hay que compactar y redistribuir campos: reducir alturas sobrantes, agrupar métricas breves en una misma fila y mover señales secundarias a franjas o bloques de menor coste vertical.
+- Si el modal tiene acciones principales, debe incluir un cierre visual claro con botones inferiores de `Cancelar` y `Guardar` o equivalente, visibles sin depender de scroll cuando el contenido razonablemente pueda entrar.
+- Si hay espacio suficiente, se prioriza un pequeño botón `Cerrar` en la esquina superior derecha frente a una `X`, siempre sin superponerse al contenido ni competir con el título.
 
 ## Extensión del contrato
 Si aparece un nuevo tipo de superficie, debe añadirse en:

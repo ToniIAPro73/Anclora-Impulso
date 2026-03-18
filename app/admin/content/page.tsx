@@ -450,134 +450,202 @@ function AdminContentInner() {
           </Tabs>
 
           <Dialog open={Boolean(selectedExerciseId && selectedExercise)} onOpenChange={(open) => !open && setSelectedExerciseId(null)}>
-            <DialogContent className="h-auto max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1180px] dark:border-slate-800/80 dark:bg-slate-950/95">
-              <div className="grid max-h-[calc(100dvh-1rem)] gap-0 overflow-hidden lg:max-h-[calc(100dvh-3rem)] xl:grid-cols-[minmax(0,1.15fr)_280px]">
-                <div className="space-y-5 p-5 sm:p-6">
+            <DialogContent
+              showCloseButton={false}
+              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/80 dark:bg-slate-950/95"
+            >
+              <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
+                <div className="mb-3 flex items-start justify-between gap-4">
                   <DialogHeader className="text-left">
                     <DialogTitle>{selectedExercise?.name ?? t.admin.exerciseQueueTitle}</DialogTitle>
                     <DialogDescription>{t.admin.exerciseEditorDesc}</DialogDescription>
                   </DialogHeader>
-                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800/80 dark:bg-slate-900/70">
-                    <p className="text-sm text-slate-600 dark:text-slate-300">
-                      {selectedExercise?.category} · {selectedExercise?.muscleGroup} · {selectedExercise?.equipment}
-                    </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      <Badge variant="outline" className="rounded-full px-3 py-1">
-                        {t.admin.currentScore}: {selectedExercise?.editorial?.qualityScore ?? 0}%
-                      </Badge>
-                      <Badge className="rounded-full border-0 bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-200">
-                        {selectedExercise?.editorial?.editorialStatus ?? "review"}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t.admin.description}</Label>
-                    <Textarea value={exerciseForm.description} onChange={(event) => setExerciseForm((current) => ({ ...current, description: event.target.value }))} className="min-h-32" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t.admin.instructionsOnePerLine}</Label>
-                    <Textarea value={exerciseForm.instructions} onChange={(event) => setExerciseForm((current) => ({ ...current, instructions: event.target.value }))} className="min-h-56" />
-                  </div>
-                  <DialogFooter className="border-t border-slate-200/70 px-0 pt-4 dark:border-slate-800/80">
-                    <Button variant="outline" onClick={() => setSelectedExerciseId(null)}>
-                      {t.common.cancel}
-                    </Button>
-                    <Button disabled={isUpdating} className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600" onClick={handleSaveExercise}>
-                      {t.admin.saveExercise}
-                    </Button>
-                  </DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-10 rounded-full border-orange-300/80 bg-white/80 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950/60 dark:text-slate-300 dark:hover:text-white"
+                    onClick={() => setSelectedExerciseId(null)}
+                  >
+                    {t.common.close}
+                  </Button>
                 </div>
-                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 xl:border-l xl:border-t-0">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t.admin.editorialSignals}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+
+                <div className="mb-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800/80 dark:bg-slate-900/70">
+                  <div className="flex flex-wrap items-center gap-2 text-sm text-slate-600 dark:text-slate-300">
+                    <span>{selectedExercise?.category}</span>
+                    <span>·</span>
+                    <span>{selectedExercise?.muscleGroup}</span>
+                    <span>·</span>
+                    <span>{selectedExercise?.equipment}</span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <Badge variant="outline" className="rounded-full px-3 py-1">
+                      {t.admin.currentScore}: {selectedExercise?.editorial?.qualityScore ?? 0}%
+                    </Badge>
+                    <Badge className="rounded-full border-0 bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-200">
+                      {selectedExercise?.editorial?.editorialStatus ?? "review"}
+                    </Badge>
                     {!selectedExercise?.editorial?.checks.hasImage ? <Badge variant="destructive" className="rounded-full">{t.admin.missingImage}</Badge> : null}
                     {!selectedExercise?.editorial?.checks.hasEnoughInstructions ? <Badge variant="destructive" className="rounded-full">{t.admin.weakInstructions}</Badge> : null}
                   </div>
-                </aside>
+                </div>
+
+                <div className="grid min-h-0 gap-3 lg:grid-cols-[0.9fr_1.1fr]">
+                  <div className="min-h-0 space-y-2">
+                    <Label>{t.admin.description}</Label>
+                    <Textarea
+                      value={exerciseForm.description}
+                      onChange={(event) => setExerciseForm((current) => ({ ...current, description: event.target.value }))}
+                      className="h-[clamp(120px,24vh,180px)] resize-none"
+                    />
+                  </div>
+                  <div className="min-h-0 space-y-2">
+                    <Label>{t.admin.instructionsOnePerLine}</Label>
+                    <Textarea
+                      value={exerciseForm.instructions}
+                      onChange={(event) => setExerciseForm((current) => ({ ...current, instructions: event.target.value }))}
+                      className="h-[clamp(180px,38vh,320px)] resize-none"
+                    />
+                  </div>
+                </div>
+
+                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                  <Button
+                    variant="outline"
+                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    onClick={() => setSelectedExerciseId(null)}
+                  >
+                    {t.common.cancel}
+                  </Button>
+                  <Button
+                    disabled={isUpdating}
+                    className="h-10 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600"
+                    onClick={handleSaveExercise}
+                  >
+                    {t.common.save}
+                  </Button>
+                </DialogFooter>
               </div>
             </DialogContent>
           </Dialog>
 
           <Dialog open={Boolean(selectedRecipeId && selectedRecipe)} onOpenChange={(open) => !open && setSelectedRecipeId(null)}>
-            <DialogContent className="h-auto max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/80 dark:bg-slate-950/95">
-              <div className="grid max-h-[calc(100dvh-1rem)] gap-0 overflow-hidden lg:max-h-[calc(100dvh-3rem)] xl:grid-cols-[minmax(0,1.2fr)_320px]">
-                <div className="space-y-5 p-5 sm:p-6">
+            <DialogContent
+              showCloseButton={false}
+              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1380px] dark:border-slate-800/80 dark:bg-slate-950/95"
+            >
+              <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
+                <div className="mb-3 flex items-start justify-between gap-4">
                   <DialogHeader className="text-left">
                     <DialogTitle>{selectedRecipe?.name ?? t.admin.recipeQueueTitle}</DialogTitle>
                     <DialogDescription>{t.admin.recipeEditorDesc}</DialogDescription>
                   </DialogHeader>
-                  <div className="rounded-2xl border border-slate-200/80 bg-slate-50/80 p-4 dark:border-slate-800/80 dark:bg-slate-900/70">
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="outline" className="rounded-full px-3 py-1">
-                        {t.admin.currentScore}: {selectedRecipe?.editorial?.qualityScore ?? 0}%
-                      </Badge>
-                      <Badge className="rounded-full border-0 bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-200">
-                        {selectedRecipe?.editorial?.editorialStatus ?? "review"}
-                      </Badge>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t.admin.description}</Label>
-                    <Textarea value={recipeForm.description} onChange={(event) => setRecipeForm((current) => ({ ...current, description: event.target.value }))} className="min-h-24" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t.admin.instructionsOnePerLine}</Label>
-                    <Textarea value={recipeForm.instructions} onChange={(event) => setRecipeForm((current) => ({ ...current, instructions: event.target.value }))} className="min-h-40" />
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label>{t.admin.difficulty}</Label>
-                      <Input value={recipeForm.difficulty} onChange={(event) => setRecipeForm((current) => ({ ...current, difficulty: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.tagsOnePerLine}</Label>
-                      <Textarea value={recipeForm.tags} onChange={(event) => setRecipeForm((current) => ({ ...current, tags: event.target.value }))} className="min-h-24" />
-                    </div>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    <div className="space-y-2">
-                      <Label>{t.admin.prepTime}</Label>
-                      <Input type="number" value={recipeForm.prepTime} onChange={(event) => setRecipeForm((current) => ({ ...current, prepTime: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.cookTime}</Label>
-                      <Input type="number" value={recipeForm.cookTime} onChange={(event) => setRecipeForm((current) => ({ ...current, cookTime: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.calories}</Label>
-                      <Input type="number" value={recipeForm.calories} onChange={(event) => setRecipeForm((current) => ({ ...current, calories: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.protein}</Label>
-                      <Input type="number" value={recipeForm.protein} onChange={(event) => setRecipeForm((current) => ({ ...current, protein: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.carbs}</Label>
-                      <Input type="number" value={recipeForm.carbs} onChange={(event) => setRecipeForm((current) => ({ ...current, carbs: event.target.value }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.fat}</Label>
-                      <Input type="number" value={recipeForm.fat} onChange={(event) => setRecipeForm((current) => ({ ...current, fat: event.target.value }))} />
-                    </div>
-                  </div>
-                  <DialogFooter className="border-t border-slate-200/70 px-0 pt-4 dark:border-slate-800/80">
-                    <Button variant="outline" onClick={() => setSelectedRecipeId(null)}>
-                      {t.common.cancel}
-                    </Button>
-                    <Button disabled={isUpdatingRecipe} className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600" onClick={handleSaveRecipe}>
-                      {t.admin.saveRecipe}
-                    </Button>
-                  </DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-10 rounded-full border-orange-300/80 bg-white/80 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950/60 dark:text-slate-300 dark:hover:text-white"
+                    onClick={() => setSelectedRecipeId(null)}
+                  >
+                    {t.common.close}
+                  </Button>
                 </div>
-                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 xl:border-l xl:border-t-0">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t.admin.editorialSignals}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
+
+                <div className="mb-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800/80 dark:bg-slate-900/70">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="outline" className="rounded-full px-3 py-1">
+                      {t.admin.currentScore}: {selectedRecipe?.editorial?.qualityScore ?? 0}%
+                    </Badge>
+                    <Badge className="rounded-full border-0 bg-slate-900/5 text-slate-700 dark:bg-white/10 dark:text-slate-200">
+                      {selectedRecipe?.editorial?.editorialStatus ?? "review"}
+                    </Badge>
                     {!selectedRecipe?.editorial?.checks.hasImage ? <Badge variant="destructive" className="rounded-full">{t.admin.missingImage}</Badge> : null}
                     {!selectedRecipe?.editorial?.checks.hasEnoughInstructions ? <Badge variant="destructive" className="rounded-full">{t.admin.weakInstructions}</Badge> : null}
                     {!selectedRecipe?.editorial?.checks.hasTags ? <Badge variant="destructive" className="rounded-full">{t.admin.fewTags}</Badge> : null}
                     {!selectedRecipe?.editorial?.checks.hasMacros ? <Badge variant="destructive" className="rounded-full">{t.admin.missingMacros}</Badge> : null}
                   </div>
-                </aside>
+                </div>
+
+                <div className="grid min-h-0 gap-3 xl:grid-cols-[1.1fr_0.9fr]">
+                  <div className="grid min-h-0 gap-3">
+                    <div className="space-y-2">
+                      <Label>{t.admin.description}</Label>
+                      <Textarea
+                        value={recipeForm.description}
+                        onChange={(event) => setRecipeForm((current) => ({ ...current, description: event.target.value }))}
+                        className="h-[clamp(90px,18vh,140px)] resize-none"
+                      />
+                    </div>
+                    <div className="min-h-0 space-y-2">
+                      <Label>{t.admin.instructionsOnePerLine}</Label>
+                      <Textarea
+                        value={recipeForm.instructions}
+                        onChange={(event) => setRecipeForm((current) => ({ ...current, instructions: event.target.value }))}
+                        className="h-[clamp(150px,30vh,240px)] resize-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid min-h-0 gap-3 content-start">
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label>{t.admin.difficulty}</Label>
+                        <Input value={recipeForm.difficulty} onChange={(event) => setRecipeForm((current) => ({ ...current, difficulty: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.tagsOnePerLine}</Label>
+                        <Textarea
+                          value={recipeForm.tags}
+                          onChange={(event) => setRecipeForm((current) => ({ ...current, tags: event.target.value }))}
+                          className="h-[clamp(90px,18vh,140px)] resize-none"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      <div className="space-y-2">
+                        <Label>{t.admin.prepTime}</Label>
+                        <Input type="number" value={recipeForm.prepTime} onChange={(event) => setRecipeForm((current) => ({ ...current, prepTime: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.cookTime}</Label>
+                        <Input type="number" value={recipeForm.cookTime} onChange={(event) => setRecipeForm((current) => ({ ...current, cookTime: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.calories}</Label>
+                        <Input type="number" value={recipeForm.calories} onChange={(event) => setRecipeForm((current) => ({ ...current, calories: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.protein}</Label>
+                        <Input type="number" value={recipeForm.protein} onChange={(event) => setRecipeForm((current) => ({ ...current, protein: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.carbs}</Label>
+                        <Input type="number" value={recipeForm.carbs} onChange={(event) => setRecipeForm((current) => ({ ...current, carbs: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.fat}</Label>
+                        <Input type="number" value={recipeForm.fat} onChange={(event) => setRecipeForm((current) => ({ ...current, fat: event.target.value }))} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                  <Button
+                    variant="outline"
+                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    onClick={() => setSelectedRecipeId(null)}
+                  >
+                    {t.common.cancel}
+                  </Button>
+                  <Button
+                    disabled={isUpdatingRecipe}
+                    className="h-10 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500 text-white hover:from-orange-600 hover:to-pink-600"
+                    onClick={handleSaveRecipe}
+                  >
+                    {t.common.save}
+                  </Button>
+                </DialogFooter>
               </div>
             </DialogContent>
           </Dialog>
