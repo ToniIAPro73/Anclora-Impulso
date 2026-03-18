@@ -299,7 +299,9 @@
     "fewTags": "Pocas etiquetas",
     "missingMacros": "Macros incompletas",
     "exercisesTab": "Ejercicios",
-    "recipesTab": "Recetas"
+    "recipesTab": "Recetas",
+    "editItem": "Editar",
+    "editorialSignals": "Señales editoriales"
   },
   "settings": {
     "title": "Configuración",
