@@ -567,65 +567,65 @@ function AdminContentInner() {
                   </div>
                 </div>
 
-                <div className="grid min-h-0 gap-3">
-                  <div className="grid gap-3 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
-                    <div className="space-y-2">
-                      <Label>{t.admin.description}</Label>
-                      <Textarea
-                        value={recipeForm.description}
-                        onChange={(event) => setRecipeForm((current) => ({ ...current, description: event.target.value }))}
-                        className="h-[clamp(88px,14vh,120px)] resize-none"
-                      />
+                <div className="grid min-h-0 gap-3 lg:grid-cols-[minmax(0,1.1fr)_minmax(340px,0.9fr)]">
+                  <div className="grid min-h-0 gap-3">
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label>{t.admin.description}</Label>
+                        <Textarea
+                          value={recipeForm.description}
+                          onChange={(event) => setRecipeForm((current) => ({ ...current, description: event.target.value }))}
+                          className="h-[88px] resize-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.tagsOnePerLine}</Label>
+                        <Textarea
+                          value={recipeForm.tags}
+                          onChange={(event) => setRecipeForm((current) => ({ ...current, tags: event.target.value }))}
+                          className="h-[88px] resize-none"
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label>{t.admin.tagsOnePerLine}</Label>
-                      <Textarea
-                        value={recipeForm.tags}
-                        onChange={(event) => setRecipeForm((current) => ({ ...current, tags: event.target.value }))}
-                        className="h-[clamp(88px,14vh,120px)] resize-none"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid min-h-0 gap-3 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
                     <div className="min-h-0 space-y-2">
                       <Label>{t.admin.instructionsOnePerLine}</Label>
                       <Textarea
                         value={recipeForm.instructions}
                         onChange={(event) => setRecipeForm((current) => ({ ...current, instructions: event.target.value }))}
-                        className="h-[clamp(180px,30vh,250px)] resize-none"
+                        className="h-[220px] resize-none lg:h-[250px]"
                       />
                     </div>
-                    <div className="grid content-start gap-3">
+                  </div>
+
+                  <div className="grid content-start gap-3">
+                    <div className="space-y-2">
+                      <Label>{t.admin.difficulty}</Label>
+                      <Input value={recipeForm.difficulty} onChange={(event) => setRecipeForm((current) => ({ ...current, difficulty: event.target.value }))} />
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label>{t.admin.difficulty}</Label>
-                        <Input value={recipeForm.difficulty} onChange={(event) => setRecipeForm((current) => ({ ...current, difficulty: event.target.value }))} />
+                        <Label>{t.admin.prepTime}</Label>
+                        <Input type="number" value={recipeForm.prepTime} onChange={(event) => setRecipeForm((current) => ({ ...current, prepTime: event.target.value }))} />
                       </div>
-                      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-2">
-                        <div className="space-y-2">
-                          <Label>{t.admin.prepTime}</Label>
-                          <Input type="number" value={recipeForm.prepTime} onChange={(event) => setRecipeForm((current) => ({ ...current, prepTime: event.target.value }))} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>{t.admin.cookTime}</Label>
-                          <Input type="number" value={recipeForm.cookTime} onChange={(event) => setRecipeForm((current) => ({ ...current, cookTime: event.target.value }))} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>{t.admin.calories}</Label>
-                          <Input type="number" value={recipeForm.calories} onChange={(event) => setRecipeForm((current) => ({ ...current, calories: event.target.value }))} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>{t.admin.protein}</Label>
-                          <Input type="number" value={recipeForm.protein} onChange={(event) => setRecipeForm((current) => ({ ...current, protein: event.target.value }))} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>{t.admin.carbs}</Label>
-                          <Input type="number" value={recipeForm.carbs} onChange={(event) => setRecipeForm((current) => ({ ...current, carbs: event.target.value }))} />
-                        </div>
-                        <div className="space-y-2">
-                          <Label>{t.admin.fat}</Label>
-                          <Input type="number" value={recipeForm.fat} onChange={(event) => setRecipeForm((current) => ({ ...current, fat: event.target.value }))} />
-                        </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.cookTime}</Label>
+                        <Input type="number" value={recipeForm.cookTime} onChange={(event) => setRecipeForm((current) => ({ ...current, cookTime: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.calories}</Label>
+                        <Input type="number" value={recipeForm.calories} onChange={(event) => setRecipeForm((current) => ({ ...current, calories: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.protein}</Label>
+                        <Input type="number" value={recipeForm.protein} onChange={(event) => setRecipeForm((current) => ({ ...current, protein: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.carbs}</Label>
+                        <Input type="number" value={recipeForm.carbs} onChange={(event) => setRecipeForm((current) => ({ ...current, carbs: event.target.value }))} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>{t.admin.fat}</Label>
+                        <Input type="number" value={recipeForm.fat} onChange={(event) => setRecipeForm((current) => ({ ...current, fat: event.target.value }))} />
                       </div>
                     </div>
                   </div>
