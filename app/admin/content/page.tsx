@@ -452,7 +452,7 @@ function AdminContentInner() {
           <Dialog open={Boolean(selectedExerciseId && selectedExercise)} onOpenChange={(open) => !open && setSelectedExerciseId(null)}>
             <DialogContent
               showCloseButton={false}
-              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/80 dark:bg-slate-950/95"
+              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/90 bg-white p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/90 dark:bg-slate-950"
             >
               <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
                 <div className="mb-3 flex items-start justify-between gap-4">
@@ -533,7 +533,7 @@ function AdminContentInner() {
           <Dialog open={Boolean(selectedRecipeId && selectedRecipe)} onOpenChange={(open) => !open && setSelectedRecipeId(null)}>
             <DialogContent
               showCloseButton={false}
-              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1480px] dark:border-slate-800/80 dark:bg-slate-950/95"
+              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/90 bg-white p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1480px] dark:border-slate-800/90 dark:bg-slate-950"
             >
               <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
                 <div className="mb-3 flex items-start justify-between gap-4">
@@ -592,7 +592,7 @@ function AdminContentInner() {
                       <Textarea
                         value={recipeForm.instructions}
                         onChange={(event) => setRecipeForm((current) => ({ ...current, instructions: event.target.value }))}
-                        className="h-[220px] resize-none lg:h-[250px]"
+                        className="h-[170px] overflow-y-auto resize-none lg:h-[190px]"
                       />
                     </div>
                   </div>
