@@ -5,11 +5,6 @@ export const prisma = new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
 });
 
-// Manejar desconexión al cerrar la aplicación
-process.on('beforeExit', async () => {
-  await prisma.$disconnect();
-});
-
 // Función para verificar la conexión
 export async function testDatabaseConnection(): Promise<boolean> {
   try {

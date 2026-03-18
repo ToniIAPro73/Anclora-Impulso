@@ -1,13 +1,13 @@
 import app from './app';
 import { env } from './config/env';
-import { testDatabaseConnection } from './config/database';
+import { prisma, testDatabaseConnection } from './config/database';
 
 async function startServer() {
   try {
     // Iniciar servidor primero
-    const server = app.listen(env.port, () => {
+    const server = app.listen(env.port, '0.0.0.0', () => {
       console.log('🚀 Servidor iniciado');
-      console.log(`📍 URL: http://localhost:${env.port}`);
+      console.log(`📍 URL: http://0.0.0.0:${env.port}`);
       console.log(`🌍 Entorno: ${env.nodeEnv}`);
       console.log(`🔗 Frontend: ${env.frontendUrl}`);
       console.log('\n✨ Rutas disponibles:');
@@ -36,8 +36,15 @@ async function startServer() {
     const gracefulShutdown = (signal: string) => {
       console.log(`\n${signal} recibido, cerrando servidor...`);
       server.close(() => {
-        console.log('✅ Servidor cerrado correctamente');
-        process.exit(0);
+        prisma
+          .$disconnect()
+          .catch((error) => {
+            console.error('⚠️ Error al desconectar Prisma durante el cierre:', error);
+          })
+          .finally(() => {
+            console.log('✅ Servidor cerrado correctamente');
+            process.exit(0);
+          });
       });
     };
 
