@@ -336,7 +336,7 @@ export function DashboardContent() {
     <div className="flex min-h-full flex-col gap-2.5 p-3 sm:gap-3 sm:p-4 lg:h-full lg:gap-2 lg:overflow-hidden">
       <OnboardingDialog open={onboardingOpen} onOpenChange={setOnboardingOpen} />
 
-      <Card className="border-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white shadow-xl">
+      <Card className="ui-motion-card-subtle border-0 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white shadow-xl">
         <CardContent className="grid gap-4 px-4 py-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.9fr)] lg:items-center">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center gap-2">

@@ -25,6 +25,8 @@ Este contrato define el comportamiento visual base de superficies interactivas e
 - Nuevos botones deben usar `Button` desde `components/ui/button` o incluir `ui-motion-button`.
 - Nuevos contenedores interactivos que no sean `Card` ni `Button` deben incluir `ui-motion-frame`.
 - No se deben inventar animaciones locales por pantalla si el patrón encaja en uno de los tres tipos anteriores.
+- En dashboards y vistas densas, las tarjetas principales y de métricas deben usar por defecto `ui-motion-card-subtle`; la elevación fuerte sólo se permite si hay una razón clara y aprobada de jerarquía visual.
+- Ninguna tarjeta destacada debe elevarse de forma perceptiblemente mayor que las demás tarjetas hermanas del mismo bloque si eso rompe la coherencia del conjunto.
 
 ## Contrato de campos editables
 - En tema oscuro, los campos editables no pueden mostrar superficies claras por defecto, autofill o estilos nativos del navegador.
