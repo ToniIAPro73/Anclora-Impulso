@@ -142,8 +142,8 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
         showCloseButton={false}
         className="h-[calc(100dvh-0.75rem)] w-[calc(100vw-0.75rem)] max-h-[960px] max-w-[1200px] overflow-hidden rounded-[24px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-h-none lg:max-w-[1440px] dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]"
       >
-        <div className="grid h-full min-h-0 grid-cols-1 overflow-y-auto lg:grid-cols-[240px_minmax(0,1fr)] lg:overflow-hidden">
-          <div className="flex flex-col border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-3 py-3 lg:min-h-0 lg:border-r lg:border-b-0 lg:py-2.5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
+        <div className="grid h-full min-h-0 grid-cols-1 overflow-hidden lg:grid-cols-[240px_minmax(0,1fr)]">
+          <div className="flex min-h-0 flex-col overflow-y-auto border-b border-orange-100/80 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.22),_transparent_48%),linear-gradient(180deg,_rgba(255,247,237,0.92),_rgba(255,237,213,0.56))] px-3 py-3 lg:min-h-0 lg:border-r lg:border-b-0 lg:py-2.5 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.12),_transparent_45%),linear-gradient(180deg,_rgba(15,23,42,0.98),_rgba(15,23,42,0.88))]">
             <DialogHeader className="text-left">
               <DialogTitle className="flex items-center gap-2 text-[1.6rem] font-semibold tracking-tight text-slate-900 dark:text-white">
                 <UserRound className="h-4.5 w-4.5 text-orange-500" />
@@ -223,7 +223,7 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-col bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:py-2">
+          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.94))] px-3 py-3 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.3),rgba(15,23,42,0.12))] lg:flex lg:min-h-0 lg:flex-col lg:py-2">
             <div className="mb-0.5 flex items-center justify-end max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:-mx-3 max-lg:mb-2 max-lg:border-b max-lg:border-orange-100/70 max-lg:bg-[linear-gradient(180deg,rgba(255,251,245,0.96),rgba(255,255,255,0.92))] max-lg:px-3 max-lg:pb-2 max-lg:pt-1 dark:max-lg:border-orange-400/10 dark:max-lg:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.92))] lg:-mt-1 lg:mb-1.5 lg:px-0 lg:pb-0 lg:pt-0">
               <DialogClose asChild>
                 <button
@@ -236,8 +236,9 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
               </DialogClose>
             </div>
 
-            <div className="grid gap-1 max-lg:gap-2 xl:grid-cols-[minmax(0,1fr)_192px]">
-              <section className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+            <div className="min-h-0 overflow-y-auto pr-0.5 max-lg:pb-2">
+              <div className="grid gap-1 max-lg:gap-2 xl:grid-cols-[minmax(0,1fr)_192px]">
+                <section className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-1 flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Datos base</p>
@@ -283,9 +284,9 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     </div>
                   ))}
                 </div>
-              </section>
+                </section>
 
-              <section className="overflow-hidden rounded-[18px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-1.5 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
+                <section className="overflow-hidden rounded-[18px] border border-orange-200/60 bg-[linear-gradient(180deg,rgba(255,247,237,0.92),rgba(255,237,213,0.68))] p-1.5 shadow-sm dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(124,45,18,0.18),rgba(15,23,42,0.58))]">
                 <div className="mb-1 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600 dark:text-orange-100">
                   <Target className="h-4 w-4 text-orange-500" />
                   Objetivo
@@ -309,11 +310,11 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     </div>
                   ))}
                 </div>
-              </section>
-            </div>
+                </section>
+              </div>
 
-            <section className="mt-1 grid min-h-0 gap-1 pb-0 max-lg:gap-2 max-lg:pb-1 xl:grid-cols-[minmax(0,1fr)_192px]">
-              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
+              <section className="mt-1 grid min-h-0 gap-1 pb-0 max-lg:gap-2 xl:grid-cols-[minmax(0,1fr)_192px]">
+                <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-white/80 p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-slate-950/45">
                 <div className="mb-1 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
                   <CalendarClock className="h-4 w-4 text-orange-500" />
                   Plan sugerido
@@ -354,9 +355,11 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                     Completa peso actual, peso objetivo, plazo y dias de entreno para generar una propuesta automatica.
                   </div>
                 )}
-              </div>
+                </div>
+              </section>
+            </div>
 
-              <div className="overflow-hidden rounded-[18px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(241,245,249,0.9))] p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.88),rgba(30,41,59,0.7))]">
+            <div className="mt-1 rounded-[18px] border border-slate-200/80 bg-[linear-gradient(160deg,rgba(255,255,255,0.96),rgba(241,245,249,0.96))] p-1.5 shadow-sm dark:border-slate-800/80 dark:bg-[linear-gradient(160deg,rgba(15,23,42,0.95),rgba(30,41,59,0.86))] max-lg:sticky max-lg:bottom-0 max-lg:z-10 max-lg:-mx-1 max-lg:border-t max-lg:border-slate-200/80 max-lg:pb-[calc(env(safe-area-inset-bottom,0px)+0.375rem)] dark:max-lg:border-slate-800/80">
                 <div className="flex flex-col items-start justify-between gap-2 sm:flex-row">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen</p>
@@ -383,19 +386,18 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
                   </div>
                 </div>
                 <div className="mt-1 flex flex-col gap-1 sm:flex-row">
-                    <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => handleOpenChange(false)}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      className="h-6.5 flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 px-2 text-[10px] hover:from-orange-600 hover:to-rose-600"
-                      onClick={handleSave}
-                      disabled={isSaving}
-                    >
-                      {isSaving ? "Guardando..." : "Guardar"}
-                    </Button>
+                  <Button variant="outline" className="h-6.5 flex-1 rounded-2xl px-2 text-[10px]" onClick={() => handleOpenChange(false)}>
+                    Cancelar
+                  </Button>
+                  <Button
+                    className="h-6.5 flex-1 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 px-2 text-[10px] hover:from-orange-600 hover:to-rose-600"
+                    onClick={handleSave}
+                    disabled={isSaving}
+                  >
+                    {isSaving ? "Guardando..." : "Guardar"}
+                  </Button>
                 </div>
-              </div>
-            </section>
+            </div>
           </div>
         </div>
       </DialogContent>
