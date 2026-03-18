@@ -227,7 +227,7 @@ function AdminContentInner() {
             </TabsList>
 
             <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
-              <Card className="border-0 bg-white/80 shadow-lg backdrop-blur-sm dark:bg-gray-800/80">
+              <Card className="overflow-hidden border-0 bg-white/95 shadow-lg backdrop-blur-sm dark:bg-gray-800/95">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle2 className="h-5 w-5 text-orange-500" />
@@ -237,17 +237,17 @@ function AdminContentInner() {
                     {activeTab === "exercises" ? t.admin.exerciseQueueDesc : t.admin.recipeQueueDesc}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-3">
+                <CardContent className="relative isolate space-y-3 overflow-hidden">
                   {activeTab === "exercises"
                     ? summary.exercises.map((exercise) => (
                         <button
                           key={exercise.id}
                           type="button"
                           onClick={() => setSelectedExerciseId(exercise.id)}
-                          className={`flex w-full flex-col gap-2 rounded-2xl border p-4 text-left transition ${
+                          className={`relative z-0 flex w-full flex-col gap-2 rounded-2xl border p-4 text-left transition-colors ${
                             selectedExercise?.id === exercise.id
                               ? "border-orange-400 bg-orange-50 dark:border-orange-500 dark:bg-orange-500/10"
-                              : "border-slate-200 bg-slate-50/80 dark:border-slate-700 dark:bg-slate-900/40"
+                              : "border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">
@@ -275,10 +275,10 @@ function AdminContentInner() {
                           key={recipe.id}
                           type="button"
                           onClick={() => setSelectedRecipeId(recipe.id)}
-                          className={`flex w-full flex-col gap-2 rounded-2xl border p-4 text-left transition ${
+                          className={`relative z-0 flex w-full flex-col gap-2 rounded-2xl border p-4 text-left transition-colors ${
                             selectedRecipe?.id === recipe.id
                               ? "border-emerald-400 bg-emerald-50 dark:border-emerald-500 dark:bg-emerald-500/10"
-                              : "border-slate-200 bg-slate-50/80 dark:border-slate-700 dark:bg-slate-900/40"
+                              : "border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-3">
