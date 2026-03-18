@@ -450,8 +450,8 @@ function AdminContentInner() {
           </Tabs>
 
           <Dialog open={Boolean(selectedExerciseId && selectedExercise)} onOpenChange={(open) => !open && setSelectedExerciseId(null)}>
-            <DialogContent className="max-w-[min(960px,calc(100%-1rem))] border-slate-200/80 bg-white/95 p-0 dark:border-slate-800/80 dark:bg-slate-950/95">
-              <div className="grid gap-0 lg:grid-cols-[minmax(0,0.8fr)_minmax(280px,0.2fr)]">
+            <DialogContent className="h-auto max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1180px] dark:border-slate-800/80 dark:bg-slate-950/95">
+              <div className="grid max-h-[calc(100dvh-1rem)] gap-0 overflow-hidden lg:max-h-[calc(100dvh-3rem)] xl:grid-cols-[minmax(0,1.15fr)_280px]">
                 <div className="space-y-5 p-5 sm:p-6">
                   <DialogHeader className="text-left">
                     <DialogTitle>{selectedExercise?.name ?? t.admin.exerciseQueueTitle}</DialogTitle>
@@ -487,7 +487,7 @@ function AdminContentInner() {
                     </Button>
                   </DialogFooter>
                 </div>
-                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 lg:border-l lg:border-t-0">
+                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 xl:border-l xl:border-t-0">
                   <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t.admin.editorialSignals}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {!selectedExercise?.editorial?.checks.hasImage ? <Badge variant="destructive" className="rounded-full">{t.admin.missingImage}</Badge> : null}
@@ -499,8 +499,8 @@ function AdminContentInner() {
           </Dialog>
 
           <Dialog open={Boolean(selectedRecipeId && selectedRecipe)} onOpenChange={(open) => !open && setSelectedRecipeId(null)}>
-            <DialogContent className="max-w-[min(1080px,calc(100%-1rem))] border-slate-200/80 bg-white/95 p-0 dark:border-slate-800/80 dark:bg-slate-950/95">
-              <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.32fr)]">
+            <DialogContent className="h-auto max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] overflow-hidden border-slate-200/80 bg-white/95 p-0 sm:w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/80 dark:bg-slate-950/95">
+              <div className="grid max-h-[calc(100dvh-1rem)] gap-0 overflow-hidden lg:max-h-[calc(100dvh-3rem)] xl:grid-cols-[minmax(0,1.2fr)_320px]">
                 <div className="space-y-5 p-5 sm:p-6">
                   <DialogHeader className="text-left">
                     <DialogTitle>{selectedRecipe?.name ?? t.admin.recipeQueueTitle}</DialogTitle>
@@ -569,7 +569,7 @@ function AdminContentInner() {
                     </Button>
                   </DialogFooter>
                 </div>
-                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 lg:border-l lg:border-t-0">
+                <aside className="border-t border-slate-200/70 bg-slate-50/60 p-5 dark:border-slate-800/80 dark:bg-slate-900/50 xl:border-l xl:border-t-0">
                   <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{t.admin.editorialSignals}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {!selectedRecipe?.editorial?.checks.hasImage ? <Badge variant="destructive" className="rounded-full">{t.admin.missingImage}</Badge> : null}

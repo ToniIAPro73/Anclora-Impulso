@@ -32,6 +32,13 @@ Este contrato define el comportamiento visual base de superficies interactivas e
 - El fondo y el color del texto de los campos editables en oscuro deben integrarse con la misma superficie oscura usada por selects y controles vecinos.
 - Cualquier override local de un campo editable debe preservar ese contrato visual y no reintroducir fondos blancos o texto oscuro en tema oscuro.
 
+## Contrato de modales
+- Los modales deben dimensionarse según el contenido y el viewport real, no a partir de un ancho compacto fijo heredado por defecto.
+- La primera estrategia debe ser ampliar superficie utilizable y reorganizar columnas, no introducir `scroll` vertical u horizontal.
+- Un modal puede ocupar casi todo el viewport si eso evita scrolls y mejora la edición o lectura.
+- Sólo se permite `scroll` interno cuando, tras adaptar layout y tamaño, siga siendo imposible mostrar la información completa de forma usable.
+- En modales con mucha información, las columnas laterales deben colapsar o apilarse antes de comprimir el contenido principal.
+
 ## Extensión del contrato
 Si aparece un nuevo tipo de superficie, debe añadirse en:
 - `lib/ui-motion.ts` para declarar el identificador reutilizable.
