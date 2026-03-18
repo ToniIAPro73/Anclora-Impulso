@@ -378,11 +378,26 @@ export function ProgressTracker() {
                   {isSpanish ? "Agregar Medida" : "Add Measurement"}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
+              <DialogContent
+                showCloseButton={false}
+                className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[880px] dark:border-slate-800/90 dark:bg-slate-950"
+              >
+                <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+                <div className="mb-4 flex items-start justify-between gap-4">
+                <DialogHeader className="text-left">
                   <DialogTitle>{isSpanish ? "Nueva Medida Corporal" : "New Body Measurement"}</DialogTitle>
                   <DialogDescription>{isSpanish ? "Registra tus medidas actuales" : "Log your current measurements"}</DialogDescription>
                 </DialogHeader>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  {isSpanish ? "Cerrar" : "Close"}
+                </Button>
+                </div>
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
@@ -449,20 +464,30 @@ export function ProgressTracker() {
                       />
                     </div>
                   </div>
-                  <Button
-                    onClick={handleAddMeasurement}
-                    disabled={isAddingMeasurement}
-                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500"
-                  >
-                    {isAddingMeasurement ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {isSpanish ? "Guardando..." : "Saving..."}
-                      </>
-                    ) : (
-                      isSpanish ? "Guardar Medida" : "Save Measurement"
-                    )}
-                  </Button>
+                  <div className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                    <Button
+                      variant="outline"
+                      className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                      onClick={() => setIsDialogOpen(false)}
+                    >
+                      {isSpanish ? "Cancelar" : "Cancel"}
+                    </Button>
+                    <Button
+                      onClick={handleAddMeasurement}
+                      disabled={isAddingMeasurement}
+                      className="h-10 rounded-2xl bg-gradient-to-r from-orange-500 to-pink-500"
+                    >
+                      {isAddingMeasurement ? (
+                        <>
+                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          {isSpanish ? "Guardando..." : "Saving..."}
+                        </>
+                      ) : (
+                        isSpanish ? "Guardar" : "Save"
+                      )}
+                    </Button>
+                  </div>
+                </div>
                 </div>
               </DialogContent>
             </Dialog>

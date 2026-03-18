@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -172,13 +172,28 @@ function NutritionPageContent() {
                 {t ? 'Registrar Comida' : 'Log Meal'}
               </Button>
             </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
+            <DialogContent
+              showCloseButton={false}
+              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950"
+            >
+              <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+              <div className="mb-4 flex items-start justify-between gap-4">
+              <DialogHeader className="text-left">
                 <DialogTitle>{t ? 'Registrar Comida' : 'Log Meal'}</DialogTitle>
                 <DialogDescription>
                   {t ? 'Añade los macros de tu comida' : 'Add your meal macros'}
                 </DialogDescription>
               </DialogHeader>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
+                onClick={() => setLogOpen(false)}
+              >
+                {copy.common.close}
+              </Button>
+              </div>
               <div className="space-y-4">
                 {profile.age && profile.age >= 40 ? (
                   <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300">
@@ -238,9 +253,19 @@ function NutritionPageContent() {
                     <Input type="number" value={logData.fat} onChange={(e) => setLogData(d => ({ ...d, fat: +e.target.value }))} />
                   </div>
                 </div>
-                <Button onClick={handleLog} disabled={isLogging} className="w-full">
-                  {isLogging ? (t ? 'Guardando...' : 'Saving...') : (t ? 'Guardar' : 'Save')}
-                </Button>
+                <DialogFooter className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                  <Button
+                    variant="outline"
+                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    onClick={() => setLogOpen(false)}
+                  >
+                    {copy.common.cancel}
+                  </Button>
+                  <Button onClick={handleLog} disabled={isLogging} className="h-10 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600">
+                    {isLogging ? (t ? 'Guardando...' : 'Saving...') : copy.common.save}
+                  </Button>
+                </DialogFooter>
+              </div>
               </div>
             </DialogContent>
           </Dialog>
@@ -252,13 +277,28 @@ function NutritionPageContent() {
                 {t ? 'Generar Plan IA' : 'Generate AI Plan'}
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-xl">
-              <DialogHeader>
+            <DialogContent
+              showCloseButton={false}
+              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950"
+            >
+              <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+              <div className="mb-4 flex items-start justify-between gap-4">
+              <DialogHeader className="text-left">
                 <DialogTitle>{t ? 'Generar Plan de Comidas' : 'Generate Meal Plan'}</DialogTitle>
                 <DialogDescription>
                   {t ? 'La IA creará un plan semanal personalizado' : 'AI will create a personalized weekly plan'}
                 </DialogDescription>
               </DialogHeader>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
+                onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
+              >
+                {copy.common.close}
+              </Button>
+              </div>
               <div className="space-y-4">
                 {!isProfileReady ? (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/20 dark:bg-amber-950/20 dark:text-amber-300">
@@ -323,9 +363,19 @@ function NutritionPageContent() {
                     {generateError}
                   </div>
                 )}
-                <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className="w-full bg-gradient-to-r from-green-600 to-emerald-600">
-                  {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
-                </Button>
+                <DialogFooter className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                  <Button
+                    variant="outline"
+                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
+                  >
+                    {copy.common.cancel}
+                  </Button>
+                  <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className="h-10 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600">
+                    {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
+                  </Button>
+                </DialogFooter>
+              </div>
               </div>
             </DialogContent>
           </Dialog>

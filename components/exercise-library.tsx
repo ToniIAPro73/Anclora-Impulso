@@ -358,8 +358,26 @@ export function ExerciseLibrary() {
               </Card>
               </div>
             </DialogTrigger>
-            <DialogContent className="max-h-[85dvh] overflow-y-auto sm:max-w-2xl">
-              <DialogHeader>
+            <DialogContent
+              showCloseButton={false}
+              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1120px] dark:border-slate-800/90 dark:bg-slate-950"
+            >
+              <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+              <div className="mb-4 flex items-start justify-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
+                  onClick={() => {
+                    const closeButton = document.querySelector('[data-slot=\"dialog-close\"]') as HTMLButtonElement | null
+                    closeButton?.click()
+                  }}
+                >
+                  {isSpanish ? "Cerrar" : "Close"}
+                </Button>
+              </div>
+              <DialogHeader className="text-left">
                 {renderExerciseMedia(exercise)}
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
@@ -372,7 +390,7 @@ export function ExerciseLibrary() {
                   </div>
                 </div>
               </DialogHeader>
-              <div className="space-y-6">
+              <div className="mt-6 space-y-6">
                 <div className="flex flex-wrap gap-2">
                   <Badge className={getDifficultyColor(exercise.difficulty)}>{exercise.difficulty}</Badge>
                   {exercise.equipment && (
@@ -413,6 +431,7 @@ export function ExerciseLibrary() {
                     </ol>
                   </div>
                 )}
+              </div>
               </div>
             </DialogContent>
           </Dialog>
