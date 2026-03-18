@@ -56,6 +56,11 @@ function AdminContentInner() {
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [recentDeliveries, setRecentDeliveries] = useState<Array<NotificationDelivery & { user: { email: string; fullName: string } }>>([])
   const [isDispatchingNotifications, setIsDispatchingNotifications] = useState(false)
+  const [dispatchFeedback, setDispatchFeedback] = useState<{
+    tone: "neutral" | "success" | "warning" | "danger"
+    title: string
+    body: string
+  } | null>(null)
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null)
   const [selectedRecipeId, setSelectedRecipeId] = useState<string | null>(null)
   const exerciseItemRefs = useRef<Array<HTMLDivElement | null>>([])
@@ -264,9 +269,62 @@ function AdminContentInner() {
 
   const dispatchNotificationsNow = async () => {
     setIsDispatchingNotifications(true)
+    setDispatchFeedback(null)
     try {
-      await engagementApi.dispatchNow()
-      setRecentDeliveries(await engagementApi.getRecentDeliveries())
+      const result = await engagementApi.dispatchNow()
+      const deliveries = await engagementApi.getRecentDeliveries()
+      setRecentDeliveries(deliveries)
+
+      const smtpFailure = deliveries.find((delivery) => delivery.failureReason === "SMTP_NOT_CONFIGURED")
+
+      if (smtpFailure) {
+        setDispatchFeedback({
+          tone: "warning",
+          title: language === "es" ? "SMTP no configurado" : "SMTP not configured",
+          body:
+            language === "es"
+              ? "El backend ha intentado despachar recordatorios, pero el canal email no está configurado todavía."
+              : "The backend tried to dispatch reminders, but the email channel is not configured yet.",
+        })
+      } else if (result.sent > 0) {
+        setDispatchFeedback({
+          tone: "success",
+          title: language === "es" ? "Despacho completado" : "Dispatch completed",
+          body:
+            language === "es"
+              ? `Se han enviado ${result.sent} recordatorios. ${result.failed > 0 ? `${result.failed} han fallado.` : ""}`.trim()
+              : `${result.sent} reminders were sent. ${result.failed > 0 ? `${result.failed} failed.` : ""}`.trim(),
+        })
+      } else if (result.created === 0 && result.sent === 0 && result.failed === 0) {
+        setDispatchFeedback({
+          tone: "neutral",
+          title: language === "es" ? "Nada que enviar ahora" : "Nothing to send right now",
+          body:
+            language === "es"
+              ? "No había recordatorios debidos en esta ventana temporal."
+              : "There were no reminders due in this time window.",
+        })
+      } else {
+        setDispatchFeedback({
+          tone: "danger",
+          title: language === "es" ? "Despacho incompleto" : "Dispatch incomplete",
+          body:
+            language === "es"
+              ? `Se han intentado crear ${result.created} recordatorios, pero ${result.failed} han fallado y no se ha enviado ninguno.`
+              : `${result.created} reminders were created, but ${result.failed} failed and none were sent.`,
+        })
+      }
+    } catch (error) {
+      setDispatchFeedback({
+        tone: "danger",
+        title: language === "es" ? "No se pudo despachar" : "Could not dispatch",
+        body:
+          error instanceof Error
+            ? error.message
+            : language === "es"
+              ? "El backend no ha podido completar la acción."
+              : "The backend could not complete the action.",
+      })
     } finally {
       setIsDispatchingNotifications(false)
     }
@@ -661,6 +719,22 @@ function AdminContentInner() {
                         {language === "es" ? "Despachar ahora" : "Dispatch now"}
                       </Button>
                     </div>
+                    {dispatchFeedback ? (
+                      <div
+                        className={`mt-3 rounded-2xl border px-4 py-3 text-sm ${
+                          dispatchFeedback.tone === "success"
+                            ? "border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-200"
+                            : dispatchFeedback.tone === "warning"
+                              ? "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/10 dark:text-amber-200"
+                              : dispatchFeedback.tone === "danger"
+                                ? "border-red-200 bg-red-50 text-red-800 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-200"
+                                : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-950/70 dark:text-slate-200"
+                        }`}
+                      >
+                        <p className="font-semibold">{dispatchFeedback.title}</p>
+                        <p className="mt-1">{dispatchFeedback.body}</p>
+                      </div>
+                    ) : null}
                     <div className="mt-3 space-y-2">
                       {recentDeliveries.slice(0, 4).map((delivery) => (
                         <div key={delivery.id} className="flex items-center justify-between rounded-xl bg-white/85 px-3 py-2 text-sm dark:bg-slate-950/70">
