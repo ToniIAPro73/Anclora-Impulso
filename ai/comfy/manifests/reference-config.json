@@ -1,0 +1,25 @@
+{
+  "dataset": "fitness-exercises",
+  "promptSource": "data/prompts.json",
+  "activeTestProfile": "male_31_40",
+  "athleteProfiles": {
+    "male_under_30": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_hasta_30.png",
+    "male_31_40": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_31_40.png",
+    "male_41_50": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_41_50.png",
+    "male_51_60": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_51_60.jpeg",
+    "male_61_70": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_61_70.jpeg"
+  },
+  "environmentReferences": {
+    "gym": "ai/comfy/references/environments/entorno_gym.png",
+    "home": "ai/comfy/references/environments/entorno_home.png",
+    "outdoor": "ai/comfy/references/environments/entorno_outside.png"
+  },
+  "testSelection": {
+    "athleteReference": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_31_40.png",
+    "environments": [
+      "gym",
+      "home",
+      "outdoor"
+    ]
+  }
+}

@@ -14,6 +14,8 @@
     "test:ci": "jest --ci --coverage",
     "test:coverage": "jest --coverage",
     "typecheck": "tsc --noEmit",
+    "comfy:prepare": "node scripts/comfy/prepare-comfy-batch.mjs",
+    "comfy:payloads": "node scripts/comfy/build-comfy-payloads.mjs",
     "exercise:prompts": "tsx scripts/exercise-image-ai/generatePromptsGroq.ts",
     "exercise:manifest": "tsx scripts/exercise-image-ai/generateManifest.ts",
     "exercise:images": "node scripts/exercise-image-ai/generator/generateImages.js"

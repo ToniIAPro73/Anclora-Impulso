@@ -1,0 +1,33 @@
+{
+  "workflowPath": "ai/comfy/workflows/workflow_api.json",
+  "nodes": {
+    "positivePrompt": {
+      "id": "REPLACE_ME",
+      "input": "text"
+    },
+    "negativePrompt": {
+      "id": "REPLACE_ME",
+      "input": "text"
+    },
+    "athleteReferenceImage": {
+      "id": "REPLACE_ME",
+      "input": "image"
+    },
+    "environmentReferenceImage": {
+      "id": "REPLACE_ME",
+      "input": "image"
+    },
+    "outputPrefix": {
+      "id": "REPLACE_ME",
+      "input": "filename_prefix"
+    },
+    "seed": {
+      "id": null,
+      "input": "seed"
+    },
+    "poseReferenceImage": {
+      "id": null,
+      "input": "image"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "d85cd8f1-0fd7-45e6-9565-c4eabc6a9cbf",
+  "slug": "alternating-banded-glute-bridge-march",
+  "name": "Alternating Banded Glute Bridge March",
+  "environment": "home",
+  "targetPath": "backend/public/exercises/alternating-banded-glute-bridge-march/alternating_banded_glute_bridge_march.png",
+  "targetFolder": "backend/public/exercises/alternating-banded-glute-bridge-march",
+  "outputPrefix": "anclora/home/alternating-banded-glute-bridge-march",
+  "sourcePrompt": "Professional 3D fitness instructional illustration using the ATTACHED CHARACTER MODEL as the exact identity reference. Keep the same stylized 3D cartoon male character across every image: short brown hair, vivid green eyes, moustache, compact athletic proportions, friendly premium app look. Clothing must remain identical in all images: black athletic t-shirt, black shorts, black training shoes. Exercise: Alternating Banded Glute Bridge March. Training environment: home. Muscle focus: Glutes. Category: Strength. Equipment required: Resistance Bands. Show two poses in the same image, LEFT = START and RIGHT = END, with a subtle movement arrow and small labels START and END. LEFT pose: Acuéstate boca arriba con banda sobre las rodillas. RIGHT pose: Mantén la apertura de la banda arriba. Minimal premium home workout set with the SAME clean background for every home exercise: soft warm natural light, matte light wall, subtle floor shadow, one black mat on the floor, compact dumbbells and a folded resistance band placed neatly in the scene, no furniture clutter, no extra props. High quality, premium fitness app style, centered composition, full body visible when possible, biomechanically correct posture, consistent facial features and body proportions.",
+  "sourceNegativePrompt": "extra fingers, mutated hands, malformed hands, deformed hands, extra arms, extra legs, duplicated body parts, twisted limbs, bad anatomy, poor biomechanics, incorrect exercise form, blurry, low quality, low resolution, text artifacts, watermark, logo, cropped head, cropped feet, out of frame, wrong eye color, different clothes, different character, multiple characters, photorealistic adult human style, horror, violence, outdoor park, trees, grass, road, gym machines, cable station, barbell rack, crowded room, windows with strong scenery",
+  "athleteReference": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_31_40.png",
+  "environmentReference": "ai/comfy/references/environments/entorno_home.png",
+  "workflow": {
+    "exists": false,
+    "path": "ai/comfy/workflows/workflow_api.json",
+    "bindings": {
+      "positivePrompt": {
+        "id": "REPLACE_ME",
+        "input": "text"
+      },
+      "negativePrompt": {
+        "id": "REPLACE_ME",
+        "input": "text"
+      },
+      "athleteReferenceImage": {
+        "id": "REPLACE_ME",
+        "input": "image"
+      },
+      "environmentReferenceImage": {
+        "id": "REPLACE_ME",
+        "input": "image"
+      },
+      "outputPrefix": {
+        "id": "REPLACE_ME",
+        "input": "filename_prefix"
+      },
+      "seed": {
+        "id": null,
+        "input": "seed"
+      },
+      "poseReferenceImage": {
+        "id": null,
+        "input": "image"
+      }
+    }
+  }
+}
