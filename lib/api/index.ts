@@ -543,6 +543,16 @@ export interface Recipe {
   };
 }
 
+export interface RecipeLibraryResponse {
+  recipes: Recipe[];
+  pagination: {
+    total: number;
+    limit: number;
+    offset: number;
+    hasMore: boolean;
+  };
+}
+
 export interface MealRecipe {
   id: string;
   recipe: Recipe;
@@ -647,7 +657,8 @@ export const nutritionApi = {
     source?: 'system' | 'ai' | 'user';
     scope?: 'all' | 'mine' | 'public';
     limit?: number;
-  }): Promise<Recipe[]> {
+    offset?: number;
+  }): Promise<RecipeLibraryResponse> {
     const searchParams = new URLSearchParams();
 
     Object.entries(params ?? {}).forEach(([key, value]) => {
@@ -657,7 +668,7 @@ export const nutritionApi = {
     });
 
     const suffix = searchParams.toString() ? `?${searchParams.toString()}` : '';
-    return apiClient.get<Recipe[]>(`/nutrition/recipes${suffix}`);
+    return apiClient.get<RecipeLibraryResponse>(`/nutrition/recipes${suffix}`);
   },
 
   async createRecipe(

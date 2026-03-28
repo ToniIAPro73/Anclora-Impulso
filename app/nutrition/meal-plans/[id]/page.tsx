@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useDeferredValue, useMemo, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { ArrowLeft, Beef, ChefHat, Clock, Droplets, Flame, Plus, Search, UtensilsCrossed, Wheat } from "lucide-react"
 
@@ -22,8 +22,40 @@ import { useLanguage } from "@/lib/contexts/language-context"
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+function formatNutritionGoal(goal?: string | null, isSpanish = true) {
+  if (!goal) return ""
+
+  const labels: Record<string, { es: string; en: string }> = {
+    perdida_peso: { es: "Pérdida de peso", en: "Weight loss" },
+    ganancia_muscular: { es: "Ganancia muscular", en: "Muscle gain" },
+    recomposicion: { es: "Recomposición", en: "Recomposition" },
+    mantenimiento: { es: "Mantenimiento", en: "Maintenance" },
+    energia: { es: "Más energía", en: "More energy" },
+    lose_weight: { es: "Pérdida de peso", en: "Weight loss" },
+    build_muscle: { es: "Ganancia muscular", en: "Muscle gain" },
+    maintain: { es: "Mantenimiento", en: "Maintenance" },
+  }
+
+  const match = labels[goal]
+  if (match) return isSpanish ? match.es : match.en
+
+  return goal.replaceAll("_", " ")
+}
+
 function getActiveRecipe(meal: Meal): Recipe | null {
   return meal.selectedRecipe ?? meal.recipes[0]?.recipe ?? null
+}
+
+function formatRecipeSource(source: Recipe["source"], isSpanish = true) {
+  switch (source) {
+    case "user":
+      return isSpanish ? "Mía" : "Mine"
+    case "ai":
+      return isSpanish ? "IA" : "AI"
+    case "system":
+    default:
+      return isSpanish ? "Sistema" : "System"
+  }
 }
 
 type CreateRecipeFormState = {
@@ -87,23 +119,44 @@ function MealPlanDetailPageContent() {
     [mealDialogId, plan],
   )
   const selectedMealRecipe = selectedMeal ? getActiveRecipe(selectedMeal) : null
+  const deferredLibraryQuery = useDeferredValue(libraryQuery)
 
   const libraryQueryParams = useMemo(() => {
     if (!selectedMeal) return undefined
 
     return {
-      query: libraryQuery || undefined,
+      query: deferredLibraryQuery || undefined,
       mealType: selectedMeal.mealType as "desayuno" | "almuerzo" | "cena" | "snack",
       dietType: (plan?.dietType as "ninguna" | "mediterranea" | "dash" | "ayuno_intermitente" | "alta_proteina" | undefined) ?? undefined,
       scope: libraryScope,
       limit: 24,
     }
-  }, [libraryQuery, libraryScope, plan?.dietType, selectedMeal])
+  }, [deferredLibraryQuery, libraryScope, plan?.dietType, selectedMeal])
 
-  const { data: recipeLibrary = [], isLoading: isLibraryLoading } = useRecipeLibrary(
+  const {
+    data: recipeLibraryPages,
+    isLoading: isLibraryLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useRecipeLibrary(
     libraryQueryParams,
-    { enabled: Boolean(selectedMeal) }
+    { enabled: Boolean(selectedMeal), cacheKey: selectedMeal?.id ?? null }
   )
+
+  const recipeLibrary = useMemo(() => {
+    const dedupedRecipes = new Map<string, Recipe>()
+
+    for (const page of recipeLibraryPages?.pages ?? []) {
+      for (const recipe of page.recipes) {
+        dedupedRecipes.set(recipe.id, recipe)
+      }
+    }
+
+    return Array.from(dedupedRecipes.values())
+  }, [recipeLibraryPages])
+
+  const totalRecipeMatches = recipeLibraryPages?.pages.at(-1)?.pagination.total ?? 0
 
   const openReplaceDialog = (meal: Meal) => {
     setMealDialogId(meal.id)
@@ -248,7 +301,7 @@ function MealPlanDetailPageContent() {
             <h1 className="text-2xl font-bold">{t ? "Plan de Comidas" : "Meal Plan"}</h1>
             <p className="text-muted-foreground">
               {t ? "Semana del" : "Week of"} {new Date(plan.weekStart).toLocaleDateString()}
-              {plan.goal && <Badge variant="outline" className="ml-2 capitalize">{plan.goal}</Badge>}
+              {plan.goal && <Badge variant="outline" className="ml-2">{formatNutritionGoal(plan.goal, t)}</Badge>}
               {plan.dietType === "ayuno_intermitente" && <Badge variant="outline" className="ml-2">16:8</Badge>}
               {plan.dietType === "alta_proteina" && <Badge variant="outline" className="ml-2">{t ? "Alta proteína" : "High protein"}</Badge>}
             </p>
@@ -469,6 +522,14 @@ function MealPlanDetailPageContent() {
                 />
               </div>
 
+              {!isLibraryLoading && totalRecipeMatches > 0 ? (
+                <p className="text-sm text-muted-foreground">
+                  {t
+                    ? `Mostrando ${recipeLibrary.length} de ${totalRecipeMatches} recetas compatibles`
+                    : `Showing ${recipeLibrary.length} of ${totalRecipeMatches} matching recipes`}
+                </p>
+              ) : null}
+
               <div className="grid gap-3 md:grid-cols-2">
                 {isLibraryLoading ? (
                   <p className="text-sm text-muted-foreground">{t ? "Cargando biblioteca..." : "Loading library..."}</p>
@@ -483,7 +544,7 @@ function MealPlanDetailPageContent() {
                             <CardTitle className="text-base">{recipe.name}</CardTitle>
                             <CardDescription className="mt-1 line-clamp-2">{recipe.description || "—"}</CardDescription>
                           </div>
-                          <Badge variant="outline">{recipe.source === "user" ? (t ? "Mía" : "Mine") : recipe.source}</Badge>
+                          <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
                         <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
                           <span>{Math.round(recipe.calories || 0)} kcal</span>
@@ -510,6 +571,20 @@ function MealPlanDetailPageContent() {
                   ))
                 )}
               </div>
+
+              {!isLibraryLoading && recipeLibrary.length > 0 && hasNextPage ? (
+                <div className="flex justify-center">
+                  <Button
+                    variant="outline"
+                    onClick={() => void fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                  >
+                    {isFetchingNextPage
+                      ? (t ? "Cargando más..." : "Loading more...")
+                      : (t ? "Cargar más recetas" : "Load more recipes")}
+                  </Button>
+                </div>
+              ) : null}
             </TabsContent>
 
             <TabsContent value="create" className="space-y-4">

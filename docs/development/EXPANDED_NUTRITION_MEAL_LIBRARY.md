@@ -2,382 +2,127 @@
 
 ## Objetivo
 
-Este documento deja visible la ampliación real de la librería de nutrición de `Anclora-Impulso`, alineada con el seed de recetas del sistema y pensada para tres usos:
-
-- poblar Neon/PostgreSQL vía Prisma
-- permitir sustitución manual de comidas en un `MealPlan`
-- dar una base clara para futuras recetas IA y recetas creadas por usuario
+Este documento resume la libreria ampliada de recetas del sistema para `Anclora-Impulso` y sustituye al resumen inicial, que ya se habia quedado pequeño.
 
 La fuente de verdad estructurada vive en:
 
 - `backend/prisma/nutrition-library.ts`
 
-Este `.md` resume esa librería en formato editorial, agrupada por dieta.
+La libreria esta pensada para cuatro usos reales:
 
-## Resumen del catálogo inicial
+- poblar Neon/PostgreSQL via Prisma seed
+- alimentar menus semanales generados por IA con una base persistente mas rica
+- permitir sustitucion manual de comidas desde la biblioteca
+- dar soporte a recetas del sistema, recetas IA guardadas y recetas creadas por usuario
 
-- `mediterranea`: 9 recetas
-- `dash`: 8 recetas
-- `ayuno_intermitente`: 6 recetas
-- `alta_proteina`: 10 recetas
+## Como se ha ampliado
 
-## Dieta Mediterránea
+La nueva libreria parte del informe `deep-research-report.md`, pero no se limita a copiar recetas una a una. En su lugar, usa un catalogo generativo y mantenible que combina:
 
-### Tostadas mediterráneas con tomate y huevo
+- patrones inspirados en NHS y Mayo Clinic
+- ingredientes canonicos con unidades estables
+- familias de recetas reutilizables por tipo de comida
+- sesgo editorial hacia adherencia, saciedad y facilidad de ejecucion
+
+Esto permite crecer sin meter cientos de objetos manuales y mantiene coherencia en macros, tags y estructura del seed.
+
+## Cobertura actual
+
+Conteos validados con `tsx` sobre `SYSTEM_RECIPE_STATS`:
+
+- Total de recetas: `374`
+- Dietas:
+  - `alta_proteina`: `123`
+  - `ayuno_intermitente`: `92`
+  - `mediterranea`: `71`
+  - `dash`: `58`
+  - `ninguna`: `36`
+- Dificultad:
+  - `facil`: `249`
+  - `medio`: `106`
+  - `dificil`: `19`
+- Objetivos:
+  - `perdida_peso`: `336`
+  - `recomposicion`: `256`
+  - `ganancia_muscular`: `237`
+  - `mantenimiento`: `190`
+  - `salud_cardiometabolica`: `92`
+- Tipos de comida:
+  - `desayuno`: `109`
+  - `almuerzo`: `238`
+  - `cena`: `287`
+  - `snack`: `85`
+
+## Criterio editorial
+
+Se ha priorizado justo lo que tiene mas sentido para el producto hoy:
+
+- maxima densidad de recetas para `perdida_peso`
+- gran cobertura para `ganancia_muscular` y `recomposicion`
+- concentracion fuerte en `alta_proteina` y `ayuno_intermitente`
+- predominio claro de recetas `facil` y `medio`
+- pocas recetas `dificil`, solo como capa de profundidad editorial
+
+## Familias incluidas
+
+La libreria no es una lista plana. Esta organizada en familias de recetas que escalan bien:
+
+- bowls de desayuno proteicos y equilibrados
+- tostadas y desayunos salados
+- bowls principales de proteina + base + verduras
+- platos frios y ensaladas de alta adherencia
+- bandejas y cenas de horno para batch cooking
+- snacks funcionales para saciedad o recuperacion
+- recetas inspiradas directamente en el informe de investigacion
+
+## Ejemplos representativos
+
+### Burritos de desayuno inspirados en NHS
 
 - Tipo: `desayuno`
-- Tiempo: `14 min` (`prep 8` + `cook 6`)
-- Dificultad: `facil`
-- Raciones: `1`
-- Ingredientes:
-  - 2 rebanadas de pan integral
-  - 120 g de tomate
-  - 2 huevos
-  - 10 ml de aceite de oliva virgen extra
-  - 1 g de orégano
-- Preparación:
-  1. Tostar el pan integral hasta que quede dorado.
-  2. Rallar el tomate y mezclarlo con aceite de oliva y una pizca de sal.
-  3. Cocinar los huevos a la plancha o pochados.
-  4. Montar las tostadas con tomate, huevo y orégano.
+- Dietas: `ninguna`, `alta_proteina`
+- Objetivos: `ganancia_muscular`, `mantenimiento`
+- Dificultad: `medio`
 
-### Yogur griego con avena, nueces y frutos rojos
+### Bol mediterraneo de yogur griego con frutos rojos y chia
 
 - Tipo: `desayuno`, `snack`
-- Tiempo: `5 min`
+- Dieta principal: `mediterranea`
+- Objetivos: `perdida_peso`, `mantenimiento`
 - Dificultad: `facil`
-- Raciones: `1`
-- Ingredientes:
-  - 220 g de yogur griego natural
-  - 40 g de avena
-  - 20 g de nueces
-  - 80 g de frutos rojos
-  - 1 g de canela
-- Preparación:
-  1. Servir el yogur en un bol.
-  2. Añadir la avena y mezclar.
-  3. Terminar con frutos rojos, nueces y canela.
 
-### Ensalada de garbanzos, atún y pepino
+### Comida 16:8 de pollo con arroz de coliflor y brocoli
 
 - Tipo: `almuerzo`, `cena`
-- Tiempo: `12 min`
+- Dieta principal: `ayuno_intermitente`
+- Objetivos: `perdida_peso`, `recomposicion`
+- Dificultad: `facil` o `medio` segun variante
+
+### Bowl proteico de pavo con quinoa y verduras salteadas
+
+- Tipo: `almuerzo`, `cena`
+- Dieta principal: `alta_proteina`
+- Objetivos: `ganancia_muscular`, `recomposicion`
+- Dificultad: `facil` o `medio`
+
+### Cena DASH de merluza con patata y judias verdes
+
+- Tipo: `cena`
+- Dieta principal: `dash`
+- Objetivos: `salud_cardiometabolica`, `perdida_peso`
 - Dificultad: `facil`
-- Raciones: `1`
-- Ingredientes:
-  - 180 g de garbanzos cocidos
-  - 120 g de atún al natural
-  - 100 g de pepino
-  - 120 g de tomate
-  - 40 g de cebolla morada
-  - 12 ml de aceite de oliva virgen extra
-  - 20 ml de limón
-- Preparación:
-  1. Lavar y escurrir los garbanzos.
-  2. Trocear pepino, tomate y cebolla.
-  3. Mezclar con el atún.
-  4. Aliñar con aceite de oliva y limón.
 
-### Salmón al horno con boniato y espárragos
+## Notas tecnicas importantes
 
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `37 min`
-- Dificultad: `medio`
-- Raciones: `1`
-- Ingredientes:
-  - 180 g de salmón
-  - 180 g de boniato
-  - 120 g de espárragos verdes
-  - 12 ml de aceite de oliva virgen extra
-  - 20 ml de limón
-  - 2 g de eneldo
-- Preparación:
-  1. Precalentar el horno a 200 grados.
-  2. Hornear el boniato en cubos 15 minutos.
-  3. Añadir salmón y espárragos.
-  4. Hornear 12 minutos más y servir con limón y eneldo.
+- El seed identifica las recetas del sistema por `name + source`, asi que los nombres deben ser estables y unicos.
+- Los ingredientes se crean con nombre canonico y unidad canonica; no conviene mezclar unidades distintas para el mismo ingrediente normalizado.
+- La UI y las validaciones solo soportan estos `dietTypes`: `ninguna`, `mediterranea`, `dash`, `ayuno_intermitente`, `alta_proteina`.
+- La UI y las validaciones solo soportan estos `mealTypes`: `desayuno`, `almuerzo`, `cena`, `snack`.
 
-### Pasta integral con pollo, espinacas y aceitunas
+## Siguiente paso natural
 
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `25 min`
-- Dificultad: `medio`
-- Raciones: `1`
-- Ingredientes:
-  - 85 g de pasta integral
-  - 160 g de pechuga de pollo
-  - 80 g de espinaca fresca
-  - 30 g de aceitunas
-  - 1 diente de ajo
-  - 10 ml de aceite de oliva virgen extra
-- Preparación:
-  1. Cocer la pasta.
-  2. Saltear el pollo con ajo y aceite.
-  3. Añadir espinacas y aceitunas.
-  4. Mezclar con la pasta y terminar con pimienta.
+Con esta base ya no hace falta seguir ampliando recetas a mano. El siguiente salto de producto es:
 
-### Crema de lentejas rojas con yogur y menta
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `30 min`
-- Dificultad: `facil`
-- Raciones: `2`
-- Ingredientes:
-  - 140 g de lenteja roja
-  - 80 g de cebolla
-  - 80 g de zanahoria
-  - 700 ml de caldo de verduras bajo en sodio
-  - 10 ml de aceite de oliva virgen extra
-  - 40 g de yogur natural
-  - 4 g de menta fresca
-- Preparación:
-  1. Sofreír cebolla y zanahoria.
-  2. Añadir lentejas, caldo y especias.
-  3. Cocer 18 minutos.
-  4. Triturar y servir con yogur y menta.
-
-## Dieta DASH
-
-### Avena cremosa con plátano y semillas
-
-- Tipo: `desayuno`
-- Tiempo: `11 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 55 g de avena
-  - 220 ml de leche semidesnatada
-  - 100 g de plátano
-  - 10 g de semillas de chía
-  - 1 g de canela
-
-### Tortilla de claras con espinacas y champiñones
-
-- Tipo: `desayuno`
-- Tiempo: `15 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 180 g de claras de huevo
-  - 1 huevo
-  - 60 g de espinaca fresca
-  - 80 g de champiñón
-  - 5 ml de aceite de oliva virgen extra
-
-### Bowl DASH de arroz integral, pavo y brócoli
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `32 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 80 g de arroz integral
-  - 170 g de pechuga de pavo
-  - 140 g de brócoli
-  - 100 g de tomate
-  - 10 ml de aceite de oliva virgen extra
-  - 15 ml de limón
-
-### Merluza con puré de coliflor y judías verdes
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `28 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 180 g de merluza
-  - 220 g de coliflor
-  - 140 g de judías verdes
-  - 40 g de yogur natural
-  - 1 diente de ajo
-  - 10 ml de aceite de oliva virgen extra
-
-### Wrap integral de hummus, pollo y verduras
-
-- Tipo: `almuerzo`
-- Tiempo: `17 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 1 tortilla integral
-  - 45 g de hummus
-  - 130 g de pechuga de pollo
-  - 40 g de lechuga
-  - 60 g de pepino
-  - 50 g de zanahoria
-
-### Bowl de yogur con kiwi y almendras
-
-- Tipo: `desayuno`, `snack`
-- Tiempo: `4 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 170 g de yogur natural
-  - 80 g de kiwi
-  - 15 g de almendra
-  - 10 g de copos de avena
-
-## Ayuno Intermitente
-
-### Ensalada potente de pollo, aguacate y huevo
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `22 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 180 g de pechuga de pollo
-  - 90 g de aguacate
-  - 1 huevo
-  - 80 g de mezcla de hojas verdes
-  - 100 g de tomate
-  - 10 ml de aceite de oliva virgen extra
-
-### Ternera salteada con verduras y arroz de coliflor
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `26 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 170 g de ternera magra
-  - 220 g de coliflor
-  - 80 g de pimiento rojo
-  - 100 g de calabacín
-  - 1 diente de ajo
-  - 5 g de jengibre fresco
-  - 10 ml de salsa de soja baja en sodio
-
-### Salmón con quinoa y espinacas salteadas
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `28 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 180 g de salmón
-  - 70 g de quinoa
-  - 90 g de espinaca fresca
-  - 1 diente de ajo
-  - 10 ml de aceite de oliva virgen extra
-  - 15 ml de limón
-
-### Tortilla de patata ligera con ensalada crujiente
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `28 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 180 g de patata
-  - 3 huevos
-  - 70 g de cebolla
-  - 60 g de mezcla de hojas verdes
-  - 60 g de pepino
-  - 12 ml de aceite de oliva virgen extra
-
-### Pavo con hummus, crudités y pan pita integral
-
-- Tipo: `almuerzo`
-- Tiempo: `10 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 150 g de pechuga de pavo
-  - 50 g de hummus
-  - 70 g de zanahoria
-  - 70 g de pepino
-  - 1 pan pita integral
-
-### Pollo al curry suave con arroz basmati
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `28 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 180 g de pechuga de pollo
-  - 80 g de arroz basmati
-  - 60 g de cebolla
-  - 60 g de yogur natural
-  - 4 g de curry suave
-  - 3 g de cilantro fresco
-
-## Alta en proteína
-
-### Porridge proteico de vainilla y frutos rojos
-
-- Tipo: `desayuno`
-- Tiempo: `11 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 50 g de avena
-  - 220 ml de leche semidesnatada
-  - 30 g de proteína de vainilla
-  - 70 g de frutos rojos
-  - 10 g de semillas de chía
-
-### Tostada de requesón, salmón ahumado y pepino
-
-- Tipo: `desayuno`, `snack`
-- Tiempo: `8 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 2 rebanadas de pan integral
-  - 80 g de requesón
-  - 60 g de salmón ahumado
-  - 50 g de pepino
-  - 2 g de eneldo
-
-### Bowl de pollo, arroz jazmín y edamame
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `30 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 190 g de pechuga de pollo
-  - 80 g de arroz jazmín
-  - 90 g de edamame
-  - 60 g de zanahoria
-  - 6 g de semillas de sésamo
-
-### Albóndigas de pavo con calabacín y tomate
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `30 min`
-- Dificultad: `medio`
-- Ingredientes:
-  - 180 g de pavo picado
-  - 180 g de calabacín
-  - 160 g de tomate triturado
-  - 1 diente de ajo
-  - 4 g de perejil
-  - 8 ml de aceite de oliva virgen extra
-
-### Tacos de ternera magra con yogur y col lombarda
-
-- Tipo: `almuerzo`, `cena`
-- Tiempo: `22 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 180 g de ternera magra
-  - 4 tortillas de maíz
-  - 80 g de col lombarda
-  - 60 g de yogur natural
-  - 3 g de cilantro fresco
-
-### Skyr con cacao, plátano y crema de cacahuete
-
-- Tipo: `snack`
-- Tiempo: `4 min`
-- Dificultad: `facil`
-- Ingredientes:
-  - 180 g de skyr natural
-  - 5 g de cacao puro
-  - 70 g de plátano
-  - 12 g de crema de cacahuete
-
-## Notas de producto
-
-- `Meal.selectedRecipeId` es la receta activa real.
-- `MealSwapHistory` deja trazabilidad de cambios.
-- Las recetas IA se guardan como `source = ai`.
-- Las recetas creadas por usuario se guardan como `source = user`.
-- Las recetas sembradas desde seed se guardan como `source = system`.
-
-## Siguiente iteración recomendada
-
-Para seguir aumentando variedad sin tocar manualmente demasiadas pantallas, la siguiente ampliación lógica es:
-
-- subir la librería a `40+` recetas del sistema
-- añadir filtros por calorías objetivo y tiempo máximo
-- permitir duplicar una receta base del sistema antes de editarla como receta privada del usuario
+1. sembrar la libreria en Neon con `npm run prisma:seed`
+2. revisar la experiencia de seleccion y reemplazo, porque con mas de 300 recetas la UI necesita mejor busqueda/paginacion
+3. permitir guardar recetas generadas por IA como `source = ai` cuando merezca la pena conservarlas

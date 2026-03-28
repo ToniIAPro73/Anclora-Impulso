@@ -21,6 +21,26 @@ import { trackProductEvent } from "@/lib/product-events"
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
+function formatNutritionGoal(goal?: string | null, isSpanish = true) {
+  if (!goal) return ""
+
+  const labels: Record<string, { es: string; en: string }> = {
+    perdida_peso: { es: "Pérdida de peso", en: "Weight loss" },
+    ganancia_muscular: { es: "Ganancia muscular", en: "Muscle gain" },
+    recomposicion: { es: "Recomposición", en: "Recomposition" },
+    mantenimiento: { es: "Mantenimiento", en: "Maintenance" },
+    energia: { es: "Más energía", en: "More energy" },
+    lose_weight: { es: "Pérdida de peso", en: "Weight loss" },
+    build_muscle: { es: "Ganancia muscular", en: "Muscle gain" },
+    maintain: { es: "Mantenimiento", en: "Maintenance" },
+  }
+
+  const match = labels[goal]
+  if (match) return isSpanish ? match.es : match.en
+
+  return goal.replaceAll("_", " ")
+}
+
 function getTodayDateInput() {
   const now = new Date()
   return now.toISOString().slice(0, 10)
@@ -518,6 +538,11 @@ function NutritionPageContent() {
                 </CardTitle>
                 <CardDescription>
                   {t ? 'Semana del' : 'Week of'} {new Date(latestPlan.weekStart).toLocaleDateString()}
+                  {latestPlan.goal && (
+                    <span className="ml-2 inline-flex rounded-full border border-slate-200 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                      {formatNutritionGoal(latestPlan.goal, t)}
+                    </span>
+                  )}
                   {latestPlan.dietType === 'ayuno_intermitente' && (
                     <span className="ml-2 inline-flex rounded-full border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/30 dark:text-emerald-300">
                       {t ? 'Ayuno 16:8' : 'IF 16:8'}

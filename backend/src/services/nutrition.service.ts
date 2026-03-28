@@ -1,7 +1,5 @@
 import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
-import { generateJSON, SYSTEM_PROMPT_ES } from './llm';
-import { env } from '../config/env';
 import logger from '../config/logger';
 import { buildNutritionPersonalizationGuidance } from './forty-plus-guidance';
 import {
@@ -19,37 +17,17 @@ import type {
   UpdateRecipeInput,
 } from '../utils/validators';
 
-interface AIRecipe {
-  name: string;
-  description: string;
-  prep_time: number;
-  cook_time: number;
-  difficulty: string;
-  calories: number;
-  protein: number;
-  carbs: number;
-  fats: number;
-  ingredients: { name: string; amount: string; unit: string }[];
-  instructions: string[];
-}
-
-interface AIMeal {
-  type: string;
-  recipe: AIRecipe;
-}
-
-interface AIDay {
-  day_name: string;
-  daily_macros: { calories: number; protein: number; carbs: number; fats: number };
-  meals: AIMeal[];
-}
-
-interface AIMealPlanResponse {
-  days: AIDay[];
-}
-
 type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
 type PrismaTx = Prisma.TransactionClient;
+type RecipeWithRelations = Prisma.RecipeGetPayload<{ include: typeof recipeInclude }>;
+type SupportedMealType = 'desayuno' | 'almuerzo' | 'cena' | 'snack';
+type SupportedDietType = 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente' | 'alta_proteina';
+type SupportedDifficulty = 'facil' | 'medio' | 'dificil';
+type WeeklyRecipeSelection = {
+  dayOfWeek: number;
+  mealType: SupportedMealType;
+  recipe: RecipeWithRelations;
+};
 
 const recipeInclude = {
   ingredients: {
@@ -171,6 +149,298 @@ function decorateRecipe<T extends {
   };
 }
 
+const GOAL_ALIASES: Record<string, string> = {
+  lose_weight: 'perdida_peso',
+  perdida_peso: 'perdida_peso',
+  build_muscle: 'ganancia_muscular',
+  ganancia_muscular: 'ganancia_muscular',
+  recomposition: 'recomposicion',
+  recomposicion: 'recomposicion',
+  maintain: 'mantenimiento',
+  mantenimiento: 'mantenimiento',
+  energia: 'mantenimiento',
+};
+
+const GOAL_LABELS_ES: Record<string, string> = {
+  perdida_peso: 'pérdida de peso',
+  ganancia_muscular: 'ganancia muscular',
+  recomposicion: 'recomposición corporal',
+  mantenimiento: 'mantenimiento',
+};
+
+function normalizeGoalKey(goal?: string | null): string | undefined {
+  if (!goal) return undefined;
+  return GOAL_ALIASES[goal] ?? goal;
+}
+
+function humanizeGoalLabel(goal?: string | null): string | null {
+  const normalizedGoal = normalizeGoalKey(goal);
+  if (!normalizedGoal) return null;
+  return GOAL_LABELS_ES[normalizedGoal] ?? normalizedGoal.replaceAll('_', ' ');
+}
+
+function recipeSearchHaystack(recipe: RecipeWithRelations) {
+  return [
+    recipe.name,
+    recipe.description,
+    ...(recipe.tags ?? []),
+    ...(recipe.goalTypes ?? []),
+    ...(recipe.dietTypes ?? []),
+    ...(recipe.ingredients ?? []).map((ingredient) => ingredient.ingredient.name),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+}
+
+function getMealTypesForPlan(dietType?: string | null): SupportedMealType[] {
+  return dietType === 'ayuno_intermitente'
+    ? ['almuerzo', 'cena']
+    : ['desayuno', 'almuerzo', 'cena'];
+}
+
+function getMealTypeKeywords(mealType: SupportedMealType) {
+  switch (mealType) {
+    case 'desayuno':
+      return ['desayuno'];
+    case 'almuerzo':
+      return ['almuerzo', 'comida'];
+    case 'cena':
+      return ['cena'];
+    case 'snack':
+      return ['snack', 'tentempie', 'entre horas'];
+    default:
+      return [mealType];
+  }
+}
+
+function scoreRecipeForPlan(
+  recipe: RecipeWithRelations,
+  options: {
+    mealType: SupportedMealType;
+    goal?: string;
+    dietType?: SupportedDietType;
+    difficulty?: SupportedDifficulty;
+    includeIngredients?: string[];
+  }
+) {
+  let score = 0;
+
+  if (recipe.mealTypes.length === 0 || recipe.mealTypes.includes(options.mealType)) {
+    score += 50;
+  }
+
+  const recipeName = recipe.name.toLowerCase();
+  const mealKeywords = getMealTypeKeywords(options.mealType);
+  if (mealKeywords.some((keyword) => recipeName.includes(keyword))) {
+    score += 24;
+  } else if (recipe.tags.some((tag) => mealKeywords.includes(tag.toLowerCase()))) {
+    score += 12;
+  }
+
+  if (options.goal) {
+    if (recipe.goalTypes.includes(options.goal)) {
+      score += 40;
+    } else if (recipe.goalTypes.length === 0) {
+      score += 8;
+    }
+  }
+
+  if (options.dietType && options.dietType !== 'ninguna') {
+    if (recipe.dietTypes.includes(options.dietType)) {
+      score += 35;
+    } else if (recipe.dietTypes.length === 0) {
+      score += 4;
+    }
+  }
+
+  if (options.difficulty) {
+    if ((recipe.difficulty ?? '').toLowerCase() === options.difficulty) {
+      score += 20;
+    }
+  } else if ((recipe.difficulty ?? '').toLowerCase() !== 'dificil') {
+    score += 6;
+  }
+
+  if (options.includeIngredients && options.includeIngredients.length > 0) {
+    const haystack = recipeSearchHaystack(recipe);
+    for (const ingredient of options.includeIngredients) {
+      if (haystack.includes(ingredient.toLowerCase())) {
+        score += 12;
+      }
+    }
+  }
+
+  const calories = recipe.calories ?? 0;
+  const protein = recipe.protein ?? 0;
+  const carbs = recipe.carbs ?? 0;
+  const fat = recipe.fat ?? 0;
+  const prepTime = recipe.prepTime ?? 0;
+
+  switch (options.goal) {
+    case 'perdida_peso':
+      score += Math.min(protein, 65) * 0.7;
+      if (calories >= 350 && calories <= 720) score += 18;
+      if (carbs <= 90) score += 6;
+      if (prepTime <= 20) score += 5;
+      break;
+    case 'ganancia_muscular':
+      score += Math.min(protein, 80) * 0.85;
+      if (calories >= 500 && calories <= 950) score += 18;
+      if (carbs >= 35) score += 8;
+      break;
+    case 'recomposicion':
+      score += Math.min(protein, 75) * 0.8;
+      if (calories >= 420 && calories <= 820) score += 15;
+      if (fat <= 28) score += 5;
+      break;
+    default:
+      score += Math.min(protein, 55) * 0.45;
+      if (calories >= 350 && calories <= 850) score += 10;
+  }
+
+  if (options.dietType === 'ayuno_intermitente' && options.mealType !== 'desayuno' && calories >= 450) {
+    score += 10;
+  }
+
+  return score;
+}
+
+function isRecipeAllowedForPlan(
+  recipe: RecipeWithRelations,
+  options: {
+    mealType: SupportedMealType;
+    dietType?: SupportedDietType;
+    difficulty?: SupportedDifficulty;
+    dietaryRestrictions?: string[];
+  }
+) {
+  if (recipe.mealTypes.length > 0 && !recipe.mealTypes.includes(options.mealType)) {
+    return false;
+  }
+
+  if (options.dietType && options.dietType !== 'ninguna' && recipe.dietTypes.length > 0 && !recipe.dietTypes.includes(options.dietType)) {
+    return false;
+  }
+
+  if (options.difficulty && (recipe.difficulty ?? '').toLowerCase() !== options.difficulty) {
+    return false;
+  }
+
+  if (options.dietaryRestrictions && options.dietaryRestrictions.length > 0) {
+    const haystack = recipeSearchHaystack(recipe);
+    for (const restrictedTerm of options.dietaryRestrictions) {
+      if (haystack.includes(restrictedTerm.toLowerCase())) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+async function selectRecipesForWeeklyPlan(
+  userId: string,
+  options: {
+    goal?: string;
+    dietType?: SupportedDietType;
+    difficulty?: SupportedDifficulty;
+    includeIngredients?: string[];
+    dietaryRestrictions?: string[];
+  }
+) {
+  const accessibleRecipes = await prisma.recipe.findMany({
+    where: {
+      AND: [
+        {
+          OR: [
+            { isPublic: true },
+            { userId },
+          ],
+        },
+        options.difficulty ? { difficulty: options.difficulty } : {},
+      ],
+    },
+    include: recipeInclude,
+    orderBy: [
+      { isPublic: 'desc' },
+      { updatedAt: 'desc' },
+    ],
+  });
+
+  if (accessibleRecipes.length === 0) {
+    throw new AppError(400, 'No hay recetas disponibles para generar el plan.');
+  }
+
+  const mealTypes = getMealTypesForPlan(options.dietType);
+  const usageCount = new Map<string, number>();
+  const lastUsedDay = new Map<string, number>();
+  const selections: WeeklyRecipeSelection[] = [];
+
+  for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek += 1) {
+    for (const mealType of mealTypes) {
+      let candidates = accessibleRecipes.filter((recipe) =>
+        isRecipeAllowedForPlan(recipe, {
+          mealType,
+          dietType: options.dietType,
+          difficulty: options.difficulty,
+          dietaryRestrictions: options.dietaryRestrictions,
+        })
+      );
+
+      if (candidates.length === 0) {
+        candidates = accessibleRecipes.filter((recipe) =>
+          isRecipeAllowedForPlan(recipe, {
+            mealType,
+            dietaryRestrictions: options.dietaryRestrictions,
+          })
+        );
+      }
+
+      if (candidates.length === 0) {
+        throw new AppError(400, `No hay recetas suficientes para ${mealType}.`);
+      }
+
+      const rankedCandidates = candidates
+        .map((recipe) => ({
+          recipe,
+          score: scoreRecipeForPlan(recipe, {
+            mealType,
+            goal: options.goal,
+            dietType: options.dietType,
+            difficulty: options.difficulty,
+            includeIngredients: options.includeIngredients,
+          }),
+          uses: usageCount.get(recipe.id) ?? 0,
+          lastUsed: lastUsedDay.get(recipe.id),
+        }))
+        .sort((left, right) => {
+          if (left.uses !== right.uses) return left.uses - right.uses;
+
+          const leftGap = left.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - left.lastUsed;
+          const rightGap = right.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - right.lastUsed;
+          if (leftGap !== rightGap) return rightGap - leftGap;
+
+          if (left.score !== right.score) return right.score - left.score;
+
+          return left.recipe.name.localeCompare(right.recipe.name, 'es');
+        });
+
+      const chosen = rankedCandidates[0];
+
+      usageCount.set(chosen.recipe.id, (usageCount.get(chosen.recipe.id) ?? 0) + 1);
+      lastUsedDay.set(chosen.recipe.id, dayOfWeek);
+      selections.push({
+        dayOfWeek,
+        mealType,
+        recipe: chosen.recipe,
+      });
+    }
+  }
+
+  return selections;
+}
+
 function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
   dietType?: string | null;
   meals: Array<{ mealType: string; recipes: Array<{ recipe: { calories?: number | null; protein?: number | null } }> }>;
@@ -179,7 +449,7 @@ function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
   const nutritionConsistency = snapshot.nutritionConsistencyRate ?? 0;
 
   if (snapshot.profile.trainingGoal) {
-    reasons.push(`El plan se orienta al objetivo ${snapshot.profile.trainingGoal}.`);
+    reasons.push(`El plan se orienta al objetivo ${humanizeGoalLabel(snapshot.profile.trainingGoal) ?? snapshot.profile.trainingGoal}.`);
   }
 
   if (nutritionConsistency < 0.5) {
@@ -588,20 +858,8 @@ async function getIntermittentFastingState(userId: string, referenceDate: Date) 
  * Generar un plan de comidas con IA
  */
 export async function generateMealPlan(userId: string, params: GenerateMealPlanInput) {
-  if (!env.groqApiKey) {
-    throw new AppError(503, 'Servicio de IA no disponible. Configura GROQ_API_KEY.');
-  }
-
   const snapshot = await getPersonalizationSnapshot(userId);
-  const effectiveGoal =
-    params.goal ??
-    (snapshot.profile.trainingGoal === 'lose_weight'
-      ? 'perdida_peso'
-      : snapshot.profile.trainingGoal === 'build_muscle'
-        ? 'ganancia_muscular'
-        : snapshot.profile.trainingGoal === 'recomposition'
-          ? 'recomposicion'
-          : 'mantenimiento');
+  const effectiveGoal = normalizeGoalKey(params.goal ?? snapshot.profile.trainingGoal) ?? 'mantenimiento';
   const effectiveAge = params.age ?? snapshot.profile.age ?? undefined;
   const effectiveSex = params.sex ?? snapshot.profile.sex ?? undefined;
   const effectiveWeightKg = params.weightKg ?? snapshot.profile.weightKg ?? undefined;
@@ -616,134 +874,13 @@ export async function generateMealPlan(userId: string, params: GenerateMealPlanI
     targetWeightKg: effectiveTargetWeightKg,
     trainingDaysPerWeek: effectiveTrainingDays,
   });
-
-  const dietTypeInstructions: Record<string, string> = {
-    mediterranea: `TIPO DE DIETA: Dieta Mediterránea (avalada por múltiples estudios clínicos, incluyendo el ensayo PREDIMED con +7.000 participantes).
-Principios obligatorios:
-- Base en aceite de oliva virgen extra como grasa principal
-- Abundantes verduras, frutas, legumbres y cereales integrales en cada comida
-- Pescado azul (salmón, sardinas, caballa) al menos 3 veces por semana
-- Carnes rojas máximo 1 vez por semana; preferir aves y legumbres como proteína
-- Frutos secos (nueces, almendras) como snack o ingrediente
-- Lácteos fermentados (yogur griego, queso fresco) con moderación
-- Uso de hierbas aromáticas (albahaca, romero, orégano) para condimentar`,
-
-    dash: `TIPO DE DIETA: Dieta DASH (Dietary Approaches to Stop Hypertension), desarrollada por el NIH y avalada por la American Heart Association.
-Principios obligatorios:
-- Máximo 2.300 mg de sodio por día (objetivo ideal: 1.500 mg). Evitar sal añadida en recetas
-- Alta en potasio, magnesio y calcio: incluir plátanos, espinacas, boniatos, leche desnatada, yogur
-- Abundantes frutas y verduras (8-10 raciones diarias)
-- Cereales integrales (avena, arroz integral, pan integral) en cada comida principal
-- Proteínas magras: pollo sin piel, pavo, pescado, legumbres; limitar carnes rojas a 1-2 veces por semana
-- Lácteos desnatados o semidesnatados 2-3 raciones diarias
-- Evitar alimentos procesados, embutidos y quesos curados`,
-
-    ayuno_intermitente: `TIPO DE DIETA: Ayuno Intermitente 16:8 (protocolo más estudiado científicamente, con evidencia en metabolismo, sensibilidad a insulina y pérdida de peso).
-Principios obligatorios:
-- Ventana de alimentación de 8 horas (ej. 12:00 - 20:00). SOLO 2 comidas principales: Almuerzo y Cena. NO incluir desayuno.
-- Las 2 comidas deben ser nutricionalmente densas y saciantes para cubrir los requerimientos diarios
-- Priorizar proteínas y grasas saludables para mantener la saciedad durante el ayuno
-- Carbohidratos complejos y de bajo índice glucémico (avena, legumbres, verduras)
-- Evitar azúcares simples y ultraprocesados que rompan el ritmo glucémico
-- Para cada día: generar SOLO meals de tipo "Almuerzo" y "Cena" (no desayuno)`,
-
-    alta_proteina: `TIPO DE DIETA: Alta en proteína, orientada a saciedad, recuperación y mantenimiento/ganancia de masa muscular.
-Principios obligatorios:
-- Priorizar 25-40 g de proteína por comida principal
-- Usar fuentes magras y variadas: pollo, pavo, huevos, yogur griego, legumbres, tofu, pescado y marisco
-- Incluir verduras y carbohidratos complejos cuando aporten adherencia y rendimiento
-- Evitar recetas con proteína insuficiente o macros vacíos
-- Snacks opcionales ricos en proteína si encajan con el objetivo`,
-  };
-
-  const constraints: string[] = [];
-  if (params.dietType && params.dietType !== 'ninguna' && dietTypeInstructions[params.dietType]) {
-    constraints.push(dietTypeInstructions[params.dietType]);
-  }
-  if (params.difficulty) {
-    constraints.push(`- Dificultad de Receta: ${params.difficulty} (Adherirse estrictamente)`);
-  }
-  if (params.maxIngredients) {
-    constraints.push(`- Máximo de ingredientes por receta: ${params.maxIngredients}`);
-  }
-  if (params.includeIngredients && params.includeIngredients.length > 0) {
-    constraints.push(
-      `- DEBE incluir estos ingredientes en algunas comidas: ${params.includeIngredients.join(', ')}`
-    );
-  }
-  if (params.dietaryRestrictions && params.dietaryRestrictions.length > 0) {
-    constraints.push(
-      `- Restricciones dietéticas: ${params.dietaryRestrictions.join(', ')}`
-    );
-  }
-
-  const isIF = params.dietType === 'ayuno_intermitente';
-  const mealsPerDay = isIF
-    ? 'EXACTAMENTE 2 comidas (Almuerzo y Cena, SIN desayuno)'
-    : 'EXACTAMENTE 3 comidas (Desayuno, Almuerzo, Cena)';
-  const mealTypes = isIF
-    ? 'type: string (Almuerzo/Cena) — NO incluir Desayuno'
-    : 'type: string (Desayuno/Almuerzo/Cena)';
-
-  const prompt = `
-Genera un plan de alimentación COMPLETO de 7 días (Lunes a Domingo) para un usuario con el siguiente perfil:
-- Objetivo: ${effectiveGoal || 'mantenimiento saludable'}
-- Edad: ${effectiveAge ?? 'no indicada'}
-- Sexo: ${effectiveSex === 'female' ? 'mujer' : effectiveSex === 'male' ? 'hombre' : 'no indicado'}
-- Peso actual: ${effectiveWeightKg ?? 'no indicado'} kg
-- Peso objetivo: ${effectiveTargetWeightKg ?? 'no indicado'} kg
-- Dias de entrenamiento por semana: ${effectiveTrainingDays ?? 'no indicados'}
-- Adherencia nutricional últimos 7 días: ${Math.round((snapshot.nutritionConsistencyRate ?? 0) * 100)}%
-- Adherencia de entrenamiento últimas 4 semanas: ${snapshot.adherenceRate !== null ? `${Math.round(snapshot.adherenceRate * 100)}%` : 'sin datos'}
-- Riesgo de estancamiento: ${snapshot.stagnationRisk}
-- Ajuste sugerido de nutrición: ${snapshot.nutritionAdjustment}
-- Limitaciones reportadas: ${snapshot.profile.limitations.join(', ') || 'ninguna'}
-
-Peticiones Específicas del Usuario:
-${constraints.length > 0 ? constraints.join('\n') : '- Sin restricciones especiales'}
-${ageAwareGuidance ? `\nAjustes obligatorios para este perfil:\n${ageAwareGuidance}` : ''}
-
-Devuelve un objeto JSON con un array 'days' que contenga EXACTAMENTE 7 días:
-Lunes, Martes, Miércoles, Jueves, Viernes, Sábado, Domingo.
-
-Cada día debe tener:
-- day_name: string (Lunes, Martes, etc.)
-- daily_macros: objeto con calories (int), protein (float), carbs (float), fats (float)
-- meals: array con ${mealsPerDay}
-
-Cada comida debe tener:
-- ${mealTypes}
-- recipe: objeto con:
-    - name: string (EN ESPAÑOL)
-    - description: string (EN ESPAÑOL)
-    - prep_time: integer (minutos)
-    - cook_time: integer (minutos)
-    - difficulty: string (Fácil/Medio/Difícil)
-    - calories: integer
-    - protein: float
-    - carbs: float
-    - fats: float
-    - ingredients: array de objetos con name (string), amount (string), unit (string)
-    - instructions: array de strings (paso a paso detallado EN ESPAÑOL)
-
-IMPORTANTE:
-1. Todo el texto visible debe estar en ESPAÑOL.
-2. Asegúrate de generar LOS 7 DÍAS completos.
-3. Es CRÍTICO incluir ingredientes e instrucciones para CADA receta.
-`;
-
-  const aiResponse = await generateJSON<AIMealPlanResponse>({
-    messages: [
-      { role: 'system', content: SYSTEM_PROMPT_ES },
-      { role: 'user', content: prompt },
-    ],
-    temperature: 0.5,
-    maxTokens: 8000,
+  const selectedRecipes = await selectRecipesForWeeklyPlan(userId, {
+    goal: effectiveGoal,
+    dietType: (params.dietType ?? 'ninguna') as SupportedDietType,
+    difficulty: params.difficulty as SupportedDifficulty | undefined,
+    includeIngredients: params.includeIngredients,
+    dietaryRestrictions: params.dietaryRestrictions,
   });
-
-  if (!aiResponse.days || aiResponse.days.length === 0) {
-    throw new AppError(500, 'La IA no generó un plan de comidas válido');
-  }
 
   const nutritionBalance = await ensureNutritionBalance(userId);
   const pendingCarryoverCalories = nutritionBalance.carryoverCalories ?? 0;
@@ -762,90 +899,48 @@ IMPORTANTE:
       data: {
         userId,
         weekStart,
-        goal: effectiveGoal || 'mantenimiento',
+        goal: effectiveGoal,
         dietType: params.dietType || 'ninguna',
         carryoverCaloriesApplied: pendingCarryoverCalories,
       },
     });
 
-    for (let dayIndex = 0; dayIndex < aiResponse.days.length; dayIndex++) {
-      const day = aiResponse.days[dayIndex];
+    for (const selectedMeal of selectedRecipes) {
+      const meal = await tx.meal.create({
+        data: {
+          mealPlanId: plan.id,
+          dayOfWeek: selectedMeal.dayOfWeek,
+          mealType: selectedMeal.mealType,
+          selectedRecipeId: selectedMeal.recipe.id,
+          adjustmentReason: ageAwareGuidance
+            ? `Personalizado con criterios del perfil: ${ageAwareGuidance.split('\n')[0]}`
+            : null,
+        },
+      });
 
-      for (const aiMeal of day.meals) {
-        const mealTypeMap: Record<string, string> = {
-          Desayuno: 'desayuno',
-          Almuerzo: 'almuerzo',
-          Cena: 'cena',
-          Snack: 'snack',
-        };
-
-        // Crear la receta
-        const recipe = await tx.recipe.create({
-          data: {
-            userId,
-            name: aiMeal.recipe.name,
-            description: aiMeal.recipe.description,
-            instructions: aiMeal.recipe.instructions,
-            prepTime: aiMeal.recipe.prep_time,
-            cookTime: aiMeal.recipe.cook_time,
-            difficulty: aiMeal.recipe.difficulty,
-            calories: aiMeal.recipe.calories,
-            protein: aiMeal.recipe.protein,
-            carbs: aiMeal.recipe.carbs,
-            fat: aiMeal.recipe.fats,
-            servings: 1,
-            tags: normalizeTagList([mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase(), params.dietType || 'ninguna', effectiveGoal || 'mantenimiento']),
-            source: 'ai',
-            isPublic: false,
-            isEditable: true,
-            mealTypes: [mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase()],
-            dietTypes: params.dietType ? [params.dietType] : [],
-            goalTypes: effectiveGoal ? [effectiveGoal] : [],
-          },
-        });
-
-        // Crear ingredientes y relaciones
-        for (const ing of aiMeal.recipe.ingredients) {
-          let ingredient = await tx.ingredient.findUnique({
-            where: { name: ing.name.toLowerCase() },
-          });
-
-          if (!ingredient) {
-            ingredient = await tx.ingredient.create({
-              data: {
-                name: ing.name.toLowerCase(),
-                unit: ing.unit || 'unidad',
-              },
-            });
-          }
-
-          await tx.recipeIngredient.create({
-            data: {
-              recipeId: recipe.id,
-              ingredientId: ingredient.id,
-              quantity: parseFloat(ing.amount) || 1,
-            },
-          });
-        }
-
-        // Crear meal y conectar con receta
-        const meal = await tx.meal.create({
-          data: {
-            mealPlanId: plan.id,
-            dayOfWeek: dayIndex,
-            mealType: mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase(),
-            selectedRecipeId: recipe.id,
-          },
-        });
-
-        await tx.mealRecipe.create({
-          data: {
-            mealId: meal.id,
-            recipeId: recipe.id,
-          },
-        });
-      }
+      await tx.mealRecipe.create({
+        data: {
+          mealId: meal.id,
+          recipeId: selectedMeal.recipe.id,
+        },
+      });
     }
+
+    await tx.productEvent.create({
+      data: {
+        userId,
+        action: 'meal_plan_generated_from_library',
+        category: 'nutrition',
+        source: 'nutrition_service',
+        metadata: {
+          goal: effectiveGoal,
+          dietType: params.dietType || 'ninguna',
+          difficulty: params.difficulty ?? null,
+          usedRecipeLibrary: true,
+          mealCount: selectedRecipes.length,
+        } as Prisma.InputJsonValue,
+      },
+    }).catch(() => null);
 
     return plan;
   }, { timeout: 60000 });
@@ -866,7 +961,13 @@ IMPORTANTE:
     });
   }
 
-  logger.info('Meal plan generated', { userId, mealPlanId: mealPlan.id });
+  logger.info('Meal plan generated from recipe library', {
+    userId,
+    mealPlanId: mealPlan.id,
+    goal: effectiveGoal,
+    dietType: params.dietType || 'ninguna',
+    selectedRecipeCount: selectedRecipes.length,
+  });
 
   // Retornar el plan completo
   return getMealPlanById(mealPlan.id, userId);
@@ -955,17 +1056,33 @@ export async function deleteMealPlan(id: string, userId: string) {
 }
 
 export async function listRecipes(userId: string, filters: ListRecipesQueryInput) {
-  const recipes = await prisma.recipe.findMany({
-    where: buildRecipeAccessWhere(userId, filters),
-    include: recipeInclude,
-    orderBy: [
-      { isPublic: 'desc' },
-      { updatedAt: 'desc' },
-    ],
-    take: filters.limit ?? 50,
-  });
+  const where = buildRecipeAccessWhere(userId, filters);
+  const limit = filters.limit ?? 24;
+  const offset = filters.offset ?? 0;
 
-  return recipes.map((recipe) => decorateRecipe(recipe));
+  const [total, recipes] = await prisma.$transaction([
+    prisma.recipe.count({ where }),
+    prisma.recipe.findMany({
+      where,
+      include: recipeInclude,
+      orderBy: [
+        { isPublic: 'desc' },
+        { updatedAt: 'desc' },
+      ],
+      skip: offset,
+      take: limit,
+    }),
+  ]);
+
+  return {
+    recipes: recipes.map((recipe) => decorateRecipe(recipe)),
+    pagination: {
+      total,
+      limit,
+      offset,
+      hasMore: offset + recipes.length < total,
+    },
+  };
 }
 
 export async function createRecipe(userId: string, data: CreateRecipeInput) {

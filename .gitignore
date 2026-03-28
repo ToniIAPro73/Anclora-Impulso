@@ -28,6 +28,10 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
+.playwright-cli/
+tmp-*.html
+tmp-*.js
 
 # Local env files
 .env

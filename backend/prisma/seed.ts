@@ -69,7 +69,29 @@ async function seedRecipes() {
       where: { recipeId: recipeRecord.id },
     });
 
-    for (const item of recipe.ingredients) {
+    const mergedIngredients = recipe.ingredients.reduce<
+      Array<{ name: string; quantity: number; unit: string }>
+    >((acc, item) => {
+      const normalizedName = item.name.trim().toLowerCase();
+      const normalizedUnit = item.unit.trim().toLowerCase();
+      const existingItem = acc.find(
+        (candidate) => candidate.name === normalizedName && candidate.unit === normalizedUnit,
+      );
+
+      if (existingItem) {
+        existingItem.quantity += item.quantity;
+        return acc;
+      }
+
+      acc.push({
+        name: normalizedName,
+        quantity: item.quantity,
+        unit: normalizedUnit,
+      });
+      return acc;
+    }, []);
+
+    for (const item of mergedIngredients) {
       const normalizedName = item.name.trim().toLowerCase();
       const normalizedUnit = item.unit.trim().toLowerCase();
 

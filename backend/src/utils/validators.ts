@@ -215,6 +215,7 @@ export const listRecipesQuerySchema = z.object({
   source: z.enum(['system', 'ai', 'user']).optional(),
   scope: z.enum(['all', 'mine', 'public']).optional(),
   limit: z.coerce.number().int().min(1).max(100).optional(),
+  offset: z.coerce.number().int().min(0).optional(),
 });
 
 export const replaceMealRecipeSchema = z.object({

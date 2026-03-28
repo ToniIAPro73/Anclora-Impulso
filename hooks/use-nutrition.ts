@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { nutritionApi, type MealPlan, type NutritionLog, type NutritionSummary, type Recipe } from '@/lib/api';
+import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { nutritionApi, type MealPlan, type NutritionLog, type NutritionSummary, type RecipeLibraryResponse } from '@/lib/api';
 
 export function useMealPlans() {
   const queryClient = useQueryClient();
@@ -56,11 +56,21 @@ export function useMealPlan(id: string) {
 
 export function useRecipeLibrary(
   params?: Parameters<typeof nutritionApi.listRecipes>[0],
-  options?: { enabled?: boolean }
+  options?: { enabled?: boolean; cacheKey?: string | number | null }
 ) {
-  return useQuery<Recipe[]>({
-    queryKey: ['recipeLibrary', params],
-    queryFn: () => nutritionApi.listRecipes(params),
+  const baseLimit = params?.limit ?? 24;
+
+  return useInfiniteQuery<RecipeLibraryResponse>({
+    queryKey: ['recipeLibrary', options?.cacheKey ?? 'default', params],
+    queryFn: ({ pageParam = 0 }) =>
+      nutritionApi.listRecipes({
+        ...params,
+        limit: baseLimit,
+        offset: Number(pageParam),
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) =>
+      lastPage.pagination.hasMore ? lastPage.pagination.offset + lastPage.pagination.limit : undefined,
     staleTime: 2 * 60 * 1000,
     enabled: options?.enabled ?? true,
   });
