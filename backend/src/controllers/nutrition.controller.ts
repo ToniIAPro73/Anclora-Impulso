@@ -2,10 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import * as nutritionService from '../services/nutrition.service';
 import type {
   BulkUpdateRecipeEditorialInput,
+  CreateRecipeInput,
   CreateNutritionLogInput,
   GenerateMealPlanInput,
+  ListRecipesQueryInput,
+  ReplaceMealRecipeInput,
   UpdateRecipeInput,
 } from '../utils/validators';
+import { listRecipesQuerySchema } from '../utils/validators';
 
 /**
  * POST /api/nutrition/meal-plans/generate
@@ -91,6 +95,25 @@ export async function deleteMealPlan(
   }
 }
 
+export async function listRecipes(
+  req: Request<{}, {}, {}, ListRecipesQueryInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    const filters = listRecipesQuerySchema.parse(req.query);
+    const recipes = await nutritionService.listRecipes(req.user.userId, filters);
+    res.json(recipes);
+  } catch (error) {
+    next(error);
+  }
+}
+
 /**
  * GET /api/nutrition/recipes/:id
  */
@@ -100,8 +123,31 @@ export async function getRecipeById(
   next: NextFunction
 ): Promise<void> {
   try {
-    const recipe = await nutritionService.getRecipeById(req.params.id);
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    const recipe = await nutritionService.getRecipeById(req.params.id, req.user.userId);
     res.json(recipe);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createRecipe(
+  req: Request<{}, {}, CreateRecipeInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    const recipe = await nutritionService.createRecipe(req.user.userId, req.body);
+    res.status(201).json(recipe);
   } catch (error) {
     next(error);
   }
@@ -115,6 +161,24 @@ export async function updateRecipe(
   try {
     const recipe = await nutritionService.updateRecipe(req.params.id, req.body);
     res.json(recipe);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function replaceMealRecipe(
+  req: Request<{ mealId: string }, {}, ReplaceMealRecipeInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    const mealPlan = await nutritionService.replaceMealRecipe(req.user.userId, req.params.mealId, req.body);
+    res.json(mealPlan);
   } catch (error) {
     next(error);
   }

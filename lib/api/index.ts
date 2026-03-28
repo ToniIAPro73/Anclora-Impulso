@@ -502,6 +502,7 @@ export interface RecipeIngredient {
 
 export interface Recipe {
   id: string;
+  userId?: string | null;
   name: string;
   nameEn?: string;
   description?: string;
@@ -517,6 +518,12 @@ export interface Recipe {
   fiber?: number;
   imageUrl?: string;
   tags: string[];
+  source?: 'system' | 'ai' | 'user';
+  isPublic?: boolean;
+  isEditable?: boolean;
+  mealTypes?: string[];
+  dietTypes?: string[];
+  goalTypes?: string[];
   ingredients: RecipeIngredient[];
   updatedAt: string;
   editorial?: {
@@ -547,6 +554,8 @@ export interface Meal {
   mealType: string;
   servingMultiplier: number;
   adjustmentReason?: string | null;
+  selectedRecipeId?: string | null;
+  selectedRecipe?: Recipe | null;
   recipes: MealRecipe[];
 }
 
@@ -601,7 +610,7 @@ export const nutritionApi = {
   async generateMealPlan(params: {
     goal?: string;
     difficulty?: 'facil' | 'medio' | 'dificil';
-    dietType?: 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente';
+    dietType?: 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente' | 'alta_proteina';
     maxIngredients?: number;
     includeIngredients?: string[];
     dietaryRestrictions?: string[];
@@ -628,6 +637,67 @@ export const nutritionApi = {
 
   async getRecipeById(id: string): Promise<Recipe> {
     return apiClient.get<Recipe>(`/nutrition/recipes/${id}`);
+  },
+
+  async listRecipes(params?: {
+    query?: string;
+    mealType?: 'desayuno' | 'almuerzo' | 'cena' | 'snack';
+    dietType?: 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente' | 'alta_proteina';
+    goalType?: string;
+    source?: 'system' | 'ai' | 'user';
+    scope?: 'all' | 'mine' | 'public';
+    limit?: number;
+  }): Promise<Recipe[]> {
+    const searchParams = new URLSearchParams();
+
+    Object.entries(params ?? {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        searchParams.set(key, String(value));
+      }
+    });
+
+    const suffix = searchParams.toString() ? `?${searchParams.toString()}` : '';
+    return apiClient.get<Recipe[]>(`/nutrition/recipes${suffix}`);
+  },
+
+  async createRecipe(
+    data: {
+      name: string;
+      nameEn?: string | null;
+      description?: string | null;
+      instructions: string[];
+      prepTime?: number | null;
+      cookTime?: number | null;
+      servings?: number;
+      difficulty?: string | null;
+      calories?: number | null;
+      protein?: number | null;
+      carbs?: number | null;
+      fat?: number | null;
+      fiber?: number | null;
+      imageUrl?: string | null;
+      tags?: string[];
+      mealTypes?: Array<'desayuno' | 'almuerzo' | 'cena' | 'snack'>;
+      dietTypes?: Array<'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente' | 'alta_proteina'>;
+      goalTypes?: string[];
+      ingredients: Array<{
+        name: string;
+        quantity: number;
+        unit: string;
+      }>;
+    }
+  ): Promise<Recipe> {
+    return apiClient.post<Recipe>('/nutrition/recipes', data);
+  },
+
+  async replaceMealRecipe(
+    mealId: string,
+    data: {
+      recipeId: string;
+      reason?: string | null;
+    }
+  ): Promise<MealPlan> {
+    return apiClient.post<MealPlan>(`/nutrition/meals/${mealId}/replace`, data);
   },
 
   async getRecipeEditorialSummary(): Promise<RecipeEditorialSummary> {

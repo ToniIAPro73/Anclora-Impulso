@@ -1,10 +1,108 @@
 import { PrismaClient } from '@prisma/client';
 import { buildNormalizedExercises } from './exercise-classification';
+import { SYSTEM_RECIPES } from './nutrition-library';
 
 const prisma = new PrismaClient();
 
+async function seedRecipes() {
+  console.log(`🥗 Sincronizando ${SYSTEM_RECIPES.length} recetas del sistema...`);
+
+  for (const recipe of SYSTEM_RECIPES) {
+    const existing = await prisma.recipe.findFirst({
+      where: {
+        name: recipe.name,
+        source: 'system',
+      },
+      select: { id: true },
+    });
+
+    const recipeRecord = existing
+      ? await prisma.recipe.update({
+          where: { id: existing.id },
+          data: {
+            name: recipe.name,
+            description: recipe.description,
+            instructions: recipe.instructions,
+            prepTime: recipe.prepTime,
+            cookTime: recipe.cookTime,
+            servings: recipe.servings,
+            difficulty: recipe.difficulty,
+            calories: recipe.calories,
+            protein: recipe.protein,
+            carbs: recipe.carbs,
+            fat: recipe.fat,
+            fiber: recipe.fiber ?? null,
+            tags: recipe.tags,
+            source: 'system',
+            isPublic: true,
+            isEditable: false,
+            mealTypes: recipe.mealTypes,
+            dietTypes: recipe.dietTypes,
+            goalTypes: recipe.goalTypes,
+          },
+        })
+      : await prisma.recipe.create({
+          data: {
+            name: recipe.name,
+            description: recipe.description,
+            instructions: recipe.instructions,
+            prepTime: recipe.prepTime,
+            cookTime: recipe.cookTime,
+            servings: recipe.servings,
+            difficulty: recipe.difficulty,
+            calories: recipe.calories,
+            protein: recipe.protein,
+            carbs: recipe.carbs,
+            fat: recipe.fat,
+            fiber: recipe.fiber ?? null,
+            tags: recipe.tags,
+            source: 'system',
+            isPublic: true,
+            isEditable: false,
+            mealTypes: recipe.mealTypes,
+            dietTypes: recipe.dietTypes,
+            goalTypes: recipe.goalTypes,
+          },
+        });
+
+    await prisma.recipeIngredient.deleteMany({
+      where: { recipeId: recipeRecord.id },
+    });
+
+    for (const item of recipe.ingredients) {
+      const normalizedName = item.name.trim().toLowerCase();
+      const normalizedUnit = item.unit.trim().toLowerCase();
+
+      let ingredient = await prisma.ingredient.findUnique({
+        where: {
+          name: normalizedName,
+        },
+        select: { id: true },
+      });
+
+      if (!ingredient) {
+        ingredient = await prisma.ingredient.create({
+          data: {
+            name: normalizedName,
+            unit: normalizedUnit,
+          },
+          select: { id: true },
+        });
+      }
+
+      await prisma.recipeIngredient.create({
+        data: {
+          recipeId: recipeRecord.id,
+          ingredientId: ingredient.id,
+          quantity: item.quantity,
+        },
+      });
+    }
+  }
+}
+
 async function main() {
-  console.log('🌱 Iniciando seed de ejercicios...');
+  console.log('🌱 Iniciando seed base...');
 
   const normalizedExercises = buildNormalizedExercises();
   const normalizedNames = normalizedExercises.map((exercise) => exercise.name);
@@ -70,7 +168,9 @@ async function main() {
     }
   }
 
-  console.log(`✅ Seed completado. Total sincronizado: ${normalizedExercises.length} ejercicios`);
+  await seedRecipes();
+
+  console.log(`✅ Seed completado. Total sincronizado: ${normalizedExercises.length} ejercicios y ${SYSTEM_RECIPES.length} recetas`);
 }
 
 main()

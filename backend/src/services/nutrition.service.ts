@@ -11,8 +11,11 @@ import {
 import type { Prisma } from '@prisma/client';
 import type {
   BulkUpdateRecipeEditorialInput,
+  CreateRecipeInput,
   GenerateMealPlanInput,
+  ListRecipesQueryInput,
   CreateNutritionLogInput,
+  ReplaceMealRecipeInput,
   UpdateRecipeInput,
 } from '../utils/validators';
 
@@ -47,6 +50,70 @@ interface AIMealPlanResponse {
 
 type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
 type PrismaTx = Prisma.TransactionClient;
+
+const recipeInclude = {
+  ingredients: {
+    include: {
+      ingredient: true,
+    },
+  },
+} satisfies Prisma.RecipeInclude;
+
+function normalizeTagList(values: string[] | undefined): string[] {
+  return Array.from(new Set((values ?? []).map((value) => value.trim()).filter(Boolean)));
+}
+
+function buildRecipeAccessWhere(userId: string, filters: ListRecipesQueryInput): Prisma.RecipeWhereInput {
+  const accessWhere =
+    filters.scope === 'mine'
+      ? { userId }
+      : filters.scope === 'public'
+        ? { isPublic: true }
+        : {
+            OR: [
+              { isPublic: true },
+              { userId },
+            ],
+          };
+
+  return {
+    AND: [
+      accessWhere,
+      filters.query
+        ? {
+            OR: [
+              { name: { contains: filters.query, mode: 'insensitive' } },
+              { description: { contains: filters.query, mode: 'insensitive' } },
+              { tags: { has: filters.query.toLowerCase() } },
+            ],
+          }
+        : {},
+      filters.mealType ? { mealTypes: { has: filters.mealType } } : {},
+      filters.dietType ? { dietTypes: { has: filters.dietType } } : {},
+      filters.goalType ? { goalTypes: { has: filters.goalType } } : {},
+      filters.source ? { source: filters.source } : {},
+    ],
+  };
+}
+
+async function assertRecipeAccess(recipeId: string, userId: string) {
+  const recipe = await prisma.recipe.findFirst({
+    where: {
+      id: recipeId,
+      OR: [
+        { isPublic: true },
+        { userId },
+      ],
+    },
+    include: recipeInclude,
+  });
+
+  if (!recipe) {
+    throw new AppError(404, 'Receta no encontrada');
+  }
+
+  return recipe;
+}
 
 function calculateRecipeQuality(recipe: {
   description?: string | null;
@@ -579,6 +646,14 @@ Principios obligatorios:
 - Carbohidratos complejos y de bajo índice glucémico (avena, legumbres, verduras)
 - Evitar azúcares simples y ultraprocesados que rompan el ritmo glucémico
 - Para cada día: generar SOLO meals de tipo "Almuerzo" y "Cena" (no desayuno)`,
+
+    alta_proteina: `TIPO DE DIETA: Alta en proteína, orientada a saciedad, recuperación y mantenimiento/ganancia de masa muscular.
+Principios obligatorios:
+- Priorizar 25-40 g de proteína por comida principal
+- Usar fuentes magras y variadas: pollo, pavo, huevos, yogur griego, legumbres, tofu, pescado y marisco
+- Incluir verduras y carbohidratos complejos cuando aporten adherencia y rendimiento
+- Evitar recetas con proteína insuficiente o macros vacíos
+- Snacks opcionales ricos en proteína si encajan con el objetivo`,
   };
 
   const constraints: string[] = [];
@@ -707,6 +782,7 @@ IMPORTANTE:
         // Crear la receta
         const recipe = await tx.recipe.create({
           data: {
+            userId,
             name: aiMeal.recipe.name,
             description: aiMeal.recipe.description,
             instructions: aiMeal.recipe.instructions,
@@ -718,7 +794,13 @@ IMPORTANTE:
             carbs: aiMeal.recipe.carbs,
             fat: aiMeal.recipe.fats,
             servings: 1,
-            tags: [mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase()],
+            tags: normalizeTagList([mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase(), params.dietType || 'ninguna', effectiveGoal || 'mantenimiento']),
+            source: 'ai',
+            isPublic: false,
+            isEditable: true,
+            mealTypes: [mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase()],
+            dietTypes: params.dietType ? [params.dietType] : [],
+            goalTypes: effectiveGoal ? [effectiveGoal] : [],
           },
         });
 
@@ -752,6 +834,7 @@ IMPORTANTE:
             mealPlanId: plan.id,
             dayOfWeek: dayIndex,
             mealType: mealTypeMap[aiMeal.type] || aiMeal.type.toLowerCase(),
+            selectedRecipeId: recipe.id,
           },
         });
 
@@ -799,9 +882,14 @@ export async function getUserMealPlans(userId: string) {
       include: {
         meals: {
           include: {
+            selectedRecipe: {
+              include: recipeInclude,
+            },
             recipes: {
               include: {
-                recipe: true,
+                recipe: {
+                  include: recipeInclude,
+                },
               },
             },
           },
@@ -826,16 +914,13 @@ export async function getMealPlanById(id: string, userId: string) {
       include: {
         meals: {
           include: {
+            selectedRecipe: {
+              include: recipeInclude,
+            },
             recipes: {
               include: {
                 recipe: {
-                  include: {
-                    ingredients: {
-                      include: {
-                        ingredient: true,
-                      },
-                    },
-                  },
+                  include: recipeInclude,
                 },
               },
             },
@@ -869,25 +954,150 @@ export async function deleteMealPlan(id: string, userId: string) {
   });
 }
 
-/**
- * Obtener detalle de una receta
- */
-export async function getRecipeById(id: string) {
-  const recipe = await prisma.recipe.findUnique({
-    where: { id },
-    include: {
-      ingredients: {
-        include: {
-          ingredient: true,
-        },
+export async function listRecipes(userId: string, filters: ListRecipesQueryInput) {
+  const recipes = await prisma.recipe.findMany({
+    where: buildRecipeAccessWhere(userId, filters),
+    include: recipeInclude,
+    orderBy: [
+      { isPublic: 'desc' },
+      { updatedAt: 'desc' },
+    ],
+    take: filters.limit ?? 50,
+  });
+
+  return recipes.map((recipe) => decorateRecipe(recipe));
+}
+
+export async function createRecipe(userId: string, data: CreateRecipeInput) {
+  const recipe = await prisma.$transaction(async (tx) => {
+    const createdRecipe = await tx.recipe.create({
+      data: {
+        userId,
+        name: data.name,
+        nameEn: data.nameEn ?? null,
+        description: data.description ?? null,
+        instructions: data.instructions,
+        prepTime: data.prepTime ?? null,
+        cookTime: data.cookTime ?? null,
+        servings: data.servings ?? 1,
+        difficulty: data.difficulty ?? null,
+        calories: data.calories ?? null,
+        protein: data.protein ?? null,
+        carbs: data.carbs ?? null,
+        fat: data.fat ?? null,
+        fiber: data.fiber ?? null,
+        imageUrl: data.imageUrl ?? null,
+        tags: normalizeTagList(data.tags ?? []),
+        source: 'user',
+        isPublic: false,
+        isEditable: true,
+        mealTypes: data.mealTypes ?? [],
+        dietTypes: data.dietTypes ?? [],
+        goalTypes: normalizeTagList(data.goalTypes ?? []),
       },
+    });
+
+    for (const ingredientInput of data.ingredients) {
+      const normalizedName = ingredientInput.name.trim().toLowerCase();
+      const normalizedUnit = ingredientInput.unit.trim().toLowerCase();
+
+      let ingredient = await tx.ingredient.findUnique({
+        where: {
+          name: normalizedName,
+        },
+      });
+
+      if (!ingredient) {
+        ingredient = await tx.ingredient.create({
+          data: {
+            name: normalizedName,
+            unit: normalizedUnit,
+          },
+        });
+      }
+
+      await tx.recipeIngredient.create({
+        data: {
+          recipeId: createdRecipe.id,
+          ingredientId: ingredient.id,
+          quantity: ingredientInput.quantity,
+        },
+      });
+    }
+
+    return tx.recipe.findUniqueOrThrow({
+      where: { id: createdRecipe.id },
+      include: recipeInclude,
+    });
+  });
+
+  return decorateRecipe(recipe);
+}
+
+export async function replaceMealRecipe(userId: string, mealId: string, data: ReplaceMealRecipeInput) {
+  const nextRecipe = await assertRecipeAccess(data.recipeId, userId);
+
+  const meal = await prisma.meal.findFirst({
+    where: {
+      id: mealId,
+      mealPlan: {
+        userId,
+      },
+    },
+    include: {
+      mealPlan: true,
+      recipes: true,
     },
   });
 
-  if (!recipe) {
-    throw new AppError(404, 'Receta no encontrada');
+  if (!meal) {
+    throw new AppError(404, 'Comida no encontrada');
   }
 
+  if (nextRecipe.mealTypes.length > 0 && !nextRecipe.mealTypes.includes(meal.mealType)) {
+    throw new AppError(400, 'La receta seleccionada no es compatible con este tipo de comida');
+  }
+
+  const previousRecipeId = meal.selectedRecipeId ?? meal.recipes[0]?.recipeId ?? null;
+
+  await prisma.$transaction(async (tx) => {
+    await tx.mealRecipe.deleteMany({
+      where: { mealId },
+    });
+
+    await tx.mealRecipe.create({
+      data: {
+        mealId,
+        recipeId: nextRecipe.id,
+      },
+    });
+
+    await tx.meal.update({
+      where: { id: mealId },
+      data: {
+        selectedRecipeId: nextRecipe.id,
+      },
+    });
+
+    await tx.mealSwapHistory.create({
+      data: {
+        mealId,
+        previousRecipeId,
+        newRecipeId: nextRecipe.id,
+        swapSource: nextRecipe.source === 'ai' ? 'ai' : nextRecipe.source === 'system' ? 'system' : 'user',
+        reason: data.reason ?? null,
+      },
+    });
+  });
+
+  return getMealPlanById(meal.mealPlanId, userId);
+}
+
+/**
+ * Obtener detalle de una receta
+ */
+export async function getRecipeById(id: string, userId: string) {
+  const recipe = await assertRecipeAccess(id, userId);
   return decorateRecipe(recipe);
 }
 

@@ -44,6 +44,7 @@ model User {
 
   // Relaciones - Nutrición
   mealPlans        MealPlan[]
+  recipes          Recipe[]
   nutritionLogs    NutritionLog[]
   nutritionBalance UserNutritionBalance?
 
@@ -213,48 +214,66 @@ model MealPlan {
 }
 
 model Meal {
-  id         String @id @default(uuid())
-  mealPlanId String
-  dayOfWeek  Int    // 0=Lunes, 6=Domingo
-  mealType   String // "desayuno", "almuerzo", "cena", "snack"
+  id                String @id @default(uuid())
+  mealPlanId        String
+  dayOfWeek         Int    // 0=Lunes, 6=Domingo
+  mealType          String // "desayuno", "almuerzo", "cena", "snack"
   servingMultiplier Float @default(1)
-  adjustmentReason String?
+  adjustmentReason  String?
+  selectedRecipeId  String?
 
   // Relaciones
-  mealPlan MealPlan     @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
-  recipes  MealRecipe[]
+  mealPlan       MealPlan          @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+  selectedRecipe Recipe?           @relation("SelectedMealRecipe", fields: [selectedRecipeId], references: [id], onDelete: SetNull)
+  recipes        MealRecipe[]
+  swapHistory    MealSwapHistory[]
 
   @@index([mealPlanId])
+  @@index([selectedRecipeId])
   @@map("meals")
 }
 
 model Recipe {
-  id           String   @id @default(uuid())
-  name         String
-  nameEn       String?
-  description  String?
-  instructions Json     // array de pasos como JSON
-  prepTime     Int?     // minutos
-  cookTime     Int?     // minutos
-  servings     Int      @default(1)
-  difficulty   String?  // "facil", "medio", "dificil"
-  calories     Float?
-  protein      Float?   // gramos
-  carbs        Float?   // gramos
-  fat          Float?   // gramos
-  fiber        Float?   // gramos
-  imageUrl     String?
-  tags         String[]
+  id                      String   @id @default(uuid())
+  userId                  String?
+  name                    String
+  nameEn                  String?
+  description             String?
+  instructions            Json     // array de pasos como JSON
+  prepTime                Int?     // minutos
+  cookTime                Int?     // minutos
+  servings                Int      @default(1)
+  difficulty              String?  // "facil", "medio", "dificil"
+  calories                Float?
+  protein                 Float?   // gramos
+  carbs                   Float?   // gramos
+  fat                     Float?   // gramos
+  fiber                   Float?   // gramos
+  imageUrl                String?
+  tags                    String[]
+  source                  String   @default("system") // "system" | "ai" | "user"
+  isPublic                Boolean  @default(true)
+  isEditable              Boolean  @default(false)
+  mealTypes               String[] @default([])
+  dietTypes               String[] @default([])
+  goalTypes               String[] @default([])
   editorialOverrideStatus String?
-  editorialNotes String?
-  editorialReviewedAt DateTime?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  editorialNotes          String?
+  editorialReviewedAt     DateTime?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 
   // Relaciones
-  meals       MealRecipe[]
-  ingredients RecipeIngredient[]
+  user            User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+  meals           MealRecipe[]
+  selectedInMeals Meal[]            @relation("SelectedMealRecipe")
+  ingredients     RecipeIngredient[]
+  previousSwaps   MealSwapHistory[] @relation("PreviousRecipeSwap")
+  newSwaps        MealSwapHistory[] @relation("NewRecipeSwap")
 
+  @@index([userId])
+  @@index([source])
+  @@index([isPublic])
   @@map("recipes")
 }
 
@@ -297,6 +316,25 @@ model MealRecipe {
   @@index([mealId])
   @@index([recipeId])
   @@map("meal_recipes")
+}
+
+model MealSwapHistory {
+  id               String   @id @default(uuid())
+  mealId           String
+  previousRecipeId String?
+  newRecipeId      String?
+  swapSource       String   @default("user") // "user" | "ai" | "system"
+  reason           String?
+  createdAt        DateTime @default(now())
+
+  // Relaciones
+  meal           Meal    @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  previousRecipe Recipe? @relation("PreviousRecipeSwap", fields: [previousRecipeId], references: [id], onDelete: SetNull)
+  newRecipe      Recipe? @relation("NewRecipeSwap", fields: [newRecipeId], references: [id], onDelete: SetNull)
+
+  @@index([mealId])
+  @@index([createdAt])
+  @@map("meal_swap_history")
 }
 
 model NutritionLog {

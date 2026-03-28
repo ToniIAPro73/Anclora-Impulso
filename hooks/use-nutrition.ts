@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { nutritionApi, type MealPlan, type NutritionLog, type NutritionSummary } from '@/lib/api';
+import { nutritionApi, type MealPlan, type NutritionLog, type NutritionSummary, type Recipe } from '@/lib/api';
 
 export function useMealPlans() {
   const queryClient = useQueryClient();
@@ -51,6 +51,43 @@ export function useMealPlan(id: string) {
     queryFn: () => nutritionApi.getMealPlanById(id),
     staleTime: 5 * 60 * 1000,
     enabled: !!id,
+  });
+}
+
+export function useRecipeLibrary(
+  params?: Parameters<typeof nutritionApi.listRecipes>[0],
+  options?: { enabled?: boolean }
+) {
+  return useQuery<Recipe[]>({
+    queryKey: ['recipeLibrary', params],
+    queryFn: () => nutritionApi.listRecipes(params),
+    staleTime: 2 * 60 * 1000,
+    enabled: options?.enabled ?? true,
+  });
+}
+
+export function useCreateRecipe() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: Parameters<typeof nutritionApi.createRecipe>[0]) => nutritionApi.createRecipe(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['recipeLibrary'] });
+      queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
+    },
+  });
+}
+
+export function useReplaceMealRecipe() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ mealId, data }: { mealId: string; data: Parameters<typeof nutritionApi.replaceMealRecipe>[1] }) =>
+      nutritionApi.replaceMealRecipe(mealId, data),
+    onSuccess: (updatedPlan) => {
+      queryClient.invalidateQueries({ queryKey: ['mealPlans'] });
+      queryClient.setQueryData(['mealPlan', updatedPlan.id], updatedPlan);
+    },
   });
 }
 

@@ -132,6 +132,34 @@ export const updateRecipeSchema = z.object({
   editorialNotes: editorialNotesSchema,
 });
 
+export const createRecipeSchema = z.object({
+  name: z.string().min(1),
+  nameEn: z.string().min(1).nullable().optional(),
+  description: z.string().min(1).nullable().optional(),
+  instructions: z.array(z.string().min(1)).min(1),
+  prepTime: z.number().int().min(0).nullable().optional(),
+  cookTime: z.number().int().min(0).nullable().optional(),
+  servings: z.number().int().min(1).max(20).optional(),
+  difficulty: z.string().min(1).nullable().optional(),
+  calories: z.number().min(0).nullable().optional(),
+  protein: z.number().min(0).nullable().optional(),
+  carbs: z.number().min(0).nullable().optional(),
+  fat: z.number().min(0).nullable().optional(),
+  fiber: z.number().min(0).nullable().optional(),
+  imageUrl: z.string().url().nullable().optional(),
+  tags: z.array(z.string().min(1)).max(12).default([]),
+  mealTypes: z.array(z.enum(['desayuno', 'almuerzo', 'cena', 'snack'])).default([]),
+  dietTypes: z.array(z.enum(['ninguna', 'mediterranea', 'dash', 'ayuno_intermitente', 'alta_proteina'])).default([]),
+  goalTypes: z.array(z.string().min(1)).max(12).default([]),
+  ingredients: z.array(
+    z.object({
+      name: z.string().min(1),
+      quantity: z.number().positive(),
+      unit: z.string().min(1),
+    })
+  ).min(1),
+});
+
 export const bulkUpdateRecipeEditorialSchema = z.object({
   ids: z.array(z.string().uuid()).min(1).max(100),
   editorialOverrideStatus: z.enum(['ready', 'review', 'needs_work']),
@@ -154,7 +182,7 @@ export const generateWorkoutSchema = z.object({
 export const generateMealPlanSchema = z.object({
   goal: z.string().optional(),
   difficulty: z.enum(['facil', 'medio', 'dificil']).optional(),
-  dietType: z.enum(['ninguna', 'mediterranea', 'dash', 'ayuno_intermitente']).optional(),
+  dietType: z.enum(['ninguna', 'mediterranea', 'dash', 'ayuno_intermitente', 'alta_proteina']).optional(),
   maxIngredients: z.number().int().min(1).max(20).optional(),
   includeIngredients: z.array(z.string()).optional(),
   dietaryRestrictions: z.array(z.string()).optional(),
@@ -179,6 +207,21 @@ export const createNutritionLogSchema = z.object({
   notes: z.string().optional(),
 });
 
+export const listRecipesQuerySchema = z.object({
+  query: z.string().min(1).optional(),
+  mealType: z.enum(['desayuno', 'almuerzo', 'cena', 'snack']).optional(),
+  dietType: z.enum(['ninguna', 'mediterranea', 'dash', 'ayuno_intermitente', 'alta_proteina']).optional(),
+  goalType: z.string().min(1).optional(),
+  source: z.enum(['system', 'ai', 'user']).optional(),
+  scope: z.enum(['all', 'mine', 'public']).optional(),
+  limit: z.coerce.number().int().min(1).max(100).optional(),
+});
+
+export const replaceMealRecipeSchema = z.object({
+  recipeId: z.string().uuid(),
+  reason: z.string().max(500).nullable().optional(),
+});
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
@@ -194,4 +237,7 @@ export type GenerateMealPlanInput = z.infer<typeof generateMealPlanSchema>;
 export type CreateNutritionLogInput = z.infer<typeof createNutritionLogSchema>;
 export type CreateProductEventInput = z.infer<typeof createProductEventSchema>;
 export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;
+export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
 export type BulkUpdateRecipeEditorialInput = z.infer<typeof bulkUpdateRecipeEditorialSchema>;
+export type ListRecipesQueryInput = z.infer<typeof listRecipesQuerySchema>;
+export type ReplaceMealRecipeInput = z.infer<typeof replaceMealRecipeSchema>;

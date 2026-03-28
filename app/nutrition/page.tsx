@@ -53,7 +53,7 @@ function NutritionPageContent() {
   const [generateParams, setGenerateParams] = useState({
     goal: '',
     difficulty: '' as '' | 'facil' | 'medio' | 'dificil',
-    dietType: '' as '' | 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente',
+    dietType: '' as '' | 'ninguna' | 'mediterranea' | 'dash' | 'ayuno_intermitente' | 'alta_proteina',
   })
   const [logData, setLogData] = useState({
     mealType: 'almuerzo' as 'desayuno' | 'almuerzo' | 'cena' | 'snack',
@@ -346,6 +346,7 @@ function NutritionPageContent() {
                       <SelectItem value="mediterranea">{t ? 'Mediterránea 🫒' : 'Mediterranean 🫒'}</SelectItem>
                       <SelectItem value="dash">{t ? 'DASH (antihipertensiva) ❤️' : 'DASH (anti-hypertension) ❤️'}</SelectItem>
                       <SelectItem value="ayuno_intermitente">{t ? 'Ayuno Intermitente 16:8 ⏱️' : 'Intermittent Fasting 16:8 ⏱️'}</SelectItem>
+                      <SelectItem value="alta_proteina">{t ? 'Alta en proteína 💪' : 'High protein 💪'}</SelectItem>
                     </SelectContent>
                   </Select>
                   {generateParams.dietType === 'mediterranea' && (
@@ -356,6 +357,9 @@ function NutritionPageContent() {
                   )}
                   {generateParams.dietType === 'ayuno_intermitente' && (
                     <p className="text-xs text-muted-foreground mt-1">{t ? 'Protocolo 16:8. Ventana de alimentación 12:00–20:00. Solo Almuerzo y Cena. Sin desayuno.' : '16:8 protocol. Eating window 12:00–20:00. Lunch and Dinner only. No breakfast.'}</p>
+                  )}
+                  {generateParams.dietType === 'alta_proteina' && (
+                    <p className="text-xs text-muted-foreground mt-1">{t ? 'Pensada para aumentar saciedad, recuperación y masa muscular con recetas de proteína alta.' : 'Designed to improve satiety, recovery and muscle gain with high-protein recipes.'}</p>
                   )}
                 </div>
                 {generateError && (
