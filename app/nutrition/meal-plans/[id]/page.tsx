@@ -680,7 +680,7 @@ function MealPlanDetailPageContent() {
               ) : null}
             </TabsContent>
 
-            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-hidden">
+            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-1.5 overflow-hidden">
               <div className="min-h-0 overflow-y-auto pr-1 lg:overflow-y-hidden">
               <div className="grid gap-2 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                 <div className="space-y-2">
@@ -697,7 +697,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.description}
                       onChange={(event) => setCreateForm((current) => ({ ...current, description: event.target.value }))}
-                      className="min-h-[72px]"
+                      className="min-h-[64px]"
                     />
                   </div>
                   <div className="grid gap-2 sm:grid-cols-3">
@@ -760,7 +760,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.tags}
                       onChange={(event) => setCreateForm((current) => ({ ...current, tags: event.target.value }))}
-                      className="min-h-[56px]"
+                      className="min-h-[48px]"
                     />
                   </div>
                   <div className="space-y-2">
@@ -768,7 +768,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.goalTypes}
                       onChange={(event) => setCreateForm((current) => ({ ...current, goalTypes: event.target.value }))}
-                      className="min-h-[56px]"
+                      className="min-h-[48px]"
                       placeholder={t ? "perdida_peso\nmantenimiento\nganancia_muscular" : "weight_loss\nmaintenance\nmuscle_gain"}
                     />
                   </div>
@@ -777,7 +777,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.ingredients}
                       onChange={(event) => setCreateForm((current) => ({ ...current, ingredients: event.target.value }))}
-                      className="min-h-[96px]"
+                      className="min-h-[88px]"
                       placeholder={t ? "Formato: nombre | cantidad | unidad\nEj.\npollo | 180 | g\narroz integral | 80 | g" : "Format: name | quantity | unit\nE.g.\nchicken | 180 | g\nbrown rice | 80 | g"}
                     />
                   </div>
@@ -786,15 +786,15 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.instructions}
                       onChange={(event) => setCreateForm((current) => ({ ...current, instructions: event.target.value }))}
-                      className="min-h-[96px]"
+                      className="min-h-[88px]"
                     />
                   </div>
                 </div>
               </div>
               </div>
 
-              <div className="flex justify-end">
-                <Button variant="success" disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
+              <div className="flex justify-end pt-1">
+                <Button variant="success" className="h-10 rounded-2xl px-5" disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
                   {t ? "Crear y usar en esta comida" : "Create and use for this meal"}
                 </Button>
               </div>
@@ -807,9 +807,9 @@ function MealPlanDetailPageContent() {
       <Dialog open={Boolean(previewRecipe)} onOpenChange={(open) => !open && closePreviewDialog()}>
         <DialogContent
           showCloseButton={false}
-          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(94dvh,980px)] ${buildResponsiveModalClass("lg:max-w-[1280px]")}`}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(97dvh,1040px)] ${buildResponsiveModalClass("lg:max-w-[1320px]")}`}
         >
-          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-3 p-4 sm:p-5 lg:gap-4 lg:p-6">
+          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-2.5 p-4 sm:p-5 lg:gap-3 lg:p-5">
             <Button
               type="button"
               variant="outline"
@@ -834,31 +834,31 @@ function MealPlanDetailPageContent() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="min-h-0 overflow-y-auto pr-1">
+            <div className="min-h-0 overflow-y-auto pr-1 lg:overflow-y-hidden">
               {previewRecipe ? (
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {previewRecipe.description ? (
                     <p className="text-sm text-muted-foreground sm:text-base">{previewRecipe.description}</p>
                   ) : null}
 
-                  <div className="grid gap-3 md:grid-cols-4">
-                    <div className="rounded-2xl bg-orange-500/10 p-4 text-center">
-                      <Flame className="mx-auto mb-2 h-5 w-5 text-orange-500" />
+                  <div className="grid gap-2.5 md:grid-cols-4">
+                    <div className="rounded-2xl bg-orange-500/10 p-3 text-center">
+                      <Flame className="mx-auto mb-1.5 h-5 w-5 text-orange-500" />
                       <p className="text-2xl font-bold">{Math.round(previewRecipe.calories || 0)}</p>
                       <p className="text-sm text-muted-foreground">kcal</p>
                     </div>
-                    <div className="rounded-2xl bg-red-500/10 p-4 text-center">
-                      <Beef className="mx-auto mb-2 h-5 w-5 text-red-500" />
+                    <div className="rounded-2xl bg-red-500/10 p-3 text-center">
+                      <Beef className="mx-auto mb-1.5 h-5 w-5 text-red-500" />
                       <p className="text-2xl font-bold">{previewRecipe.protein || 0}g</p>
                       <p className="text-sm text-muted-foreground">{t ? "Prot" : "Prot"}</p>
                     </div>
-                    <div className="rounded-2xl bg-amber-500/10 p-4 text-center">
-                      <Wheat className="mx-auto mb-2 h-5 w-5 text-amber-500" />
+                    <div className="rounded-2xl bg-amber-500/10 p-3 text-center">
+                      <Wheat className="mx-auto mb-1.5 h-5 w-5 text-amber-500" />
                       <p className="text-2xl font-bold">{previewRecipe.carbs || 0}g</p>
                       <p className="text-sm text-muted-foreground">{t ? "Carb" : "Carb"}</p>
                     </div>
-                    <div className="rounded-2xl bg-blue-500/10 p-4 text-center">
-                      <Droplets className="mx-auto mb-2 h-5 w-5 text-blue-500" />
+                    <div className="rounded-2xl bg-blue-500/10 p-3 text-center">
+                      <Droplets className="mx-auto mb-1.5 h-5 w-5 text-blue-500" />
                       <p className="text-2xl font-bold">{previewRecipe.fat || 0}g</p>
                       <p className="text-sm text-muted-foreground">{t ? "Grasa" : "Fat"}</p>
                     </div>
@@ -881,11 +881,11 @@ function MealPlanDetailPageContent() {
                     </div>
                   ) : null}
 
-                  <div className="grid gap-4 border-t border-border pt-4 lg:grid-cols-2">
+                  <div className="grid gap-3 border-t border-border pt-3 lg:grid-cols-2">
                   {previewRecipe.ingredients && previewRecipe.ingredients.length > 0 ? (
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold">{t ? "Ingredientes" : "Ingredients"}</h3>
-                      <div className="grid gap-2">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold">{t ? "Ingredientes" : "Ingredients"}</h3>
+                      <div className="grid gap-1.5">
                         {previewRecipe.ingredients.map((ingredient) => (
                           <p key={`${ingredient.ingredient.name}-${ingredient.ingredient.unit}-${ingredient.quantity}`} className="text-sm text-muted-foreground">
                             • {ingredient.quantity} {ingredient.ingredient.unit} {ingredient.ingredient.name}
@@ -896,9 +896,9 @@ function MealPlanDetailPageContent() {
                   ) : null}
 
                   {previewRecipe.instructions && previewRecipe.instructions.length > 0 ? (
-                    <div className="space-y-3">
-                      <h3 className="text-xl font-semibold">{t ? "Instrucciones" : "Instructions"}</h3>
-                      <ol className="space-y-3">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold">{t ? "Instrucciones" : "Instructions"}</h3>
+                      <ol className="space-y-2">
                         {previewRecipe.instructions.map((step, index) => (
                           <li key={`${step}-${index}`} className="flex gap-3 text-sm text-muted-foreground">
                             <span className="min-w-5 font-bold text-foreground">{index + 1}.</span>
@@ -913,7 +913,7 @@ function MealPlanDetailPageContent() {
               ) : null}
             </div>
 
-            <div className={`bg-white/95 dark:bg-slate-950/95 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
+            <div className={`bg-white/95 pt-1 dark:bg-slate-950/95 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
               <Button
                 variant="outline"
                 className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
