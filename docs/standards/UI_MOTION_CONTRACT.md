@@ -67,10 +67,19 @@ Una superficie no está lista si:
 
 ## Validación visual obligatoria
 
-- Todo ajuste de hover, elevación, borde o sombra debe verificarse visualmente antes de cerrar la tarea.
-- La validación debe confirmar:
-  - que la surface no pierde bordes ni sombras al elevarse
-  - que no invade visualmente cards hermanas
-  - que el estado hover sigue siendo legible y atractivo
-  - que el comportamiento real coincide con el contrato, no sólo con el código
-- Si la verificación visual falla o no puede completarse, debe comunicarse antes de dar el resultado por válido.
+- Esta validación aplica a todas las aplicaciones del ecosistema Anclora, sin excepción:
+  - internas
+  - premium
+  - ultra premium
+  - portfolio/showcase
+- Antes de subir cambios que afecten a cards, botones, frames o cualquier superficie con motion, hay que validarlos visualmente en entorno real al menos en:
+  - escritorio
+  - móvil
+- La validación mínima debe confirmar:
+  - que la surface no pierde bordes, sombra ni legibilidad al elevarse
+  - que no invade ni pisa superficies hermanas
+  - que no provoca clipping dentro de grids, carruseles, modales o contenedores densos
+  - que el hover, focus y active mantienen coherencia visual con su bloque
+  - que el comportamiento sigue siendo estable en desktop y mobile
+- Si una surface funciona bien en escritorio pero rompe layout o jerarquía en móvil, no cumple el contrato.
+- Si la verificación visual falla o no puede completarse en ambos viewports obligatorios, el cambio no debe darse por válido ni subirse sin avisarlo explícitamente.

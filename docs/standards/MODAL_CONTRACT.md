@@ -58,10 +58,22 @@ Un modal no está listo si:
 
 ## Validación visual obligatoria
 
-- Antes de dar por cerrado un cambio en un modal, hay que comprobar visualmente el resultado real.
-- La comprobación debe confirmar:
-  - que todo el contenido crítico cabe
-  - que no hay clipping de bordes, sombras o estados hover
-  - que el cierre superior y las acciones inferiores son visibles
-  - que no aparece scroll evitable
-- Si no se puede validar visualmente o no se consigue resolver el problema, no debe darse el trabajo por bueno sin avisar primero.
+- Esta validación aplica a todas las aplicaciones del ecosistema Anclora, sin excepción:
+  - internas
+  - premium
+  - ultra premium
+  - portfolio/showcase
+- Antes de subir cambios que afecten a modales, hay que validarlos visualmente en entorno real al menos en:
+  - escritorio
+  - móvil
+- La validación debe hacerse sobre la interfaz renderizada, no sólo revisando código o snapshots estructurales.
+- La validación mínima debe confirmar:
+  - que todo el contenido crítico entra correctamente
+  - que header, cierre superior y footer de acciones son visibles
+  - que no hay clipping de bordes, sombras, foco o hover
+  - que no aparece scroll vertical u horizontal evitable
+  - que paginación, tabs y controles secundarios no se superponen con el contenido
+  - que el modal degrada correctamente entre desktop y mobile
+- Si un modal sólo funciona en un viewport, no cumple el contrato.
+- Si para resolver el problema hay que cambiar tamaño, densidad, orden de bloques o navegación interna, eso debe hacerse antes de dar el trabajo por válido.
+- Si la validación visual no puede completarse o el resultado sigue rompiéndose en alguno de los dos viewports obligatorios, el cambio no debe darse por cerrado ni subirse sin avisarlo explícitamente.
