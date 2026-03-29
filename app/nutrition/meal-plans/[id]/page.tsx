@@ -680,7 +680,7 @@ function MealPlanDetailPageContent() {
               ) : null}
             </TabsContent>
 
-            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-1.5 overflow-hidden">
+            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-1 overflow-hidden">
               <div className="min-h-0 overflow-y-auto pr-1 lg:overflow-y-hidden">
               <div className="grid gap-2 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
                 <div className="space-y-2">
@@ -697,7 +697,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.description}
                       onChange={(event) => setCreateForm((current) => ({ ...current, description: event.target.value }))}
-                      className="min-h-[64px]"
+                      className="min-h-[56px]"
                     />
                   </div>
                   <div className="grid gap-2 sm:grid-cols-3">
@@ -730,7 +730,7 @@ function MealPlanDetailPageContent() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="grid gap-2 sm:grid-cols-2">
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
                     <div className="space-y-2">
                       <Label>kcal</Label>
                       <Input type="number" value={createForm.calories} onChange={(event) => setCreateForm((current) => ({ ...current, calories: event.target.value }))} />
@@ -760,7 +760,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.tags}
                       onChange={(event) => setCreateForm((current) => ({ ...current, tags: event.target.value }))}
-                      className="min-h-[48px]"
+                      className="min-h-[40px]"
                     />
                   </div>
                   <div className="space-y-2">
@@ -768,7 +768,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.goalTypes}
                       onChange={(event) => setCreateForm((current) => ({ ...current, goalTypes: event.target.value }))}
-                      className="min-h-[48px]"
+                      className="min-h-[40px]"
                       placeholder={t ? "perdida_peso\nmantenimiento\nganancia_muscular" : "weight_loss\nmaintenance\nmuscle_gain"}
                     />
                   </div>
@@ -777,7 +777,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.ingredients}
                       onChange={(event) => setCreateForm((current) => ({ ...current, ingredients: event.target.value }))}
-                      className="min-h-[88px]"
+                      className="min-h-[72px]"
                       placeholder={t ? "Formato: nombre | cantidad | unidad\nEj.\npollo | 180 | g\narroz integral | 80 | g" : "Format: name | quantity | unit\nE.g.\nchicken | 180 | g\nbrown rice | 80 | g"}
                     />
                   </div>
@@ -786,14 +786,14 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.instructions}
                       onChange={(event) => setCreateForm((current) => ({ ...current, instructions: event.target.value }))}
-                      className="min-h-[88px]"
+                      className="min-h-[72px]"
                     />
                   </div>
                 </div>
               </div>
               </div>
 
-              <div className="flex justify-end pt-1">
+              <div className="flex justify-end pt-0.5">
                 <Button variant="success" className="h-10 rounded-2xl px-5" disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
                   {t ? "Crear y usar en esta comida" : "Create and use for this meal"}
                 </Button>
