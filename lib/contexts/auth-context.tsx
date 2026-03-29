@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react"
 import { profileApi } from "@/lib/api"
 import { authApi, type User } from "@/lib/api/auth"
 import {
@@ -54,10 +54,15 @@ function readLegacyProfile(userId: string) {
   }
 }
 
+function isNetworkSessionCheckError(error: unknown) {
+  return error instanceof TypeError && error.message.toLowerCase().includes("fetch")
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile>(mergeUserProfile())
   const [isLoading, setIsLoading] = useState(true)
+  const hasCheckedSession = useRef(false)
 
   const loadProfile = async (nextUser: User | null) => {
     if (!nextUser) {
@@ -97,6 +102,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
+    if (hasCheckedSession.current) {
+      return
+    }
+
+    hasCheckedSession.current = true
+
     const checkSession = async () => {
       const token = localStorage.getItem("accessToken")
       if (!token) {
@@ -109,8 +120,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(currentUser)
         await loadProfile(currentUser)
       } catch (error) {
-        console.error("Error al verificar sesión:", error)
+        if (!isNetworkSessionCheckError(error)) {
+          console.error("Error al verificar sesión:", error)
+        }
         authApi.logout()
+        setUser(null)
         setProfile(mergeUserProfile())
       } finally {
         setIsLoading(false)
