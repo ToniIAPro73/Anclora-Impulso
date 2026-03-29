@@ -26,6 +26,12 @@ import { Textarea } from "@/components/ui/textarea"
 import { useEditorialExercises } from "@/hooks/use-editorial-content"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
+import {
+  ANCLORA_MODAL_ACTIONS_CLASS,
+  ANCLORA_MODAL_HEADER_CLASS,
+  ANCLORA_MODAL_SECONDARY_ACTION_CLASS,
+  buildResponsiveModalClass,
+} from "@/lib/ui-contracts"
 import { engagementApi, type NotificationDelivery } from "@/lib/api"
 
 function AdminContentInner() {
@@ -754,24 +760,14 @@ function AdminContentInner() {
 
           <Dialog open={Boolean(selectedExerciseId && selectedExercise)} onOpenChange={(open) => !open && setSelectedExerciseId(null)}>
             <DialogContent
-              showCloseButton={false}
-              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/90 bg-white p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1280px] dark:border-slate-800/90 dark:bg-slate-950"
+              className={`h-[calc(100dvh-1rem)] max-h-none sm:h-[calc(100dvh-1.5rem)] lg:h-[calc(100dvh-2rem)] ${buildResponsiveModalClass("lg:w-[calc(100vw-3rem)] lg:max-w-[1280px]")}`}
             >
               <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
-                <div className="mb-3 flex items-start justify-between gap-4">
-                  <DialogHeader className="text-left">
+                <div className="mb-3">
+                  <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
                     <DialogTitle>{selectedExercise?.name ?? t.admin.exerciseQueueTitle}</DialogTitle>
                     <DialogDescription>{t.admin.exerciseEditorDesc}</DialogDescription>
                   </DialogHeader>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-10 rounded-full border-orange-300/80 bg-white/80 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950/60 dark:text-slate-300 dark:hover:text-white"
-                    onClick={() => setSelectedExerciseId(null)}
-                  >
-                    {t.common.close}
-                  </Button>
                 </div>
 
                 <div className="mb-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800/80 dark:bg-slate-900/70">
@@ -837,10 +833,10 @@ function AdminContentInner() {
                   </div>
                 </div>
 
-                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                <DialogFooter className={`mt-3 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
                   <Button
                     variant="outline"
-                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
                     onClick={() => setSelectedExerciseId(null)}
                   >
                     {t.common.cancel}
@@ -859,24 +855,14 @@ function AdminContentInner() {
 
           <Dialog open={Boolean(selectedRecipeId && selectedRecipe)} onOpenChange={(open) => !open && setSelectedRecipeId(null)}>
             <DialogContent
-              showCloseButton={false}
-              className="h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-h-none overflow-hidden border-slate-200/90 bg-white p-0 sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1480px] dark:border-slate-800/90 dark:bg-slate-950"
+              className={`h-[calc(100dvh-1rem)] max-h-none sm:h-[calc(100dvh-1.5rem)] lg:h-[calc(100dvh-2rem)] ${buildResponsiveModalClass("lg:w-[calc(100vw-3rem)] lg:max-w-[1480px]")}`}
             >
               <div className="grid h-full grid-rows-[auto_auto_1fr_auto] gap-0 overflow-hidden p-4 sm:p-5 lg:p-6">
-                <div className="mb-3 flex items-start justify-between gap-4">
-                  <DialogHeader className="text-left">
+                <div className="mb-3">
+                  <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
                     <DialogTitle>{selectedRecipe?.name ?? t.admin.recipeQueueTitle}</DialogTitle>
                     <DialogDescription>{t.admin.recipeEditorDesc}</DialogDescription>
                   </DialogHeader>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="h-10 rounded-full border-orange-300/80 bg-white/80 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950/60 dark:text-slate-300 dark:hover:text-white"
-                    onClick={() => setSelectedRecipeId(null)}
-                  >
-                    {t.common.close}
-                  </Button>
                 </div>
 
                 <div className="mb-3 rounded-2xl border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-800/80 dark:bg-slate-900/70">
@@ -980,10 +966,10 @@ function AdminContentInner() {
                   </div>
                 </div>
 
-                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                <DialogFooter className={`mt-3 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
                   <Button
                     variant="outline"
-                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
                     onClick={() => setSelectedRecipeId(null)}
                   >
                     {t.common.cancel}

@@ -1,53 +1,66 @@
 # UI Motion Contract
 
 ## Objetivo
-Este contrato define el comportamiento visual base de superficies interactivas en Anclora Impulso para mantener una experiencia coherente, ágil y moderna.
+Definir la mecánica visual base de botones, cards y frames interactivos del ecosistema Anclora para que todas las apps compartan la misma lógica de respuesta aunque cambie la identidad de marca.
 
 ## Superficies soportadas
-- `ui-motion-card`: para tarjetas, widgets y bloques de contenido principales.
-- `ui-motion-button`: para botones primarios, secundarios, icon buttons y CTA.
-- `ui-motion-frame`: para filas, accesos rápidos, items de navegación y contenedores secundarios.
+- `ui-motion-card`
+- `ui-motion-button`
+- `ui-motion-frame`
 
 ## Comportamiento obligatorio
 - Elevación en `hover` y `focus-visible`.
-- Sombra inferior perceptible al elevarse.
-- Borde visible al activarse la elevación.
+- Sombra perceptible, nunca ruidosa.
+- Borde o halo visible al activarse la elevación.
 - Transiciones rápidas y homogéneas.
-- Respeto a `prefers-reduced-motion: reduce`.
+- Respeto a `prefers-reduced-motion`.
 
 ## Diferenciación por tipo
-- `card`: elevación más profunda y sombra amplia.
-- `button`: elevación corta, respuesta más rápida y sensación táctil.
-- `frame`: elevación intermedia para navegación y filas informativas.
+- `card`: elevación más profunda y lectura de bloque.
+- `button`: respuesta corta y táctil.
+- `frame`: elevación intermedia para filas, navegación y contenedores secundarios.
 
-## Regla de incorporación
-- Nuevas tarjetas deben usar `Card` desde `components/ui/card` o incluir `ui-motion-card`.
-- Nuevos botones deben usar `Button` desde `components/ui/button` o incluir `ui-motion-button`.
-- Nuevos contenedores interactivos que no sean `Card` ni `Button` deben incluir `ui-motion-frame`.
-- No se deben inventar animaciones locales por pantalla si el patrón encaja en uno de los tres tipos anteriores.
-- En dashboards y vistas densas, las tarjetas principales y de métricas deben usar por defecto `ui-motion-card-subtle`; la elevación fuerte sólo se permite si hay una razón clara y aprobada de jerarquía visual.
-- Ninguna tarjeta destacada debe elevarse de forma perceptiblemente mayor que las demás tarjetas hermanas del mismo bloque si eso rompe la coherencia del conjunto.
+## Reglas de incorporación
+- Nuevas cards deben usar el componente base del repo o una clase equivalente alineada con este contrato.
+- Nuevos botones deben nacer desde el sistema UI del repo, no desde clases arbitrarias por pantalla.
+- Nuevos contenedores interactivos que no sean `Card` ni `Button` deben entrar en la familia `frame`.
+- No se deben inventar animaciones locales si el patrón encaja en uno de los tres tipos anteriores.
+
+## Reglas de bloque
+- Las cards hermanas de un mismo bloque deben compartir la misma intensidad de elevación.
+- No se permiten hover espectaculares que provoquen solapes, clipping o sensación de inestabilidad.
+- Las métricas y summary cards de dashboards deben tender a una elevación sutil.
 
 ## Contrato de campos editables
-- En tema oscuro, los campos editables no pueden mostrar superficies claras por defecto, autofill o estilos nativos del navegador.
-- `input`, `textarea` y controles equivalentes deben respetar `color-scheme: dark` cuando la app esté en `.dark`.
-- El fondo y el color del texto de los campos editables en oscuro deben integrarse con la misma superficie oscura usada por selects y controles vecinos.
-- Cualquier override local de un campo editable debe preservar ese contrato visual y no reintroducir fondos blancos o texto oscuro en tema oscuro.
+- En tema oscuro, los campos editables no pueden volverse claros por autofill o estilos nativos.
+- Inputs, textareas y equivalentes deben respetar el fondo de la superficie activa.
+- Cualquier override local debe preservar contraste, color de texto y coherencia con la familia de campos.
 
-## Contrato de modales
-- Los modales deben dimensionarse según el contenido y el viewport real, no a partir de un ancho compacto fijo heredado por defecto.
-- La primera estrategia debe ser ampliar superficie utilizable y reorganizar columnas, no introducir `scroll` vertical u horizontal.
-- Un modal puede ocupar casi todo el viewport si eso evita scrolls y mejora la edición o lectura.
-- Sólo se permite `scroll` interno cuando, tras adaptar layout y tamaño, siga siendo imposible mostrar la información completa de forma usable.
-- En modales con mucha información, las columnas laterales deben colapsar o apilarse antes de comprimir el contenido principal.
-- Antes de aceptar scroll, hay que compactar y redistribuir campos: reducir alturas sobrantes, agrupar métricas breves en una misma fila y mover señales secundarias a franjas o bloques de menor coste vertical.
-- Si un campo concreto puede contener más información de la que razonablemente cabe, el `scroll` debe vivir dentro de ese campo antes que en el modal completo.
-- Si el modal tiene acciones principales, debe incluir un cierre visual claro con botones inferiores de `Cancelar` y `Guardar` o equivalente, visibles sin depender de scroll cuando el contenido razonablemente pueda entrar.
-- Si hay espacio suficiente, se prioriza un pequeño botón `Cerrar` en la esquina superior derecha frente a una `X`, siempre sin superponerse al contenido ni competir con el título.
-- El fondo del modal debe ser suficientemente opaco para separar con claridad la superficie modal del contenido de fondo; no debe dejar traslucir cards o texto del dashboard.
+## Adaptación por grupo
 
-## Extensión del contrato
-Si aparece un nuevo tipo de superficie, debe añadirse en:
-- `lib/ui-motion.ts` para declarar el identificador reutilizable.
-- `app/globals.css` para definir la mecánica visual.
-- Este documento para registrar intención, reglas y casos de uso.
+Aplicaciones internas:
+- motion corto
+- lectura rápida
+- cero teatralidad
+
+Aplicaciones premium:
+- motion más refinado
+- profundidad algo mayor
+- sin comprometer claridad
+
+Aplicaciones ultra premium:
+- motion con más firma visual
+- permitido shimmer o barrido ligero
+- nunca a costa de precisión o rendimiento percibido
+
+## Referencias relacionadas
+- `MODAL_CONTRACT.md`
+- contrato de grupo aplicable
+
+## Gate de aceptación
+
+Una superficie no está lista si:
+- su hover no coincide con el bloque al que pertenece
+- introduce una nueva semántica de movimiento sin contrato
+- rompe contraste o focus visible
+- genera solapes o desplazamientos innecesarios

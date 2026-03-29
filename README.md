@@ -80,6 +80,16 @@ pnpm test:coverage
 - Material de negocio e inversores: `docs/business/` y `docs/investors/`
 - Historial y entregables: `docs/archive/`
 
+## Contratos UX/UI
+
+Lectura minima antes de tocar interfaz:
+
+1. `docs/standards/ANCLORA_ECOSYSTEM_CONTRACT_GROUPS.md`
+2. `docs/standards/ANCLORA_INTERNAL_APP_CONTRACT.md`
+3. `docs/standards/UI_MOTION_CONTRACT.md`
+4. `docs/standards/MODAL_CONTRACT.md`
+5. `docs/standards/LOCALIZATION_CONTRACT.md`
+
 ## Notas
 
 - `middleware.ts` debe permanecer en raiz porque Next.js lo resuelve desde ahi.

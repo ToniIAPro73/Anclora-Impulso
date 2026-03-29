@@ -17,13 +17,15 @@ import { Apple, ChefHat, Flame, Beef, Wheat, Droplets, Plus, Sparkles, Calendar,
 import { useLanguage } from "@/lib/contexts/language-context"
 import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
 import { trackProductEvent } from "@/lib/product-events"
+import {
+  ANCLORA_MODAL_ACTIONS_CLASS,
+  ANCLORA_MODAL_HEADER_CLASS,
+  ANCLORA_MODAL_SECONDARY_ACTION_CLASS,
+  buildResponsiveModalClass,
+} from "@/lib/ui-contracts"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-const NUTRITION_PRIMARY_BUTTON =
-  "border-0 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 text-white shadow-[0_14px_34px_-18px_rgba(16,185,129,0.95)] hover:from-green-500 hover:via-emerald-500 hover:to-green-400 hover:shadow-[0_18px_38px_-18px_rgba(16,185,129,1)]"
-const MODAL_SECONDARY_BUTTON =
-  "h-11 rounded-2xl border-slate-700/70 bg-slate-900/45 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45"
 
 function formatNutritionGoal(goal?: string | null, isSpanish = true) {
   if (!goal) return ""
@@ -65,6 +67,7 @@ function NutritionPageContent() {
   const { profile } = useAuth()
   const { language, t: copy } = useLanguage()
   const t = language === 'es'
+  const nutritionCopy = copy.nutrition
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
 
   const { mealPlans, isLoading, generateMealPlan, isGenerating, deleteMealPlan, isDeleting } = useMealPlans()
@@ -94,7 +97,7 @@ function NutritionPageContent() {
     setGenerateError(null)
     try {
       if (!isProfileReady) {
-        setGenerateError(t ? 'Completa el onboarding antes de generar un plan.' : 'Complete onboarding before generating a plan.')
+        setGenerateError(nutritionCopy.completeOnboardingError)
         return
       }
 
@@ -119,7 +122,7 @@ function NutritionPageContent() {
       })
       setGenerateOpen(false)
     } catch (err) {
-      setGenerateError(err instanceof Error ? err.message : t ? 'Error al generar el plan' : 'Error generating plan')
+      setGenerateError(err instanceof Error ? err.message : nutritionCopy.generatePlanError)
     }
   }
 
@@ -164,7 +167,7 @@ function NutritionPageContent() {
 
   const handleDeleteMealPlan = async (planId: string) => {
     const confirmed = window.confirm(
-      t ? '¿Quieres eliminar este plan nutricional?' : 'Do you want to delete this nutrition plan?'
+      nutritionCopy.deletePlanConfirm
     )
     if (!confirmed) return
 
@@ -182,10 +185,10 @@ function NutritionPageContent() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-            {t ? 'Nutrición' : 'Nutrition'}
+            {nutritionCopy.title}
           </h1>
           <p className="text-muted-foreground mt-1">
-            {t ? 'Planes de comida y seguimiento nutricional' : 'Meal plans and nutrition tracking'}
+            {nutritionCopy.subtitle}
           </p>
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
@@ -193,15 +196,15 @@ function NutritionPageContent() {
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="w-full sm:w-auto">
                 <Plus className="w-4 h-4 mr-2" />
-                {t ? 'Registrar Comida' : 'Log Meal'}
+                {nutritionCopy.logMeal}
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950">
+            <DialogContent className={buildResponsiveModalClass("lg:max-w-[980px]")}>
               <div className="grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-4 sm:max-h-[calc(100dvh-1.5rem)] sm:p-5 lg:max-h-[calc(100dvh-2rem)] lg:p-6">
-                <DialogHeader className="mb-4 pr-10 text-left">
-                  <DialogTitle>{t ? 'Registrar Comida' : 'Log Meal'}</DialogTitle>
+                <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
+                  <DialogTitle>{nutritionCopy.logMeal}</DialogTitle>
                   <DialogDescription>
-                    {t ? 'Añade los macros de tu comida' : 'Add your meal macros'}
+                    {nutritionCopy.logMealDescription}
                   </DialogDescription>
                 </DialogHeader>
                 <div className="min-h-0 space-y-3 overflow-y-auto pr-1 sm:space-y-4">
@@ -213,24 +216,24 @@ function NutritionPageContent() {
                   </div>
                 ) : null}
                 <div>
-                  <Label>{t ? 'Tipo de comida' : 'Meal type'}</Label>
+                  <Label>{nutritionCopy.mealType}</Label>
                   <Select value={logData.mealType} onValueChange={(v) => setLogData(d => ({ ...d, mealType: v as any }))}>
                     <SelectTrigger className="h-10"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {!isIntermittentFasting && <SelectItem value="desayuno">{t ? 'Desayuno' : 'Breakfast'}</SelectItem>}
-                      <SelectItem value="almuerzo">{t ? 'Almuerzo' : 'Lunch'}</SelectItem>
-                      <SelectItem value="cena">{t ? 'Cena' : 'Dinner'}</SelectItem>
-                      <SelectItem value="snack">{t ? 'Entre horas / snack' : 'Snack / between meals'}</SelectItem>
+                      {!isIntermittentFasting && <SelectItem value="desayuno">{nutritionCopy.breakfast}</SelectItem>}
+                      <SelectItem value="almuerzo">{nutritionCopy.lunch}</SelectItem>
+                      <SelectItem value="cena">{nutritionCopy.dinner}</SelectItem>
+                      <SelectItem value="snack">{nutritionCopy.snack}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <Label>{t ? 'Fecha' : 'Date'}</Label>
+                    <Label>{nutritionCopy.date}</Label>
                     <Input className="h-10" type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
                   </div>
                   <div>
-                    <Label>{t ? 'Hora de ingesta' : 'Intake time'}</Label>
+                    <Label>{nutritionCopy.intakeTime}</Label>
                     <Input className="h-10" type="time" value={logData.consumedTime} onChange={(e) => setLogData(d => ({ ...d, consumedTime: e.target.value }))} />
                   </div>
                 </div>
@@ -242,38 +245,38 @@ function NutritionPageContent() {
                   </div>
                 )}
                 <div>
-                  <Label>{t ? 'Nombre' : 'Name'}</Label>
-                  <Input className="h-10" value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
+                  <Label>{nutritionCopy.name}</Label>
+                  <Input className="h-10" value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={nutritionCopy.namePlaceholder} />
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <Label>{t ? 'Calorías' : 'Calories'}</Label>
+                    <Label>{nutritionCopy.calories}</Label>
                     <Input className="h-10" type="number" value={logData.calories} onChange={(e) => setLogData(d => ({ ...d, calories: +e.target.value }))} />
                   </div>
                   <div>
-                    <Label>{t ? 'Proteína (g)' : 'Protein (g)'}</Label>
+                    <Label>{nutritionCopy.proteinGrams}</Label>
                     <Input className="h-10" type="number" value={logData.protein} onChange={(e) => setLogData(d => ({ ...d, protein: +e.target.value }))} />
                   </div>
                   <div>
-                    <Label>{t ? 'Carbos (g)' : 'Carbs (g)'}</Label>
+                    <Label>{nutritionCopy.carbsGrams}</Label>
                     <Input className="h-10" type="number" value={logData.carbs} onChange={(e) => setLogData(d => ({ ...d, carbs: +e.target.value }))} />
                   </div>
                   <div>
-                    <Label>{t ? 'Grasa (g)' : 'Fat (g)'}</Label>
+                    <Label>{nutritionCopy.fatGrams}</Label>
                     <Input className="h-10" type="number" value={logData.fat} onChange={(e) => setLogData(d => ({ ...d, fat: +e.target.value }))} />
                   </div>
                 </div>
                 </div>
-                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 bg-white/95 pt-3 sm:grid-cols-2 dark:border-slate-800/80 dark:bg-slate-950/95">
+                <DialogFooter className={`mt-3 bg-white/95 dark:bg-slate-950/95 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
                   <Button
                     variant="outline"
-                    className={MODAL_SECONDARY_BUTTON}
+                    className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
                     onClick={() => setLogOpen(false)}
                   >
                     {copy.common.cancel}
                   </Button>
-                  <Button onClick={handleLog} disabled={isLogging} className={`h-11 rounded-2xl ${NUTRITION_PRIMARY_BUTTON}`}>
-                    {isLogging ? (t ? 'Guardando...' : 'Saving...') : copy.common.save}
+                  <Button variant="success" onClick={handleLog} disabled={isLogging} className="h-11 rounded-2xl">
+                    {isLogging ? nutritionCopy.saveLoading : copy.common.save}
                   </Button>
                 </DialogFooter>
               </div>
@@ -282,17 +285,17 @@ function NutritionPageContent() {
 
           <Dialog open={generateOpen} onOpenChange={(v) => { setGenerateOpen(v); if (!v) setGenerateError(null) }}>
             <DialogTrigger asChild>
-              <Button className={`w-full sm:w-auto ${NUTRITION_PRIMARY_BUTTON}`} disabled={!isProfileReady}>
+              <Button variant="success" className="w-full sm:w-auto" disabled={!isProfileReady}>
                 <Sparkles className="w-4 h-4 mr-2" />
-                {t ? 'Generar Plan IA' : 'Generate AI Plan'}
+                {nutritionCopy.generateAiPlan}
               </Button>
             </DialogTrigger>
-            <DialogContent className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950">
+            <DialogContent className={buildResponsiveModalClass("lg:max-w-[980px]")}>
               <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
-                <DialogHeader className="mb-4 pr-10 text-left">
-                  <DialogTitle>{t ? 'Generar Plan de Comidas' : 'Generate Meal Plan'}</DialogTitle>
+                <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
+                  <DialogTitle>{nutritionCopy.generateMealPlan}</DialogTitle>
                   <DialogDescription>
-                    {t ? 'La IA creará un plan semanal personalizado' : 'AI will create a personalized weekly plan'}
+                    {nutritionCopy.generateMealPlanDescription}
                   </DialogDescription>
                 </DialogHeader>
               <div className="space-y-4">
@@ -311,34 +314,34 @@ function NutritionPageContent() {
                   </div>
                 ) : null}
                 <div>
-                  <Label>{t ? 'Objetivo' : 'Goal'}</Label>
+                  <Label>{nutritionCopy.goal}</Label>
                   <Select value={generateParams.goal} onValueChange={(v) => setGenerateParams(p => ({ ...p, goal: v }))}>
-                    <SelectTrigger><SelectValue placeholder={t ? 'Seleccionar...' : 'Select...'} /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder={nutritionCopy.selectPlaceholder} /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="perdida_peso">{t ? 'Pérdida de peso' : 'Weight loss'}</SelectItem>
-                      <SelectItem value="ganancia_muscular">{t ? 'Ganancia muscular' : 'Muscle gain'}</SelectItem>
-                      <SelectItem value="mantenimiento">{t ? 'Mantenimiento' : 'Maintenance'}</SelectItem>
-                      <SelectItem value="energia">{t ? 'Más energía' : 'More energy'}</SelectItem>
+                      <SelectItem value="perdida_peso">{nutritionCopy.weightLoss}</SelectItem>
+                      <SelectItem value="ganancia_muscular">{nutritionCopy.muscleGain}</SelectItem>
+                      <SelectItem value="mantenimiento">{nutritionCopy.maintenance}</SelectItem>
+                      <SelectItem value="energia">{nutritionCopy.moreEnergy}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
-                  <Label>{t ? 'Dificultad de recetas' : 'Recipe difficulty'}</Label>
+                  <Label>{nutritionCopy.recipeDifficulty}</Label>
                   <Select value={generateParams.difficulty} onValueChange={(v) => setGenerateParams(p => ({ ...p, difficulty: v as any }))}>
-                    <SelectTrigger><SelectValue placeholder={t ? 'Cualquiera' : 'Any'} /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder={nutritionCopy.anyPlaceholder} /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="facil">{t ? 'Fácil' : 'Easy'}</SelectItem>
-                      <SelectItem value="medio">{t ? 'Medio' : 'Medium'}</SelectItem>
-                      <SelectItem value="dificil">{t ? 'Difícil' : 'Hard'}</SelectItem>
+                      <SelectItem value="facil">{nutritionCopy.easy}</SelectItem>
+                      <SelectItem value="medio">{nutritionCopy.medium}</SelectItem>
+                      <SelectItem value="dificil">{nutritionCopy.hard}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
-                  <Label>{t ? 'Tipo de dieta' : 'Diet type'}</Label>
+                  <Label>{nutritionCopy.dietType}</Label>
                   <Select value={generateParams.dietType} onValueChange={(v) => setGenerateParams(p => ({ ...p, dietType: v as any }))}>
-                    <SelectTrigger><SelectValue placeholder={t ? 'Sin restricción' : 'No restriction'} /></SelectTrigger>
+                    <SelectTrigger><SelectValue placeholder={nutritionCopy.noRestriction} /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="ninguna">{t ? 'Sin restricción' : 'No restriction'}</SelectItem>
+                      <SelectItem value="ninguna">{nutritionCopy.noRestriction}</SelectItem>
                       <SelectItem value="mediterranea">{t ? 'Mediterránea 🫒' : 'Mediterranean 🫒'}</SelectItem>
                       <SelectItem value="dash">{t ? 'DASH (antihipertensiva) ❤️' : 'DASH (anti-hypertension) ❤️'}</SelectItem>
                       <SelectItem value="ayuno_intermitente">{t ? 'Ayuno Intermitente 16:8 ⏱️' : 'Intermittent Fasting 16:8 ⏱️'}</SelectItem>
@@ -363,16 +366,16 @@ function NutritionPageContent() {
                     {generateError}
                   </div>
                 )}
-                <DialogFooter className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                <DialogFooter className={ANCLORA_MODAL_ACTIONS_CLASS}>
                   <Button
                     variant="outline"
-                    className={MODAL_SECONDARY_BUTTON}
+                    className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
                     onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
                   >
                     {copy.common.cancel}
                   </Button>
-                  <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className={`h-11 rounded-2xl ${NUTRITION_PRIMARY_BUTTON}`}>
-                    {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
+                  <Button variant="success" onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className="h-11 rounded-2xl">
+                    {isGenerating ? nutritionCopy.generatePlanLoading : nutritionCopy.generateWeeklyPlan}
                   </Button>
                 </DialogFooter>
               </div>
@@ -510,10 +513,10 @@ function NutritionPageContent() {
               <div className="min-w-0">
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  {t ? 'Plan Semanal Actual' : 'Current Weekly Plan'}
+                  {nutritionCopy.weeklyPlanTitle}
                 </CardTitle>
                 <CardDescription>
-                  {t ? 'Semana del' : 'Week of'} {new Date(latestPlan.weekStart).toLocaleDateString()}
+                  {nutritionCopy.weekOf} {new Date(latestPlan.weekStart).toLocaleDateString()}
                   {latestPlan.goal && (
                     <span className="ml-2 inline-flex rounded-full border border-slate-200 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:border-slate-700 dark:text-slate-300">
                       {formatNutritionGoal(latestPlan.goal, t)}
@@ -521,14 +524,14 @@ function NutritionPageContent() {
                   )}
                   {latestPlan.dietType === 'ayuno_intermitente' && (
                     <span className="ml-2 inline-flex rounded-full border border-emerald-200 px-2 py-0.5 text-[10px] font-medium text-emerald-700 dark:border-emerald-500/30 dark:text-emerald-300">
-                      {t ? 'Ayuno 16:8' : 'IF 16:8'}
+                      {nutritionCopy.intermittentFastingBadge}
                     </span>
                   )}
                 </CardDescription>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
-                <Button size="sm" className={`w-full sm:w-auto ${NUTRITION_PRIMARY_BUTTON}`} onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
-                  {t ? 'Ver Completo' : 'View Full'}
+                <Button variant="success" size="sm" className="w-full sm:w-auto" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
+                  {nutritionCopy.viewFull}
                 </Button>
                 <Button variant="destructive" size="sm" className="w-full sm:w-auto" onClick={() => handleDeleteMealPlan(latestPlan.id)} disabled={isDeleting}>
                   {t ? 'Eliminar' : 'Delete'}
@@ -552,7 +555,7 @@ function NutritionPageContent() {
                   <TabsContent key={dayIndex} value={String(dayIndex)} className="space-y-3 mt-4">
                     {dayMeals.length === 0 ? (
                       <p className="text-muted-foreground text-center py-4">
-                        {t ? 'Sin comidas para este día' : 'No meals for this day'}
+                        {nutritionCopy.noMealsForDay}
                       </p>
                     ) : (
                       dayMeals.map((meal) => (
@@ -565,7 +568,7 @@ function NutritionPageContent() {
                               </div>
                               {meal.servingMultiplier < 1 && (
                                 <span className="rounded-full bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700 dark:bg-amber-900/20 dark:text-amber-300">
-                                  {t ? 'Ajustada' : 'Adjusted'} -{Math.round((1 - meal.servingMultiplier) * 100)}%
+                                  {nutritionCopy.adjusted} -{Math.round((1 - meal.servingMultiplier) * 100)}%
                                 </span>
                               )}
                             </div>
@@ -601,7 +604,7 @@ function NutritionPageContent() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Apple className="w-5 h-5 text-green-600" />
-              {t ? 'Registro de Hoy' : 'Today\'s Log'}
+              {nutritionCopy.todayLog}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
@@ -628,14 +631,14 @@ function NutritionPageContent() {
           <CardContent>
             <ChefHat className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">
-              {t ? '¡Empieza tu plan nutricional!' : 'Start your nutrition plan!'}
+              {nutritionCopy.emptyTitle}
             </h3>
             <p className="text-muted-foreground mb-4">
-              {t ? 'Genera un plan de comidas con IA o registra tus comidas manualmente' : 'Generate an AI meal plan or log your meals manually'}
+              {nutritionCopy.emptyDescription}
             </p>
-            <Button onClick={() => setGenerateOpen(true)} className="bg-gradient-to-r from-green-600 to-emerald-600 text-white">
+            <Button variant="success" onClick={() => setGenerateOpen(true)}>
               <Sparkles className="w-4 h-4 mr-2" />
-              {t ? 'Generar Mi Primer Plan' : 'Generate My First Plan'}
+              {nutritionCopy.generateFirstPlan}
             </Button>
           </CardContent>
         </Card>

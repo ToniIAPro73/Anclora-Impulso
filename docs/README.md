@@ -24,8 +24,14 @@ Este directorio concentra toda la documentacion no esencial para el arranque del
 
 1. `development/QUICK_REFERENCE_PHASE3.md`
 2. `development/IMPROVEMENTS.md`
-3. `standards/UI_MOTION_CONTRACT.md`
-4. `standards/LOCALIZATION_CONTRACT.md`
+3. `standards/ANCLORA_ECOSYSTEM_CONTRACT_GROUPS.md`
+4. `standards/ANCLORA_INTERNAL_APP_CONTRACT.md`
+5. `standards/ANCLORA_PREMIUM_APP_CONTRACT.md`
+6. `standards/ANCLORA_ULTRA_PREMIUM_APP_CONTRACT.md`
+7. `standards/ANCLORA_PORTFOLIO_SHOWCASE_CONTRACT.md`
+8. `standards/UI_MOTION_CONTRACT.md`
+9. `standards/MODAL_CONTRACT.md`
+10. `standards/LOCALIZATION_CONTRACT.md`
 
 ### Para operacion
 

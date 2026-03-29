@@ -18,11 +18,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { useCreateRecipe, useMealPlan, useMealPlans, useRecipeLibrary, useReplaceMealRecipe } from "@/hooks/use-nutrition"
 import type { Meal, Recipe } from "@/lib/api"
 import { useLanguage } from "@/lib/contexts/language-context"
+import {
+  ANCLORA_MODAL_HEADER_CLASS,
+  buildResponsiveModalClass,
+} from "@/lib/ui-contracts"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-const NUTRITION_PRIMARY_BUTTON =
-  "border-0 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 text-white shadow-[0_14px_34px_-18px_rgba(16,185,129,0.95)] hover:from-green-500 hover:via-emerald-500 hover:to-green-400 hover:shadow-[0_18px_38px_-18px_rgba(16,185,129,1)]"
 const NUTRITION_PRIMARY_TAB =
   "rounded-xl border border-transparent px-4 py-2 text-sm font-semibold data-[state=active]:border-emerald-400/30 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-green-500 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_28px_-16px_rgba(16,185,129,0.95)]"
 const RECIPES_PER_PAGE = 6
@@ -103,9 +105,10 @@ function MealPlanDetailPageContent() {
   const params = useParams<{ id: string }>()
   const id = typeof params?.id === "string" ? params.id : ""
   const router = useRouter()
-  const { language } = useLanguage()
+  const { language, t: copy } = useLanguage()
   const t = language === "es"
   const dayNames = t ? DAY_NAMES_ES : DAY_NAMES_EN
+  const nutritionCopy = copy.nutrition
 
   const { data: plan, isLoading, error } = useMealPlan(id)
   const { deleteMealPlan, isDeleting } = useMealPlans()
@@ -215,7 +218,7 @@ function MealPlanDetailPageContent() {
 
   const handleDelete = async () => {
     const confirmed = window.confirm(
-      t ? "¿Quieres eliminar este plan nutricional?" : "Do you want to delete this nutrition plan?"
+      nutritionCopy.deletePlanConfirm
     )
     if (!confirmed) return
 
@@ -318,10 +321,10 @@ function MealPlanDetailPageContent() {
   if (error || !plan) {
     return (
       <div className="py-12 text-center">
-        <p className="text-muted-foreground">{t ? "Plan no encontrado" : "Plan not found"}</p>
+        <p className="text-muted-foreground">{nutritionCopy.mealPlanNotFound}</p>
         <Button variant="outline" className="mt-4" onClick={() => router.push("/nutrition")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {t ? "Volver" : "Go Back"}
+          {nutritionCopy.backToNutrition}
         </Button>
       </div>
     )
@@ -333,12 +336,12 @@ function MealPlanDetailPageContent() {
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm" onClick={() => router.push("/nutrition")}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t ? "Volver" : "Back"}
+            {nutritionCopy.backToNutrition}
           </Button>
           <div>
-            <h1 className="text-2xl font-bold">{t ? "Plan de Comidas" : "Meal Plan"}</h1>
+            <h1 className="text-2xl font-bold">{nutritionCopy.detailTitle}</h1>
             <p className="text-muted-foreground">
-              {t ? "Semana del" : "Week of"} {new Date(plan.weekStart).toLocaleDateString()}
+              {nutritionCopy.weekOf} {new Date(plan.weekStart).toLocaleDateString()}
               {plan.goal && <Badge variant="outline" className="ml-2">{formatNutritionGoal(plan.goal, t)}</Badge>}
               {plan.dietType === "ayuno_intermitente" && <Badge variant="outline" className="ml-2">16:8</Badge>}
               {plan.dietType === "alta_proteina" && <Badge variant="outline" className="ml-2">{t ? "Alta proteína" : "High protein"}</Badge>}
@@ -346,7 +349,7 @@ function MealPlanDetailPageContent() {
           </div>
         </div>
         <Button variant="destructive" size="sm" onClick={handleDelete} disabled={isDeleting}>
-          {t ? "Eliminar plan" : "Delete plan"}
+          {nutritionCopy.deletePlan}
         </Button>
       </div>
 
@@ -376,7 +379,7 @@ function MealPlanDetailPageContent() {
 
               {dayMeals.length === 0 ? (
                 <p className="py-8 text-center text-muted-foreground">
-                  {t ? "Sin comidas programadas" : "No meals scheduled"}
+                  {nutritionCopy.noMealsScheduled}
                 </p>
               ) : (
                 dayMeals.map((meal) => {
@@ -396,7 +399,7 @@ function MealPlanDetailPageContent() {
                               <span className="text-sm font-medium capitalize text-green-600">{meal.mealType}</span>
                               {meal.servingMultiplier < 1 && (
                                 <Badge variant="secondary" className="text-[10px]">
-                                  {t ? "Ajustada" : "Adjusted"} -{Math.round((1 - meal.servingMultiplier) * 100)}%
+                              {nutritionCopy.adjusted} -{Math.round((1 - meal.servingMultiplier) * 100)}%
                                 </Badge>
                               )}
                             </div>
@@ -410,8 +413,8 @@ function MealPlanDetailPageContent() {
                           </div>
                           <div className="flex flex-col items-end gap-2">
                             {recipe.difficulty && <Badge variant="outline">{recipe.difficulty}</Badge>}
-                            <Button size="sm" className={NUTRITION_PRIMARY_BUTTON} onClick={() => openReplaceDialog(meal)}>
-                              {t ? "Cambiar comida" : "Swap meal"}
+                            <Button variant="success" size="sm" onClick={() => openReplaceDialog(meal)}>
+                              {nutritionCopy.swapMeal}
                             </Button>
                           </div>
                         </div>
@@ -495,18 +498,18 @@ function MealPlanDetailPageContent() {
       </Tabs>
 
       <Dialog open={Boolean(selectedMeal)} onOpenChange={(open) => !open && closeDialog()}>
-        <DialogContent className="grid max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[1320px] dark:border-slate-800/90 dark:bg-slate-950">
+        <DialogContent className={`grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)] ${buildResponsiveModalClass("lg:max-w-[1320px]")}`}>
           <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-4 overflow-hidden p-4 sm:p-5 lg:p-6">
-          <DialogHeader className="pr-10 text-left">
-            <DialogTitle>{t ? "Cambiar comida" : "Swap meal"}</DialogTitle>
+          <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
+            <DialogTitle>{nutritionCopy.swapMealTitle}</DialogTitle>
             <DialogDescription>
               {selectedMealRecipe
                 ? t
                   ? `Sustituye ${selectedMealRecipe.name} por una receta de biblioteca o crea una nueva.`
                   : `Replace ${selectedMealRecipe.name} with a library recipe or create your own.`
                 : t
-                  ? "Selecciona una alternativa para esta comida."
-                  : "Select an alternative for this meal."}
+                  ? nutritionCopy.swapMealFallback
+                  : nutritionCopy.swapMealFallback}
             </DialogDescription>
           </DialogHeader>
 
@@ -518,14 +521,14 @@ function MealPlanDetailPageContent() {
 
           <Tabs defaultValue="library" className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden">
             <TabsList className="h-auto w-fit rounded-2xl bg-slate-900/10 p-1 dark:bg-slate-800/60">
-              <TabsTrigger value="library" className={NUTRITION_PRIMARY_TAB}>{t ? "Biblioteca" : "Library"}</TabsTrigger>
-              <TabsTrigger value="create" className={NUTRITION_PRIMARY_TAB}>{t ? "Crear receta" : "Create recipe"}</TabsTrigger>
+              <TabsTrigger value="library" className={NUTRITION_PRIMARY_TAB}>{nutritionCopy.library}</TabsTrigger>
+              <TabsTrigger value="create" className={NUTRITION_PRIMARY_TAB}>{nutritionCopy.createRecipe}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-4 overflow-hidden">
               <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_260px]">
                 <div className="space-y-2">
-                  <Label>{t ? "Buscar receta" : "Search recipe"}</Label>
+                  <Label>{nutritionCopy.searchRecipe}</Label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -540,7 +543,7 @@ function MealPlanDetailPageContent() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t ? "Visibilidad" : "Visibility"}</Label>
+                  <Label>{nutritionCopy.visibility}</Label>
                   <Select
                     value={libraryScope}
                     onValueChange={(value) => {
@@ -552,20 +555,20 @@ function MealPlanDetailPageContent() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">{t ? "Todo" : "All"}</SelectItem>
-                      <SelectItem value="public">{t ? "Biblioteca pública" : "Public library"}</SelectItem>
-                      <SelectItem value="mine">{t ? "Mis recetas" : "My recipes"}</SelectItem>
+                      <SelectItem value="all">{nutritionCopy.allVisibility}</SelectItem>
+                      <SelectItem value="public">{nutritionCopy.publicLibrary}</SelectItem>
+                      <SelectItem value="mine">{nutritionCopy.myRecipes}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>{t ? "Motivo del cambio" : "Swap reason"}</Label>
+                <Label>{nutritionCopy.swapReason}</Label>
                 <Input
                   value={replacementReason}
                   onChange={(event) => setReplacementReason(event.target.value)}
-                  placeholder={t ? "Ej. no me gusta el pescado, quiero una opción más rápida..." : "e.g. I dislike fish, I want a faster option..."}
+                  placeholder={nutritionCopy.swapReasonPlaceholder}
                 />
               </div>
 
@@ -579,9 +582,9 @@ function MealPlanDetailPageContent() {
 
               <div className="min-h-0 overflow-hidden">
                 {isLibraryLoading ? (
-                  <p className="text-sm text-muted-foreground">{t ? "Cargando biblioteca..." : "Loading library..."}</p>
+                  <p className="text-sm text-muted-foreground">{nutritionCopy.libraryLoading}</p>
                 ) : recipeLibrary.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">{t ? "No hay recetas que encajen con ese filtro." : "No recipes matched that filter."}</p>
+                  <p className="text-sm text-muted-foreground">{nutritionCopy.libraryEmpty}</p>
                 ) : (
                   <div className="grid h-full auto-rows-fr gap-3 lg:grid-cols-3">
                   {visibleRecipes.map((recipe) => (
@@ -608,11 +611,12 @@ function MealPlanDetailPageContent() {
                           ))}
                         </div>
                         <Button
-                          className={`mt-auto w-full ${NUTRITION_PRIMARY_BUTTON}`}
+                          variant="success"
+                          className="mt-auto w-full"
                           disabled={replaceMealRecipe.isPending}
                           onClick={() => void handleReplaceWithExisting(recipe.id)}
                         >
-                          {t ? "Usar esta receta" : "Use this recipe"}
+                          {nutritionCopy.useThisRecipe}
                         </Button>
                       </CardContent>
                     </Card>
@@ -624,7 +628,7 @@ function MealPlanDetailPageContent() {
               {!isLibraryLoading && recipeLibrary.length > 0 ? (
                 <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 pt-3 dark:border-slate-800/80">
                   <p className="text-xs text-muted-foreground">
-                    {t ? `Página ${libraryPage + 1} de ${totalRecipePages}` : `Page ${libraryPage + 1} of ${totalRecipePages}`}
+                    {`${nutritionCopy.pageLabel} ${libraryPage + 1} ${t ? "de" : "of"} ${totalRecipePages}`}
                   </p>
                   <div className="flex items-center gap-2">
                     <Button
@@ -639,7 +643,8 @@ function MealPlanDetailPageContent() {
                     </Button>
                     <Button
                       size="sm"
-                      className={`rounded-xl ${NUTRITION_PRIMARY_BUTTON}`}
+                      variant="success"
+                      className="rounded-xl"
                       onClick={() => void handleLibraryPageChange("next")}
                       disabled={
                         replaceMealRecipe.isPending ||
@@ -768,7 +773,7 @@ function MealPlanDetailPageContent() {
               </div>
 
               <div className="flex justify-end">
-                <Button className={NUTRITION_PRIMARY_BUTTON} disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
+                <Button variant="success" disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
                   {t ? "Crear y usar en esta comida" : "Create and use for this meal"}
                 </Button>
               </div>
