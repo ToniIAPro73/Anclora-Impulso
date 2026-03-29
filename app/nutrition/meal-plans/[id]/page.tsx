@@ -498,8 +498,20 @@ function MealPlanDetailPageContent() {
       </Tabs>
 
       <Dialog open={Boolean(selectedMeal)} onOpenChange={(open) => !open && closeDialog()}>
-        <DialogContent className={`grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)] ${buildResponsiveModalClass("lg:max-w-[1320px]")}`}>
+        <DialogContent
+          showCloseButton={false}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden ${buildResponsiveModalClass("lg:max-w-[1460px] xl:max-w-[1540px]")}`}
+        >
           <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-4 overflow-hidden p-4 sm:p-5 lg:p-6">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="absolute right-4 top-4 z-10 rounded-full border-slate-700/70 bg-slate-900/45 px-5 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45 sm:right-5 sm:top-5 lg:right-6 lg:top-6"
+            onClick={closeDialog}
+          >
+            {copy.common.close}
+          </Button>
           <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
             <DialogTitle>{nutritionCopy.swapMealTitle}</DialogTitle>
             <DialogDescription>
@@ -586,14 +598,14 @@ function MealPlanDetailPageContent() {
                 ) : recipeLibrary.length === 0 ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryEmpty}</p>
                 ) : (
-                  <div className="grid h-full auto-rows-fr gap-3 lg:grid-cols-3">
+                  <div className="grid h-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-2">
                   {visibleRecipes.map((recipe) => (
-                    <Card key={recipe.id} className="ui-motion-card-static flex h-full min-h-[220px] flex-col gap-4 border-slate-200/70 py-4 shadow-sm">
-                      <CardHeader className="space-y-2 px-4 pb-1">
+                    <Card key={recipe.id} className="ui-motion-card-subtle flex h-full min-h-0 flex-col gap-3 border-slate-200/70 py-3 shadow-sm">
+                      <CardHeader className="space-y-2 px-4 pb-0">
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <CardTitle className="line-clamp-2 text-sm leading-6">{recipe.name}</CardTitle>
-                            <CardDescription className="mt-1 line-clamp-2 text-xs">{recipe.description || "—"}</CardDescription>
+                            <CardDescription className="mt-1 line-clamp-2 text-xs leading-5">{recipe.description || "—"}</CardDescription>
                           </div>
                           <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
@@ -605,7 +617,7 @@ function MealPlanDetailPageContent() {
                         </div>
                       </CardHeader>
                       <CardContent className="flex flex-1 flex-col gap-3 px-4 pt-0">
-                        <div className="flex min-h-[28px] flex-wrap gap-1.5">
+                        <div className="flex min-h-[24px] flex-wrap gap-1.5">
                           {(recipe.tags || []).slice(0, 4).map((tag) => (
                             <Badge key={tag} variant="secondary" className="px-2 py-0.5 text-[10px]">{tag}</Badge>
                           ))}

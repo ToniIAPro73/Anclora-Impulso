@@ -38,12 +38,12 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --motion-card-shadow: 0 26px 50px -28px rgba(249, 115, 22, 0.38);
-  --motion-button-shadow: 0 16px 30px -18px rgba(234, 88, 12, 0.45);
-  --motion-frame-shadow: 0 20px 36px -24px rgba(217, 119, 6, 0.34);
-  --motion-card-border: rgba(251, 146, 60, 0.42);
-  --motion-button-border: rgba(249, 115, 22, 0.48);
-  --motion-frame-border: rgba(245, 158, 11, 0.34);
+  --motion-card-shadow: 0 18px 38px -30px rgba(15, 23, 42, 0.22);
+  --motion-button-shadow: 0 16px 30px -24px rgba(15, 23, 42, 0.2);
+  --motion-frame-shadow: 0 18px 34px -28px rgba(15, 23, 42, 0.18);
+  --motion-card-border: rgba(148, 163, 184, 0.22);
+  --motion-button-border: rgba(148, 163, 184, 0.2);
+  --motion-frame-border: rgba(148, 163, 184, 0.18);
 }
 
 .dark {
@@ -80,12 +80,12 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
-  --motion-card-shadow: 0 24px 56px -32px rgba(251, 146, 60, 0.28);
-  --motion-button-shadow: 0 18px 34px -22px rgba(249, 115, 22, 0.36);
-  --motion-frame-shadow: 0 18px 36px -24px rgba(251, 191, 36, 0.22);
-  --motion-card-border: rgba(251, 146, 60, 0.3);
-  --motion-button-border: rgba(249, 115, 22, 0.34);
-  --motion-frame-border: rgba(251, 191, 36, 0.24);
+  --motion-card-shadow: 0 20px 42px -30px rgba(2, 6, 23, 0.34);
+  --motion-button-shadow: 0 16px 30px -24px rgba(2, 6, 23, 0.3);
+  --motion-frame-shadow: 0 18px 34px -28px rgba(2, 6, 23, 0.28);
+  --motion-card-border: rgba(100, 116, 139, 0.28);
+  --motion-button-border: rgba(100, 116, 139, 0.24);
+  --motion-frame-border: rgba(100, 116, 139, 0.22);
 }
 
 @theme inline {
@@ -173,7 +173,7 @@
 
   .ui-motion-card:hover,
   .ui-motion-card:focus-visible {
-    transform: translateZ(0) scale(1.035);
+    transform: translateZ(0) translateY(-2px) scale(1.008);
     box-shadow: var(--motion-card-shadow);
   }
 
@@ -185,8 +185,8 @@
 
   .ui-motion-card.ui-motion-card-subtle:hover,
   .ui-motion-card.ui-motion-card-subtle:focus-visible {
-    transform: translateZ(0) scale(1.012);
-    box-shadow: 0 18px 34px -28px rgba(249, 115, 22, 0.2);
+    transform: translateZ(0) translateY(-1px) scale(1.004);
+    box-shadow: 0 16px 30px -28px rgba(15, 23, 42, 0.16);
   }
 
   .ui-motion-card.ui-motion-card-static:hover,
@@ -203,12 +203,12 @@
 
   .dark .ui-motion-card.ui-motion-card-subtle:hover,
   .dark .ui-motion-card.ui-motion-card-subtle:focus-visible {
-    box-shadow: 0 18px 34px -28px rgba(251, 146, 60, 0.16);
+    box-shadow: 0 18px 32px -28px rgba(2, 6, 23, 0.26);
   }
 
   .ui-motion-button:hover,
   .ui-motion-button:focus-visible {
-    transform: translateZ(0) scale(1.022);
+    transform: translateZ(0) translateY(-1px) scale(1.006);
     box-shadow: var(--motion-button-shadow);
   }
 
@@ -219,12 +219,12 @@
   }
 
   .ui-motion-button:active {
-    transform: translateZ(0) scale(1.01);
+    transform: translateZ(0) scale(1.002);
   }
 
   .ui-motion-frame:hover,
   .ui-motion-frame:focus-visible {
-    transform: translateZ(0) scale(1.028);
+    transform: translateZ(0) translateY(-2px) scale(1.006);
     box-shadow: var(--motion-frame-shadow);
   }
 
