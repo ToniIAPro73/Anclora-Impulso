@@ -19,7 +19,9 @@ import { useCreateRecipe, useMealPlan, useMealPlans, useRecipeLibrary, useReplac
 import type { Meal, Recipe } from "@/lib/api"
 import { useLanguage } from "@/lib/contexts/language-context"
 import {
+  ANCLORA_MODAL_ACTIONS_CLASS,
   ANCLORA_MODAL_HEADER_CLASS,
+  ANCLORA_MODAL_SECONDARY_ACTION_CLASS,
   buildResponsiveModalClass,
 } from "@/lib/ui-contracts"
 
@@ -122,6 +124,7 @@ function MealPlanDetailPageContent() {
   const [createForm, setCreateForm] = useState<CreateRecipeFormState>(DEFAULT_RECIPE_FORM)
   const [dialogError, setDialogError] = useState<string | null>(null)
   const [libraryPage, setLibraryPage] = useState(0)
+  const [previewRecipe, setPreviewRecipe] = useState<Recipe | null>(null)
 
   const selectedMeal = useMemo(
     () => plan?.meals.find((meal) => meal.id === mealDialogId) ?? null,
@@ -190,9 +193,23 @@ function MealPlanDetailPageContent() {
 
   const closeDialog = () => {
     setMealDialogId(null)
+    setPreviewRecipe(null)
     setDialogError(null)
     setLibraryPage(0)
   }
+
+  const closePreviewDialog = () => {
+    setPreviewRecipe(null)
+  }
+
+  const selectedMealTypeLabel = selectedMeal
+    ? {
+        desayuno: nutritionCopy.breakfast,
+        almuerzo: nutritionCopy.lunch,
+        cena: nutritionCopy.dinner,
+        snack: nutritionCopy.snack,
+      }[selectedMeal.mealType] ?? ""
+    : ""
 
   const handleLibraryPageChange = async (direction: "prev" | "next") => {
     if (direction === "prev") {
@@ -592,43 +609,34 @@ function MealPlanDetailPageContent() {
                 </p>
               ) : null}
 
-              <div className="min-h-0 overflow-hidden">
+              <div className="min-h-0 overflow-visible">
                 {isLibraryLoading ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryLoading}</p>
                 ) : recipeLibrary.length === 0 ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryEmpty}</p>
                 ) : (
-                  <div className="grid h-full grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-2">
+                  <div className="grid h-full grid-cols-1 gap-3 overflow-visible py-1 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-2">
                   {visibleRecipes.map((recipe) => (
-                    <Card key={recipe.id} className="ui-motion-card-subtle flex h-full min-h-0 flex-col gap-3 border-slate-200/70 py-3 shadow-sm">
+                    <Card
+                      key={recipe.id}
+                      className="ui-motion-card-subtle flex h-full min-h-[152px] flex-col justify-between gap-3 overflow-visible border-slate-200/70 py-3 shadow-sm hover:border-emerald-400/80 hover:shadow-[0_20px_40px_-28px_rgba(16,185,129,0.42)] dark:hover:border-emerald-400/55"
+                    >
                       <CardHeader className="space-y-2 px-4 pb-0">
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <CardTitle className="line-clamp-2 text-sm leading-6">{recipe.name}</CardTitle>
-                            <CardDescription className="mt-1 line-clamp-2 text-xs leading-5">{recipe.description || "—"}</CardDescription>
                           </div>
                           <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
-                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
-                          <span>{Math.round(recipe.calories || 0)} kcal</span>
-                          <span>P: {recipe.protein || 0}g</span>
-                          <span>C: {recipe.carbs || 0}g</span>
-                          <span>G: {recipe.fat || 0}g</span>
-                        </div>
                       </CardHeader>
-                      <CardContent className="flex flex-1 flex-col gap-3 px-4 pt-0">
-                        <div className="flex min-h-[24px] flex-wrap gap-1.5">
-                          {(recipe.tags || []).slice(0, 4).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="px-2 py-0.5 text-[10px]">{tag}</Badge>
-                          ))}
-                        </div>
+                      <CardContent className="flex flex-1 flex-col gap-2 px-4 pt-0">
                         <Button
-                          variant="success"
-                          className="mt-auto w-full"
-                          disabled={replaceMealRecipe.isPending}
-                          onClick={() => void handleReplaceWithExisting(recipe.id)}
+                          variant="outline"
+                          size="sm"
+                          className="mt-auto w-full rounded-xl border-emerald-500/25 text-emerald-300 hover:bg-emerald-500 hover:text-white dark:border-emerald-500/35"
+                          onClick={() => setPreviewRecipe(recipe)}
                         >
-                          {nutritionCopy.useThisRecipe}
+                          {nutritionCopy.editRecipe}
                         </Button>
                       </CardContent>
                     </Card>
@@ -644,9 +652,9 @@ function MealPlanDetailPageContent() {
                   </p>
                   <div className="flex items-center gap-2">
                     <Button
-                      variant="outline"
+                      variant={libraryPage === 0 ? "outline" : "success"}
                       size="sm"
-                      className="rounded-xl"
+                      className={libraryPage === 0 ? "rounded-xl border-emerald-500/25 text-emerald-300 hover:bg-emerald-500 hover:text-white dark:border-emerald-500/35" : "rounded-xl"}
                       onClick={() => void handleLibraryPageChange("prev")}
                       disabled={libraryPage === 0 || replaceMealRecipe.isPending}
                     >
@@ -792,6 +800,134 @@ function MealPlanDetailPageContent() {
               </div>
             </TabsContent>
           </Tabs>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(previewRecipe)} onOpenChange={(open) => !open && closePreviewDialog()}>
+        <DialogContent
+          showCloseButton={false}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden ${buildResponsiveModalClass("lg:max-w-[1200px]")}`}
+        >
+          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-4 p-4 sm:p-5 lg:p-6">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="absolute right-4 top-4 z-10 rounded-full border-slate-700/70 bg-slate-900/45 px-5 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45 sm:right-5 sm:top-5 lg:right-6 lg:top-6"
+              onClick={closePreviewDialog}
+            >
+              {copy.common.close}
+            </Button>
+
+            <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
+              <div className="mb-2 flex items-center gap-2">
+                <UtensilsCrossed className="h-4 w-4 text-green-500" />
+                <span className="text-sm font-medium capitalize text-green-500">{selectedMealTypeLabel}</span>
+                {previewRecipe?.difficulty ? <Badge variant="outline">{previewRecipe.difficulty}</Badge> : null}
+              </div>
+              <DialogTitle>{previewRecipe?.name}</DialogTitle>
+              <DialogDescription>
+                {t
+                  ? `Vas a sustituir la comida actual de ${(selectedMealTypeLabel || "").toLowerCase()} por esta receta.`
+                  : `You are about to replace the current ${(selectedMealTypeLabel || "").toLowerCase()} meal with this recipe.`}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="min-h-0 overflow-y-auto pr-1">
+              {previewRecipe ? (
+                <div className="space-y-5">
+                  {previewRecipe.description ? (
+                    <p className="text-base text-muted-foreground">{previewRecipe.description}</p>
+                  ) : null}
+
+                  <div className="grid gap-3 md:grid-cols-4">
+                    <div className="rounded-2xl bg-orange-500/10 p-4 text-center">
+                      <Flame className="mx-auto mb-2 h-5 w-5 text-orange-500" />
+                      <p className="text-2xl font-bold">{Math.round(previewRecipe.calories || 0)}</p>
+                      <p className="text-sm text-muted-foreground">kcal</p>
+                    </div>
+                    <div className="rounded-2xl bg-red-500/10 p-4 text-center">
+                      <Beef className="mx-auto mb-2 h-5 w-5 text-red-500" />
+                      <p className="text-2xl font-bold">{previewRecipe.protein || 0}g</p>
+                      <p className="text-sm text-muted-foreground">{t ? "Prot" : "Prot"}</p>
+                    </div>
+                    <div className="rounded-2xl bg-amber-500/10 p-4 text-center">
+                      <Wheat className="mx-auto mb-2 h-5 w-5 text-amber-500" />
+                      <p className="text-2xl font-bold">{previewRecipe.carbs || 0}g</p>
+                      <p className="text-sm text-muted-foreground">{t ? "Carb" : "Carb"}</p>
+                    </div>
+                    <div className="rounded-2xl bg-blue-500/10 p-4 text-center">
+                      <Droplets className="mx-auto mb-2 h-5 w-5 text-blue-500" />
+                      <p className="text-2xl font-bold">{previewRecipe.fat || 0}g</p>
+                      <p className="text-sm text-muted-foreground">{t ? "Grasa" : "Fat"}</p>
+                    </div>
+                  </div>
+
+                  {(previewRecipe.prepTime || previewRecipe.cookTime) ? (
+                    <div className="flex flex-wrap items-center gap-5 text-sm text-muted-foreground">
+                      {previewRecipe.prepTime ? (
+                        <span className="flex items-center gap-2">
+                          <Clock className="h-4 w-4" />
+                          {t ? "Prep:" : "Prep:"} {previewRecipe.prepTime} min
+                        </span>
+                      ) : null}
+                      {previewRecipe.cookTime ? (
+                        <span className="flex items-center gap-2">
+                          <ChefHat className="h-4 w-4" />
+                          {t ? "Cocción:" : "Cook:"} {previewRecipe.cookTime} min
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {previewRecipe.ingredients && previewRecipe.ingredients.length > 0 ? (
+                    <div className="space-y-3 border-t border-border pt-5">
+                      <h3 className="text-2xl font-semibold">{t ? "Ingredientes" : "Ingredients"}</h3>
+                      <div className="grid gap-2 md:grid-cols-2">
+                        {previewRecipe.ingredients.map((ingredient) => (
+                          <p key={`${ingredient.ingredient.name}-${ingredient.ingredient.unit}-${ingredient.quantity}`} className="text-sm text-muted-foreground">
+                            • {ingredient.quantity} {ingredient.ingredient.unit} {ingredient.ingredient.name}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {previewRecipe.instructions && previewRecipe.instructions.length > 0 ? (
+                    <div className="space-y-3 border-t border-border pt-5">
+                      <h3 className="text-2xl font-semibold">{t ? "Instrucciones" : "Instructions"}</h3>
+                      <ol className="space-y-3">
+                        {previewRecipe.instructions.map((step, index) => (
+                          <li key={`${step}-${index}`} className="flex gap-3 text-sm text-muted-foreground">
+                            <span className="min-w-5 font-bold text-foreground">{index + 1}.</span>
+                            <span>{step}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
+
+            <div className={`bg-white/95 dark:bg-slate-950/95 ${ANCLORA_MODAL_ACTIONS_CLASS}`}>
+              <Button
+                variant="outline"
+                className={ANCLORA_MODAL_SECONDARY_ACTION_CLASS}
+                onClick={closePreviewDialog}
+              >
+                {copy.common.cancel}
+              </Button>
+              <Button
+                variant="success"
+                className="h-11 rounded-2xl"
+                disabled={!previewRecipe || replaceMealRecipe.isPending}
+                onClick={() => previewRecipe ? void handleReplaceWithExisting(previewRecipe.id) : undefined}
+              >
+                {nutritionCopy.replaceMealAction}
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>

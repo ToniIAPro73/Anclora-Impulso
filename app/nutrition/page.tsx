@@ -199,8 +199,17 @@ function NutritionPageContent() {
                 {nutritionCopy.logMeal}
               </Button>
             </DialogTrigger>
-            <DialogContent className={buildResponsiveModalClass("lg:max-w-[980px]")}>
+            <DialogContent showCloseButton={false} className={buildResponsiveModalClass("lg:max-w-[980px]")}>
               <div className="grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-4 sm:max-h-[calc(100dvh-1.5rem)] sm:p-5 lg:max-h-[calc(100dvh-2rem)] lg:p-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="absolute right-4 top-4 z-10 rounded-full border-slate-700/70 bg-slate-900/45 px-5 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45 sm:right-5 sm:top-5 lg:right-6 lg:top-6"
+                  onClick={() => setLogOpen(false)}
+                >
+                  {copy.common.close}
+                </Button>
                 <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
                   <DialogTitle>{nutritionCopy.logMeal}</DialogTitle>
                   <DialogDescription>
@@ -290,8 +299,17 @@ function NutritionPageContent() {
                 {nutritionCopy.generateAiPlan}
               </Button>
             </DialogTrigger>
-            <DialogContent className={buildResponsiveModalClass("lg:max-w-[980px]")}>
+            <DialogContent showCloseButton={false} className={buildResponsiveModalClass("lg:max-w-[980px]")}>
               <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="absolute right-4 top-4 z-10 rounded-full border-slate-700/70 bg-slate-900/45 px-5 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45 sm:right-5 sm:top-5 lg:right-6 lg:top-6"
+                  onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
+                >
+                  {copy.common.close}
+                </Button>
                 <DialogHeader className={ANCLORA_MODAL_HEADER_CLASS}>
                   <DialogTitle>{nutritionCopy.generateMealPlan}</DialogTitle>
                   <DialogDescription>

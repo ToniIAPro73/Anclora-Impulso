@@ -64,3 +64,13 @@ Una superficie no está lista si:
 - introduce una nueva semántica de movimiento sin contrato
 - rompe contraste o focus visible
 - genera solapes o desplazamientos innecesarios
+
+## Validación visual obligatoria
+
+- Todo ajuste de hover, elevación, borde o sombra debe verificarse visualmente antes de cerrar la tarea.
+- La validación debe confirmar:
+  - que la surface no pierde bordes ni sombras al elevarse
+  - que no invade visualmente cards hermanas
+  - que el estado hover sigue siendo legible y atractivo
+  - que el comportamiento real coincide con el contrato, no sólo con el código
+- Si la verificación visual falla o no puede completarse, debe comunicarse antes de dar el resultado por válido.

@@ -55,3 +55,13 @@ Un modal no está listo si:
 - esconde acciones críticas
 - no deja claro cómo cerrarlo
 - comprime cards, tablas o formularios hasta volverlos frágiles
+
+## Validación visual obligatoria
+
+- Antes de dar por cerrado un cambio en un modal, hay que comprobar visualmente el resultado real.
+- La comprobación debe confirmar:
+  - que todo el contenido crítico cabe
+  - que no hay clipping de bordes, sombras o estados hover
+  - que el cierre superior y las acciones inferiores son visibles
+  - que no aparece scroll evitable
+- Si no se puede validar visualmente o no se consigue resolver el problema, no debe darse el trabajo por bueno sin avisar primero.
