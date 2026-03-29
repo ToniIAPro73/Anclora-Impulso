@@ -20,6 +20,10 @@ import { trackProductEvent } from "@/lib/product-events"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+const NUTRITION_PRIMARY_BUTTON =
+  "border-0 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 text-white shadow-[0_14px_34px_-18px_rgba(16,185,129,0.95)] hover:from-green-500 hover:via-emerald-500 hover:to-green-400 hover:shadow-[0_18px_38px_-18px_rgba(16,185,129,1)]"
+const MODAL_SECONDARY_BUTTON =
+  "h-11 rounded-2xl border-slate-700/70 bg-slate-900/45 text-slate-100 hover:bg-slate-800/70 dark:border-slate-700/80 dark:bg-slate-900/45"
 
 function formatNutritionGoal(goal?: string | null, isSpanish = true) {
   if (!goal) return ""
@@ -192,28 +196,14 @@ function NutritionPageContent() {
                 {t ? 'Registrar Comida' : 'Log Meal'}
               </Button>
             </DialogTrigger>
-            <DialogContent
-              showCloseButton={false}
-              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950"
-            >
+            <DialogContent className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950">
               <div className="grid max-h-[calc(100dvh-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden p-4 sm:max-h-[calc(100dvh-1.5rem)] sm:p-5 lg:max-h-[calc(100dvh-2rem)] lg:p-6">
-              <div className="mb-4 flex items-start justify-between gap-4">
-              <DialogHeader className="text-left">
-                <DialogTitle>{t ? 'Registrar Comida' : 'Log Meal'}</DialogTitle>
-                <DialogDescription>
-                  {t ? 'Añade los macros de tu comida' : 'Add your meal macros'}
-                </DialogDescription>
-              </DialogHeader>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
-                onClick={() => setLogOpen(false)}
-              >
-                {copy.common.close}
-              </Button>
-              </div>
+                <DialogHeader className="mb-4 pr-10 text-left">
+                  <DialogTitle>{t ? 'Registrar Comida' : 'Log Meal'}</DialogTitle>
+                  <DialogDescription>
+                    {t ? 'Añade los macros de tu comida' : 'Add your meal macros'}
+                  </DialogDescription>
+                </DialogHeader>
                 <div className="min-h-0 space-y-3 overflow-y-auto pr-1 sm:space-y-4">
                 {profile.age && profile.age >= 40 ? (
                   <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-950/20 dark:text-emerald-300">
@@ -234,7 +224,7 @@ function NutritionPageContent() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div>
                     <Label>{t ? 'Fecha' : 'Date'}</Label>
                     <Input className="h-10" type="date" value={logData.logDate} onChange={(e) => setLogData(d => ({ ...d, logDate: e.target.value }))} />
@@ -255,7 +245,7 @@ function NutritionPageContent() {
                   <Label>{t ? 'Nombre' : 'Name'}</Label>
                   <Input className="h-10" value={logData.name} onChange={(e) => setLogData(d => ({ ...d, name: e.target.value }))} placeholder={t ? 'Ej: Ensalada César' : 'E.g. Caesar Salad'} />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div>
                     <Label>{t ? 'Calorías' : 'Calories'}</Label>
                     <Input className="h-10" type="number" value={logData.calories} onChange={(e) => setLogData(d => ({ ...d, calories: +e.target.value }))} />
@@ -274,15 +264,15 @@ function NutritionPageContent() {
                   </div>
                 </div>
                 </div>
-                <DialogFooter className="mt-3 grid grid-cols-2 gap-2 border-t border-slate-200/70 bg-white/95 pt-3 dark:border-slate-800/80 dark:bg-slate-950/95">
+                <DialogFooter className="mt-3 grid grid-cols-1 gap-2 border-t border-slate-200/70 bg-white/95 pt-3 sm:grid-cols-2 dark:border-slate-800/80 dark:bg-slate-950/95">
                   <Button
                     variant="outline"
-                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    className={MODAL_SECONDARY_BUTTON}
                     onClick={() => setLogOpen(false)}
                   >
                     {copy.common.cancel}
                   </Button>
-                  <Button onClick={handleLog} disabled={isLogging} className="h-10 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600">
+                  <Button onClick={handleLog} disabled={isLogging} className={`h-11 rounded-2xl ${NUTRITION_PRIMARY_BUTTON}`}>
                     {isLogging ? (t ? 'Guardando...' : 'Saving...') : copy.common.save}
                   </Button>
                 </DialogFooter>
@@ -292,33 +282,19 @@ function NutritionPageContent() {
 
           <Dialog open={generateOpen} onOpenChange={(v) => { setGenerateOpen(v); if (!v) setGenerateError(null) }}>
             <DialogTrigger asChild>
-              <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white sm:w-auto" disabled={!isProfileReady}>
+              <Button className={`w-full sm:w-auto ${NUTRITION_PRIMARY_BUTTON}`} disabled={!isProfileReady}>
                 <Sparkles className="w-4 h-4 mr-2" />
                 {t ? 'Generar Plan IA' : 'Generate AI Plan'}
               </Button>
             </DialogTrigger>
-            <DialogContent
-              showCloseButton={false}
-              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950"
-            >
+            <DialogContent className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[980px] dark:border-slate-800/90 dark:bg-slate-950">
               <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
-              <div className="mb-4 flex items-start justify-between gap-4">
-              <DialogHeader className="text-left">
-                <DialogTitle>{t ? 'Generar Plan de Comidas' : 'Generate Meal Plan'}</DialogTitle>
-                <DialogDescription>
-                  {t ? 'La IA creará un plan semanal personalizado' : 'AI will create a personalized weekly plan'}
-                </DialogDescription>
-              </DialogHeader>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
-                onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
-              >
-                {copy.common.close}
-              </Button>
-              </div>
+                <DialogHeader className="mb-4 pr-10 text-left">
+                  <DialogTitle>{t ? 'Generar Plan de Comidas' : 'Generate Meal Plan'}</DialogTitle>
+                  <DialogDescription>
+                    {t ? 'La IA creará un plan semanal personalizado' : 'AI will create a personalized weekly plan'}
+                  </DialogDescription>
+                </DialogHeader>
               <div className="space-y-4">
                 {!isProfileReady ? (
                   <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/20 dark:bg-amber-950/20 dark:text-amber-300">
@@ -390,12 +366,12 @@ function NutritionPageContent() {
                 <DialogFooter className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
                   <Button
                     variant="outline"
-                    className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
+                    className={MODAL_SECONDARY_BUTTON}
                     onClick={() => { setGenerateOpen(false); setGenerateError(null) }}
                   >
                     {copy.common.cancel}
                   </Button>
-                  <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className="h-10 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-600">
+                  <Button onClick={handleGenerate} disabled={isGenerating || !isProfileReady} className={`h-11 rounded-2xl ${NUTRITION_PRIMARY_BUTTON}`}>
                     {isGenerating ? (t ? 'Generando plan...' : 'Generating plan...') : (t ? 'Generar Plan Semanal' : 'Generate Weekly Plan')}
                   </Button>
                 </DialogFooter>
@@ -551,7 +527,7 @@ function NutritionPageContent() {
                 </CardDescription>
               </div>
               <div className="flex flex-col gap-2 sm:flex-row">
-                <Button variant="outline" size="sm" className="w-full sm:w-auto" onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
+                <Button size="sm" className={`w-full sm:w-auto ${NUTRITION_PRIMARY_BUTTON}`} onClick={() => router.push(`/nutrition/meal-plans/${latestPlan.id}`)}>
                   {t ? 'Ver Completo' : 'View Full'}
                 </Button>
                 <Button variant="destructive" size="sm" className="w-full sm:w-auto" onClick={() => handleDeleteMealPlan(latestPlan.id)} disabled={isDeleting}>

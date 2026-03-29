@@ -2,7 +2,7 @@
 
 import { useDeferredValue, useMemo, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { ArrowLeft, Beef, ChefHat, Clock, Droplets, Flame, Plus, Search, UtensilsCrossed, Wheat } from "lucide-react"
+import { ArrowLeft, Beef, ChefHat, ChevronLeft, ChevronRight, Clock, Droplets, Flame, Search, UtensilsCrossed, Wheat } from "lucide-react"
 
 import { ProtectedDashboardPage } from "@/components/protected-dashboard-page"
 import { Badge } from "@/components/ui/badge"
@@ -21,6 +21,11 @@ import { useLanguage } from "@/lib/contexts/language-context"
 
 const DAY_NAMES_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 const DAY_NAMES_EN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+const NUTRITION_PRIMARY_BUTTON =
+  "border-0 bg-gradient-to-r from-green-600 via-emerald-600 to-green-500 text-white shadow-[0_14px_34px_-18px_rgba(16,185,129,0.95)] hover:from-green-500 hover:via-emerald-500 hover:to-green-400 hover:shadow-[0_18px_38px_-18px_rgba(16,185,129,1)]"
+const NUTRITION_PRIMARY_TAB =
+  "rounded-xl border border-transparent px-4 py-2 text-sm font-semibold data-[state=active]:border-emerald-400/30 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:via-emerald-600 data-[state=active]:to-green-500 data-[state=active]:text-white data-[state=active]:shadow-[0_10px_28px_-16px_rgba(16,185,129,0.95)]"
+const RECIPES_PER_PAGE = 6
 
 function formatNutritionGoal(goal?: string | null, isSpanish = true) {
   if (!goal) return ""
@@ -113,6 +118,7 @@ function MealPlanDetailPageContent() {
   const [replacementReason, setReplacementReason] = useState("")
   const [createForm, setCreateForm] = useState<CreateRecipeFormState>(DEFAULT_RECIPE_FORM)
   const [dialogError, setDialogError] = useState<string | null>(null)
+  const [libraryPage, setLibraryPage] = useState(0)
 
   const selectedMeal = useMemo(
     () => plan?.meals.find((meal) => meal.id === mealDialogId) ?? null,
@@ -157,12 +163,21 @@ function MealPlanDetailPageContent() {
   }, [recipeLibraryPages])
 
   const totalRecipeMatches = recipeLibraryPages?.pages.at(-1)?.pagination.total ?? 0
+  const visibleRecipes = recipeLibrary.slice(
+    libraryPage * RECIPES_PER_PAGE,
+    (libraryPage + 1) * RECIPES_PER_PAGE,
+  )
+  const loadedRecipePages = Math.max(1, Math.ceil(recipeLibrary.length / RECIPES_PER_PAGE))
+  const totalRecipePages = Math.max(1, Math.ceil(totalRecipeMatches / RECIPES_PER_PAGE))
+  const recipeWindowStart = totalRecipeMatches === 0 ? 0 : libraryPage * RECIPES_PER_PAGE + 1
+  const recipeWindowEnd = Math.min(totalRecipeMatches, recipeWindowStart + visibleRecipes.length - 1)
 
   const openReplaceDialog = (meal: Meal) => {
     setMealDialogId(meal.id)
     setLibraryQuery("")
     setLibraryScope("all")
     setReplacementReason("")
+    setLibraryPage(0)
     setCreateForm({
       ...DEFAULT_RECIPE_FORM,
       tags: meal.mealType,
@@ -173,6 +188,29 @@ function MealPlanDetailPageContent() {
   const closeDialog = () => {
     setMealDialogId(null)
     setDialogError(null)
+    setLibraryPage(0)
+  }
+
+  const handleLibraryPageChange = async (direction: "prev" | "next") => {
+    if (direction === "prev") {
+      setLibraryPage((current) => Math.max(0, current - 1))
+      return
+    }
+
+    if (libraryPage + 1 < loadedRecipePages) {
+      setLibraryPage((current) => current + 1)
+      return
+    }
+
+    if (!hasNextPage || isFetchingNextPage) {
+      return
+    }
+
+    const result = await fetchNextPage()
+    const newRecipes = result.data?.pages.at(-1)?.recipes.length ?? 0
+    if (newRecipes > 0) {
+      setLibraryPage((current) => current + 1)
+    }
   }
 
   const handleDelete = async () => {
@@ -372,8 +410,7 @@ function MealPlanDetailPageContent() {
                           </div>
                           <div className="flex flex-col items-end gap-2">
                             {recipe.difficulty && <Badge variant="outline">{recipe.difficulty}</Badge>}
-                            <Button variant="outline" size="sm" onClick={() => openReplaceDialog(meal)}>
-                              <Plus className="mr-2 h-4 w-4" />
+                            <Button size="sm" className={NUTRITION_PRIMARY_BUTTON} onClick={() => openReplaceDialog(meal)}>
                               {t ? "Cambiar comida" : "Swap meal"}
                             </Button>
                           </div>
@@ -458,8 +495,9 @@ function MealPlanDetailPageContent() {
       </Tabs>
 
       <Dialog open={Boolean(selectedMeal)} onOpenChange={(open) => !open && closeDialog()}>
-        <DialogContent className="max-h-[92vh] max-w-5xl overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="grid max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[1320px] dark:border-slate-800/90 dark:bg-slate-950">
+          <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-4 overflow-hidden p-4 sm:p-5 lg:p-6">
+          <DialogHeader className="pr-10 text-left">
             <DialogTitle>{t ? "Cambiar comida" : "Swap meal"}</DialogTitle>
             <DialogDescription>
               {selectedMealRecipe
@@ -478,14 +516,14 @@ function MealPlanDetailPageContent() {
             </div>
           ) : null}
 
-          <Tabs defaultValue="library" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="library">{t ? "Biblioteca" : "Library"}</TabsTrigger>
-              <TabsTrigger value="create">{t ? "Crear receta" : "Create recipe"}</TabsTrigger>
+          <Tabs defaultValue="library" className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden">
+            <TabsList className="h-auto w-fit rounded-2xl bg-slate-900/10 p-1 dark:bg-slate-800/60">
+              <TabsTrigger value="library" className={NUTRITION_PRIMARY_TAB}>{t ? "Biblioteca" : "Library"}</TabsTrigger>
+              <TabsTrigger value="create" className={NUTRITION_PRIMARY_TAB}>{t ? "Crear receta" : "Create recipe"}</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="library" className="space-y-4">
-              <div className="grid gap-3 md:grid-cols-[1fr_220px]">
+            <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-4 overflow-hidden">
+              <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_260px]">
                 <div className="space-y-2">
                   <Label>{t ? "Buscar receta" : "Search recipe"}</Label>
                   <div className="relative">
@@ -493,14 +531,23 @@ function MealPlanDetailPageContent() {
                     <Input
                       className="pl-9"
                       value={libraryQuery}
-                      onChange={(event) => setLibraryQuery(event.target.value)}
+                      onChange={(event) => {
+                        setLibraryQuery(event.target.value)
+                        setLibraryPage(0)
+                      }}
                       placeholder={t ? "Nombre, ingrediente o tag" : "Name, ingredient or tag"}
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label>{t ? "Visibilidad" : "Visibility"}</Label>
-                  <Select value={libraryScope} onValueChange={(value) => setLibraryScope(value as "all" | "mine" | "public")}>
+                  <Select
+                    value={libraryScope}
+                    onValueChange={(value) => {
+                      setLibraryScope(value as "all" | "mine" | "public")
+                      setLibraryPage(0)
+                    }}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
@@ -525,42 +572,43 @@ function MealPlanDetailPageContent() {
               {!isLibraryLoading && totalRecipeMatches > 0 ? (
                 <p className="text-sm text-muted-foreground">
                   {t
-                    ? `Mostrando ${recipeLibrary.length} de ${totalRecipeMatches} recetas compatibles`
-                    : `Showing ${recipeLibrary.length} of ${totalRecipeMatches} matching recipes`}
+                    ? `Mostrando ${recipeWindowStart}-${recipeWindowEnd} de ${totalRecipeMatches} recetas compatibles`
+                    : `Showing ${recipeWindowStart}-${recipeWindowEnd} of ${totalRecipeMatches} matching recipes`}
                 </p>
               ) : null}
 
-              <div className="grid gap-3 md:grid-cols-2">
+              <div className="min-h-0 overflow-hidden">
                 {isLibraryLoading ? (
                   <p className="text-sm text-muted-foreground">{t ? "Cargando biblioteca..." : "Loading library..."}</p>
                 ) : recipeLibrary.length === 0 ? (
                   <p className="text-sm text-muted-foreground">{t ? "No hay recetas que encajen con ese filtro." : "No recipes matched that filter."}</p>
                 ) : (
-                  recipeLibrary.map((recipe) => (
-                    <Card key={recipe.id} className="border-slate-200/70">
-                      <CardHeader className="space-y-2 pb-3">
+                  <div className="grid h-full auto-rows-fr gap-3 lg:grid-cols-3">
+                  {visibleRecipes.map((recipe) => (
+                    <Card key={recipe.id} className="ui-motion-card-static flex h-full min-h-[220px] flex-col gap-4 border-slate-200/70 py-4 shadow-sm">
+                      <CardHeader className="space-y-2 px-4 pb-1">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <CardTitle className="text-base">{recipe.name}</CardTitle>
-                            <CardDescription className="mt-1 line-clamp-2">{recipe.description || "—"}</CardDescription>
+                            <CardTitle className="line-clamp-2 text-sm leading-6">{recipe.name}</CardTitle>
+                            <CardDescription className="mt-1 line-clamp-2 text-xs">{recipe.description || "—"}</CardDescription>
                           </div>
                           <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
-                        <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
                           <span>{Math.round(recipe.calories || 0)} kcal</span>
                           <span>P: {recipe.protein || 0}g</span>
                           <span>C: {recipe.carbs || 0}g</span>
                           <span>G: {recipe.fat || 0}g</span>
                         </div>
                       </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="flex flex-wrap gap-2">
+                      <CardContent className="flex flex-1 flex-col gap-3 px-4 pt-0">
+                        <div className="flex min-h-[28px] flex-wrap gap-1.5">
                           {(recipe.tags || []).slice(0, 4).map((tag) => (
-                            <Badge key={tag} variant="secondary">{tag}</Badge>
+                            <Badge key={tag} variant="secondary" className="px-2 py-0.5 text-[10px]">{tag}</Badge>
                           ))}
                         </div>
                         <Button
-                          className="w-full"
+                          className={`mt-auto w-full ${NUTRITION_PRIMARY_BUTTON}`}
                           disabled={replaceMealRecipe.isPending}
                           onClick={() => void handleReplaceWithExisting(recipe.id)}
                         >
@@ -568,26 +616,47 @@ function MealPlanDetailPageContent() {
                         </Button>
                       </CardContent>
                     </Card>
-                  ))
+                  ))}
+                  </div>
                 )}
               </div>
 
-              {!isLibraryLoading && recipeLibrary.length > 0 && hasNextPage ? (
-                <div className="flex justify-center">
-                  <Button
-                    variant="outline"
-                    onClick={() => void fetchNextPage()}
-                    disabled={isFetchingNextPage}
-                  >
-                    {isFetchingNextPage
-                      ? (t ? "Cargando más..." : "Loading more...")
-                      : (t ? "Cargar más recetas" : "Load more recipes")}
-                  </Button>
+              {!isLibraryLoading && recipeLibrary.length > 0 ? (
+                <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 pt-3 dark:border-slate-800/80">
+                  <p className="text-xs text-muted-foreground">
+                    {t ? `Página ${libraryPage + 1} de ${totalRecipePages}` : `Page ${libraryPage + 1} of ${totalRecipePages}`}
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="rounded-xl"
+                      onClick={() => void handleLibraryPageChange("prev")}
+                      disabled={libraryPage === 0 || replaceMealRecipe.isPending}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                      {t ? "Anterior" : "Previous"}
+                    </Button>
+                    <Button
+                      size="sm"
+                      className={`rounded-xl ${NUTRITION_PRIMARY_BUTTON}`}
+                      onClick={() => void handleLibraryPageChange("next")}
+                      disabled={
+                        replaceMealRecipe.isPending ||
+                        isFetchingNextPage ||
+                        (libraryPage + 1 >= loadedRecipePages && !hasNextPage)
+                      }
+                    >
+                      {isFetchingNextPage ? (t ? "Cargando..." : "Loading...") : (t ? "Siguiente" : "Next")}
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ) : null}
             </TabsContent>
 
-            <TabsContent value="create" className="space-y-4">
+            <TabsContent value="create" className="mt-0 min-h-0 overflow-y-auto pr-1">
+              <div className="space-y-4">
               <div className="grid gap-4 lg:grid-cols-2">
                 <div className="space-y-4">
                   <div className="space-y-2">
@@ -699,12 +768,14 @@ function MealPlanDetailPageContent() {
               </div>
 
               <div className="flex justify-end">
-                <Button disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
+                <Button className={NUTRITION_PRIMARY_BUTTON} disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
                   {t ? "Crear y usar en esta comida" : "Create and use for this meal"}
                 </Button>
               </div>
+              </div>
             </TabsContent>
           </Tabs>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
