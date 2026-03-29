@@ -15,9 +15,14 @@ import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
 
-export function LoginPageContent() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+type LoginPageContentProps = {
+  defaultEmail?: string
+  defaultPassword?: string
+}
+
+export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: LoginPageContentProps) {
+  const [email, setEmail] = useState(defaultEmail)
+  const [password, setPassword] = useState(defaultPassword)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
