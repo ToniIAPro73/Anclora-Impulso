@@ -517,9 +517,9 @@ function MealPlanDetailPageContent() {
       <Dialog open={Boolean(selectedMeal)} onOpenChange={(open) => !open && closeDialog()}>
         <DialogContent
           showCloseButton={false}
-          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden ${buildResponsiveModalClass("lg:max-w-[1460px] xl:max-w-[1540px]")}`}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(94dvh,980px)] ${buildResponsiveModalClass("lg:max-w-[1460px] xl:max-w-[1540px]")}`}
         >
-          <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-4 overflow-hidden p-4 sm:p-5 lg:p-6">
+          <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-3 overflow-hidden p-4 sm:p-5 lg:gap-4 lg:p-6">
           <Button
             type="button"
             variant="outline"
@@ -548,13 +548,13 @@ function MealPlanDetailPageContent() {
             </div>
           ) : null}
 
-          <Tabs defaultValue="library" className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden">
+          <Tabs defaultValue="library" className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] gap-3 overflow-hidden">
             <TabsList className="h-auto w-fit rounded-2xl bg-slate-900/10 p-1 dark:bg-slate-800/60">
               <TabsTrigger value="library" className={NUTRITION_PRIMARY_TAB}>{nutritionCopy.library}</TabsTrigger>
               <TabsTrigger value="create" className={NUTRITION_PRIMARY_TAB}>{nutritionCopy.createRecipe}</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-4 overflow-hidden">
+            <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-3 overflow-hidden">
               <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_260px]">
                 <div className="space-y-2">
                   <Label>{nutritionCopy.searchRecipe}</Label>
@@ -609,22 +609,22 @@ function MealPlanDetailPageContent() {
                 </p>
               ) : null}
 
-              <div className="min-h-0 overflow-visible">
+              <div className="min-h-0 overflow-hidden">
                 {isLibraryLoading ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryLoading}</p>
                 ) : recipeLibrary.length === 0 ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryEmpty}</p>
                 ) : (
-                  <div className="grid h-full grid-cols-1 gap-3 overflow-visible py-1 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-2">
+                  <div className="grid auto-rows-fr grid-cols-1 gap-3 pb-1 md:grid-cols-2 xl:grid-cols-3">
                   {visibleRecipes.map((recipe) => (
                     <Card
                       key={recipe.id}
-                      className="ui-motion-card-subtle flex h-full min-h-[152px] flex-col justify-between gap-3 overflow-visible border-slate-200/70 py-3 shadow-sm hover:border-emerald-400/80 hover:shadow-[0_20px_40px_-28px_rgba(16,185,129,0.42)] dark:hover:border-emerald-400/55"
+                      className="ui-motion-card-subtle flex min-h-[124px] flex-col justify-between gap-2 border-slate-200/70 py-3 shadow-sm hover:border-emerald-400/80 hover:bg-emerald-500/5 hover:shadow-[0_20px_40px_-28px_rgba(16,185,129,0.42)] dark:hover:border-emerald-400/55"
                     >
                       <CardHeader className="space-y-2 px-4 pb-0">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <CardTitle className="line-clamp-2 text-sm leading-6">{recipe.name}</CardTitle>
+                            <CardTitle className="line-clamp-3 text-sm leading-6">{recipe.name}</CardTitle>
                           </div>
                           <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
@@ -680,10 +680,10 @@ function MealPlanDetailPageContent() {
               ) : null}
             </TabsContent>
 
-            <TabsContent value="create" className="mt-0 min-h-0 overflow-y-auto pr-1">
-              <div className="space-y-4">
-              <div className="grid gap-4 lg:grid-cols-2">
-                <div className="space-y-4">
+            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-3 overflow-hidden">
+              <div className="min-h-0 overflow-y-auto pr-1">
+              <div className="grid gap-3 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+                <div className="space-y-3">
                   <div className="space-y-2">
                     <Label>{t ? "Nombre" : "Name"}</Label>
                     <Input
@@ -697,10 +697,10 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.description}
                       onChange={(event) => setCreateForm((current) => ({ ...current, description: event.target.value }))}
-                      className="min-h-[96px]"
+                      className="min-h-[80px]"
                     />
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="grid gap-2 sm:grid-cols-3">
                     <div className="space-y-2">
                       <Label>{t ? "Prep" : "Prep"}</Label>
                       <Input type="number" value={createForm.prepTime} onChange={(event) => setCreateForm((current) => ({ ...current, prepTime: event.target.value }))} />
@@ -730,7 +730,7 @@ function MealPlanDetailPageContent() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="grid gap-2 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label>kcal</Label>
                       <Input type="number" value={createForm.calories} onChange={(event) => setCreateForm((current) => ({ ...current, calories: event.target.value }))} />
@@ -754,13 +754,13 @@ function MealPlanDetailPageContent() {
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="space-y-2">
                     <Label>{t ? "Tags (uno por línea)" : "Tags (one per line)"}</Label>
                     <Textarea
                       value={createForm.tags}
                       onChange={(event) => setCreateForm((current) => ({ ...current, tags: event.target.value }))}
-                      className="min-h-[92px]"
+                      className="min-h-[72px]"
                     />
                   </div>
                   <div className="space-y-2">
@@ -768,7 +768,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.goalTypes}
                       onChange={(event) => setCreateForm((current) => ({ ...current, goalTypes: event.target.value }))}
-                      className="min-h-[92px]"
+                      className="min-h-[72px]"
                       placeholder={t ? "perdida_peso\nmantenimiento\nganancia_muscular" : "weight_loss\nmaintenance\nmuscle_gain"}
                     />
                   </div>
@@ -777,7 +777,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.ingredients}
                       onChange={(event) => setCreateForm((current) => ({ ...current, ingredients: event.target.value }))}
-                      className="min-h-[144px]"
+                      className="min-h-[112px]"
                       placeholder={t ? "Formato: nombre | cantidad | unidad\nEj.\npollo | 180 | g\narroz integral | 80 | g" : "Format: name | quantity | unit\nE.g.\nchicken | 180 | g\nbrown rice | 80 | g"}
                     />
                   </div>
@@ -786,17 +786,17 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.instructions}
                       onChange={(event) => setCreateForm((current) => ({ ...current, instructions: event.target.value }))}
-                      className="min-h-[144px]"
+                      className="min-h-[112px]"
                     />
                   </div>
                 </div>
+              </div>
               </div>
 
               <div className="flex justify-end">
                 <Button variant="success" disabled={createRecipe.isPending || replaceMealRecipe.isPending} onClick={() => void handleCreateAndReplace()}>
                   {t ? "Crear y usar en esta comida" : "Create and use for this meal"}
                 </Button>
-              </div>
               </div>
             </TabsContent>
           </Tabs>
@@ -807,9 +807,9 @@ function MealPlanDetailPageContent() {
       <Dialog open={Boolean(previewRecipe)} onOpenChange={(open) => !open && closePreviewDialog()}>
         <DialogContent
           showCloseButton={false}
-          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden ${buildResponsiveModalClass("lg:max-w-[1200px]")}`}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(94dvh,980px)] ${buildResponsiveModalClass("lg:max-w-[1280px]")}`}
         >
-          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-4 p-4 sm:p-5 lg:p-6">
+          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-3 p-4 sm:p-5 lg:gap-4 lg:p-6">
             <Button
               type="button"
               variant="outline"
@@ -836,9 +836,9 @@ function MealPlanDetailPageContent() {
 
             <div className="min-h-0 overflow-y-auto pr-1">
               {previewRecipe ? (
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {previewRecipe.description ? (
-                    <p className="text-base text-muted-foreground">{previewRecipe.description}</p>
+                    <p className="text-sm text-muted-foreground sm:text-base">{previewRecipe.description}</p>
                   ) : null}
 
                   <div className="grid gap-3 md:grid-cols-4">
@@ -881,10 +881,11 @@ function MealPlanDetailPageContent() {
                     </div>
                   ) : null}
 
+                  <div className="grid gap-4 border-t border-border pt-4 lg:grid-cols-2">
                   {previewRecipe.ingredients && previewRecipe.ingredients.length > 0 ? (
-                    <div className="space-y-3 border-t border-border pt-5">
-                      <h3 className="text-2xl font-semibold">{t ? "Ingredientes" : "Ingredients"}</h3>
-                      <div className="grid gap-2 md:grid-cols-2">
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold">{t ? "Ingredientes" : "Ingredients"}</h3>
+                      <div className="grid gap-2">
                         {previewRecipe.ingredients.map((ingredient) => (
                           <p key={`${ingredient.ingredient.name}-${ingredient.ingredient.unit}-${ingredient.quantity}`} className="text-sm text-muted-foreground">
                             • {ingredient.quantity} {ingredient.ingredient.unit} {ingredient.ingredient.name}
@@ -895,8 +896,8 @@ function MealPlanDetailPageContent() {
                   ) : null}
 
                   {previewRecipe.instructions && previewRecipe.instructions.length > 0 ? (
-                    <div className="space-y-3 border-t border-border pt-5">
-                      <h3 className="text-2xl font-semibold">{t ? "Instrucciones" : "Instructions"}</h3>
+                    <div className="space-y-3">
+                      <h3 className="text-xl font-semibold">{t ? "Instrucciones" : "Instructions"}</h3>
                       <ol className="space-y-3">
                         {previewRecipe.instructions.map((step, index) => (
                           <li key={`${step}-${index}`} className="flex gap-3 text-sm text-muted-foreground">
@@ -907,6 +908,7 @@ function MealPlanDetailPageContent() {
                       </ol>
                     </div>
                   ) : null}
+                  </div>
                 </div>
               ) : null}
             </div>
