@@ -517,9 +517,9 @@ function MealPlanDetailPageContent() {
       <Dialog open={Boolean(selectedMeal)} onOpenChange={(open) => !open && closeDialog()}>
         <DialogContent
           showCloseButton={false}
-          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(94dvh,980px)] ${buildResponsiveModalClass("lg:max-w-[1460px] xl:max-w-[1540px]")}`}
+          className={`grid max-h-[calc(100dvh-0.5rem)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden sm:max-h-[calc(100dvh-1rem)] lg:max-h-[min(96dvh,1020px)] ${buildResponsiveModalClass("lg:max-w-[1460px] xl:max-w-[1540px]")}`}
         >
-          <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-3 overflow-hidden p-4 sm:p-5 lg:gap-4 lg:p-6">
+          <div className="grid min-h-0 grid-rows-[auto_auto_minmax(0,1fr)] gap-3 overflow-hidden p-4 sm:p-5 lg:gap-3 lg:p-5">
           <Button
             type="button"
             variant="outline"
@@ -554,8 +554,8 @@ function MealPlanDetailPageContent() {
               <TabsTrigger value="create" className={NUTRITION_PRIMARY_TAB}>{nutritionCopy.createRecipe}</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-3 overflow-hidden">
-              <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_260px]">
+            <TabsContent value="library" className="mt-0 grid min-h-0 grid-rows-[auto_auto_auto_minmax(0,1fr)_auto] gap-2 overflow-hidden">
+              <div className="grid gap-2 lg:grid-cols-[minmax(0,1fr)_248px]">
                 <div className="space-y-2">
                   <Label>{nutritionCopy.searchRecipe}</Label>
                   <div className="relative">
@@ -592,7 +592,7 @@ function MealPlanDetailPageContent() {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Label>{nutritionCopy.swapReason}</Label>
                 <Input
                   value={replacementReason}
@@ -602,38 +602,38 @@ function MealPlanDetailPageContent() {
               </div>
 
               {!isLibraryLoading && totalRecipeMatches > 0 ? (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs text-muted-foreground">
                   {t
                     ? `Mostrando ${recipeWindowStart}-${recipeWindowEnd} de ${totalRecipeMatches} recetas compatibles`
                     : `Showing ${recipeWindowStart}-${recipeWindowEnd} of ${totalRecipeMatches} matching recipes`}
                 </p>
               ) : null}
 
-              <div className="min-h-0 overflow-hidden">
+              <div className="min-h-0 overflow-hidden px-1 pb-1">
                 {isLibraryLoading ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryLoading}</p>
                 ) : recipeLibrary.length === 0 ? (
                   <p className="text-sm text-muted-foreground">{nutritionCopy.libraryEmpty}</p>
                 ) : (
-                  <div className="grid auto-rows-fr grid-cols-1 gap-3 pb-1 md:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid auto-rows-fr grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
                   {visibleRecipes.map((recipe) => (
                     <Card
                       key={recipe.id}
-                      className="ui-motion-card-subtle flex min-h-[124px] flex-col justify-between gap-2 border-slate-200/70 py-3 shadow-sm hover:border-emerald-400/80 hover:bg-emerald-500/5 hover:shadow-[0_20px_40px_-28px_rgba(16,185,129,0.42)] dark:hover:border-emerald-400/55"
+                      className="ui-motion-card-subtle flex min-h-[112px] flex-col justify-between gap-1.5 border-slate-200/70 py-2.5 shadow-sm hover:border-emerald-400/80 hover:bg-emerald-500/5 hover:shadow-[0_18px_30px_-24px_rgba(16,185,129,0.42)] dark:hover:border-emerald-400/55"
                     >
-                      <CardHeader className="space-y-2 px-4 pb-0">
+                      <CardHeader className="space-y-1 px-3.5 pb-0">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <CardTitle className="line-clamp-3 text-sm leading-6">{recipe.name}</CardTitle>
+                            <CardTitle className="line-clamp-3 text-sm leading-5">{recipe.name}</CardTitle>
                           </div>
                           <Badge variant="outline">{formatRecipeSource(recipe.source, t)}</Badge>
                         </div>
                       </CardHeader>
-                      <CardContent className="flex flex-1 flex-col gap-2 px-4 pt-0">
+                      <CardContent className="flex flex-1 flex-col gap-1 px-3.5 pt-0">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="mt-auto w-full rounded-xl border-emerald-500/25 text-emerald-300 hover:bg-emerald-500 hover:text-white dark:border-emerald-500/35"
+                          className="mt-auto h-9 w-full rounded-xl border-emerald-500/25 text-emerald-300 hover:bg-emerald-500 hover:text-white dark:border-emerald-500/35"
                           onClick={() => setPreviewRecipe(recipe)}
                         >
                           {nutritionCopy.editRecipe}
@@ -646,7 +646,7 @@ function MealPlanDetailPageContent() {
               </div>
 
               {!isLibraryLoading && recipeLibrary.length > 0 ? (
-                <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 pt-3 dark:border-slate-800/80">
+                <div className="flex items-center justify-between gap-3 border-t border-slate-200/70 pt-2 dark:border-slate-800/80">
                   <p className="text-xs text-muted-foreground">
                     {`${nutritionCopy.pageLabel} ${libraryPage + 1} ${t ? "de" : "of"} ${totalRecipePages}`}
                   </p>
@@ -680,10 +680,10 @@ function MealPlanDetailPageContent() {
               ) : null}
             </TabsContent>
 
-            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-3 overflow-hidden">
-              <div className="min-h-0 overflow-y-auto pr-1">
-              <div className="grid gap-3 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-                <div className="space-y-3">
+            <TabsContent value="create" className="mt-0 grid min-h-0 grid-rows-[minmax(0,1fr)_auto] gap-2 overflow-hidden">
+              <div className="min-h-0 overflow-y-auto pr-1 lg:overflow-y-hidden">
+              <div className="grid gap-2 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+                <div className="space-y-2">
                   <div className="space-y-2">
                     <Label>{t ? "Nombre" : "Name"}</Label>
                     <Input
@@ -697,7 +697,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.description}
                       onChange={(event) => setCreateForm((current) => ({ ...current, description: event.target.value }))}
-                      className="min-h-[80px]"
+                      className="min-h-[72px]"
                     />
                   </div>
                   <div className="grid gap-2 sm:grid-cols-3">
@@ -754,13 +754,13 @@ function MealPlanDetailPageContent() {
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="space-y-2">
                     <Label>{t ? "Tags (uno por línea)" : "Tags (one per line)"}</Label>
                     <Textarea
                       value={createForm.tags}
                       onChange={(event) => setCreateForm((current) => ({ ...current, tags: event.target.value }))}
-                      className="min-h-[72px]"
+                      className="min-h-[56px]"
                     />
                   </div>
                   <div className="space-y-2">
@@ -768,7 +768,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.goalTypes}
                       onChange={(event) => setCreateForm((current) => ({ ...current, goalTypes: event.target.value }))}
-                      className="min-h-[72px]"
+                      className="min-h-[56px]"
                       placeholder={t ? "perdida_peso\nmantenimiento\nganancia_muscular" : "weight_loss\nmaintenance\nmuscle_gain"}
                     />
                   </div>
@@ -777,7 +777,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.ingredients}
                       onChange={(event) => setCreateForm((current) => ({ ...current, ingredients: event.target.value }))}
-                      className="min-h-[112px]"
+                      className="min-h-[96px]"
                       placeholder={t ? "Formato: nombre | cantidad | unidad\nEj.\npollo | 180 | g\narroz integral | 80 | g" : "Format: name | quantity | unit\nE.g.\nchicken | 180 | g\nbrown rice | 80 | g"}
                     />
                   </div>
@@ -786,7 +786,7 @@ function MealPlanDetailPageContent() {
                     <Textarea
                       value={createForm.instructions}
                       onChange={(event) => setCreateForm((current) => ({ ...current, instructions: event.target.value }))}
-                      className="min-h-[112px]"
+                      className="min-h-[96px]"
                     />
                   </div>
                 </div>
