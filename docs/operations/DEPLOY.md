@@ -152,8 +152,15 @@ Deberías ver:
 
 1. **Framework Preset:** Next.js (detectado automáticamente)
 2. **Root Directory:** `.` (raíz del proyecto)
-3. **Build Command:** `pnpm build` (detectado automáticamente)
+3. **Build Command:** `npm run build`
 4. **Output Directory:** `.next` (detectado automáticamente)
+5. **Package Manager:** `npm`
+
+**Regla operativa de lockfiles**
+
+- Este repo debe mantener un único lockfile activo: `package-lock.json`
+- No debe versionarse `pnpm-lock.yaml` salvo migración explícita de todo el proyecto a `pnpm`
+- Si existen ambos lockfiles, Vercel puede detectar `pnpm` y fallar con `ERR_PNPM_OUTDATED_LOCKFILE`
 
 ### 3.4 Configurar variables de entorno
 
