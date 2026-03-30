@@ -211,7 +211,7 @@ function ActiveWorkoutPageContent() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             {isSpanish ? "Volver al plan" : "Back to plan"}
           </Button>
-          <h1 className="truncate text-2xl font-semibold text-slate-900 dark:text-white">{workout.name}</h1>
+          <h1 className="text-2xl font-semibold leading-tight text-slate-900 dark:text-white">{workout.name}</h1>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
             {isSpanish ? "Modo activo con guardado parcial automático." : "Active mode with automatic partial save."}
           </p>

@@ -284,7 +284,7 @@ export function ExerciseLibrary() {
       </div>
 
       {exercises.length > 10 ? (
-        <div className="pointer-events-none fixed right-3 top-1/2 z-30 flex -translate-y-1/2 flex-col gap-2 sm:right-4">
+        <div className="pointer-events-none fixed right-3 top-1/2 z-30 hidden -translate-y-1/2 flex-col gap-2 sm:flex sm:right-4">
           <Button
             type="button"
             size="icon"
