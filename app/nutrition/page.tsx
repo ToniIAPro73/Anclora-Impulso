@@ -439,47 +439,47 @@ function NutritionPageContent() {
 
       {latestPlan?.explanation ? (
         <Card className="border-0 bg-gradient-to-r from-emerald-50 to-teal-50 shadow-lg dark:from-emerald-950/20 dark:to-teal-950/20">
-          <CardHeader className="pb-3">
+          <CardHeader className="px-4 pb-2 pt-4 sm:px-6 sm:pb-3 sm:pt-6">
             <CardTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-emerald-500" />
               {copy.nutrition.recommendationWhy}
             </CardTitle>
             <CardDescription>{latestPlan.explanation.summary || copy.nutrition.recommendationSummary}</CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_280px]">
+          <CardContent className="grid gap-3 px-4 pb-4 pt-0 sm:px-6 sm:pb-6 lg:grid-cols-[minmax(0,1fr)_280px]">
             <div className="space-y-2">
               {latestPlan.explanation.reasons.map((reason) => (
                 <div
                   key={reason}
-                  className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-2 text-sm text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200"
+                  className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-2 text-xs leading-5 text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200 sm:text-sm"
                 >
                   {reason}
                 </div>
               ))}
               {latestPlan.explanation.signals?.length ? (
-                <div className="grid gap-2 pt-1 sm:grid-cols-3">
+                <div className="grid gap-2 pt-1 grid-cols-2 sm:grid-cols-3">
                   {latestPlan.explanation.signals.map((signal) => (
-                    <div key={`${signal.label}-${signal.value}`} className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-3 text-sm text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200">
-                      <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{signal.label}</p>
-                      <p className="mt-2 font-semibold">{signal.value}</p>
+                    <div key={`${signal.label}-${signal.value}`} className="rounded-2xl border border-emerald-100 bg-white/80 px-3 py-2.5 text-xs text-slate-700 dark:border-emerald-500/10 dark:bg-slate-950/40 dark:text-slate-200 sm:py-3 sm:text-sm">
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-slate-400 sm:text-xs">{signal.label}</p>
+                      <p className="mt-1.5 font-semibold sm:mt-2">{signal.value}</p>
                     </div>
                   ))}
                 </div>
               ) : null}
             </div>
             {latestPlan.explanation.adjustment ? (
-              <div className="rounded-2xl border border-emerald-200/70 bg-emerald-100/60 p-4 dark:border-emerald-500/20 dark:bg-emerald-950/20">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-300">
+              <div className="rounded-2xl border border-emerald-200/70 bg-emerald-100/60 p-3.5 dark:border-emerald-500/20 dark:bg-emerald-950/20 sm:p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-emerald-700 dark:text-emerald-300 sm:text-xs">
                   {copy.nutrition.recommendationAdjustment}
                 </p>
-                <p className="mt-2 text-sm text-emerald-900 dark:text-emerald-100">
+                <p className="mt-2 text-xs leading-5 text-emerald-900 dark:text-emerald-100 sm:text-sm">
                   {latestPlan.explanation.adjustment}
                 </p>
                 {latestPlan.explanation.nextBestAction ? (
                   <Button
                     type="button"
                     variant="outline"
-                    className="mt-4 w-full rounded-2xl border-emerald-300/70 bg-white/80 text-emerald-800 hover:bg-white dark:border-emerald-500/20 dark:bg-slate-950/40 dark:text-emerald-100"
+                    className="mt-3 h-10 w-full rounded-2xl border-emerald-300/70 bg-white/80 text-xs text-emerald-800 hover:bg-white dark:border-emerald-500/20 dark:bg-slate-950/40 dark:text-emerald-100 sm:mt-4 sm:text-sm"
                     onClick={() => setLogOpen(true)}
                   >
                     {latestPlan.explanation.nextBestAction.label}
@@ -526,7 +526,7 @@ function NutritionPageContent() {
       {/* Plan semanal más reciente */}
       {latestPlan && (
         <Card>
-          <CardHeader>
+          <CardHeader className="px-4 pb-3 pt-4 sm:px-6 sm:pt-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div className="min-w-0">
                 <CardTitle className="flex items-center gap-2">
@@ -557,7 +557,7 @@ function NutritionPageContent() {
               </div>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 pb-4 pt-0 sm:px-6 sm:pb-6">
             <Tabs defaultValue="0">
               <TabsList className="flex w-full min-w-0 gap-1 overflow-x-auto whitespace-nowrap">
                 {dayNames.map((day, i) => (
@@ -578,7 +578,7 @@ function NutritionPageContent() {
                     ) : (
                       dayMeals.map((meal) => (
                         <Card key={meal.id} className="bg-muted/30">
-                          <CardContent className="py-3">
+                          <CardContent className="px-3 py-3 sm:px-4">
                             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                               <div className="flex items-center gap-2">
                                 <UtensilsCrossed className="w-4 h-4 text-green-600" />
@@ -595,12 +595,12 @@ function NutritionPageContent() {
                             )}
                             {meal.recipes.map((mr) => (
                               <div key={mr.id} className="mt-2">
-                                <p className="font-medium">{mr.recipe.name}</p>
-                                <div className="mt-1 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-muted-foreground sm:flex sm:flex-wrap sm:gap-4">
-                                  <span>{Math.round((mr.recipe.calories || 0) * meal.servingMultiplier)} kcal</span>
-                                  <span>P: {mr.recipe.protein}g</span>
-                                  <span>C: {mr.recipe.carbs}g</span>
-                                  <span>G: {mr.recipe.fat}g</span>
+                                <p className="text-sm font-medium leading-5 sm:text-base">{mr.recipe.name}</p>
+                                <div className="mt-2 flex flex-wrap gap-1.5 text-[11px] text-muted-foreground sm:mt-1 sm:grid sm:grid-cols-2 sm:gap-x-3 sm:gap-y-1 sm:text-xs lg:flex lg:flex-wrap lg:gap-4">
+                                  <span className="rounded-full bg-slate-200/55 px-2 py-1 dark:bg-slate-800/70">{Math.round((mr.recipe.calories || 0) * meal.servingMultiplier)} kcal</span>
+                                  <span className="rounded-full bg-slate-200/55 px-2 py-1 dark:bg-slate-800/70">P: {mr.recipe.protein}g</span>
+                                  <span className="rounded-full bg-slate-200/55 px-2 py-1 dark:bg-slate-800/70">C: {mr.recipe.carbs}g</span>
+                                  <span className="rounded-full bg-slate-200/55 px-2 py-1 dark:bg-slate-800/70">G: {mr.recipe.fat}g</span>
                                 </div>
                               </div>
                             ))}

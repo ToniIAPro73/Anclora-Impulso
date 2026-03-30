@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -32,6 +32,7 @@ export function DashboardContent() {
   const [isSavingReminders, setIsSavingReminders] = useState(false)
   const [nudges, setNudges] = useState<EngagementNudge[]>([])
   const [isLoadingNudges, setIsLoadingNudges] = useState(true)
+  const hasBackfilledOnboardingRef = useRef(false)
   const [reminderDraft, setReminderDraft] = useState({
     remindersEnabled: true,
     reminderTime: "20:00",
@@ -60,7 +61,7 @@ export function DashboardContent() {
   const weeklyTarget = progressInsights?.weeklyTarget ?? profile.trainingDaysPerWeek ?? null
   const weeklyConsistency = progressInsights?.adherenceRate ? Math.round(progressInsights.adherenceRate * 100) : 0
   const nutritionConsistency = progressInsights?.nutritionConsistencyRate ? Math.round(progressInsights.nutritionConsistencyRate * 100) : 0
-  const needsOnboarding = !profile.onboardingCompletedAt || !profileCompletion.isComplete
+  const needsOnboarding = !profileCompletion.isComplete
 
   useEffect(() => {
     if (!user || workouts.length === 0) {
@@ -81,6 +82,15 @@ export function DashboardContent() {
       setOnboardingOpen(true)
     }
   }, [needsOnboarding])
+
+  useEffect(() => {
+    if (!user || profile.onboardingCompletedAt || !profileCompletion.isComplete || hasBackfilledOnboardingRef.current) {
+      return
+    }
+
+    hasBackfilledOnboardingRef.current = true
+    void updateProfile({ onboardingCompletedAt: new Date().toISOString() })
+  }, [profile.onboardingCompletedAt, profileCompletion.isComplete, updateProfile, user])
 
   useEffect(() => {
     setReminderDraft({
