@@ -13,6 +13,7 @@ export type ProfileSex = "male" | "female"
 export type TrainingGoal = "lose_weight" | "build_muscle" | "recomposition" | "maintain"
 export type TrainingEnvironment = "gym" | "home" | "outdoor"
 export type ExperienceLevel = "beginner" | "intermediate" | "advanced"
+export type ProfileLanguage = "es" | "en"
 
 export interface UserProfile {
   avatarDataUrl?: string | null
@@ -146,7 +147,7 @@ export function getProfileCompletion(profile: UserProfile) {
   }
 }
 
-export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPlan | null {
+export function buildRecommendedPlan(profile: UserProfile, language: ProfileLanguage = "es"): RecommendedWorkoutPlan | null {
   const age = profile.age ?? null
   const sex = profile.sex ?? null
   const targetWeightKg = profile.targetWeightKg ?? null
@@ -216,65 +217,88 @@ export function buildRecommendedPlan(profile: UserProfile): RecommendedWorkoutPl
   const weeklySplit = isFortyPlus
     ? sex === "female"
       ? [
-          "Dia 1: Fuerza tren inferior + core",
-          "Dia 2: Tren superior + movilidad",
-          "Dia 3: Cardio moderado + caminata activa",
-          "Dia 4: Fuerza global + estabilidad",
-          "Dia 5: Movilidad + cardio suave",
+          language === "es" ? "Dia 1: Fuerza tren inferior + core" : "Day 1: Lower body strength + core",
+          language === "es" ? "Dia 2: Tren superior + movilidad" : "Day 2: Upper body + mobility",
+          language === "es" ? "Dia 3: Cardio moderado + caminata activa" : "Day 3: Moderate cardio + active walk",
+          language === "es" ? "Dia 4: Fuerza global + estabilidad" : "Day 4: Full-body strength + stability",
+          language === "es" ? "Dia 5: Movilidad + cardio suave" : "Day 5: Mobility + light cardio",
         ]
       : sex === "male"
         ? [
-            "Dia 1: Fuerza full body + core",
-            "Dia 2: Cardio moderado + movilidad",
-            "Dia 3: Piernas + espalda",
-            "Dia 4: Empujes, tracciones y core",
-            "Dia 5: Caminata larga o cardio suave",
+            language === "es" ? "Dia 1: Fuerza full body + core" : "Day 1: Full-body strength + core",
+            language === "es" ? "Dia 2: Cardio moderado + movilidad" : "Day 2: Moderate cardio + mobility",
+            language === "es" ? "Dia 3: Piernas + espalda" : "Day 3: Legs + back",
+            language === "es" ? "Dia 4: Empujes, tracciones y core" : "Day 4: Push, pull and core",
+            language === "es" ? "Dia 5: Caminata larga o cardio suave" : "Day 5: Long walk or light cardio",
           ]
         : [
-            "Dia 1: Fuerza global",
-            "Dia 2: Cardio moderado + movilidad",
-            "Dia 3: Tren inferior + core",
-            "Dia 4: Tren superior + estabilidad",
-            "Dia 5: Caminata larga o movilidad",
+            language === "es" ? "Dia 1: Fuerza global" : "Day 1: Full-body strength",
+            language === "es" ? "Dia 2: Cardio moderado + movilidad" : "Day 2: Moderate cardio + mobility",
+            language === "es" ? "Dia 3: Tren inferior + core" : "Day 3: Lower body + core",
+            language === "es" ? "Dia 4: Tren superior + estabilidad" : "Day 4: Upper body + stability",
+            language === "es" ? "Dia 5: Caminata larga o movilidad" : "Day 5: Long walk or mobility",
           ]
     : wantsToLoseWeight
       ? [
-          "Dia 1: Piernas + core + cardio suave",
-          "Dia 2: Full body metabolico",
-          "Dia 3: Cardio interválico + movilidad",
-          "Dia 4: Fuerza global + core",
-          "Dia 5: Caminata larga o cardio moderado",
+          language === "es" ? "Dia 1: Piernas + core + cardio suave" : "Day 1: Legs + core + light cardio",
+          language === "es" ? "Dia 2: Full body metabolico" : "Day 2: Metabolic full body",
+          language === "es" ? "Dia 3: Cardio interválico + movilidad" : "Day 3: Interval cardio + mobility",
+          language === "es" ? "Dia 4: Fuerza global + core" : "Day 4: Full-body strength + core",
+          language === "es" ? "Dia 5: Caminata larga o cardio moderado" : "Day 5: Long walk or moderate cardio",
         ]
       : wantsToGainWeight
         ? [
-            "Dia 1: Pecho + hombro + triceps",
-            "Dia 2: Espalda + biceps",
-            "Dia 3: Piernas + gluteos",
-            "Dia 4: Full body tecnico",
-            "Dia 5: Accesorios + core",
+            language === "es" ? "Dia 1: Pecho + hombro + triceps" : "Day 1: Chest + shoulders + triceps",
+            language === "es" ? "Dia 2: Espalda + biceps" : "Day 2: Back + biceps",
+            language === "es" ? "Dia 3: Piernas + gluteos" : "Day 3: Legs + glutes",
+            language === "es" ? "Dia 4: Full body tecnico" : "Day 4: Technical full body",
+            language === "es" ? "Dia 5: Accesorios + core" : "Day 5: Accessories + core",
           ]
         : [
-            "Dia 1: Full body",
-            "Dia 2: Tren inferior + core",
-            "Dia 3: Tren superior",
-            "Dia 4: Cardio + movilidad",
+            language === "es" ? "Dia 1: Full body" : "Day 1: Full body",
+            language === "es" ? "Dia 2: Tren inferior + core" : "Day 2: Lower body + core",
+            language === "es" ? "Dia 3: Tren superior" : "Day 3: Upper body",
+            language === "es" ? "Dia 4: Cardio + movilidad" : "Day 4: Cardio + mobility",
           ]
 
   const daysToUse = Math.max(1, Math.min(trainingDaysPerWeek, weeklySplit.length))
   const weeklySummary = isFortyPlus
     ? wantsToLoseWeight
-      ? `Plan 40+ para bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas, priorizando fuerza, proteina y recuperacion con ${trainingDaysPerWeek} dias de entreno.`
+      ? language === "es"
+        ? `Plan 40+ para bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas, priorizando fuerza, proteina y recuperacion con ${trainingDaysPerWeek} dias de entreno.`
+        : `40+ plan to lose ${Math.abs(delta)} kg in ${timeframeWeeks} weeks, prioritizing strength, protein and recovery across ${trainingDaysPerWeek} training days.`
       : wantsToGainWeight
-        ? `Plan 40+ para subir ${delta} kg con foco en masa muscular, fuerza y recuperacion durante ${timeframeWeeks} semanas.`
-        : `Plan 40+ de recomposicion corporal con fuerza, movilidad y constancia durante ${timeframeWeeks} semanas.`
+        ? language === "es"
+          ? `Plan 40+ para subir ${delta} kg con foco en masa muscular, fuerza y recuperacion durante ${timeframeWeeks} semanas.`
+          : `40+ plan to gain ${delta} kg with emphasis on muscle mass, strength and recovery over ${timeframeWeeks} weeks.`
+        : language === "es"
+          ? `Plan 40+ de recomposicion corporal con fuerza, movilidad y constancia durante ${timeframeWeeks} semanas.`
+          : `40+ body recomposition plan with strength, mobility and consistency over ${timeframeWeeks} weeks.`
     : wantsToLoseWeight
-      ? `Objetivo de bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
+      ? language === "es"
+        ? `Objetivo de bajar ${Math.abs(delta)} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
+        : `Goal: lose ${Math.abs(delta)} kg in ${timeframeWeeks} weeks with ${trainingDaysPerWeek} training days.`
       : wantsToGainWeight
-        ? `Objetivo de subir ${delta} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
-        : `Objetivo de recomposición corporal y mantenimiento durante ${timeframeWeeks} semanas.`
+        ? language === "es"
+          ? `Objetivo de subir ${delta} kg en ${timeframeWeeks} semanas con ${trainingDaysPerWeek} dias de entreno.`
+          : `Goal: gain ${delta} kg in ${timeframeWeeks} weeks with ${trainingDaysPerWeek} training days.`
+        : language === "es"
+          ? `Objetivo de recomposición corporal y mantenimiento durante ${timeframeWeeks} semanas.`
+          : `Goal: body recomposition and maintenance over ${timeframeWeeks} weeks.`
 
   return {
-    title: wantsToLoseWeight ? "Plan de definición" : wantsToGainWeight ? "Plan de ganancia muscular" : "Plan de recomposición",
+    title:
+      wantsToLoseWeight
+        ? language === "es"
+          ? "Plan de definición"
+          : "Cutting plan"
+        : wantsToGainWeight
+          ? language === "es"
+            ? "Plan de ganancia muscular"
+            : "Muscle gain plan"
+          : language === "es"
+            ? "Plan de recomposición"
+            : "Recomposition plan",
     summary: weeklySummary,
     workoutType,
     duration,

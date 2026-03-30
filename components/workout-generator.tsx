@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,7 +15,7 @@ import { Loader2, Zap, Clock, Target, Dumbbell, Play, CheckCircle2 } from "lucid
 import type { Workout } from "@/lib/api"
 import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
-import { isProfileReadyForPlanGeneration } from "@/lib/user-profile"
+import { buildRecommendedPlan, isProfileReadyForPlanGeneration } from "@/lib/user-profile"
 import { trackProductEvent } from "@/lib/product-events"
 
 interface WorkoutPreferences {
@@ -38,6 +38,7 @@ export function WorkoutGenerator() {
   const { profile } = useAuth()
   const { language } = useLanguage()
   const isSpanish = language === "es"
+  const localizedRecommendedPlan = useMemo(() => buildRecommendedPlan(profile, isSpanish ? "es" : "en"), [profile, isSpanish])
   const [preferences, setPreferences] = useState<WorkoutPreferences>({
     workoutType: 'strength',
     duration: 45,
@@ -55,20 +56,20 @@ export function WorkoutGenerator() {
   const isProfileReady = isProfileReadyForPlanGeneration(profile)
 
   useEffect(() => {
-    if (!profile.recommendedPlan) {
+    if (!localizedRecommendedPlan) {
       return
     }
 
     setPreferences((current) => ({
       ...current,
-      workoutType: profile.recommendedPlan?.workoutType ?? current.workoutType,
-      duration: profile.recommendedPlan?.duration ?? current.duration,
-      difficulty: profile.recommendedPlan?.difficulty ?? current.difficulty,
-      targetMuscles: profile.recommendedPlan?.targetMuscles ?? current.targetMuscles,
-      equipment: profile.recommendedPlan?.equipment ?? current.equipment,
-      workoutName: current.workoutName || profile.recommendedPlan?.title || current.workoutName,
+      workoutType: localizedRecommendedPlan.workoutType ?? current.workoutType,
+      duration: localizedRecommendedPlan.duration ?? current.duration,
+      difficulty: localizedRecommendedPlan.difficulty ?? current.difficulty,
+      targetMuscles: localizedRecommendedPlan.targetMuscles ?? current.targetMuscles,
+      equipment: localizedRecommendedPlan.equipment ?? current.equipment,
+      workoutName: current.workoutName || localizedRecommendedPlan.title || current.workoutName,
     }))
-  }, [profile.recommendedPlan])
+  }, [localizedRecommendedPlan])
 
   const muscleGroups = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'glutes']
   const equipmentTypes = ENVIRONMENT_EQUIPMENT_MAP[preferences.trainingEnvironment]
@@ -208,12 +209,12 @@ export function WorkoutGenerator() {
             <CardDescription>{isSpanish ? "Personaliza tu entrenamiento según tus objetivos y equipo disponible" : "Customize your workout based on your goals and available equipment"}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {profile.recommendedPlan ? (
+            {localizedRecommendedPlan ? (
               <div className="rounded-2xl border border-emerald-200/70 bg-emerald-50/80 p-4 dark:border-emerald-500/20 dark:bg-emerald-500/10">
                 <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-200">
                   {isSpanish ? "Propuesta cargada desde tu perfil" : "Proposal loaded from your profile"}
                 </p>
-                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-300">{profile.recommendedPlan.summary}</p>
+                <p className="mt-1 text-sm text-emerald-700 dark:text-emerald-300">{localizedRecommendedPlan.summary}</p>
               </div>
             ) : null}
             {profile.age && profile.age >= 40 ? (

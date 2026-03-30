@@ -15,7 +15,7 @@ import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { uiMotion } from "@/lib/ui-motion"
 import { cn } from "@/lib/utils"
-import { getProfileCompletion } from "@/lib/user-profile"
+import { buildRecommendedPlan, getProfileCompletion } from "@/lib/user-profile"
 import { OnboardingDialog } from "@/components/onboarding-dialog"
 import { buildDismissedNudgeKey, trackProductEvent } from "@/lib/product-events"
 import { engagementApi, type EngagementNudge } from "@/lib/api"
@@ -55,6 +55,7 @@ export function DashboardContent() {
   const showGettingStarted = stats.totalWorkouts === 0
   const progressInsights = progress?.insights
   const profileCompletion = useMemo(() => getProfileCompletion(profile), [profile])
+  const localizedRecommendedPlan = useMemo(() => buildRecommendedPlan(profile, language === "es" ? "es" : "en"), [profile, language])
   const latestWorkout = workouts[0] ?? null
   const weeklyTarget = progressInsights?.weeklyTarget ?? profile.trainingDaysPerWeek ?? null
   const weeklyConsistency = progressInsights?.adherenceRate ? Math.round(progressInsights.adherenceRate * 100) : 0
@@ -516,16 +517,16 @@ export function DashboardContent() {
       </div>
 
       {/* Personal Records */}
-      {profile.recommendedPlan ? (
+      {localizedRecommendedPlan ? (
         <Card className="ui-motion-card-subtle border-0 shadow-lg bg-gradient-to-r from-orange-50 to-rose-50 backdrop-blur-sm dark:from-orange-900/20 dark:to-rose-900/20">
           <CardHeader>
             <div className="flex items-center justify-between gap-4">
               <div>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="w-5 h-5 text-orange-500" />
-                  {profile.recommendedPlan.title}
+                  {localizedRecommendedPlan.title}
                 </CardTitle>
-                <CardDescription>{profile.recommendedPlan.summary}</CardDescription>
+                <CardDescription>{localizedRecommendedPlan.summary}</CardDescription>
               </div>
               <Button asChild className="rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600">
                 <Link href="/workouts/generate">{t.dashboard.startNow}</Link>
@@ -533,7 +534,7 @@ export function DashboardContent() {
             </div>
           </CardHeader>
           <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {profile.recommendedPlan.weeklySplit.map((session) => (
+            {localizedRecommendedPlan.weeklySplit.map((session) => (
               <div key={session} className={cn("rounded-2xl bg-white/75 p-4 text-sm text-slate-700 shadow-sm dark:bg-slate-950/45 dark:text-slate-200", uiMotion.frame)}>
                 {session}
               </div>

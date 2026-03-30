@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserAvatar } from "@/components/user-avatar"
 import { useAuth } from "@/lib/contexts/auth-context"
+import { useLanguage } from "@/lib/contexts/language-context"
 import { buildRecommendedPlan, calculateBmi, interpretBmi, type ProfileSex } from "@/lib/user-profile"
 
 interface ProfileDialogProps {
@@ -31,6 +32,7 @@ function toNumber(value: string) {
 
 export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: ProfileDialogProps) {
   const { user, profile, updateProfile } = useAuth()
+  const { language } = useLanguage()
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const isControlled = controlledOpen !== undefined
@@ -74,8 +76,8 @@ export function ProfileDialog({ children, open: controlledOpen, onOpenChange }: 
         timeframeWeeks: toNumber(form.timeframeWeeks),
         trainingDaysPerWeek: toNumber(form.trainingDaysPerWeek),
         avatarDataUrl: form.avatarDataUrl || null,
-      }),
-    [form],
+      }, language === "es" ? "es" : "en"),
+    [form, language],
   )
 
   const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
