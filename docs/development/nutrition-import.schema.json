@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://anclora.com/schemas/nutrition-import.schema.json",
+  "title": "Anclora Impulso Nutrition Recipe Import",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "batchId", "generatedAt", "generator", "recipes"],
+  "properties": {
+    "specVersion": {
+      "type": "string",
+      "const": "recipes-import-v1"
+    },
+    "batchId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/recipe"
+      }
+    }
+  },
+  "$defs": {
+    "ingredient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "quantity", "unit"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "unit": {
+          "type": "string",
+          "enum": ["g", "ml", "unidad", "rebanada", "lata", "cucharada", "cucharadita"]
+        }
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "externalId",
+        "name",
+        "instructions",
+        "servings",
+        "tags",
+        "mealTypes",
+        "dietTypes",
+        "goalTypes",
+        "ingredients"
+      ],
+      "properties": {
+        "externalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nameEn": {
+          "type": ["string", "null"]
+        },
+        "description": {
+          "type": ["string", "null"]
+        },
+        "instructions": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "prepTime": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "cookTime": {
+          "type": ["integer", "null"],
+          "minimum": 0
+        },
+        "servings": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "difficulty": {
+          "type": ["string", "null"],
+          "enum": ["facil", "medio", "dificil", null]
+        },
+        "calories": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "protein": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "carbs": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "fat": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "fiber": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "imageUrl": {
+          "type": ["string", "null"],
+          "format": "uri"
+        },
+        "tags": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "mealTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["desayuno", "almuerzo", "cena", "snack"]
+          }
+        },
+        "dietTypes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["ninguna", "mediterranea", "dash", "ayuno_intermitente", "alta_proteina"]
+          }
+        },
+        "goalTypes": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "string",
+            "enum": [
+              "perdida_peso",
+              "ganancia_muscular",
+              "mantenimiento",
+              "recomposicion",
+              "salud_cardiometabolica"
+            ]
+          }
+        },
+        "ingredients": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "$ref": "#/$defs/ingredient"
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "specVersion": "recipes-import-v1",
+      "batchId": "2026-03-batch-01",
+      "generatedAt": "2026-03-30T18:30:00Z",
+      "generator": {
+        "provider": "openai",
+        "model": "gpt-x",
+        "notes": "Lote mediterraneo"
+      },
+      "recipes": [
+        {
+          "externalId": "batch01-receta-001",
+          "name": "Merluza al horno con patata y judias verdes",
+          "nameEn": "Baked hake with potato and green beans",
+          "description": "Plato ligero y completo con proteina magra, verdura y guarnicion simple.",
+          "instructions": [
+            "Precalentar el horno a 190 grados.",
+            "Hornear la merluza con aceite, sal y pimienta hasta que quede en su punto.",
+            "Cocer la patata y las judias verdes y servir junto al pescado."
+          ],
+          "prepTime": 10,
+          "cookTime": 20,
+          "servings": 1,
+          "difficulty": "facil",
+          "calories": 430,
+          "protein": 36,
+          "carbs": 34,
+          "fat": 14,
+          "fiber": 7,
+          "imageUrl": null,
+          "tags": ["cena", "pescado_blanco", "horno", "ligera", "dash"],
+          "mealTypes": ["almuerzo", "cena"],
+          "dietTypes": ["dash", "mediterranea"],
+          "goalTypes": ["perdida_peso", "mantenimiento", "salud_cardiometabolica"],
+          "ingredients": [
+            { "name": "merluza", "quantity": 180, "unit": "g" },
+            { "name": "patata", "quantity": 180, "unit": "g" },
+            { "name": "judias verdes", "quantity": 140, "unit": "g" },
+            { "name": "aceite de oliva virgen extra", "quantity": 10, "unit": "ml" }
+          ]
+        }
+      ]
+    }
+  ]
+}
