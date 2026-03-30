@@ -2,6 +2,35 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+function expandFrontendAliases(rawOrigins: string[]) {
+  const aliases = new Set<string>();
+
+  for (const origin of rawOrigins) {
+    aliases.add(origin);
+
+    try {
+      const url = new URL(origin);
+
+      if (url.hostname === 'localhost') {
+        aliases.add(origin.replace('localhost', '127.0.0.1'));
+      }
+
+      if (url.hostname === '127.0.0.1') {
+        aliases.add(origin.replace('127.0.0.1', 'localhost'));
+      }
+    } catch {
+      // Ignore malformed entries and preserve the original value only.
+    }
+  }
+
+  return [...aliases];
+}
+
+const configuredFrontendUrls = (process.env.FRONTEND_URL || 'http://localhost:3000')
+  .split(',')
+  .map((url) => url.trim())
+  .filter(Boolean);
+
 export const env = {
   // Database
   databaseUrl: process.env.DATABASE_URL || '',
@@ -18,10 +47,7 @@ export const env = {
 
   // CORS
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
-  frontendUrls: (process.env.FRONTEND_URL || 'http://localhost:3000')
-    .split(',')
-    .map((url) => url.trim())
-    .filter(Boolean),
+  frontendUrls: expandFrontendAliases(configuredFrontendUrls),
 
   adminEmails: (process.env.ADMIN_EMAILS || '')
     .split(',')

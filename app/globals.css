@@ -133,8 +133,13 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html, body {
-    @apply h-full overflow-x-hidden;
+  html {
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100dvh;
+    overflow-x: hidden;
   }
   body {
     @apply bg-background text-foreground;
