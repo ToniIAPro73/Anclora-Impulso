@@ -1,0 +1,763 @@
+{
+  "specVersion": "recipes-import-v1",
+  "batchId": "2026-03-batch-03",
+  "generatedAt": "2026-03-30T18:30:00Z",
+  "generator": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash-preview-09-2025",
+    "notes": "lote pescado y marisco exclusivo"
+  },
+  "recipes": [
+    {
+      "externalId": "batch03-receta-001",
+      "name": "Merluza al horno con pimientos y cebolla",
+      "nameEn": "Baked Hake with Peppers and Onions",
+      "description": "Una forma sencilla y saludable de preparar pescado blanco, rica en vitamina C y baja en grasas saturadas.",
+      "instructions": [
+        "Cortar los pimientos y la cebolla en juliana y colocarlos en una base para horno.",
+        "Hornear las verduras con un chorrito de aceite de oliva a 200°C durante 15 minutos.",
+        "Colocar los lomos de merluza sobre las verduras y hornear 10 minutos adicionales."
+      ],
+      "prepTime": 10,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 320,
+      "protein": 34,
+      "carbs": 12,
+      "fat": 14,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "horno", "mediterranea"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "dash"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lomo de merluza", "quantity": 180, "unit": "g" },
+        { "name": "pimiento rojo", "quantity": 100, "unit": "g" },
+        { "name": "cebolla", "quantity": 50, "unit": "g" },
+        { "name": "aceite de oliva virgen extra", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-002",
+      "name": "Papillote de salmón con calabacín",
+      "nameEn": "Salmon Papillote with Zucchini",
+      "description": "Técnica de cocción al vapor en su propio jugo que preserva los ácidos grasos omega-3.",
+      "instructions": [
+        "Cortar el calabacín en rodajas muy finas y colocarlas sobre papel de horno.",
+        "Poner el salmón encima, salpimentar y cerrar el papel formando un paquete hermético.",
+        "Cocinar en el horno a 200°C durante 12-15 minutos."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 450,
+      "protein": 32,
+      "carbs": 5,
+      "fat": 32,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_azul", "papillote", "omega3"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "salmón fresco", "quantity": 160, "unit": "g" },
+        { "name": "calabacín", "quantity": 150, "unit": "g" },
+        { "name": "limón", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-003",
+      "name": "Bacalao estofado con garbanzos y espinacas",
+      "nameEn": "Cod Stew with Chickpeas and Spinach",
+      "description": "Plato de cuchara nutritivo que combina proteína marina con legumbres y hierro vegetal.",
+      "instructions": [
+        "Saltear ajo y pimentón en una olla con aceite.",
+        "Añadir las espinacas frescas y los garbanzos cocidos con un poco de caldo.",
+        "Incorporar el bacalao en tacos y cocinar 8 minutos a fuego suave."
+      ],
+      "prepTime": 15,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 480,
+      "protein": 38,
+      "carbs": 42,
+      "fat": 15,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "legumbres", "cuchara"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "bacalao desalado", "quantity": 150, "unit": "g" },
+        { "name": "garbanzos cocidos", "quantity": 150, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 100, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-004",
+      "name": "Gambas al ajillo con espárragos trigueros",
+      "nameEn": "Garlic Prawns with Asparagus",
+      "description": "Opción ligera y alta en proteína, perfecta para una cena rápida.",
+      "instructions": [
+        "Laminar los ajos y dorarlos en una sartén con aceite.",
+        "Añadir los espárragos troceados y saltear hasta que estén tiernos.",
+        "Incorporar las gambas y cocinar 2 minutos a fuego fuerte."
+      ],
+      "prepTime": 10,
+      "cookTime": 8,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 260,
+      "protein": 28,
+      "carbs": 4,
+      "fat": 14,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["cena", "marisco", "plancha", "bajo_carbohidrato"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "gambas peladas", "quantity": 180, "unit": "g" },
+        { "name": "espárragos trigueros", "quantity": 150, "unit": "g" },
+        { "name": "ajo", "quantity": 2, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-005",
+      "name": "Ensalada templada de atún y quinoa",
+      "nameEn": "Warm Tuna and Quinoa Salad",
+      "description": "Ideal para transportar; combina hidratos complejos con proteína magra.",
+      "instructions": [
+        "Mezclar la quinoa cocida con tomate picado y pepino.",
+        "Añadir el atún al natural bien escurrido.",
+        "Aliñar con una mezcla de aceite de oliva, limón y perejil fresco."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 32,
+      "carbs": 45,
+      "fat": 10,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_azul", "quinoa", "transportable"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "dash"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "atún al natural", "quantity": 2, "unit": "lata" },
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "tomate", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-006",
+      "name": "Caballa en escabeche suave con ensalada",
+      "nameEn": "Mild Pickled Mackerel with Salad",
+      "description": "La caballa es una fuente excelente de calcio y vitamina D.",
+      "instructions": [
+        "Preparar un escabeche con vinagre, aceite, laurel y pimienta.",
+        "Cocer los filetes de caballa en la mezcla durante 10 minutos y dejar enfriar.",
+        "Servir sobre una base de canónigos y cebolla morada."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 380,
+      "protein": 26,
+      "carbs": 8,
+      "fat": 28,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_azul", "frio", "tradicional"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "filete de caballa", "quantity": 150, "unit": "g" },
+        { "name": "vinagre de manzana", "quantity": 50, "unit": "ml" },
+        { "name": "canónigos", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-007",
+      "name": "Dorada al horno con cítricos y romero",
+      "nameEn": "Baked Sea Bream with Citrus and Rosemary",
+      "description": "Pescado blanco aromático preparado con técnicas mínimas de grasa.",
+      "instructions": [
+        "Hacer unos cortes transversales en el lomo de la dorada.",
+        "Introducir rodajas de limón y naranja en los cortes.",
+        "Hornear a 190°C durante 18 minutos con una rama de romero."
+      ],
+      "prepTime": 10,
+      "cookTime": 18,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 290,
+      "protein": 35,
+      "carbs": 5,
+      "fat": 12,
+      "fiber": 1,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "horno", "bajo_calorico"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "mantenimiento"],
+      "ingredients": [
+        { "name": "dorada limpia", "quantity": 300, "unit": "g" },
+        { "name": "naranja", "quantity": 0.5, "unit": "unidad" },
+        { "name": "limón", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-008",
+      "name": "Mejillones al vapor con tomate y albahaca",
+      "nameEn": "Steamed Mussels with Tomato and Basil",
+      "description": "El marisco de concha aporta zinc y B12 con un aporte calórico muy bajo.",
+      "instructions": [
+        "Limpiar los mejillones y ponerlos en una olla con un chorrito de agua.",
+        "Cuando se abran, añadir tomate natural triturado y albahaca fresca.",
+        "Cocinar 3 minutos más para integrar los sabores."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 240,
+      "protein": 24,
+      "carbs": 12,
+      "fat": 8,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["cena", "marisco", "vapor", "bajo_grasa"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["dash", "mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "mejillones frescos", "quantity": 500, "unit": "g" },
+        { "name": "tomate natural triturado", "quantity": 100, "unit": "g" },
+        { "name": "albahaca fresca", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-009",
+      "name": "Calamares a la plancha con aliño de perejil",
+      "nameEn": "Grilled Squid with Parsley Dressing",
+      "description": "Proteína magra de alta digestibilidad cocinada de forma rápida.",
+      "instructions": [
+        "Limpiar los calamares y secarlos bien con papel de cocina.",
+        "Pasar por la plancha muy caliente 2 minutos por cada lado.",
+        "Aliñar con una picada de ajo, perejil y aceite de oliva."
+      ],
+      "prepTime": 10,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 30,
+      "carbs": 4,
+      "fat": 15,
+      "fiber": 0,
+      "imageUrl": null,
+      "tags": ["cena", "marisco", "plancha", "alta_proteina"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "calamares frescos", "quantity": 250, "unit": "g" },
+        { "name": "perejil fresco", "quantity": 1, "unit": "cucharada" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-010",
+      "name": "Tostada integral de sardinas con tomate",
+      "nameEn": "Whole Wheat Sardine Toast with Tomato",
+      "description": "Un desayuno o snack salado cargado de calcio y grasas saludables.",
+      "instructions": [
+        "Tostar la rebanada de pan integral.",
+        "Refregar el tomate maduro y añadir un poco de aceite.",
+        "Colocar las sardinas en conserva encima con una pizca de orégano."
+      ],
+      "prepTime": 5,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 350,
+      "protein": 22,
+      "carbs": 28,
+      "fat": 18,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["desayuno", "pescado_azul", "snack", "calcio"],
+      "mealTypes": ["desayuno", "snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "sardinas en aceite de oliva", "quantity": 1, "unit": "lata" },
+        { "name": "tomate maduro", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-011",
+      "name": "Pulpo a la gallega con cachelos",
+      "nameEn": "Galician Style Octopus with Potatoes",
+      "description": "Plato tradicional alto en proteínas con hidratos de absorción media.",
+      "instructions": [
+        "Cocer la patata pelada y cortada en rodajas gruesas.",
+        "Cortar el pulpo cocido y colocarlo sobre la patata caliente.",
+        "Aliñar con aceite de oliva, sal gruesa y pimentón de la Vera."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 420,
+      "protein": 34,
+      "carbs": 35,
+      "fat": 16,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["almuerzo", "marisco", "tradicional", "alta_proteina"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["ganancia_muscular", "recomposicion"],
+      "ingredients": [
+        { "name": "pulpo cocido", "quantity": 200, "unit": "g" },
+        { "name": "patata", "quantity": 150, "unit": "g" },
+        { "name": "pimentón", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-012",
+      "name": "Lenguado a la plancha con judías verdes",
+      "nameEn": "Grilled Sole with Green Beans",
+      "description": "Pescado blanco muy fino y digestivo, ideal para cenas ligeras.",
+      "instructions": [
+        "Cocer las judías verdes al dente en agua con sal.",
+        "Cocinar los filetes de lenguado a la plancha con una gota de aceite.",
+        "Servir el pescado sobre las judías con un poco de limón."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 270,
+      "protein": 28,
+      "carbs": 8,
+      "fat": 12,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "digestivo", "bajo_carbohidrato"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea", "dash"],
+      "goalTypes": ["perdida_peso"],
+      "ingredients": [
+        { "name": "filete de lenguado", "quantity": 180, "unit": "g" },
+        { "name": "judías verdes", "quantity": 150, "unit": "g" },
+        { "name": "limón", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-013",
+      "name": "Ceviche de corvina con mango y lima",
+      "nameEn": "Sea Bass Ceviche with Mango and Lime",
+      "description": "Cocinando con la acidez de la lima, plato refrescante y proteico.",
+      "instructions": [
+        "Cortar la corvina en dados pequeños y cubrir con zumo de lima.",
+        "Dejar marinar 15 minutos en la nevera.",
+        "Añadir mango en dados, cebolla roja y cilantro antes de servir."
+      ],
+      "prepTime": 20,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 310,
+      "protein": 32,
+      "carbs": 18,
+      "fat": 10,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "crudo", "vitaminaC"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "mantenimiento"],
+      "ingredients": [
+        { "name": "corvina fresca", "quantity": 180, "unit": "g" },
+        { "name": "mango", "quantity": 50, "unit": "g" },
+        { "name": "lima", "quantity": 2, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-014",
+      "name": "Bowl de salmón, arroz integral y edamame",
+      "nameEn": "Salmon, Brown Rice and Edamame Bowl",
+      "description": "Bowl nutricionalmente denso con grasas esenciales e hidratos lentos.",
+      "instructions": [
+        "Preparar una base con el arroz integral cocido.",
+        "Añadir el salmón a la plancha desmigado y el edamame cocido.",
+        "Decorar con semillas de sésamo y un toque de soja."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 520,
+      "protein": 35,
+      "carbs": 48,
+      "fat": 20,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["bowl", "pescado_azul", "alta_proteina", "omega3"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["ganancia_muscular", "recomposicion"],
+      "ingredients": [
+        { "name": "salmón fresco", "quantity": 120, "unit": "g" },
+        { "name": "arroz integral cocido", "quantity": 150, "unit": "g" },
+        { "name": "edamame pelado", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-015",
+      "name": "Sopa marinera de merluza y almejas",
+      "nameEn": "Hake and Clam Seafood Soup",
+      "description": "Cuchara hidratante y ligera, rica en minerales marinos.",
+      "instructions": [
+        "Hacer un sofrito de puerro y zanahoria muy picados.",
+        "Añadir caldo de pescado y cuando hierva, incorporar la merluza y las almejas.",
+        "Cocinar 5 minutos hasta que las almejas se abran."
+      ],
+      "prepTime": 15,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 310,
+      "protein": 36,
+      "carbs": 10,
+      "fat": 12,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "marisco", "cuchara"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["dash", "mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "perdida_peso"],
+      "ingredients": [
+        { "name": "merluza en tacos", "quantity": 150, "unit": "g" },
+        { "name": "almejas frescas", "quantity": 100, "unit": "g" },
+        { "name": "caldo de pescado", "quantity": 300, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-016",
+      "name": "Salpicón de marisco con vinagreta cítrica",
+      "nameEn": "Seafood Medley with Citrus Vinaigrette",
+      "description": "Mezcla de proteínas del mar servidas en frío, perfecta para verano.",
+      "instructions": [
+        "Picar pimiento verde, rojo y cebolla en brunoise fina.",
+        "Mezclar con el pulpo, gambas y palitos de mar troceados.",
+        "Aliñar con vinagre de Jerez, aceite y limón; dejar reposar."
+      ],
+      "prepTime": 20,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 340,
+      "protein": 32,
+      "carbs": 12,
+      "fat": 18,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["almuerzo", "marisco", "frio", "transportable"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "pulpo cocido", "quantity": 100, "unit": "g" },
+        { "name": "gambas cocidas", "quantity": 100, "unit": "g" },
+        { "name": "pimiento rojo", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-017",
+      "name": "Tataki de atún con sésamo y algas",
+      "nameEn": "Tuna Tataki with Sesame and Seaweed",
+      "description": "Técnica japonesa para el atún que mantiene sus propiedades nutricionales.",
+      "instructions": [
+        "Sellar el lomo de atún en una plancha muy caliente 30 segundos por lado.",
+        "Rebozar los bordes en semillas de sésamo.",
+        "Cortar en láminas y servir con ensalada de algas wakame."
+      ],
+      "prepTime": 10,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 390,
+      "protein": 38,
+      "carbs": 5,
+      "fat": 22,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_azul", "alta_proteina", "omega3"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "atún rojo", "quantity": 180, "unit": "g" },
+        { "name": "semillas de sésamo", "quantity": 1, "unit": "cucharada" },
+        { "name": "algas wakame", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-018",
+      "name": "Lubina a la sal con verduras salteadas",
+      "nameEn": "Salt-Crusted Sea Bass with Sautéed Veggies",
+      "description": "Cocción limpia que no añade grasas y mantiene el pescado jugoso.",
+      "instructions": [
+        "Cubrir la lubina con sal gorda y hornear a 200°C unos 20 minutos.",
+        "Saltear calabacín y zanahoria en tiras finas.",
+        "Retirar la costra de sal y servir el lomo limpio con la verdura."
+      ],
+      "prepTime": 15,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 330,
+      "protein": 34,
+      "carbs": 8,
+      "fat": 16,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "horno", "bajo_grasa"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "dash"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lubina entera", "quantity": 400, "unit": "g" },
+        { "name": "zanahoria", "quantity": 100, "unit": "g" },
+        { "name": "calabacín", "quantity": 100, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-019",
+      "name": "Tostada de boquerones en vinagre y aguacate",
+      "nameEn": "Anchovies in Vinegar and Avocado Toast",
+      "description": "Grasas cardiosaludables en un formato de desayuno o snack saciante.",
+      "instructions": [
+        "Chafar el aguacate sobre el pan integral tostado.",
+        "Colocar los boquerones escurridos encima.",
+        "Terminar con un poco de ajo picado y perejil."
+      ],
+      "prepTime": 10,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 380,
+      "protein": 24,
+      "carbs": 26,
+      "fat": 22,
+      "fiber": 9,
+      "imageUrl": null,
+      "tags": ["desayuno", "pescado_azul", "aguacate", "snack"],
+      "mealTypes": ["desayuno", "snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "boquerones en vinagre", "quantity": 80, "unit": "g" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" },
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-020",
+      "name": "Bowl de gambas, cuscús y garbanzos",
+      "nameEn": "Shrimp, Couscous and Chickpea Bowl",
+      "description": "Plato completo mediterráneo con mezcla de cereales y legumbres.",
+      "instructions": [
+        "Hidratar el cuscús integral con caldo de verduras hirviendo.",
+        "Añadir los garbanzos y las gambas salteadas al ajillo.",
+        "Mezclar con espinacas frescas y un chorrito de aceite de oliva."
+      ],
+      "prepTime": 10,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 490,
+      "protein": 30,
+      "carbs": 55,
+      "fat": 14,
+      "fiber": 10,
+      "imageUrl": null,
+      "tags": ["bowl", "marisco", "cuscus", "alta_proteina"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["ganancia_muscular", "mantenimiento"],
+      "ingredients": [
+        { "name": "gambas peladas", "quantity": 120, "unit": "g" },
+        { "name": "cuscús integral", "quantity": 60, "unit": "g" },
+        { "name": "garbanzos cocidos", "quantity": 100, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-021",
+      "name": "Bacalao al horno con costra de almendra",
+      "nameEn": "Baked Cod with Almond Crust",
+      "description": "Grasas monoinsaturadas de los frutos secos combinadas con proteína magra.",
+      "instructions": [
+        "Picar las almendras y mezclarlas con un poco de perejil y aceite.",
+        "Colocar la mezcla sobre el lomo de bacalao.",
+        "Hornear a 200°C durante 12 minutos hasta que la costra esté dorada."
+      ],
+      "prepTime": 10,
+      "cookTime": 12,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 32,
+      "carbs": 8,
+      "fat": 28,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "frutos_secos", "horno"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "mantenimiento"],
+      "ingredients": [
+        { "name": "bacalao lomo", "quantity": 180, "unit": "g" },
+        { "name": "almendras laminadas", "quantity": 30, "unit": "g" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-022",
+      "name": "Ensalada de alubias blancas y caballa",
+      "nameEn": "White Bean and Mackerel Salad",
+      "description": "Legumbre y pescado azul en una combinación potente para la salud cardiovascular.",
+      "instructions": [
+        "Enjuagar las alubias cocidas y poner en un bol con cebolla tierna y pimientos.",
+        "Añadir los filetes de caballa troceados.",
+        "Aliñar con vinagre de manzana y aceite de oliva virgen extra."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 460,
+      "protein": 28,
+      "carbs": 40,
+      "fat": 20,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_azul", "legumbres", "frio"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "dash"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "alubias blancas cocidas", "quantity": 150, "unit": "g" },
+        { "name": "caballa en conserva", "quantity": 1, "unit": "lata" },
+        { "name": "cebolla tierna", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-023",
+      "name": "Albóndigas de pescado en salsa verde",
+      "nameEn": "Fish Meatballs in Green Sauce",
+      "description": "Forma diferente de consumir pescado blanco, suave y muy nutritiva.",
+      "instructions": [
+        "Picar la merluza y mezclar con huevo y un poco de pan rallado integral.",
+        "Formar las bolas y cocinarlas en una salsa de caldo, ajo y mucho perejil.",
+        "Dejar cocer 10 minutos a fuego lento."
+      ],
+      "prepTime": 20,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 380,
+      "protein": 34,
+      "carbs": 18,
+      "fat": 16,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "guiso", "tradicional"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["ganancia_muscular", "mantenimiento"],
+      "ingredients": [
+        { "name": "merluza picada", "quantity": 200, "unit": "g" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" },
+        { "name": "caldo de pescado", "quantity": 200, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-024",
+      "name": "Arroz caldoso de marisco y verduras",
+      "nameEn": "Seafood Rice Stew with Vegetables",
+      "description": "Hidratos de calidad con el sabor concentrado de los calamares y gambas.",
+      "instructions": [
+        "Hacer un sofrito con cebolla, tomate y calamares.",
+        "Añadir el arroz y el triple de cantidad de caldo de pescado.",
+        "Cinco minutos antes de terminar, añadir las gambas y guisantes."
+      ],
+      "prepTime": 15,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 480,
+      "protein": 28,
+      "carbs": 65,
+      "fat": 10,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "marisco", "arroz", "cuchara"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "arroz bomba", "quantity": 80, "unit": "g" },
+        { "name": "calamares", "quantity": 100, "unit": "g" },
+        { "name": "gambas peladas", "quantity": 80, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch03-receta-025",
+      "name": "Bowl de atún, quinoa y algas wakame",
+      "nameEn": "Tuna, Quinoa and Wakame Bowl",
+      "description": "Nutrición deportiva marina con alto contenido en yodo y proteína.",
+      "instructions": [
+        "Mezclar quinoa cocida con dados de atún rojo fresco.",
+        "Añadir algas wakame hidratadas y pepino.",
+        "Aliñar con una cucharadita de aceite de sésamo y lima."
+      ],
+      "prepTime": 15,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 430,
+      "protein": 40,
+      "carbs": 32,
+      "fat": 15,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["bowl", "pescado_azul", "alta_proteina", "crudo"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["alta_proteina"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "atún rojo", "quantity": 150, "unit": "g" },
+        { "name": "quinoa cocida", "quantity": 120, "unit": "g" },
+        { "name": "algas wakame", "quantity": 20, "unit": "g" }
+      ]
+    }
+  ]
+}

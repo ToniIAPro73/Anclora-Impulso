@@ -1,0 +1,787 @@
+{
+  "specVersion": "recipes-import-v1",
+  "batchId": "2026-03-batch-01",
+  "generatedAt": "2026-03-30T18:30:00Z",
+  "generator": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "notes": "lote mediterraneo equilibrado"
+  },
+  "recipes": [
+    {
+      "externalId": "batch01-receta-001",
+      "name": "Salmón al horno con espárragos y quinoa",
+      "nameEn": "Baked Salmon with Asparagus and Quinoa",
+      "description": "Plato rico en omega-3 y fibra, ideal para una cena ligera pero nutritiva.",
+      "instructions": [
+        "Precalentar el horno a 200°C.",
+        "Colocar el salmón y los espárragos en una bandeja con aceite de oliva, sal y limón.",
+        "Hornear durante 12-15 minutos mientras se calienta la quinoa ya cocida."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 480,
+      "protein": 34,
+      "carbs": 32,
+      "fat": 22,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_azul", "omega3", "horno"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "salmón fresco", "quantity": 150, "unit": "g" },
+        { "name": "espárragos trigueros", "quantity": 100, "unit": "g" },
+        { "name": "quinoa cocida", "quantity": 120, "unit": "g" },
+        { "name": "aceite de oliva virgen extra", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-002",
+      "name": "Lentejas estofadas con cúrcuma y verduras",
+      "nameEn": "Turmeric Lentil Stew with Vegetables",
+      "description": "Un guiso reconfortante y antioxidante, fuente de proteína vegetal y hierro.",
+      "instructions": [
+        "Sofreír la cebolla, el pimiento y la zanahoria en una olla con aceite.",
+        "Añadir las lentejas, la cúrcuma y cubrir con agua o caldo vegetal.",
+        "Cocinar a fuego lento durante 25 minutos hasta que las lentejas estén tiernas."
+      ],
+      "prepTime": 15,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 22,
+      "carbs": 55,
+      "fat": 8,
+      "fiber": 14,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbres", "plato_de_cuchara", "vegano"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lentejas pardinas", "quantity": 80, "unit": "g" },
+        { "name": "zanahoria", "quantity": 1, "unit": "unidad" },
+        { "name": "pimiento verde", "quantity": 0.5, "unit": "unidad" },
+        { "name": "cúrcuma en polvo", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-003",
+      "name": "Pollo a la plancha con cítricos y ensalada verde",
+      "nameEn": "Citrus Grilled Chicken with Green Salad",
+      "description": "Proteína magra con un toque refrescante de limón y hierbas aromáticas.",
+      "instructions": [
+        "Marinar el pollo con zumo de limón, ajo picado y orégano por 10 minutos.",
+        "Cocinar a la plancha hasta que esté dorado por ambos lados.",
+        "Servir acompañado de una ensalada de brotes tiernos y pepino."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 320,
+      "protein": 38,
+      "carbs": 8,
+      "fat": 14,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pollo", "plancha", "bajo_en_carbohidratos"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "pechuga de pollo", "quantity": 180, "unit": "g" },
+        { "name": "brotes de lechuga", "quantity": 50, "unit": "g" },
+        { "name": "limón", "quantity": 0.5, "unit": "unidad" },
+        { "name": "pepino", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-004",
+      "name": "Bowl de quinoa, garbanzos y aguacate",
+      "nameEn": "Quinoa, Chickpea and Avocado Bowl",
+      "description": "Almuerzo completo y equilibrado con grasas saludables y fibra.",
+      "instructions": [
+        "Mezclar la quinoa cocida con los garbanzos en un cuenco amplio.",
+        "Añadir el aguacate laminado, tomates cherry y cebolla morada.",
+        "Aliñar con una vinagreta de limón, aceite de oliva y una pizca de comino."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 510,
+      "protein": 18,
+      "carbs": 58,
+      "fat": 24,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["bowl", "vegano", "vegetariano", "fibra"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "garbanzos cocidos", "quantity": 100, "unit": "g" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" },
+        { "name": "tomates cherry", "quantity": 6, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-005",
+      "name": "Merluza al vapor con patata y judías verdes",
+      "nameEn": "Steamed Hake with Potatoes and Green Beans",
+      "description": "Cena ligera de fácil digestión, clásica de la dieta mediterránea.",
+      "instructions": [
+        "Cocer la patata troceada y las judías verdes en una vaporera o con poca agua.",
+        "Colocar los lomos de merluza encima de la verdura los últimos 6-8 minutos.",
+        "Servir con un chorrito de aceite de oliva en crudo y pimentón dulce."
+      ],
+      "prepTime": 10,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 340,
+      "protein": 28,
+      "carbs": 30,
+      "fat": 10,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "digestivo", "bajo_en_grasa"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lomo de merluza", "quantity": 160, "unit": "g" },
+        { "name": "patata", "quantity": 120, "unit": "g" },
+        { "name": "judías verdes", "quantity": 150, "unit": "g" },
+        { "name": "pimentón dulce", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-006",
+      "name": "Bacalao con pisto mediterráneo",
+      "nameEn": "Cod with Mediterranean Vegetable Stew",
+      "description": "Fusión de pescado blanco con una base de hortalizas asadas lentamente.",
+      "instructions": [
+        "Preparar un pisto salteando calabacín, pimiento, cebolla y tomate.",
+        "Cocinar el bacalao a la plancha 3 minutos por cada lado.",
+        "Servir el lomo sobre una cama generosa de pisto caliente."
+      ],
+      "prepTime": 15,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 380,
+      "protein": 30,
+      "carbs": 18,
+      "fat": 18,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "verduras"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "recomposicion"],
+      "ingredients": [
+        { "name": "lomo de bacalao desalado", "quantity": 180, "unit": "g" },
+        { "name": "calabacín", "quantity": 100, "unit": "g" },
+        { "name": "pimiento rojo", "quantity": 50, "unit": "g" },
+        { "name": "tomate triturado natural", "quantity": 100, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-007",
+      "name": "Crema de calabaza y semillas con pavo",
+      "nameEn": "Pumpkin Cream with Seeds and Turkey",
+      "description": "Entrante o cena ligera llena de betacarotenos y proteína magra.",
+      "instructions": [
+        "Cocer la calabaza con puerro y una patata pequeña hasta que estén blandos.",
+        "Triturar con un chorrito de aceite hasta obtener una textura fina.",
+        "Añadir dados de pavo a la plancha y semillas de calabaza por encima."
+      ],
+      "prepTime": 10,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 310,
+      "protein": 24,
+      "carbs": 28,
+      "fat": 12,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["cena", "crema", "pavo", "bajo_indice_glucemico"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso"],
+      "ingredients": [
+        { "name": "calabaza", "quantity": 250, "unit": "g" },
+        { "name": "pechuga de pavo", "quantity": 100, "unit": "g" },
+        { "name": "semillas de calabaza", "quantity": 1, "unit": "cucharada" },
+        { "name": "puerro", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-008",
+      "name": "Pasta integral con gambas y ajo",
+      "nameEn": "Whole Wheat Pasta with Prawns and Garlic",
+      "description": "Un clásico italiano adaptado con harinas integrales y proteína marina.",
+      "instructions": [
+        "Hervir la pasta integral 'al dente'.",
+        "Saltear las gambas con ajos laminados y una guindilla en aceite de oliva.",
+        "Mezclar la pasta con el salteado y añadir perejil fresco picado."
+      ],
+      "prepTime": 5,
+      "cookTime": 12,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 490,
+      "protein": 28,
+      "carbs": 60,
+      "fat": 15,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pasta_integral", "marisco", "energia"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["ganancia_muscular", "mantenimiento"],
+      "ingredients": [
+        { "name": "espaguetis integrales", "quantity": 80, "unit": "g" },
+        { "name": "gambas peladas", "quantity": 120, "unit": "g" },
+        { "name": "diente de ajo", "quantity": 2, "unit": "unidad" },
+        { "name": "perejil fresco", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-009",
+      "name": "Ensalada campera con atún y huevo duro",
+      "nameEn": "Country Potato Salad with Tuna and Egg",
+      "description": "Plato completo frío, rico en hidratos complejos y proteínas de alto valor biológico.",
+      "instructions": [
+        "Cocer la patata con piel, dejar enfriar y pelar.",
+        "Mezclar la patata con el atún, huevo duro picado, pimientos y cebolla.",
+        "Aliñar con abundante aceite de oliva virgen extra y vinagre de Jerez."
+      ],
+      "prepTime": 20,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 540,
+      "protein": 32,
+      "carbs": 45,
+      "fat": 25,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "ensalada_completa", "huevo", "atun"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "recomposicion"],
+      "ingredients": [
+        { "name": "patata cocida", "quantity": 200, "unit": "g" },
+        { "name": "atún al natural", "quantity": 1, "unit": "lata" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" },
+        { "name": "pimiento verde", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-010",
+      "name": "Tofu salteado con brócoli y almendras",
+      "nameEn": "Sautéed Tofu with Broccoli and Almonds",
+      "description": "Opción vegetariana rica en calcio y proteína vegetal.",
+      "instructions": [
+        "Cortar el tofu en dados y dorar en la sartén con un poco de aceite.",
+        "Añadir el brócoli al dente y las almendras laminadas.",
+        "Sazonar con salsa de soja baja en sodio y jengibre."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 380,
+      "protein": 25,
+      "carbs": 15,
+      "fat": 24,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["cena", "vegetariano", "tofu", "salteado"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "tofu firme", "quantity": 200, "unit": "g" },
+        { "name": "brócoli", "quantity": 150, "unit": "g" },
+        { "name": "almendras naturales", "quantity": 15, "unit": "g" },
+        { "name": "salsa de soja", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-011",
+      "name": "Dorada a la sal con verduras asadas",
+      "nameEn": "Salt-Baked Sea Bream with Roasted Vegetables",
+      "description": "Técnica de cocción que mantiene todo el jugo y sabor del pescado sin grasas añadidas.",
+      "instructions": [
+        "Cubrir la dorada con sal gorda y hornear a 200°C unos 20 minutos.",
+        "Asar paralelamente berenjena y calabacín cortados en rodajas.",
+        "Retirar la costra de sal y servir el lomo limpio con las verduras."
+      ],
+      "prepTime": 15,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 420,
+      "protein": 35,
+      "carbs": 12,
+      "fat": 26,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pescado_blanco", "horno", "bajo_carbohidrato"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "dorada entera", "quantity": 400, "unit": "g" },
+        { "name": "berenjena", "quantity": 100, "unit": "g" },
+        { "name": "calabacín", "quantity": 100, "unit": "g" },
+        { "name": "sal gorda", "quantity": 500, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-012",
+      "name": "Garbanzos salteados con espinacas y huevo",
+      "nameEn": "Sautéed Chickpeas with Spinach and Egg",
+      "description": "Plato de legumbres rápido y equilibrado, fuente de hierro vegetal.",
+      "instructions": [
+        "Saltear ajo y pimentón en una sartén con aceite.",
+        "Añadir las espinacas frescas hasta que reduzcan y luego los garbanzos.",
+        "Terminar colocando un huevo a la plancha o poché encima."
+      ],
+      "prepTime": 5,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 450,
+      "protein": 24,
+      "carbs": 42,
+      "fat": 18,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["cena", "legumbre", "huevo", "hierro"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 150, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 150, "unit": "g" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" },
+        { "name": "ajo", "quantity": 2, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-013",
+      "name": "Bowl mediterráneo de pollo y cuscús",
+      "nameEn": "Mediterranean Chicken and Couscous Bowl",
+      "description": "Combinación equilibrada de grano, proteína y vegetales frescos.",
+      "instructions": [
+        "Hidratar el cuscús integral con caldo de verduras caliente.",
+        "Saltear tiras de pollo con especias mediterráneas.",
+        "Mezclar en un bowl con tomate cherry, aceitunas y un poco de queso feta."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 520,
+      "protein": 36,
+      "carbs": 48,
+      "fat": 18,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["bowl", "pollo", "cuscus", "alta_proteina"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["ganancia_muscular", "recomposicion"],
+      "ingredients": [
+        { "name": "pechuga de pollo", "quantity": 150, "unit": "g" },
+        { "name": "cuscús integral", "quantity": 60, "unit": "g" },
+        { "name": "tomates cherry", "quantity": 8, "unit": "unidad" },
+        { "name": "queso feta", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-014",
+      "name": "Tortilla de calabacín y cebolla",
+      "nameEn": "Zucchini and Onion Omelet",
+      "description": "Versión ligera de la tortilla clásica, muy jugosa y baja en calorías.",
+      "instructions": [
+        "Pochar la cebolla y el calabacín con poco aceite hasta que estén tiernos.",
+        "Batir los huevos y mezclar con la verdura escurrida.",
+        "Cuajar en la sartén a fuego medio por ambos lados."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 290,
+      "protein": 18,
+      "carbs": 12,
+      "fat": 19,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["cena", "huevo", "vegetariano", "bajo_calorico"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso"],
+      "ingredients": [
+        { "name": "huevo", "quantity": 2, "unit": "unidad" },
+        { "name": "calabacín", "quantity": 200, "unit": "g" },
+        { "name": "cebolla", "quantity": 50, "unit": "g" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-015",
+      "name": "Pimientos rellenos de pavo y arroz integral",
+      "nameEn": "Peppers Stuffed with Turkey and Brown Rice",
+      "description": "Una forma colorida y completa de consumir verduras e hidratos de calidad.",
+      "instructions": [
+        "Vaciar los pimientos y hornearlos 10 minutos a 180°C.",
+        "Mezclar arroz integral cocido con pavo picado y tomate natural.",
+        "Rellenar los pimientos y hornear 15 minutos más."
+      ],
+      "prepTime": 15,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 460,
+      "protein": 28,
+      "carbs": 52,
+      "fat": 14,
+      "fiber": 9,
+      "imageUrl": null,
+      "tags": ["almuerzo", "horno", "pavo", "arroz_integral"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "pimiento rojo grande", "quantity": 1, "unit": "unidad" },
+        { "name": "pavo picado", "quantity": 120, "unit": "g" },
+        { "name": "arroz integral cocido", "quantity": 120, "unit": "g" },
+        { "name": "tomate natural triturado", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-016",
+      "name": "Ensalada de judías blancas y bacalao",
+      "nameEn": "White Bean and Cod Salad",
+      "description": "Ensalada proteica fría, ideal para el verano y post-entrenamiento.",
+      "instructions": [
+        "Enjuagar las judías blancas cocidas y poner en un bol.",
+        "Añadir bacalao desmigado, pimientos asados y cebolla tierna.",
+        "Aliñar con aceite, vinagre y perejil picado."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 430,
+      "protein": 34,
+      "carbs": 38,
+      "fat": 12,
+      "fiber": 11,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbres", "pescado_blanco", "ensalada_completa"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "judías blancas cocidas", "quantity": 180, "unit": "g" },
+        { "name": "bacalao desalado desmigado", "quantity": 120, "unit": "g" },
+        { "name": "pimientos asados en tiras", "quantity": 80, "unit": "g" },
+        { "name": "cebolleta", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-017",
+      "name": "Lubina a la plancha con puré de guisantes",
+      "nameEn": "Grilled Sea Bass with Pea Puree",
+      "description": "Plato elegante y nutritivo, rico en fibra y minerales.",
+      "instructions": [
+        "Cocer los guisantes y triturarlos con un poco de menta y aceite.",
+        "Cocinar la lubina a la plancha por el lado de la piel hasta que cruja.",
+        "Servir el pescado sobre el puré verde vibrante."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 390,
+      "protein": 32,
+      "carbs": 24,
+      "fat": 16,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_blanco", "fibra", "plancha"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "filete de lubina", "quantity": 160, "unit": "g" },
+        { "name": "guisantes", "quantity": 150, "unit": "g" },
+        { "name": "menta fresca", "quantity": 1, "unit": "cucharadita" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-018",
+      "name": "Estofado de pavo con champiñones",
+      "nameEn": "Turkey Stew with Mushrooms",
+      "description": "Guiso magro con sabor a bosque, bajo en grasa saturada.",
+      "instructions": [
+        "Dorar los tacos de pavo en una olla con aceite.",
+        "Añadir champiñones laminados, cebolla y un chorrito de vino blanco.",
+        "Dejar reducir y cocinar a fuego lento con un poco de caldo."
+      ],
+      "prepTime": 15,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 350,
+      "protein": 34,
+      "carbs": 12,
+      "fat": 15,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pavo", "plato_de_cuchara", "bajo_carbohidrato"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "pechuga de pavo en tacos", "quantity": 180, "unit": "g" },
+        { "name": "champiñones", "quantity": 150, "unit": "g" },
+        { "name": "cebolla", "quantity": 0.5, "unit": "unidad" },
+        { "name": "caldo de pollo", "quantity": 100, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-019",
+      "name": "Hamburguesas de garbanzos y espinacas",
+      "nameEn": "Chickpea and Spinach Burgers",
+      "description": "Alternativa vegetal a la hamburguesa tradicional, rica y nutritiva.",
+      "instructions": [
+        "Chafar los garbanzos y mezclar con espinacas picadas y especias.",
+        "Dar forma de hamburguesa y pasar por la plancha hasta dorar.",
+        "Servir con una ensalada de tomate y pepino."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 380,
+      "protein": 16,
+      "carbs": 48,
+      "fat": 12,
+      "fiber": 14,
+      "imageUrl": null,
+      "tags": ["cena", "vegetariano", "legumbres", "plancha"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "mantenimiento"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 200, "unit": "g" },
+        { "name": "espinacas frescas picadas", "quantity": 50, "unit": "g" },
+        { "name": "comino", "quantity": 1, "unit": "cucharadita" },
+        { "name": "harina de garbanzo", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-020",
+      "name": "Arroz negro con calamares y verduras",
+      "nameEn": "Black Rice with Squid and Vegetables",
+      "description": "Sabor marino intenso con hidratos de absorción lenta.",
+      "instructions": [
+        "Sofreír calamares con ajo, cebolla y pimiento.",
+        "Añadir arroz integral y la tinta de calamar diluida en caldo.",
+        "Cocinar hasta que el arroz esté en su punto, unos 20-25 minutos."
+      ],
+      "prepTime": 15,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 490,
+      "protein": 28,
+      "carbs": 62,
+      "fat": 14,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "marisco", "arroz_integral", "tradicional"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "arroz integral", "quantity": 80, "unit": "g" },
+        { "name": "calamar troceado", "quantity": 150, "unit": "g" },
+        { "name": "tinta de calamar", "quantity": 1, "unit": "unidad" },
+        { "name": "pimiento verde", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-021",
+      "name": "Ensalada de lentejas con queso feta",
+      "nameEn": "Lentil Salad with Feta Cheese",
+      "description": "Refrescante ensalada de legumbres con el toque salado del feta.",
+      "instructions": [
+        "Mezclar lentejas cocidas con tomate, pepino y cebolla roja picados.",
+        "Añadir el queso feta desmenuzado y aceitunas negras.",
+        "Aliñar con limón, aceite y menta fresca."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 440,
+      "protein": 24,
+      "carbs": 40,
+      "fat": 18,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "ensalada_completa", "legumbres", "vegetariano"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lentejas cocidas", "quantity": 180, "unit": "g" },
+        { "name": "queso feta", "quantity": 40, "unit": "g" },
+        { "name": "tomate", "quantity": 1, "unit": "unidad" },
+        { "name": "pepino", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-022",
+      "name": "Atún a la plancha con pimientos asados",
+      "nameEn": "Grilled Tuna with Roasted Peppers",
+      "description": "Proteína de alta calidad con grasas saludables para el corazón.",
+      "instructions": [
+        "Marcar el atún a fuego muy fuerte 1-2 minutos por cada lado.",
+        "Servir con pimientos rojos asados en tiras.",
+        "Añadir un toque de sésamo y aceite de oliva virgen extra."
+      ],
+      "prepTime": 5,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 420,
+      "protein": 42,
+      "carbs": 6,
+      "fat": 24,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["cena", "pescado_azul", "omega3", "alta_proteina"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "atún fresco", "quantity": 180, "unit": "g" },
+        { "name": "pimientos rojos asados", "quantity": 100, "unit": "g" },
+        { "name": "semillas de sésamo", "quantity": 1, "unit": "cucharadita" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-023",
+      "name": "Bowl de boniato asado y garbanzos",
+      "nameEn": "Roasted Sweet Potato and Chickpea Bowl",
+      "description": "Combinación dulce-salada rica en potasio y fibra.",
+      "instructions": [
+        "Asar el boniato en dados hasta que esté tierno.",
+        "Montar el bowl con espinacas base, el boniato, garbanzos y semillas.",
+        "Aliñar con una salsa de tahini ligera."
+      ],
+      "prepTime": 10,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 470,
+      "protein": 14,
+      "carbs": 68,
+      "fat": 15,
+      "fiber": 13,
+      "imageUrl": null,
+      "tags": ["bowl", "vegano", "boniato", "fibra"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "boniato", "quantity": 200, "unit": "g" },
+        { "name": "garbanzos cocidos", "quantity": 100, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 50, "unit": "g" },
+        { "name": "tahini", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-024",
+      "name": "Crema de calabacín con pavo y nueces",
+      "nameEn": "Zucchini Cream with Turkey and Walnuts",
+      "description": "Textura suave con crujiente de nueces, rica en grasas saludables.",
+      "instructions": [
+        "Cocinar el calabacín y el puerro, triturar hasta que sea cremoso.",
+        "Añadir trozos de pavo a la plancha sobre la crema.",
+        "Terminar con un puñado de nueces picadas para el aporte de grasa omega-3."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 360,
+      "protein": 28,
+      "carbs": 18,
+      "fat": 20,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["cena", "crema", "pavo", "nueces"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "calabacín", "quantity": 250, "unit": "g" },
+        { "name": "pavo a la plancha", "quantity": 100, "unit": "g" },
+        { "name": "nueces", "quantity": 20, "unit": "g" },
+        { "name": "puerro", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch01-receta-025",
+      "name": "Brochetas de pollo y verduras con quinoa",
+      "nameEn": "Chicken and Vegetable Skewers with Quinoa",
+      "description": "Forma divertida y equilibrada de presentar la proteína y verdura.",
+      "instructions": [
+        "Montar las brochetas alternando pollo, pimiento y cebolla.",
+        "Cocinar a la plancha hasta que el pollo esté hecho.",
+        "Servir sobre una base de quinoa cocida con perejil."
+      ],
+      "prepTime": 15,
+      "cookTime": 12,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 510,
+      "protein": 38,
+      "carbs": 45,
+      "fat": 16,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pollo", "quinoa", "plancha"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["ganancia_muscular", "recomposicion"],
+      "ingredients": [
+        { "name": "pechuga de pollo", "quantity": 180, "unit": "g" },
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "pimiento rojo", "quantity": 50, "unit": "g" },
+        { "name": "cebolla", "quantity": 50, "unit": "g" }
+      ]
+    }
+  ]
+}

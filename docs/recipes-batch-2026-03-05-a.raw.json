@@ -1,0 +1,762 @@
+{
+  "specVersion": "recipes-import-v1",
+  "batchId": "2026-03-batch-05",
+  "generatedAt": "2026-03-30T18:30:00Z",
+  "generator": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash-preview-09-2025",
+    "notes": "lote ultra-rapido 15 min"
+  },
+  "recipes": [
+    {
+      "externalId": "batch05-receta-001",
+      "name": "Yogur griego con nueces y arándanos",
+      "nameEn": "Greek Yogurt with Walnuts and Blueberries",
+      "description": "Desayuno o snack proteico que se prepara en segundos, rico en antioxidantes.",
+      "instructions": [
+        "Verter el yogur griego en un cuenco pequeño.",
+        "Lavar los arándanos y añadirlos sobre el yogur.",
+        "Trocear las nueces con las manos y espolvorear por encima."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 18,
+      "carbs": 12,
+      "fat": 18,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["desayuno", "snack", "yogur", "omega3"],
+      "mealTypes": ["desayuno", "snack"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "yogur griego natural", "quantity": 150, "unit": "g" },
+        { "name": "arándanos frescos", "quantity": 50, "unit": "g" },
+        { "name": "nueces peladas", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-002",
+      "name": "Tostada de aguacate y huevo a la plancha",
+      "nameEn": "Avocado and Fried Egg Toast",
+      "description": "Desayuno salado clásico con grasas saludables y proteína completa.",
+      "instructions": [
+        "Tostar la rebanada de pan integral mientras se cocina el huevo.",
+        "Chafar el aguacate sobre el pan con una pizca de sal.",
+        "Colocar el huevo a la plancha encima y añadir pimienta negra."
+      ],
+      "prepTime": 5,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 340,
+      "protein": 14,
+      "carbs": 24,
+      "fat": 21,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["desayuno", "aguacate", "huevo", "sacante"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "recomposicion"],
+      "ingredients": [
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-003",
+      "name": "Ensalada rápida de garbanzos y atún",
+      "nameEn": "Quick Chickpea and Tuna Salad",
+      "description": "Almuerzo completo sin cocción, ideal para días con prisa.",
+      "instructions": [
+        "Lavar y escurrir los garbanzos en conserva.",
+        "Mezclar en un bol con el atún, tomates cherry partidos y aceitunas.",
+        "Aliñar con aceite de oliva, vinagre y orégano."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 28,
+      "carbs": 36,
+      "fat": 16,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbres", "pescado_azul", "sin_coccion"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 180, "unit": "g" },
+        { "name": "atún al natural", "quantity": 1, "unit": "lata" },
+        { "name": "tomates cherry", "quantity": 8, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-004",
+      "name": "Pechuga de pollo al limón express",
+      "nameEn": "Express Lemon Chicken Breast",
+      "description": "Proteína magra con sabor cítrico lista en menos de 10 minutos.",
+      "instructions": [
+        "Cortar la pechuga en tiras finas para acelerar la cocción.",
+        "Saltear a fuego fuerte con una pizca de sal y pimienta.",
+        "Añadir el zumo de limón al final y perejil fresco picado."
+      ],
+      "prepTime": 5,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 42,
+      "carbs": 2,
+      "fat": 12,
+      "fiber": 1,
+      "imageUrl": null,
+      "tags": ["almuerzo", "pollo", "alta_proteina", "plancha"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "pechuga de pollo", "quantity": 180, "unit": "g" },
+        { "name": "limón", "quantity": 0.5, "unit": "unidad" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-005",
+      "name": "Zoodles de calabacín con pesto y gambas",
+      "nameEn": "Zucchini Noodles with Pesto and Prawns",
+      "description": "Cena ultra-ligera y aromática utilizando espaguetis de verdura.",
+      "instructions": [
+        "Saltear las gambas con ajo en una sartén durante 3 minutos.",
+        "Añadir los zoodles de calabacín y cocinar solo 2 minutos para que queden al dente.",
+        "Retirar del fuego, añadir el pesto y mezclar bien."
+      ],
+      "prepTime": 8,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 290,
+      "protein": 24,
+      "carbs": 10,
+      "fat": 18,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["cena", "bajo_carbohidrato", "marisco", "ligero"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "zoodles de calabacín", "quantity": 200, "unit": "g" },
+        { "name": "gambas peladas", "quantity": 120, "unit": "g" },
+        { "name": "salsa pesto", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-006",
+      "name": "Wrap de pavo, queso y espinacas",
+      "nameEn": "Turkey, Cheese and Spinach Wrap",
+      "description": "Almuerzo transportable que se monta en menos de 5 minutos.",
+      "instructions": [
+        "Extender el queso crema o una loncha de queso sobre la tortilla.",
+        "Colocar el pavo y un puñado de espinacas frescas baby.",
+        "Enrollar apretando bien y cortar por la mitad."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 310,
+      "protein": 22,
+      "carbs": 30,
+      "fat": 12,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["wrap", "pavo", "almuerzo_rapido", "transportable"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "perdida_peso"],
+      "ingredients": [
+        { "name": "tortilla integral", "quantity": 1, "unit": "unidad" },
+        { "name": "pechuga de pavo", "quantity": 80, "unit": "g" },
+        { "name": "espinacas baby", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-007",
+      "name": "Bowl de quinoa, edamame y aguacate",
+      "nameEn": "Quinoa, Edamame and Avocado Bowl",
+      "description": "Uso de quinoa pre-cocida para un bowl vegetariano equilibrado.",
+      "instructions": [
+        "Poner la quinoa (ya cocida) en un bol.",
+        "Añadir el edamame (descongelado rápido en microondas) y el aguacate.",
+        "Sazonar con semillas de sésamo y un chorrito de aceite de oliva."
+      ],
+      "prepTime": 10,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 440,
+      "protein": 16,
+      "carbs": 42,
+      "fat": 24,
+      "fiber": 11,
+      "imageUrl": null,
+      "tags": ["bowl", "quinoa", "vegano", "fibra"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "edamame pelado", "quantity": 80, "unit": "g" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-008",
+      "name": "Merluza al microondas con especias",
+      "nameEn": "Spiced Microwave Hake",
+      "description": "Pescado blanco jugoso listo en solo 3 minutos de cocción.",
+      "instructions": [
+        "Poner el lomo de merluza en un plato apto para microondas.",
+        "Salpimentar y añadir una cucharadita de aceite y pimentón.",
+        "Tapar y cocinar a potencia media-alta durante 3-4 minutos."
+      ],
+      "prepTime": 5,
+      "cookTime": 4,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 210,
+      "protein": 32,
+      "carbs": 1,
+      "fat": 9,
+      "fiber": 0,
+      "imageUrl": null,
+      "tags": ["cena", "microondas", "pescado_blanco", "bajo_calorico"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["dash", "mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "lomo de merluza", "quantity": 180, "unit": "g" },
+        { "name": "pimentón dulce", "quantity": 1, "unit": "cucharadita" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-009",
+      "name": "Tortilla francesa con champiñones",
+      "nameEn": "Mushroom Omelet",
+      "description": "Cena rápida y versátil con proteínas de alto valor biológico.",
+      "instructions": [
+        "Saltear los champiñones laminados (pueden ser de bote) 2 minutos.",
+        "Batir los huevos y verter sobre los champiñones.",
+        "Cuajar la tortilla por ambos lados y servir caliente."
+      ],
+      "prepTime": 5,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 260,
+      "protein": 18,
+      "carbs": 4,
+      "fat": 19,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["cena", "huevo", "vegetariano", "proteina"],
+      "mealTypes": ["cena", "desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "recomposicion"],
+      "ingredients": [
+        { "name": "huevo", "quantity": 2, "unit": "unidad" },
+        { "name": "champiñones", "quantity": 80, "unit": "g" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-010",
+      "name": "Salpicón de gambas y cítricos",
+      "nameEn": "Shrimp and Citrus Medley",
+      "description": "Plato frío y refrescante que utiliza gambas ya cocidas.",
+      "instructions": [
+        "Picar cebolla y pimiento en trozos muy pequeños.",
+        "Mezclar con las gambas cocidas y gajos de naranja limpios.",
+        "Aliñar con zumo de lima, aceite y sal."
+      ],
+      "prepTime": 15,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 240,
+      "protein": 26,
+      "carbs": 12,
+      "fat": 10,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["almuerzo", "marisco", "frio", "vitaminaC"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "gambas cocidas", "quantity": 150, "unit": "g" },
+        { "name": "naranja", "quantity": 0.5, "unit": "unidad" },
+        { "name": "pimiento verde", "quantity": 40, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-011",
+      "name": "Porridge de avena y plátano al microondas",
+      "nameEn": "Microwave Banana Oatmeal",
+      "description": "Desayuno reconfortante y energético listo en menos de 5 minutos.",
+      "instructions": [
+        "Mezclar la avena con la leche o agua en un bol grande.",
+        "Cocinar en microondas 2 minutos, removiendo a mitad.",
+        "Añadir el plátano en rodajas y una pizca de canela."
+      ],
+      "prepTime": 3,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 320,
+      "protein": 10,
+      "carbs": 55,
+      "fat": 6,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["desayuno", "avena", "fibra", "energetico"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "copos de avena", "quantity": 50, "unit": "g" },
+        { "name": "leche semidesnatada", "quantity": 200, "unit": "ml" },
+        { "name": "plátano", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-012",
+      "name": "Queso cottage con melocotón y semillas",
+      "nameEn": "Cottage Cheese with Peach and Seeds",
+      "description": "Snack proteico de baja densidad calórica y alta saciedad.",
+      "instructions": [
+        "Poner el queso cottage en un cuenco.",
+        "Cortar el melocotón (o fruta de temporada) en trozos.",
+        "Esparcir semillas de lino o chía por encima."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 190,
+      "protein": 16,
+      "carbs": 18,
+      "fat": 6,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["snack", "lacteo", "alta_proteina", "fruta"],
+      "mealTypes": ["snack"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "queso cottage", "quantity": 150, "unit": "g" },
+        { "name": "melocotón", "quantity": 1, "unit": "unidad" },
+        { "name": "semillas de lino", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-013",
+      "name": "Ensalada Caprese express",
+      "nameEn": "Quick Caprese Salad",
+      "description": "Cena italiana clásica basada en la calidad del producto fresco.",
+      "instructions": [
+        "Cortar el tomate y la mozzarella en rodajas.",
+        "Alternar las rodajas en un plato.",
+        "Aliñar con aceite, sal y hojas de albahaca fresca."
+      ],
+      "prepTime": 8,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 310,
+      "protein": 18,
+      "carbs": 6,
+      "fat": 24,
+      "fiber": 2,
+      "imageUrl": null,
+      "tags": ["cena", "vegetariano", "queso", "mediterranea"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento"],
+      "ingredients": [
+        { "name": "tomate maduro", "quantity": 2, "unit": "unidad" },
+        { "name": "mozzarella fresca", "quantity": 100, "unit": "g" },
+        { "name": "albahaca fresca", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-014",
+      "name": "Wrap de hummus y espinacas",
+      "nameEn": "Hummus and Spinach Wrap",
+      "description": "Opción vegana rápida rica en fibra y proteína vegetal.",
+      "instructions": [
+        "Extender el hummus generosamente sobre la tortilla integral.",
+        "Cubrir con espinacas frescas y zanahoria rallada.",
+        "Cerrar el wrap y dorar ligeramente en la sartén (opcional)."
+      ],
+      "prepTime": 7,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 290,
+      "protein": 12,
+      "carbs": 40,
+      "fat": 11,
+      "fiber": 9,
+      "imageUrl": null,
+      "tags": ["wrap", "vegano", "legumbre", "fibra"],
+      "mealTypes": ["cena", "snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "tortilla integral", "quantity": 1, "unit": "unidad" },
+        { "name": "hummus de garbanzos", "quantity": 60, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 40, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-015",
+      "name": "Bowl de cuscús y garbanzos express",
+      "nameEn": "Quick Couscous and Chickpea Bowl",
+      "description": "Hidratación instantánea del cereal para un plato completo.",
+      "instructions": [
+        "Verter agua hirviendo sobre el cuscús y tapar 5 minutos.",
+        "Mezclar el cuscús hidratado con garbanzos y pepino troceado.",
+        "Añadir zumo de limón y menta fresca."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 420,
+      "protein": 18,
+      "carbs": 65,
+      "fat": 12,
+      "fiber": 10,
+      "imageUrl": null,
+      "tags": ["bowl", "cuscus", "vegano", "legumbre"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "cuscús seco", "quantity": 60, "unit": "g" },
+        { "name": "garbanzos cocidos", "quantity": 120, "unit": "g" },
+        { "name": "pepino", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-016",
+      "name": "Tostada de salmón ahumado y queso crema",
+      "nameEn": "Smoked Salmon and Cream Cheese Toast",
+      "description": "Desayuno o cena gourmet rica en omega-3 preparada al instante.",
+      "instructions": [
+        "Untar el queso crema light sobre el pan integral tostado.",
+        "Colocar las lonchas de salmón ahumado encima.",
+        "Decorar con un poco de eneldo y alcaparras."
+      ],
+      "prepTime": 5,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 19,
+      "carbs": 22,
+      "fat": 14,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["desayuno", "pescado_azul", "omega3", "proteina"],
+      "mealTypes": ["desayuno", "cena"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "salmón ahumado", "quantity": 60, "unit": "g" },
+        { "name": "queso crema light", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-017",
+      "name": "Rollitos de pavo y queso con manzana",
+      "nameEn": "Turkey and Cheese Rolls with Apple",
+      "description": "Snack crujiente y fresco, perfecto para picar entre horas.",
+      "instructions": [
+        "Extender una loncha de pavo y poner encima una de queso.",
+        "Colocar un bastón de manzana en el centro.",
+        "Enrollar el pavo y el queso sobre la manzana."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 160,
+      "protein": 14,
+      "carbs": 8,
+      "fat": 9,
+      "fiber": 1,
+      "imageUrl": null,
+      "tags": ["snack", "pavo", "bajo_carbohidrato", "ligero"],
+      "mealTypes": ["snack"],
+      "dietTypes": ["alta_proteina"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "pechuga de pavo", "quantity": 60, "unit": "g" },
+        { "name": "queso tierno", "quantity": 30, "unit": "g" },
+        { "name": "manzana", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-018",
+      "name": "Edamame con sal marina al microondas",
+      "nameEn": "Sea Salt Edamame in Microwave",
+      "description": "Snack de legumbre oriental muy rico en fibra y proteína vegetal.",
+      "instructions": [
+        "Poner el edamame congelado en un bol con una cucharada de agua.",
+        "Tapar y cocinar 4 minutos en el microondas.",
+        "Escurrir y espolvorear sal marina gruesa por encima."
+      ],
+      "prepTime": 2,
+      "cookTime": 4,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 140,
+      "protein": 12,
+      "carbs": 9,
+      "fat": 6,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["snack", "vegano", "legumbre", "microondas"],
+      "mealTypes": ["snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "perdida_peso"],
+      "ingredients": [
+        { "name": "edamame con vaina", "quantity": 150, "unit": "g" },
+        { "name": "sal marina", "quantity": 1, "unit": "cucharadita" },
+        { "name": "agua", "quantity": 15, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-019",
+      "name": "Kéfir con nueces y semillas de chía",
+      "nameEn": "Kefir with Walnuts and Chia Seeds",
+      "description": "Bebida fermentada rica en probióticos ideal para la salud intestinal.",
+      "instructions": [
+        "Verter el kéfir en un vaso o bol.",
+        "Añadir las nueces troceadas y la chía.",
+        "Dejar reposar 2 minutos para que la chía se hidrate un poco."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 240,
+      "protein": 12,
+      "carbs": 10,
+      "fat": 18,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["desayuno", "snack", "probioticos", "lacteo"],
+      "mealTypes": ["desayuno", "snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "kéfir natural", "quantity": 200, "unit": "ml" },
+        { "name": "nueces", "quantity": 20, "unit": "g" },
+        { "name": "semillas de chía", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-020",
+      "name": "Tostada de ricota y fresas",
+      "nameEn": "Ricotta and Strawberry Toast",
+      "description": "Desayuno dulce equilibrado con proteína láctea.",
+      "instructions": [
+        "Untar el queso ricota sobre el pan integral.",
+        "Laminar las fresas y colocarlas encima.",
+        "Añadir un hilo pequeño de miel (opcional) o canela."
+      ],
+      "prepTime": 6,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 260,
+      "protein": 12,
+      "carbs": 32,
+      "fat": 10,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["desayuno", "queso", "fruta", "dulce_saludable"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento"],
+      "ingredients": [
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "queso ricota", "quantity": 60, "unit": "g" },
+        { "name": "fresas", "quantity": 60, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-021",
+      "name": "Salteado express de tofu y brócoli",
+      "nameEn": "Express Tofu and Broccoli Stir-fry",
+      "description": "Uso de flores de brócoli pequeñas para una cocción rápida.",
+      "instructions": [
+        "Cortar el tofu en dados y el brócoli en ramilletes pequeños.",
+        "Saltear ambos en la sartén con un poco de aceite y soja 5-7 minutos.",
+        "Añadir semillas de sésamo antes de retirar del fuego."
+      ],
+      "prepTime": 5,
+      "cookTime": 7,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 22,
+      "carbs": 12,
+      "fat": 16,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["cena", "vegano", "tofu", "salteado"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "mantenimiento"],
+      "ingredients": [
+        { "name": "tofu firme", "quantity": 150, "unit": "g" },
+        { "name": "brócoli", "quantity": 150, "unit": "g" },
+        { "name": "salsa de soja", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-022",
+      "name": "Ensalada de lentejas de bote y feta",
+      "nameEn": "Canned Lentil and Feta Salad",
+      "description": "Legumbres listas para comer en una combinación mediterránea.",
+      "instructions": [
+        "Lavar las lentejas en conserva bajo el grifo.",
+        "Mezclar con pepino, cebolla roja y queso feta en dados.",
+        "Aliñar con aceite, vinagre y menta seca."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 390,
+      "protein": 21,
+      "carbs": 38,
+      "fat": 16,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbres", "queso", "fibra"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "lentejas cocidas", "quantity": 180, "unit": "g" },
+        { "name": "queso feta", "quantity": 30, "unit": "g" },
+        { "name": "pepino", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-023",
+      "name": "Gazpacho con virutas de jamón y huevo",
+      "nameEn": "Gazpacho with Ham and Egg Garnish",
+      "description": "Cena refrescante y completa basada en hortalizas líquidas.",
+      "instructions": [
+        "Servir el gazpacho (embotellado de alta calidad) en un bol.",
+        "Añadir el huevo duro picado por encima.",
+        "Incorporar el jamón serrano en virutas y un chorrito de aceite."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 260,
+      "protein": 16,
+      "carbs": 18,
+      "fat": 14,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["cena", "verduras", "tradicional", "ligero"],
+      "mealTypes": ["cena", "almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "gazpacho natural", "quantity": 300, "unit": "ml" },
+        { "name": "huevo duro", "quantity": 1, "unit": "unidad" },
+        { "name": "jamón serrano", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-024",
+      "name": "Wrap de atún, maíz y yogur",
+      "nameEn": "Tuna, Corn and Yogurt Wrap",
+      "description": "Sustitución de mayonesa por yogur para un relleno más ligero.",
+      "instructions": [
+        "Mezclar el atún con el maíz y una cucharada de yogur griego.",
+        "Extender la mezcla sobre la tortilla integral.",
+        "Añadir lechuga picada y cerrar el wrap."
+      ],
+      "prepTime": 8,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 330,
+      "protein": 26,
+      "carbs": 35,
+      "fat": 10,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["wrap", "pescado_azul", "ligero", "almuerzo"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "perdida_peso"],
+      "ingredients": [
+        { "name": "tortilla integral", "quantity": 1, "unit": "unidad" },
+        { "name": "atún al natural", "quantity": 1, "unit": "lata" },
+        { "name": "yogur griego natural", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch05-receta-025",
+      "name": "Bowl de caballa y arroz integral express",
+      "nameEn": "Quick Mackerel and Brown Rice Bowl",
+      "description": "Bowl marino con hidratos de carbono complejos listos para usar.",
+      "instructions": [
+        "Calentar el vasito de arroz integral en el microondas 1 minuto.",
+        "Añadir la caballa en conserva escurrida y pimientos de piquillo.",
+        "Mezclar todo en el bol con un poco de aceite de oliva."
+      ],
+      "prepTime": 5,
+      "cookTime": 1,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 460,
+      "protein": 24,
+      "carbs": 48,
+      "fat": 18,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["bowl", "pescado_azul", "arroz_integral", "omega3"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "arroz integral (vasito)", "quantity": 125, "unit": "g" },
+        { "name": "caballa en conserva", "quantity": 1, "unit": "lata" },
+        { "name": "pimientos del piquillo", "quantity": 50, "unit": "g" }
+      ]
+    }
+  ]
+}

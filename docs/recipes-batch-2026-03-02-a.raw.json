@@ -1,0 +1,764 @@
+{
+  "specVersion": "recipes-import-v1",
+  "batchId": "2026-03-batch-02",
+  "generatedAt": "2026-03-30T18:30:00Z",
+  "generator": {
+    "provider": "gemini",
+    "model": "gemini-2.5-flash",
+    "notes": "lote vegetariano"
+  },
+  "recipes": [
+    {
+      "externalId": "batch02-receta-001",
+      "name": "Tofu salteado con brócoli y cacahuetes",
+      "nameEn": "Stir-fry Tofu with Broccoli and Peanuts",
+      "description": "Un salteado asiático rico en proteína vegetal y grasas saludables.",
+      "instructions": [
+        "Prensar el tofu para eliminar el exceso de agua y cortarlo en dados.",
+        "Saltear el tofu en una sartén con aceite hasta que esté dorado.",
+        "Añadir el brócoli y los cacahuetes, cocinar 5 minutos más con salsa de soja."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 420,
+      "protein": 32,
+      "carbs": 18,
+      "fat": 24,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "tofu", "salteado", "alta_proteina"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "tofu firme", "quantity": 200, "unit": "g" },
+        { "name": "brócoli", "quantity": 150, "unit": "g" },
+        { "name": "cacahuetes naturales", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-002",
+      "name": "Tempeh marinado con calabaza al horno",
+      "nameEn": "Marinated Tempeh with Roasted Pumpkin",
+      "description": "Tempeh fermentado con un toque dulce de calabaza asada.",
+      "instructions": [
+        "Marinar el tempeh con ajo y jengibre durante 15 minutos.",
+        "Colocar en una bandeja junto a la calabaza troceada.",
+        "Hornear a 200°C durante 20 minutos hasta que estén tiernos."
+      ],
+      "prepTime": 20,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 450,
+      "protein": 30,
+      "carbs": 35,
+      "fat": 22,
+      "fiber": 9,
+      "imageUrl": null,
+      "tags": ["cena", "tempeh", "horno", "alta_proteina"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["ganancia_muscular", "mantenimiento"],
+      "ingredients": [
+        { "name": "tempeh", "quantity": 150, "unit": "g" },
+        { "name": "calabaza", "quantity": 200, "unit": "g" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-003",
+      "name": "Garbanzos con espinacas y huevo poché",
+      "nameEn": "Chickpeas with Spinach and Poached Egg",
+      "description": "Un plato tradicional de legumbre, equilibrado y saciante.",
+      "instructions": [
+        "Saltear las espinacas con un diente de ajo picado.",
+        "Añadir los garbanzos cocidos y pimentón al gusto.",
+        "Servir con un huevo poché encima para añadir cremosidad."
+      ],
+      "prepTime": 5,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 380,
+      "protein": 22,
+      "carbs": 42,
+      "fat": 15,
+      "fiber": 11,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbre", "huevo", "hierro"],
+      "mealTypes": ["almuerzo", "cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 180, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 150, "unit": "g" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-004",
+      "name": "Tostada de aguacate, requesón y semillas",
+      "nameEn": "Avocado, Ricotta and Seed Toast",
+      "description": "Desayuno salado con grasas monoinsaturadas y proteínas lácteas.",
+      "instructions": [
+        "Tostar la rebanada de pan integral.",
+        "Untar el requesón y colocar el aguacate laminado encima.",
+        "Espolvorear con semillas de chía y una pizca de sal."
+      ],
+      "prepTime": 5,
+      "cookTime": 2,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 310,
+      "protein": 14,
+      "carbs": 28,
+      "fat": 16,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["desayuno", "aguacate", "salado"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" },
+        { "name": "requesón", "quantity": 50, "unit": "g" },
+        { "name": "semillas de chía", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-005",
+      "name": "Ensalada de lentejas beluga con feta",
+      "nameEn": "Beluga Lentil Salad with Feta",
+      "description": "Ensalada fría de legumbres ideal para llevar al trabajo.",
+      "instructions": [
+        "Mezclar las lentejas cocidas con tomate, pepino y cebolla tierna.",
+        "Añadir el queso feta en dados y aceitunas.",
+        "Aliñar con una vinagreta de limón y orégano."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 390,
+      "protein": 21,
+      "carbs": 45,
+      "fat": 14,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbre", "ensalada_completa", "feta"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "mantenimiento"],
+      "ingredients": [
+        { "name": "lentejas beluga cocidas", "quantity": 150, "unit": "g" },
+        { "name": "queso feta", "quantity": 30, "unit": "g" },
+        { "name": "tomate", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-006",
+      "name": "Bowl de tempeh teriyaki y quinoa",
+      "nameEn": "Teriyaki Tempeh and Quinoa Bowl",
+      "description": "Bowl completo con proteína fermentada y pseudocereal.",
+      "instructions": [
+        "Cocinar la quinoa siguiendo las instrucciones del paquete.",
+        "Saltear el tempeh con salsa teriyaki baja en azúcar.",
+        "Montar el bowl con quinoa, tempeh, zanahoria rallada y rabanitos."
+      ],
+      "prepTime": 15,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 480,
+      "protein": 28,
+      "carbs": 52,
+      "fat": 18,
+      "fiber": 10,
+      "imageUrl": null,
+      "tags": ["bowl", "tempeh", "quinoa", "alta_proteina"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "tempeh", "quantity": 120, "unit": "g" },
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "zanahoria", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-007",
+      "name": "Crema de alubias blancas y puerro",
+      "nameEn": "White Bean and Leek Cream",
+      "description": "Una crema suave y proteica gracias a las legumbres trituradas.",
+      "instructions": [
+        "Pochar el puerro con un poco de aceite de oliva.",
+        "Añadir las alubias cocidas y caldo de verduras; dejar hervir 5 minutos.",
+        "Triturar hasta obtener una textura fina y servir caliente."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 320,
+      "protein": 18,
+      "carbs": 40,
+      "fat": 9,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["cena", "crema", "legumbre", "digestivo"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "alubias blancas cocidas", "quantity": 200, "unit": "g" },
+        { "name": "puerro", "quantity": 1, "unit": "unidad" },
+        { "name": "caldo de verduras", "quantity": 200, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-008",
+      "name": "Tofu revuelto con cúrcuma y espinacas",
+      "nameEn": "Turmeric Tofu Scramble with Spinach",
+      "description": "Alternativa vegana al revuelto de huevo, ideal para empezar el día.",
+      "instructions": [
+        "Desmigar el tofu con las manos o un tenedor.",
+        "Saltear con cúrcuma, sal negra y espinacas hasta que reduzcan.",
+        "Servir sobre pan integral tostado."
+      ],
+      "prepTime": 5,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 340,
+      "protein": 26,
+      "carbs": 25,
+      "fat": 15,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["desayuno", "tofu", "alta_proteina", "vegano"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "mantenimiento"],
+      "ingredients": [
+        { "name": "tofu firme", "quantity": 180, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 100, "unit": "g" },
+        { "name": "pan integral", "quantity": 1, "unit": "rebanada" },
+        { "name": "cúrcuma", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-009",
+      "name": "Wrap de hummus y vegetales asados",
+      "nameEn": "Hummus and Roasted Vegetable Wrap",
+      "description": "Comida rápida y saludable cargada de fibra y sabor.",
+      "instructions": [
+        "Extender el hummus sobre la tortilla integral.",
+        "Añadir pimientos y berenjenas asados previamente.",
+        "Enrollar y dorar ligeramente en la sartén antes de servir."
+      ],
+      "prepTime": 10,
+      "cookTime": 5,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 15,
+      "carbs": 55,
+      "fat": 14,
+      "fiber": 10,
+      "imageUrl": null,
+      "tags": ["almuerzo", "wrap", "legumbre", "vegano"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento"],
+      "ingredients": [
+        { "name": "tortilla integral", "quantity": 1, "unit": "unidad" },
+        { "name": "hummus de garbanzos", "quantity": 60, "unit": "g" },
+        { "name": "pimientos asados", "quantity": 80, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-010",
+      "name": "Tortilla de espárragos y queso fresco",
+      "nameEn": "Asparagus and Fresh Cheese Omelet",
+      "description": "Cena ligera rica en proteínas de alta calidad.",
+      "instructions": [
+        "Saltear los espárragos troceados con poco aceite.",
+        "Batir los huevos e incorporar el queso fresco desmenuzado.",
+        "Cuajar la tortilla a fuego medio."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 280,
+      "protein": 22,
+      "carbs": 8,
+      "fat": 18,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["cena", "huevo", "queso", "bajo_carbohidrato"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea", "alta_proteina"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "huevo", "quantity": 2, "unit": "unidad" },
+        { "name": "espárragos trigueros", "quantity": 100, "unit": "g" },
+        { "name": "queso fresco", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-011",
+      "name": "Yogur griego con almendras y frutos rojos",
+      "nameEn": "Greek Yogurt with Almonds and Berries",
+      "description": "Snack proteico o desayuno rápido sin cocción.",
+      "instructions": [
+        "Poner el yogur griego en un bol.",
+        "Añadir los frutos rojos frescos o descongelados.",
+        "Terminar con las almendras picadas para aportar crujiente."
+      ],
+      "prepTime": 5,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 250,
+      "protein": 18,
+      "carbs": 15,
+      "fat": 14,
+      "fiber": 4,
+      "imageUrl": null,
+      "tags": ["snack", "desayuno", "lacteo", "alta_proteina"],
+      "mealTypes": ["desayuno", "snack"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "yogur griego natural", "quantity": 150, "unit": "g" },
+        { "name": "frutos rojos", "quantity": 50, "unit": "g" },
+        { "name": "almendras", "quantity": 15, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-012",
+      "name": "Chili de soja texturizada y frijoles",
+      "nameEn": "Textured Soy and Bean Chili",
+      "description": "Versión vegetariana del chili, muy alta en fibra y proteína.",
+      "instructions": [
+        "Hidratar la soja texturizada y saltear con cebolla y pimiento.",
+        "Añadir los frijoles negros y el tomate triturado con comino.",
+        "Cocinar a fuego lento durante 15 minutos para integrar sabores."
+      ],
+      "prepTime": 15,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 440,
+      "protein": 34,
+      "carbs": 48,
+      "fat": 10,
+      "fiber": 16,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbre", "soja", "plato_de_cuchara"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["ganancia_muscular", "recomposicion"],
+      "ingredients": [
+        { "name": "soja texturizada fina", "quantity": 50, "unit": "g" },
+        { "name": "frijoles negros cocidos", "quantity": 150, "unit": "g" },
+        { "name": "tomate natural triturado", "quantity": 100, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-013",
+      "name": "Ensalada de quinoa, manzana y nueces",
+      "nameEn": "Quinoa, Apple and Walnut Salad",
+      "description": "Una mezcla crujiente y dulce con perfil de grasas saludables.",
+      "instructions": [
+        "Combinar la quinoa cocida con manzana en dados.",
+        "Incorporar las nueces troceadas y canónigos.",
+        "Aliñar con una mezcla de aceite de oliva y vinagre de manzana."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 380,
+      "protein": 12,
+      "carbs": 42,
+      "fat": 20,
+      "fiber": 7,
+      "imageUrl": null,
+      "tags": ["almuerzo", "quinoa", "nueces", "ensalada_completa"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "mantenimiento"],
+      "ingredients": [
+        { "name": "quinoa cocida", "quantity": 150, "unit": "g" },
+        { "name": "manzana", "quantity": 1, "unit": "unidad" },
+        { "name": "nueces", "quantity": 20, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-014",
+      "name": "Hamburguesas de alubias rojas y avena",
+      "nameEn": "Red Bean and Oat Burgers",
+      "description": "Hamburguesas caseras ricas en hidratos de carbono complejos.",
+      "instructions": [
+        "Triturar groseramente las alubias con los copos de avena.",
+        "Añadir especias (pimentón, ajo) y formar los discos.",
+        "Cocinar en la plancha con un poco de aceite 3 minutos por lado."
+      ],
+      "prepTime": 20,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 410,
+      "protein": 18,
+      "carbs": 60,
+      "fat": 10,
+      "fiber": 14,
+      "imageUrl": null,
+      "tags": ["cena", "legumbre", "avena", "plancha"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "alubias rojas cocidas", "quantity": 200, "unit": "g" },
+        { "name": "copos de avena", "quantity": 40, "unit": "g" },
+        { "name": "cebolla picada", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-015",
+      "name": "Berenjenas rellenas de soja y queso",
+      "nameEn": "Eggplants Stuffed with Soy and Cheese",
+      "description": "Plato de horno reconfortante y rico en antioxidantes.",
+      "instructions": [
+        "Vaciar las berenjenas y hornear las barcas 15 minutos.",
+        "Saltear la carne de la berenjena con soja texturizada y tomate.",
+        "Rellenar las barcas, añadir queso rallado y gratinar."
+      ],
+      "prepTime": 20,
+      "cookTime": 25,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 360,
+      "protein": 24,
+      "carbs": 22,
+      "fat": 18,
+      "fiber": 10,
+      "imageUrl": null,
+      "tags": ["almuerzo", "horno", "soja", "queso"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "perdida_peso"],
+      "ingredients": [
+        { "name": "berenjena", "quantity": 1, "unit": "unidad" },
+        { "name": "soja texturizada hidratada", "quantity": 100, "unit": "g" },
+        { "name": "queso mozzarella rallado", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-016",
+      "name": "Omelette de champiñones y espinacas",
+      "nameEn": "Mushroom and Spinach Omelet",
+      "description": "Clásico desayuno o cena ligera y nutritiva.",
+      "instructions": [
+        "Saltear los champiñones laminados hasta que suelten el agua.",
+        "Añadir las espinacas y cuando reduzcan, verter los huevos batidos.",
+        "Doblar por la mitad y cocinar hasta que el huevo esté cuajado."
+      ],
+      "prepTime": 5,
+      "cookTime": 8,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 270,
+      "protein": 19,
+      "carbs": 6,
+      "fat": 19,
+      "fiber": 3,
+      "imageUrl": null,
+      "tags": ["desayuno", "cena", "huevo", "champiñones"],
+      "mealTypes": ["desayuno", "cena"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "huevo", "quantity": 2, "unit": "unidad" },
+        { "name": "champiñones", "quantity": 100, "unit": "g" },
+        { "name": "espinacas frescas", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-017",
+      "name": "Hummus de remolacha con crudités",
+      "nameEn": "Beetroot Hummus with Veggie Sticks",
+      "description": "Colorido snack cargado de vitaminas y fibra.",
+      "instructions": [
+        "Triturar los garbanzos con remolacha cocida, tahini y limón.",
+        "Cortar zanahoria y pepino en bastones.",
+        "Servir el hummus frío con los vegetales para dipear."
+      ],
+      "prepTime": 15,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 290,
+      "protein": 10,
+      "carbs": 35,
+      "fat": 12,
+      "fiber": 9,
+      "imageUrl": null,
+      "tags": ["snack", "legumbre", "remolacha", "vegano"],
+      "mealTypes": ["snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["salud_cardiometabolica", "perdida_peso"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 120, "unit": "g" },
+        { "name": "remolacha cocida", "quantity": 50, "unit": "g" },
+        { "name": "zanahoria", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-018",
+      "name": "Shakshuka vegetariano",
+      "nameEn": "Vegetarian Shakshuka",
+      "description": "Huevos escalfados en una base especiada de tomate y pimiento.",
+      "instructions": [
+        "Sofreír cebolla, pimiento y comino en una sartén honda.",
+        "Añadir tomate triturado y dejar reducir 10 minutos.",
+        "Hacer huecos, romper los huevos dentro y tapar hasta que cuajen."
+      ],
+      "prepTime": 10,
+      "cookTime": 15,
+      "servings": 1,
+      "difficulty": "medio",
+      "calories": 350,
+      "protein": 18,
+      "carbs": 25,
+      "fat": 20,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["almuerzo", "huevo", "tomate", "desayuno_salado"],
+      "mealTypes": ["almuerzo", "desayuno"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "huevo", "quantity": 2, "unit": "unidad" },
+        { "name": "tomate natural triturado", "quantity": 150, "unit": "g" },
+        { "name": "pimiento rojo", "quantity": 50, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-019",
+      "name": "Bowl de avena salada con huevo y aguacate",
+      "nameEn": "Savory Oatmeal Bowl with Egg and Avocado",
+      "description": "Una forma diferente de comer avena, rica en fibra y saciante.",
+      "instructions": [
+        "Cocer los copos de avena con agua o caldo hasta que espese.",
+        "Colocar un huevo a la plancha encima y medio aguacate.",
+        "Añadir semillas y un chorrito de aceite de oliva."
+      ],
+      "prepTime": 5,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 460,
+      "protein": 19,
+      "carbs": 42,
+      "fat": 26,
+      "fiber": 11,
+      "imageUrl": null,
+      "tags": ["bowl", "desayuno", "avena", "huevo"],
+      "mealTypes": ["desayuno", "almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "copos de avena", "quantity": 50, "unit": "g" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" },
+        { "name": "aguacate", "quantity": 0.5, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-020",
+      "name": "Tempeh salteado con judías verdes y sésamo",
+      "nameEn": "Sautéed Tempeh with Green Beans and Sesame",
+      "description": "Salteado rápido con gran aporte de proteína y calcio vegetal.",
+      "instructions": [
+        "Hervir las judías verdes al dente.",
+        "Saltear el tempeh en dados con aceite de sésamo y jengibre.",
+        "Incorporar las judías y decorar con semillas de sésamo."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 410,
+      "protein": 29,
+      "carbs": 15,
+      "fat": 25,
+      "fiber": 8,
+      "imageUrl": null,
+      "tags": ["cena", "tempeh", "salteado", "alta_proteina"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "mantenimiento"],
+      "ingredients": [
+        { "name": "tempeh", "quantity": 150, "unit": "g" },
+        { "name": "judías verdes", "quantity": 150, "unit": "g" },
+        { "name": "semillas de sésamo", "quantity": 1, "unit": "cucharadita" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-021",
+      "name": "Potaje de garbanzos y calabaza",
+      "nameEn": "Chickpea and Pumpkin Stew",
+      "description": "Guiso reconfortante cargado de betacarotenos.",
+      "instructions": [
+        "Sofreír cebolla y ajo con un poco de aceite.",
+        "Añadir la calabaza en dados y los garbanzos con caldo vegetal.",
+        "Cocinar 15-20 minutos hasta que la calabaza esté blanda."
+      ],
+      "prepTime": 10,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 380,
+      "protein": 15,
+      "carbs": 58,
+      "fat": 10,
+      "fiber": 12,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbre", "plato_de_cuchara", "vegano"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "garbanzos cocidos", "quantity": 150, "unit": "g" },
+        { "name": "calabaza", "quantity": 200, "unit": "g" },
+        { "name": "caldo de verduras", "quantity": 200, "unit": "ml" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-022",
+      "name": "Tofu marinado al limón con espárragos",
+      "nameEn": "Lemon Marinated Tofu with Asparagus",
+      "description": "Plato limpio y alto en proteínas, ideal para la noche.",
+      "instructions": [
+        "Marinar el tofu con zumo de limón y hierbas aromáticas.",
+        "Cocinar a la plancha hasta que esté firme y dorado.",
+        "Acompañar de espárragos trigueros a la parrilla."
+      ],
+      "prepTime": 15,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 310,
+      "protein": 28,
+      "carbs": 10,
+      "fat": 18,
+      "fiber": 5,
+      "imageUrl": null,
+      "tags": ["cena", "tofu", "bajo_carbohidrato", "alta_proteina"],
+      "mealTypes": ["cena"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["perdida_peso", "recomposicion"],
+      "ingredients": [
+        { "name": "tofu firme", "quantity": 200, "unit": "g" },
+        { "name": "espárragos trigueros", "quantity": 100, "unit": "g" },
+        { "name": "limón", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-023",
+      "name": "Ensalada de arroz integral y judías pintas",
+      "nameEn": "Brown Rice and Pinto Bean Salad",
+      "description": "Combinación clásica de legumbre y cereal para proteína completa.",
+      "instructions": [
+        "Mezclar el arroz frío con las judías pintas.",
+        "Añadir maíz, cebolla morada y cilantro picado.",
+        "Aliñar con lima y una cucharada de aceite de oliva."
+      ],
+      "prepTime": 10,
+      "cookTime": 0,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 430,
+      "protein": 16,
+      "carbs": 65,
+      "fat": 12,
+      "fiber": 13,
+      "imageUrl": null,
+      "tags": ["almuerzo", "legumbre", "arroz_integral", "vegano"],
+      "mealTypes": ["almuerzo"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["mantenimiento", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "arroz integral cocido", "quantity": 120, "unit": "g" },
+        { "name": "judías pintas cocidas", "quantity": 120, "unit": "g" },
+        { "name": "maíz dulce", "quantity": 30, "unit": "g" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-024",
+      "name": "Tortitas de avena y requesón",
+      "nameEn": "Oat and Ricotta Pancakes",
+      "description": "Desayuno dulce saludable sin azúcares añadidos.",
+      "instructions": [
+        "Batir la avena, el requesón y el huevo hasta tener una masa homogénea.",
+        "Hacer las tortitas en una sartén antiadherente.",
+        "Servir con un poco de fruta fresca por encima."
+      ],
+      "prepTime": 10,
+      "cookTime": 10,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 390,
+      "protein": 24,
+      "carbs": 38,
+      "fat": 15,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["desayuno", "avena", "queso", "alta_proteina"],
+      "mealTypes": ["desayuno"],
+      "dietTypes": ["alta_proteina", "mediterranea"],
+      "goalTypes": ["recomposicion", "ganancia_muscular"],
+      "ingredients": [
+        { "name": "copos de avena molidos", "quantity": 40, "unit": "g" },
+        { "name": "requesón", "quantity": 80, "unit": "g" },
+        { "name": "huevo", "quantity": 1, "unit": "unidad" }
+      ]
+    },
+    {
+      "externalId": "batch02-receta-025",
+      "name": "Coliflor al horno con dip de yogur",
+      "nameEn": "Roasted Cauliflower with Yogurt Dip",
+      "description": "Cena ligera o snack saludable con base vegetal.",
+      "instructions": [
+        "Cortar la coliflor en ramilletes y aliñar con especias y aceite.",
+        "Hornear a 200°C hasta que los bordes estén tostados.",
+        "Preparar el dip mezclando yogur con menta y pepino rallado."
+      ],
+      "prepTime": 10,
+      "cookTime": 20,
+      "servings": 1,
+      "difficulty": "facil",
+      "calories": 210,
+      "protein": 12,
+      "carbs": 15,
+      "fat": 11,
+      "fiber": 6,
+      "imageUrl": null,
+      "tags": ["cena", "snack", "horno", "lacteo"],
+      "mealTypes": ["cena", "snack"],
+      "dietTypes": ["mediterranea"],
+      "goalTypes": ["perdida_peso", "salud_cardiometabolica"],
+      "ingredients": [
+        { "name": "coliflor", "quantity": 250, "unit": "g" },
+        { "name": "yogur griego natural", "quantity": 100, "unit": "g" },
+        { "name": "aceite de oliva", "quantity": 1, "unit": "cucharada" }
+      ]
+    }
+  ]
+}
