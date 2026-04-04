@@ -1,6 +1,7 @@
 import Image from "next/image"
 
 import { cn } from "@/lib/utils"
+import { IMPULSO_BRAND } from "@/lib/impulso-brand"
 
 interface BrandLogoProps {
   className?: string
@@ -19,8 +20,8 @@ export function BrandLogo({ className, imageClassName, priority = false, size = 
       style={{ width: size, height: size }}
     >
       <Image
-        src="/logo-anclora-impulso.png"
-        alt="Anclora Impulso"
+        src={IMPULSO_BRAND.logoPath}
+        alt={IMPULSO_BRAND.name}
         fill
         priority={priority}
         sizes={`${size}px`}

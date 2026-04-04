@@ -85,10 +85,15 @@ pnpm test:coverage
 Lectura minima antes de tocar interfaz:
 
 1. `docs/standards/ANCLORA_ECOSYSTEM_CONTRACT_GROUPS.md`
-2. `docs/standards/ANCLORA_INTERNAL_APP_CONTRACT.md`
-3. `docs/standards/UI_MOTION_CONTRACT.md`
-4. `docs/standards/MODAL_CONTRACT.md`
-5. `docs/standards/LOCALIZATION_CONTRACT.md`
+2. `docs/standards/ANCLORA_PREMIUM_APP_CONTRACT.md`
+3. `docs/standards/ANCLORA_INTERNAL_APP_CONTRACT.md`
+4. `docs/standards/UI_MOTION_CONTRACT.md`
+5. `docs/standards/MODAL_CONTRACT.md`
+6. `docs/standards/LOCALIZATION_CONTRACT.md`
+
+## Branding canónico
+
+La identidad de la marca está centralizada en `lib/impulso-brand.ts`. Cualquier cambio en el nombre, descripción o activos visuales debe realizarse en este módulo para asegurar la consistencia en toda la aplicación.
 
 ## Notas
 
