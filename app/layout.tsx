@@ -3,6 +3,8 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/contexts/language-context"
 import { ThemeProvider } from "@/lib/contexts/theme-context"
+import { CookieConsent } from "@/components/cookie-consent"
+import { LegalFooter } from "@/components/legal-footer"
 import { IMPULSO_BRAND } from "@/lib/impulso-brand"
 import "./globals.css"
 import { DM_Sans } from 'next/font/google'
@@ -33,7 +35,11 @@ export default function RootLayout({
     <html lang="es" className="dark" suppressHydrationWarning>
       <body className={`font-sans ${dmSans.variable}`}>
         <ThemeProvider>
-          <LanguageProvider>{children}</LanguageProvider>
+          <LanguageProvider>
+            {children}
+            <LegalFooter />
+            <CookieConsent />
+          </LanguageProvider>
         </ThemeProvider>
         <Analytics />
       </body>
