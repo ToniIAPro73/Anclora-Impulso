@@ -12,14 +12,14 @@ export function LegalFooter() {
         privacy: "Privacy policy",
         legal: "Legal notice",
         rights: "All rights reserved.",
-        brand: "Anclora Impulso is a commercial brand operated under exclusive license by Anclora Group.",
+        brand: "Anclora Impulso is part of the Anclora Group ecosystem.",
       }
     : {
         terms: "Términos del servicio",
         privacy: "Política de privacidad",
         legal: "Aviso legal",
         rights: "Todos los derechos reservados.",
-        brand: "Anclora Impulso es una marca comercial operada bajo licencia exclusiva por Anclora Group.",
+        brand: "Anclora Impulso forma parte del ecosistema Anclora Group.",
       }
 
   return (
