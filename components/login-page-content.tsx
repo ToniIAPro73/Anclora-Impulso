@@ -54,7 +54,7 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
       </div>
 
       <div className="relative w-full max-w-[460px]">
-        <Card className="border-white/70 bg-white/78 shadow-[0_32px_80px_-40px_rgba(234,88,12,0.45)] backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/82">
+        <Card className="border-white/70 bg-white/78 shadow-[0_32px_80px_-40px_rgba(234,88,12,0.45)] backdrop-blur-xl transition-[transform,box-shadow] duration-300 ease-out hover:scale-[1.018] hover:shadow-[0_48px_100px_-35px_rgba(234,88,12,0.65)] dark:border-orange-400/10 dark:bg-slate-950/82 dark:hover:shadow-[0_48px_100px_-35px_rgba(234,88,12,0.65)]">
           <CardHeader className="pb-3 pt-5 text-center">
             <BrandLogo size={56} priority className="mx-auto mb-2" />
             <div className="mx-auto mb-1.5 h-px w-14 bg-gradient-to-r from-transparent via-orange-400/70 to-transparent" />
