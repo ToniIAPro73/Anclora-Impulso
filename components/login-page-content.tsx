@@ -4,7 +4,7 @@ import type React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Mail, Github } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { Button } from "@/components/ui/button"
@@ -144,6 +144,34 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                   {t.auth.signUp}
                 </Link>
               </p>
+            </div>
+            {/* Social login — disabled (OAuth not configured) */}
+            <div className="mt-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="h-px flex-1 bg-orange-200/40 dark:bg-orange-400/10" />
+                <span className="text-[10px] font-medium uppercase tracking-wider text-gray-400 dark:text-gray-600">
+                  {t.auth.socialAccess}
+                </span>
+                <div className="h-px flex-1 bg-orange-200/40 dark:bg-orange-400/10" />
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  disabled
+                  title={t.auth.socialComingSoon}
+                  className="flex h-11 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
+                >
+                  <Mail size={14} aria-hidden="true" /> {t.auth.google}
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  title={t.auth.socialComingSoon}
+                  className="flex h-11 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
+                >
+                  <Github size={14} aria-hidden="true" /> {t.auth.github}
+                </button>
+              </div>
             </div>
             <p className="mt-4 text-center text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
               {t.auth.legalPrefix}{" "}
