@@ -56,7 +56,7 @@ describe('LoginPage', () => {
   it('should render login form', () => {
     render(<LoginPage />)
 
-    expect(screen.getByText('Welcome Back')).toBeInTheDocument()
+    expect(screen.getByText('Anclora Impulso')).toBeInTheDocument()
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/password/i, { selector: 'input' })).toBeInTheDocument()
   })
