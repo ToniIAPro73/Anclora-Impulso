@@ -66,7 +66,11 @@
     "terms": "Terms of service",
     "legalMiddle": "and the",
     "privacy": "Privacy policy",
-    "legalSuffix": "."
+    "legalSuffix": ".",
+    "socialAccess": "Social access",
+    "google": "Google/Gmail",
+    "github": "GitHub",
+    "socialComingSoon": "Coming soon"
   },
   "home": {
     "title": "Transform Your Body with",
