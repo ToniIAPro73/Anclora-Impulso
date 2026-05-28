@@ -29,7 +29,7 @@ export async function getUserSessions(
  * GET /api/sessions/:id
  */
 export async function getSessionById(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -95,7 +95,7 @@ export async function updateSession(
  * DELETE /api/sessions/:id
  */
 export async function deleteSession(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {

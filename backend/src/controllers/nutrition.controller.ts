@@ -57,7 +57,7 @@ export async function getUserMealPlans(
  * GET /api/nutrition/meal-plans/:id
  */
 export async function getMealPlanById(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -78,7 +78,7 @@ export async function getMealPlanById(
  * DELETE /api/nutrition/meal-plans/:id
  */
 export async function deleteMealPlan(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -118,7 +118,7 @@ export async function listRecipes(
  * GET /api/nutrition/recipes/:id
  */
 export async function getRecipeById(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {

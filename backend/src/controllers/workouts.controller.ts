@@ -28,7 +28,7 @@ export async function getUserWorkouts(
  * GET /api/workouts/:id
  */
 export async function getWorkoutById(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -94,7 +94,7 @@ export async function updateWorkout(
  * DELETE /api/workouts/:id
  */
 export async function deleteWorkout(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {

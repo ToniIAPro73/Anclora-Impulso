@@ -73,7 +73,7 @@ export async function updateMeasurement(
  * DELETE /api/progress/measurements/:id
  */
 export async function deleteMeasurement(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {

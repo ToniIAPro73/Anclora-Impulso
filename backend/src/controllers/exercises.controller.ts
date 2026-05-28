@@ -52,7 +52,7 @@ export async function getAllExercises(
  * GET /api/exercises/:id
  */
 export async function getExerciseById(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
@@ -103,7 +103,7 @@ export async function updateExercise(
  * DELETE /api/exercises/:id
  */
 export async function deleteExercise(
-  req: Request,
+  req: Request<{ id: string }>,
   res: Response,
   next: NextFunction
 ): Promise<void> {
