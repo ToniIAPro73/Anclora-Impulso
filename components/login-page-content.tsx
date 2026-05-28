@@ -4,6 +4,7 @@ import type React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { Eye, EyeOff } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand-logo"
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,7 @@ type LoginPageContentProps = {
 export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: LoginPageContentProps) {
   const [email, setEmail] = useState(defaultEmail)
   const [password, setPassword] = useState(defaultPassword)
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -83,16 +85,26 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                   {t.auth.password}
                   <span className="text-red-500" aria-label="required">*</span>
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  aria-required="true"
-                  aria-describedby="password-error"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="h-11 rounded-2xl border-orange-200/80 bg-white/75 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    aria-required="true"
+                    aria-describedby="password-error"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="h-11 rounded-2xl border-orange-200/80 bg-white/75 pr-10 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    aria-label={showPassword ? t.auth.hidePassword : t.auth.showPassword}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+                  >
+                    {showPassword ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
+                  </button>
+                </div>
               </div>
               {error && (
                 <div
@@ -114,7 +126,15 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                 {isLoading ? t.auth.signingIn : t.auth.signIn}
               </Button>
             </form>
-            <div className={cn("mt-4 rounded-2xl border border-orange-100/80 bg-white/50 px-4 py-3 text-center dark:border-orange-400/10 dark:bg-slate-900/40", uiMotion.frame)}>
+            <div className="mt-3 text-center">
+              <Link
+                href="/auth/forgot-password"
+                className="text-xs text-orange-600 hover:text-orange-500 dark:text-orange-400"
+              >
+                {t.auth.forgotPassword}
+              </Link>
+            </div>
+            <div className={cn("mt-3 rounded-2xl border border-orange-100/80 bg-white/50 px-4 py-3 text-center dark:border-orange-400/10 dark:bg-slate-900/40", uiMotion.frame)}>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {t.auth.noAccount}{" "}
                 <Link
@@ -125,6 +145,17 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                 </Link>
               </p>
             </div>
+            <p className="mt-4 text-center text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
+              {t.auth.legalPrefix}{" "}
+              <Link href="/terms" className="underline hover:text-orange-600 dark:hover:text-orange-400">
+                {t.auth.terms}
+              </Link>{" "}
+              {t.auth.legalMiddle}{" "}
+              <Link href="/privacy" className="underline hover:text-orange-600 dark:hover:text-orange-400">
+                {t.auth.privacy}
+              </Link>
+              {t.auth.legalSuffix}
+            </p>
           </CardContent>
         </Card>
       </div>

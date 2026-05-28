@@ -17,6 +17,14 @@ jest.mock('@/lib/contexts/language-context', () => ({
         error: 'An error occurred',
         noAccount: "Don't have an account?",
         signUp: 'Sign Up',
+        showPassword: 'Show password',
+        hidePassword: 'Hide password',
+        forgotPassword: 'Forgot your password?',
+        legalPrefix: 'By continuing you accept the',
+        terms: 'Terms of service',
+        legalMiddle: 'and the',
+        privacy: 'Privacy policy',
+        legalSuffix: '.',
       },
     },
   })),
@@ -165,5 +173,30 @@ describe('LoginPage', () => {
 
     const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement
     expect(passwordInput.required).toBeTruthy()
+  })
+
+  it('should toggle password visibility', async () => {
+    const user = userEvent.setup()
+    render(<LoginPage />)
+
+    const passwordInput = screen.getByLabelText(/password/i) as HTMLInputElement
+    expect(passwordInput.type).toBe('password')
+
+    const toggleBtn = screen.getByRole('button', { name: /show password/i })
+    await user.click(toggleBtn)
+
+    expect(passwordInput.type).toBe('text')
+    expect(screen.getByRole('button', { name: /hide password/i })).toBeInTheDocument()
+  })
+
+  it('should render forgot password link', () => {
+    render(<LoginPage />)
+    expect(screen.getByRole('link', { name: /forgot your password/i })).toBeInTheDocument()
+  })
+
+  it('should render terms and privacy links', () => {
+    render(<LoginPage />)
+    expect(screen.getByRole('link', { name: /terms of service/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /privacy policy/i })).toBeInTheDocument()
   })
 })

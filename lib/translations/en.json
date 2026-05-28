@@ -56,7 +56,14 @@
     "loginError": "Login error. Check your credentials.",
     "signupError": "Sign up error. Please try again.",
     "passwordMismatch": "Passwords do not match",
-    "passwordTooShort": "Password must be at least 6 characters"
+    "passwordTooShort": "Password must be at least 6 characters",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "legalPrefix": "By continuing you accept the",
+    "terms": "Terms of service",
+    "legalMiddle": "and the",
+    "privacy": "Privacy policy",
+    "legalSuffix": "."
   },
   "home": {
     "title": "Transform Your Body with",
