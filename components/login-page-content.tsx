@@ -53,15 +53,15 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
         <div className="absolute left-[50%] top-[55%] h-24 w-24 rounded-full bg-amber-200/30 blur-2xl dark:bg-amber-300/10" />
       </div>
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-[460px]">
         <Card className="border-white/70 bg-white/78 shadow-[0_32px_80px_-40px_rgba(234,88,12,0.45)] backdrop-blur-xl dark:border-orange-400/10 dark:bg-slate-950/82">
-          <CardHeader className="pb-4 pt-6 text-center">
-            <BrandLogo size={72} priority className="mx-auto mb-3" />
-            <div className="mx-auto mb-2 h-px w-16 bg-gradient-to-r from-transparent via-orange-400/70 to-transparent" />
-            <CardTitle className="text-base font-bold text-gray-900 dark:text-white">Anclora Impulso</CardTitle>
+          <CardHeader className="pb-3 pt-5 text-center">
+            <BrandLogo size={56} priority className="mx-auto mb-2" />
+            <div className="mx-auto mb-1.5 h-px w-14 bg-gradient-to-r from-transparent via-orange-400/70 to-transparent" />
+            <CardTitle className="text-sm font-bold text-gray-900 dark:text-white">Anclora Impulso</CardTitle>
           </CardHeader>
-          <CardContent className="pb-5">
-            <form onSubmit={handleLogin} className="space-y-3" aria-label="Login form">
+          <CardContent className="pb-4 pt-0">
+            <form onSubmit={handleLogin} className="space-y-2.5" aria-label="Login form">
               <div className="space-y-1">
                 <Label htmlFor="email" className="text-xs font-medium text-gray-700 dark:text-gray-300">
                   {t.auth.email}
@@ -76,7 +76,7 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                   aria-describedby="email-error"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-11 rounded-2xl border-orange-200/80 bg-white/75 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
+                  className="h-10 rounded-2xl border-orange-200/80 bg-white/75 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
                 />
               </div>
               <div className="space-y-1">
@@ -93,7 +93,7 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                     aria-describedby="password-error"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-11 rounded-2xl border-orange-200/80 bg-white/75 pr-10 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
+                    className="h-10 rounded-2xl border-orange-200/80 bg-white/75 pr-10 text-sm dark:border-orange-400/10 dark:bg-slate-900/70 focus:border-orange-500 dark:focus:border-orange-400"
                   />
                   <button
                     type="button"
@@ -118,14 +118,14 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
               )}
               <Button
                 type="submit"
-                className="h-11 w-full rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-rose-500 text-sm font-semibold text-white hover:from-orange-600 hover:via-red-500 hover:to-rose-600"
+                className="h-10 w-full rounded-2xl bg-gradient-to-r from-orange-500 via-red-500 to-rose-500 text-sm font-semibold text-white hover:from-orange-600 hover:via-red-500 hover:to-rose-600"
                 disabled={isLoading}
                 aria-busy={isLoading}
               >
                 {isLoading ? t.auth.signingIn : t.auth.signIn}
               </Button>
             </form>
-            <div className="mt-2 text-center">
+            <div className="mt-1.5 text-center">
               <Link
                 href="/auth/forgot-password"
                 className="text-xs text-orange-600 hover:text-orange-500 dark:text-orange-400"
@@ -133,7 +133,7 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                 {t.auth.forgotPassword}
               </Link>
             </div>
-            <div className={cn("mt-2 rounded-2xl border border-orange-100/80 bg-white/50 px-4 py-2.5 text-center dark:border-orange-400/10 dark:bg-slate-900/40", uiMotion.frame)}>
+            <div className={cn("mt-1.5 rounded-2xl border border-orange-100/80 bg-white/50 px-4 py-2 text-center dark:border-orange-400/10 dark:bg-slate-900/40", uiMotion.frame)}>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 {t.auth.noAccount}{" "}
                 <Link
@@ -145,8 +145,8 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
               </p>
             </div>
             {/* Social login — disabled (OAuth not configured) */}
-            <div className="mt-3">
-              <div className="flex items-center gap-3 mb-2">
+            <div className="mt-2.5">
+              <div className="flex items-center gap-3 mb-1.5">
                 <div className="h-px flex-1 bg-orange-200/40 dark:bg-orange-400/10" />
                 <span className="text-[10px] font-medium uppercase tracking-wider text-gray-400 dark:text-gray-600">
                   {t.auth.socialAccess}
@@ -158,7 +158,7 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                   type="button"
                   disabled
                   title={t.auth.socialComingSoon}
-                  className="flex h-10 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
+                  className="flex h-9 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
                 >
                   <Mail size={14} aria-hidden="true" /> {t.auth.google}
                 </button>
@@ -166,13 +166,13 @@ export function LoginPageContent({ defaultEmail = "", defaultPassword = "" }: Lo
                   type="button"
                   disabled
                   title={t.auth.socialComingSoon}
-                  className="flex h-10 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
+                  className="flex h-9 items-center justify-center gap-2 rounded-2xl border border-orange-200/50 text-xs font-medium text-gray-400 opacity-50 cursor-not-allowed dark:border-orange-400/10 dark:text-gray-600"
                 >
                   <Github size={14} aria-hidden="true" /> {t.auth.github}
                 </button>
               </div>
             </div>
-            <p className="mt-3 text-center text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
+            <p className="mt-2 text-center text-[11px] leading-relaxed text-gray-500 dark:text-gray-500">
               {t.auth.legalPrefix}{" "}
               <Link href="/terms" className="underline hover:text-orange-600 dark:hover:text-orange-400">
                 {t.auth.terms}
