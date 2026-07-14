@@ -4,11 +4,17 @@ import { validateBody, validateQuery } from '../middleware/validate';
 import { authenticate } from '../middleware/auth';
 import {
   bulkUpdateRecipeEditorialSchema,
+  createFoodItemSchema,
+  createMealLogSchema,
   createNutritionLogSchema,
   createRecipeSchema,
+  createSmartMealPlanSchema,
   generateMealPlanSchema,
+  listFoodItemsQuerySchema,
+  listMealLogsQuerySchema,
   listRecipesQuerySchema,
   replaceMealRecipeSchema,
+  upsertNutritionTargetSchema,
   updateRecipeSchema,
 } from '../utils/validators';
 import { requireAdmin } from '../middleware/admin';
@@ -19,6 +25,7 @@ const router: Router = Router();
 router.use(authenticate);
 
 // Planes de comida
+router.post('/meal-plans/smart', validateBody(createSmartMealPlanSchema), nutritionController.createSmartMealPlan);
 router.post(
   '/meal-plans/generate',
   validateBody(generateMealPlanSchema),
@@ -41,5 +48,14 @@ router.post('/meals/:mealId/replace', validateBody(replaceMealRecipeSchema), nut
 router.post('/log', validateBody(createNutritionLogSchema), nutritionController.createNutritionLog);
 router.get('/logs', nutritionController.getNutritionLogs);
 router.get('/summary', nutritionController.getNutritionSummary);
+
+// Smart nutrition
+router.get('/foods', validateQuery(listFoodItemsQuerySchema), nutritionController.listFoodItems);
+router.post('/foods', validateBody(createFoodItemSchema), nutritionController.createFoodItem);
+router.get('/targets', nutritionController.getNutritionTarget);
+router.put('/targets', validateBody(upsertNutritionTargetSchema), nutritionController.upsertNutritionTarget);
+router.get('/meal-logs', validateQuery(listMealLogsQuerySchema), nutritionController.listMealLogs);
+router.post('/meal-logs', validateBody(createMealLogSchema), nutritionController.createMealLog);
+router.get('/health-import/status', nutritionController.getHealthImportStatus);
 
 export default router;

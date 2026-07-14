@@ -48,6 +48,10 @@ model User {
   recipes          Recipe[]
   nutritionLogs    NutritionLog[]
   nutritionBalance UserNutritionBalance?
+  foodItems        FoodItem[]
+  mealLogs         MealLog[]
+  nutritionTarget  NutritionTarget?
+  healthDataImports HealthDataImport[]
 
   // Relaciones - Gamificación
   gamification    UserGamification?
@@ -579,6 +583,91 @@ model NutritionLog {
   @@index([date])
   @@index([mealType])
   @@map("nutrition_logs")
+}
+
+model FoodItem {
+  id           String   @id @default(uuid())
+  userId       String?
+  name         String
+  brand        String?
+  barcode      String?
+  servingSizeG Float
+  calories     Float
+  protein      Float
+  carbs        Float
+  fat          Float
+  fiber        Float   @default(0)
+  source       String  @default("user")
+  verified     Boolean @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  mealLogs MealLog[]
+
+  @@index([userId])
+  @@index([name])
+  @@index([barcode])
+  @@map("food_items")
+}
+
+model MealLog {
+  id        String   @id @default(uuid())
+  userId    String
+  foodItemId String?
+  mealType  String
+  consumedAt DateTime @default(now())
+  quantityG Float?
+  name      String
+  calories  Float
+  protein   Float
+  carbs     Float
+  fat       Float
+  fiber     Float @default(0)
+  notes     String?
+  createdAt DateTime @default(now())
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  foodItem FoodItem? @relation(fields: [foodItemId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([foodItemId])
+  @@index([consumedAt])
+  @@map("meal_logs")
+}
+
+model NutritionTarget {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  calories  Float
+  protein   Float
+  carbs     Float
+  fat       Float
+  fiber     Float
+  goal      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("nutrition_targets")
+}
+
+model HealthDataImport {
+  id         String   @id @default(uuid())
+  userId     String
+  provider   String
+  importType String
+  status     String
+  payload    Json?
+  importedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([provider])
+  @@index([importedAt])
+  @@map("health_data_imports")
 }
 
 model ProductEvent {
