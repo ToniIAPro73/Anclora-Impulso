@@ -282,6 +282,44 @@ export interface CoachMessageResponse {
   };
 }
 
+export interface SocialFeedItem {
+  id: string;
+  userId: string;
+  userName: string;
+  type: 'workout_completed';
+  content: string;
+  sourceType: string | null;
+  sourceId: string | null;
+  visibility: 'public' | 'private';
+  metadata: Record<string, unknown> | null;
+  createdAt: string;
+  kudosCount: number;
+  hasKudosFromMe: boolean;
+}
+
+export interface SocialFeedResponse {
+  items: SocialFeedItem[];
+}
+
+export interface Challenge {
+  id: string;
+  key: string;
+  title: string;
+  metric: 'workout_completions';
+  startsAt: string;
+  endsAt: string;
+}
+
+export interface ChallengeLeaderboard {
+  entries: Array<{
+    rank: number;
+    userId: string;
+    userName: string;
+    score: number;
+    joinedAt: string;
+  }>;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -553,6 +591,44 @@ export const progressionApi = {
 export const coachApi = {
   async sendMessage(data: CoachMessagePayload): Promise<CoachMessageResponse> {
     return apiClient.post<CoachMessageResponse>('/v1/coach/messages', data);
+  },
+};
+
+export const socialApi = {
+  async updatePrivacy(visibility: 'public' | 'private'): Promise<{ userId: string; visibility: string }> {
+    return apiClient.put<{ userId: string; visibility: string }>('/social/privacy', { visibility });
+  },
+
+  async getFeed(): Promise<SocialFeedResponse> {
+    return apiClient.get<SocialFeedResponse>('/social/feed');
+  },
+
+  async follow(userId: string): Promise<void> {
+    return apiClient.post<void>(`/social/follows/${userId}`, {});
+  },
+
+  async unfollow(userId: string): Promise<void> {
+    return apiClient.delete<void>(`/social/follows/${userId}`);
+  },
+
+  async addKudos(feedItemId: string): Promise<void> {
+    return apiClient.post<void>(`/social/feed/${feedItemId}/kudos`, {});
+  },
+
+  async removeKudos(feedItemId: string): Promise<void> {
+    return apiClient.delete<void>(`/social/feed/${feedItemId}/kudos`);
+  },
+
+  async getWeeklyChallenge(): Promise<Challenge> {
+    return apiClient.get<Challenge>('/social/challenges/weekly');
+  },
+
+  async joinChallenge(challengeId: string): Promise<void> {
+    return apiClient.post<void>(`/social/challenges/${challengeId}/join`, {});
+  },
+
+  async getChallengeLeaderboard(challengeId: string): Promise<ChallengeLeaderboard> {
+    return apiClient.get<ChallengeLeaderboard>(`/social/challenges/${challengeId}/leaderboard`);
   },
 };
 
