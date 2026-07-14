@@ -396,6 +396,73 @@ export const swaggerDefinition = {
         },
         required: ['entries'],
       },
+      FoodItem: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          name: { type: 'string' },
+          brand: { type: 'string', nullable: true },
+          barcode: { type: 'string', nullable: true },
+          servingSizeG: { type: 'number' },
+          calories: { type: 'number' },
+          protein: { type: 'number' },
+          carbs: { type: 'number' },
+          fat: { type: 'number' },
+          fiber: { type: 'number' },
+          source: { type: 'string' },
+          verified: { type: 'boolean' },
+        },
+        required: ['id', 'name', 'servingSizeG', 'calories', 'protein', 'carbs', 'fat', 'fiber', 'source', 'verified'],
+      },
+      MealLog: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          foodItemId: { type: 'string', format: 'uuid', nullable: true },
+          mealType: { type: 'string', enum: ['desayuno', 'almuerzo', 'cena', 'snack'] },
+          consumedAt: { type: 'string', format: 'date-time' },
+          quantityG: { type: 'number', nullable: true },
+          name: { type: 'string' },
+          calories: { type: 'number' },
+          protein: { type: 'number' },
+          carbs: { type: 'number' },
+          fat: { type: 'number' },
+          fiber: { type: 'number' },
+          notes: { type: 'string', nullable: true },
+        },
+        required: ['id', 'mealType', 'consumedAt', 'name', 'calories', 'protein', 'carbs', 'fat', 'fiber'],
+      },
+      NutritionTarget: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          calories: { type: 'number' },
+          protein: { type: 'number' },
+          carbs: { type: 'number' },
+          fat: { type: 'number' },
+          fiber: { type: 'number' },
+          goal: { type: 'string', enum: ['lose_weight', 'build_muscle', 'recomposition', 'maintain'] },
+        },
+        required: ['id', 'calories', 'protein', 'carbs', 'fat', 'fiber', 'goal'],
+      },
+      HealthImportStatus: {
+        type: 'object',
+        properties: {
+          enabled: { type: 'boolean' },
+          providers: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                provider: { type: 'string', enum: ['google_fit', 'health_connect'] },
+                available: { type: 'boolean' },
+              },
+              required: ['provider', 'available'],
+            },
+          },
+        },
+        required: ['enabled', 'providers'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -1304,6 +1371,155 @@ export const swaggerDefinition = {
             },
           },
           '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/nutrition/foods': {
+      get: {
+        tags: ['Nutrition'],
+        summary: 'Search food items',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'query', in: 'query', required: false, schema: { type: 'string' } }],
+        responses: {
+          '200': {
+            description: 'Food items',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    items: { type: 'array', items: { $ref: '#/components/schemas/FoodItem' } },
+                  },
+                  required: ['items'],
+                },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ['Nutrition'],
+        summary: 'Create a user food item',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/FoodItem' },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Food item created' },
+          '400': { description: 'Invalid input' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/nutrition/targets': {
+      get: {
+        tags: ['Nutrition'],
+        summary: 'Get nutrition target',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Nutrition target',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/NutritionTarget' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+      put: {
+        tags: ['Nutrition'],
+        summary: 'Create or update nutrition target',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/NutritionTarget' },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Nutrition target saved' },
+          '400': { description: 'Invalid input' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/nutrition/meal-logs': {
+      get: {
+        tags: ['Nutrition'],
+        summary: 'List meal logs for one day',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'date', in: 'query', required: false, schema: { type: 'string', format: 'date' } }],
+        responses: {
+          '200': {
+            description: 'Meal logs',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    items: { type: 'array', items: { $ref: '#/components/schemas/MealLog' } },
+                  },
+                  required: ['items'],
+                },
+              },
+            },
+          },
+        },
+      },
+      post: {
+        tags: ['Nutrition'],
+        summary: 'Create a meal log',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/MealLog' },
+            },
+          },
+        },
+        responses: {
+          '201': { description: 'Meal log created' },
+          '400': { description: 'Invalid input' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/nutrition/meal-plans/smart': {
+      post: {
+        tags: ['Nutrition'],
+        summary: 'Create a target-aware smart meal plan shell',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '201': { description: 'Smart meal plan created' },
+          '400': { description: 'Nutrition target required' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/nutrition/health-import/status': {
+      get: {
+        tags: ['Nutrition'],
+        summary: 'Get health data import feature status',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Health import status',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/HealthImportStatus' },
+              },
+            },
+          },
         },
       },
     },

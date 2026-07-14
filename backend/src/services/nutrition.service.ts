@@ -9,13 +9,20 @@ import {
 import type { Prisma } from '@prisma/client';
 import type {
   BulkUpdateRecipeEditorialInput,
+  CreateFoodItemInput,
+  CreateMealLogInput,
   CreateRecipeInput,
+  CreateSmartMealPlanInput,
   GenerateMealPlanInput,
+  ListFoodItemsQueryInput,
+  ListMealLogsQueryInput,
   ListRecipesQueryInput,
   CreateNutritionLogInput,
   ReplaceMealRecipeInput,
+  UpsertNutritionTargetInput,
   UpdateRecipeInput,
 } from '../utils/validators';
+import { env } from '../config/env';
 
 type MealPlanWithMeals = Awaited<ReturnType<typeof getMealPlanById>>;
 type PrismaTx = Prisma.TransactionClient;
@@ -1398,5 +1405,194 @@ export async function getNutritionSummary(userId: string, period: 'day' | 'week'
     },
     logCount: totals.count,
     intermittentFasting: fasting,
+  };
+}
+
+function roundMacro(value: number) {
+  return Number(value.toFixed(2));
+}
+
+export async function createFoodItem(userId: string, data: CreateFoodItemInput) {
+  return prisma.foodItem.create({
+    data: {
+      userId,
+      name: data.name,
+      brand: data.brand ?? null,
+      barcode: data.barcode ?? null,
+      servingSizeG: data.servingSizeG,
+      calories: data.calories,
+      protein: data.protein,
+      carbs: data.carbs,
+      fat: data.fat,
+      fiber: data.fiber ?? 0,
+      source: 'user',
+    },
+  });
+}
+
+export async function listFoodItems(userId: string, query: ListFoodItemsQueryInput) {
+  const limit = query.limit ?? 20;
+  const items = await prisma.foodItem.findMany({
+    where: {
+      AND: [
+        {
+          OR: [
+            { userId },
+            { verified: true },
+          ],
+        },
+        query.query
+          ? {
+              OR: [
+                { name: { contains: query.query, mode: 'insensitive' } },
+                { brand: { contains: query.query, mode: 'insensitive' } },
+                { barcode: query.query },
+              ],
+            }
+          : {},
+      ],
+    },
+    orderBy: [{ verified: 'desc' }, { name: 'asc' }],
+    take: limit,
+  });
+
+  return { items };
+}
+
+export async function upsertNutritionTarget(userId: string, data: UpsertNutritionTargetInput) {
+  return prisma.nutritionTarget.upsert({
+    where: { userId },
+    update: data,
+    create: {
+      userId,
+      ...data,
+    },
+  });
+}
+
+export async function getNutritionTarget(userId: string) {
+  return prisma.nutritionTarget.findUnique({
+    where: { userId },
+  });
+}
+
+export async function createMealLog(userId: string, data: CreateMealLogInput) {
+  const consumedAt = data.consumedAt ? new Date(data.consumedAt) : new Date();
+
+  if (data.foodItemId) {
+    const foodItem = await prisma.foodItem.findFirst({
+      where: {
+        id: data.foodItemId,
+        OR: [
+          { userId },
+          { verified: true },
+        ],
+      },
+    });
+
+    if (!foodItem) {
+      throw new AppError(404, 'Food item not found');
+    }
+
+    const quantityG = data.quantityG ?? foodItem.servingSizeG;
+    const multiplier = quantityG / foodItem.servingSizeG;
+
+    return prisma.mealLog.create({
+      data: {
+        userId,
+        foodItemId: foodItem.id,
+        mealType: data.mealType,
+        consumedAt,
+        quantityG,
+        name: foodItem.name,
+        calories: roundMacro(foodItem.calories * multiplier),
+        protein: roundMacro(foodItem.protein * multiplier),
+        carbs: roundMacro(foodItem.carbs * multiplier),
+        fat: roundMacro(foodItem.fat * multiplier),
+        fiber: roundMacro(foodItem.fiber * multiplier),
+        notes: data.notes,
+      },
+    });
+  }
+
+  return prisma.mealLog.create({
+    data: {
+      userId,
+      mealType: data.mealType,
+      consumedAt,
+      quantityG: data.quantityG,
+      name: data.name ?? 'Custom meal',
+      calories: data.calories ?? 0,
+      protein: data.protein ?? 0,
+      carbs: data.carbs ?? 0,
+      fat: data.fat ?? 0,
+      fiber: data.fiber ?? 0,
+      notes: data.notes,
+    },
+  });
+}
+
+export async function listMealLogs(userId: string, query: ListMealLogsQueryInput) {
+  const baseDate = query.date ? new Date(`${query.date}T00:00:00.000Z`) : new Date();
+  const start = new Date(Date.UTC(baseDate.getUTCFullYear(), baseDate.getUTCMonth(), baseDate.getUTCDate()));
+  const end = new Date(start);
+  end.setUTCDate(start.getUTCDate() + 1);
+
+  const items = await prisma.mealLog.findMany({
+    where: {
+      userId,
+      consumedAt: {
+        gte: start,
+        lt: end,
+      },
+    },
+    orderBy: { consumedAt: 'desc' },
+  });
+
+  return { items };
+}
+
+export async function createSmartMealPlan(userId: string, data: CreateSmartMealPlanInput) {
+  const target = await prisma.nutritionTarget.findUnique({
+    where: { userId },
+  });
+
+  if (!target) {
+    throw new AppError(400, 'Nutrition target is required before creating a smart meal plan');
+  }
+
+  const weekStart = data.weekStart ? new Date(data.weekStart) : new Date();
+  const plan = await prisma.mealPlan.create({
+    data: {
+      userId,
+      weekStart,
+      goal: target.goal,
+      dietType: 'target_aligned',
+    },
+  });
+
+  return {
+    id: plan.id,
+    userId: plan.userId,
+    weekStart: plan.weekStart,
+    goal: target.goal,
+    targetCalories: target.calories,
+    targetProtein: target.protein,
+    targetCarbs: target.carbs,
+    targetFat: target.fat,
+    targetFiber: target.fiber,
+    strategy: 'target_aligned',
+  };
+}
+
+export function getHealthImportStatus() {
+  const enabled = env.healthDataImportEnabled;
+
+  return {
+    enabled,
+    providers: [
+      { provider: 'google_fit', available: enabled },
+      { provider: 'health_connect', available: enabled },
+    ],
   };
 }

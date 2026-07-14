@@ -73,6 +73,7 @@ export const env = {
   llmCoachCacheTtlSeconds: parseInt(process.env.LLM_COACH_CACHE_TTL_SECONDS || '300', 10),
   llmCoachWindowMinutes: parseInt(process.env.LLM_COACH_WINDOW_MINUTES || '60', 10),
   llmCoachWindowLimit: parseInt(process.env.LLM_COACH_WINDOW_LIMIT || '20', 10),
+  healthDataImportEnabled: process.env.HEALTH_DATA_IMPORT_ENABLED === 'true',
 
   // Legacy (deprecated, usar GROQ_API_KEY)
   openaiApiKey: process.env.OPENAI_API_KEY || '',
