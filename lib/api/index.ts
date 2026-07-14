@@ -219,6 +219,45 @@ export interface StrengthProgress {
   }>;
 }
 
+export interface ProgressionSessionPlan {
+  generatedAt: string;
+  prescriptions: Array<{
+    exerciseId: string;
+    weight: number;
+    repRange: { minReps: number; maxReps: number };
+    sets: number;
+    targetRIR: number;
+    focus: 'STRENGTH' | 'HYPERTROPHY' | 'ENDURANCE';
+    action: 'increase_load' | 'maintain' | 'deload';
+    freshnessScore: number;
+    recoveryAction: 'normal' | 'prioritize' | 'substitute_or_reduce';
+    reasons: string[];
+    deload: {
+      shouldDeload: boolean;
+      reason: 'none' | 'stall' | 'scheduled';
+    };
+  }>;
+}
+
+export interface GenerateNextSessionPayload {
+  now?: string;
+  weekIndex?: number;
+  sessionIndex?: number;
+  plannedExercises: Array<{
+    exerciseId: string;
+    sets: number;
+    currentWeight?: number;
+    targetRepRange?: { minReps: number; maxReps: number };
+    exercisePattern: 'lower_compound' | 'upper_compound' | 'isolation';
+    primaryMuscle?: string;
+    lastVolume?: number;
+    sessionResult?: {
+      reps: number[];
+      averageRir: number;
+    };
+  }>;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -478,6 +517,12 @@ export const progressApi = {
 
   async deleteMeasurement(id: string): Promise<void> {
     return apiClient.delete(`/progress/measurements/${id}`);
+  },
+};
+
+export const progressionApi = {
+  async getNextSession(data: GenerateNextSessionPayload): Promise<ProgressionSessionPlan> {
+    return apiClient.post<ProgressionSessionPlan>('/v1/progression/next-session', data);
   },
 };
 

@@ -267,6 +267,47 @@ export const swaggerDefinition = {
         },
         required: ['totalVolume', 'personalRecords', 'muscleVolume', 'recentSets'],
       },
+      ProgressionSessionPlan: {
+        type: 'object',
+        properties: {
+          generatedAt: { type: 'string', format: 'date-time' },
+          prescriptions: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                exerciseId: { type: 'string', format: 'uuid' },
+                weight: { type: 'number' },
+                repRange: {
+                  type: 'object',
+                  properties: {
+                    minReps: { type: 'integer' },
+                    maxReps: { type: 'integer' },
+                  },
+                  required: ['minReps', 'maxReps'],
+                },
+                sets: { type: 'integer' },
+                targetRIR: { type: 'number' },
+                focus: { type: 'string', enum: ['STRENGTH', 'HYPERTROPHY', 'ENDURANCE'] },
+                action: { type: 'string', enum: ['increase_load', 'maintain', 'deload'] },
+                freshnessScore: { type: 'integer', minimum: 0, maximum: 100 },
+                recoveryAction: { type: 'string', enum: ['normal', 'prioritize', 'substitute_or_reduce'] },
+                reasons: { type: 'array', items: { type: 'string' } },
+                deload: {
+                  type: 'object',
+                  properties: {
+                    shouldDeload: { type: 'boolean' },
+                    reason: { type: 'string', enum: ['none', 'stall', 'scheduled'] },
+                  },
+                  required: ['shouldDeload', 'reason'],
+                },
+              },
+              required: ['exerciseId', 'weight', 'repRange', 'sets', 'targetRIR', 'focus', 'action', 'freshnessScore', 'recoveryAction', 'reasons', 'deload'],
+            },
+          },
+        },
+        required: ['generatedAt', 'prescriptions'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -879,6 +920,85 @@ export const swaggerDefinition = {
             content: {
               'application/json': {
                 schema: { $ref: '#/components/schemas/StrengthProgress' },
+              },
+            },
+          },
+          '401': {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/v1/progression/next-session': {
+      post: {
+        tags: ['Progression'],
+        summary: 'Generate adaptive next-session prescriptions',
+        description: 'Returns deterministic load, rep range, deload and recovery recommendations from progression state and planned exercises.',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  now: { type: 'string', format: 'date-time' },
+                  weekIndex: { type: 'integer' },
+                  sessionIndex: { type: 'integer' },
+                  plannedExercises: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        exerciseId: { type: 'string', format: 'uuid' },
+                        sets: { type: 'integer' },
+                        currentWeight: { type: 'number' },
+                        targetRepRange: {
+                          type: 'object',
+                          properties: {
+                            minReps: { type: 'integer' },
+                            maxReps: { type: 'integer' },
+                          },
+                        },
+                        exercisePattern: { type: 'string', enum: ['lower_compound', 'upper_compound', 'isolation'] },
+                        primaryMuscle: { type: 'string' },
+                        lastVolume: { type: 'number' },
+                        sessionResult: {
+                          type: 'object',
+                          properties: {
+                            reps: { type: 'array', items: { type: 'integer' } },
+                            averageRir: { type: 'number' },
+                          },
+                        },
+                      },
+                      required: ['exerciseId', 'sets', 'exercisePattern'],
+                    },
+                  },
+                },
+                required: ['plannedExercises'],
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Adaptive session plan',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ProgressionSessionPlan' },
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid input',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
               },
             },
           },

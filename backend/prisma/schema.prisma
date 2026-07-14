@@ -56,6 +56,7 @@ model User {
   notificationDeliveries NotificationDelivery[]
   personalRecords PersonalRecord[]
   muscleVolumes   MuscleVolume[]
+  progressionStates ExerciseProgressionState[]
 
   @@map("users")
 }
@@ -82,6 +83,7 @@ model Exercise {
   workoutExercises WorkoutExercise[]
   sessionExercises SessionExercise[]
   personalRecords PersonalRecord[]
+  progressionStates ExerciseProgressionState[]
 
   @@index([category])
   @@index([muscleGroup])
@@ -215,6 +217,34 @@ model MuscleVolume {
   @@index([muscleGroup])
   @@index([createdAt])
   @@map("muscle_volumes")
+}
+
+model ExerciseProgressionState {
+  id                     String   @id @default(uuid())
+  userId                 String
+  exerciseId             String
+  currentWeight          Float
+  targetMinReps          Int
+  targetMaxReps          Int
+  lastSessionReps        Int[]    @default([])
+  lastSessionRIR         Float?
+  consecutiveSuccesses   Int      @default(0)
+  consecutiveStalls      Int      @default(0)
+  lastTrainedAt          DateTime?
+  strategy               String   @default("LINEAR")
+  deloadActive           Boolean  @default(false)
+  lastDeloadAt           DateTime?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercise Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, exerciseId])
+  @@index([userId])
+  @@index([exerciseId])
+  @@index([lastTrainedAt])
+  @@map("exercise_progression_states")
 }
 
 model BodyMeasurement {
