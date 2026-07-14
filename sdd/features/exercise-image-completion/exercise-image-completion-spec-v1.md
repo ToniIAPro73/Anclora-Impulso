@@ -6,7 +6,7 @@ Most exercises still do not have final illustrations. The repository already con
 
 ## Goal
 
-Create a deterministic exercise image manifest workflow that identifies missing exercise illustrations and prepares ComfyUI jobs using the 31-40 male athlete model and the matching environment background.
+Create a deterministic exercise image prompt workflow that identifies missing exercise illustrations and exports prompts for a generic image-generation LLM using the 31-40 male athlete model and the matching environment background.
 
 ## Acceptance Criteria
 
@@ -15,12 +15,13 @@ Create a deterministic exercise image manifest workflow that identifies missing 
 - Every missing job uses the active 31-40 athlete reference from `reference-config.json`.
 - Every missing job resolves environment references for `gym`, `home`, and `outdoor`.
 - Target paths point to `backend/public/exercises/<slug>/<file>`.
+- Prompts are exportable as JSONL, CSV, and copy-paste Markdown batches.
 - Package scripts use existing Comfy pipeline files.
-- The workflow remains blocked from actual generation until a real Comfy workflow export and node bindings are supplied.
+- The workflow does not require ComfyUI for prompt export.
 
 ## Non-goals
 
-- Do not fabricate final exercise images without the configured generator workflow.
+- Do not fabricate final exercise images inside this repo.
 - Do not change exercise database schema.
 - Do not upload assets to external services.
 - Do not perform PR promotions.
