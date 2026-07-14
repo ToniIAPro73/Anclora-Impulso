@@ -43,10 +43,24 @@ npm run comfy:prepare:missing
 node scripts/comfy/build-comfy-payloads.mjs --limit 12
 ```
 
-6. Inspeccionar:
+6. Ejecutar payloads contra ComfyUI y escribir imágenes finales:
+
+```bash
+npm run comfy:run -- --limit 12
+```
+
+Por defecto usa ComfyUI local en `http://127.0.0.1:8188` con endpoints `/prompt`, `/history/:id` y `/view`.
+
+Para proveedor con prefijo cloud:
+
+```bash
+COMFY_BASE_URL="https://tu-comfy.example" COMFY_API_PREFIX="/api" COMFY_API_KEY="..." npm run comfy:run -- --limit 12
+```
+
+7. Inspeccionar:
    - jobs preparados en `ai/comfy/manifests/jobs/`
    - payloads listos en `ai/comfy/manifests/payloads/`
-7. Conectar después esos payloads a la API cloud elegida.
+   - imágenes finales en `backend/public/exercises/<slug>/`
 
 ## Contratos del pipeline
 
@@ -69,4 +83,4 @@ node scripts/comfy/build-comfy-payloads.mjs --limit 12
   - referencia de atleta
   - referencia de entorno
   - prefijo de salida
-- Añadir un script final de envío para el proveedor cloud real.
+- Si se usa proveedor cloud, validar si requiere `COMFY_API_PREFIX="/api"` y `COMFY_API_KEY`.
