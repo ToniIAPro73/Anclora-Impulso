@@ -258,6 +258,30 @@ export interface GenerateNextSessionPayload {
   }>;
 }
 
+export interface CoachMessagePayload {
+  conversationId?: string;
+  message: string;
+}
+
+export interface CoachMessageResponse {
+  conversationId: string;
+  answer: string;
+  provider: 'groq' | 'deterministic' | 'guardrail';
+  model: string;
+  cached: boolean;
+  safety: {
+    withinScope: boolean;
+    escalatedToProfessional: boolean;
+    flags: string[];
+  };
+  usage: {
+    estimatedInputTokens: number;
+    estimatedOutputTokens: number;
+    estimatedTotalTokens: number;
+    remainingWindowRequests: number;
+  };
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -523,6 +547,12 @@ export const progressApi = {
 export const progressionApi = {
   async getNextSession(data: GenerateNextSessionPayload): Promise<ProgressionSessionPlan> {
     return apiClient.post<ProgressionSessionPlan>('/v1/progression/next-session', data);
+  },
+};
+
+export const coachApi = {
+  async sendMessage(data: CoachMessagePayload): Promise<CoachMessageResponse> {
+    return apiClient.post<CoachMessageResponse>('/v1/coach/messages', data);
   },
 };
 

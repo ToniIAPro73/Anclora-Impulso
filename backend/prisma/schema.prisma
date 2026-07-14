@@ -57,6 +57,8 @@ model User {
   personalRecords PersonalRecord[]
   muscleVolumes   MuscleVolume[]
   progressionStates ExerciseProgressionState[]
+  coachConversations CoachConversation[]
+  coachUsageWindows CoachUsageWindow[]
 
   @@map("users")
 }
@@ -245,6 +247,55 @@ model ExerciseProgressionState {
   @@index([exerciseId])
   @@index([lastTrainedAt])
   @@map("exercise_progression_states")
+}
+
+model CoachConversation {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages CoachMessage[]
+
+  @@index([userId])
+  @@index([updatedAt])
+  @@map("coach_conversations")
+}
+
+model CoachMessage {
+  id             String   @id @default(uuid())
+  conversationId String
+  role           String
+  content        String
+  provider       String?
+  model          String?
+  estimatedTokens Int     @default(0)
+  safetyFlags    String[] @default([])
+  createdAt      DateTime @default(now())
+
+  conversation CoachConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("coach_messages")
+}
+
+model CoachUsageWindow {
+  id             String   @id @default(uuid())
+  userId         String
+  windowStartsAt DateTime
+  requestCount   Int      @default(0)
+  tokenEstimate  Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, windowStartsAt])
+  @@index([userId])
+  @@index([windowStartsAt])
+  @@map("coach_usage_windows")
 }
 
 model BodyMeasurement {
