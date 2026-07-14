@@ -225,7 +225,7 @@ HUBSPOT_FORM_GUID=34afefab-a031-4516-838e-f0edf0b98bc7
 NEXT_PUBLIC_SITE_URL=https://playaviva-uniestate.vercel.app
 
 # reCAPTCHA Enterprise (NUEVO)
-RECAPTCHA_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxx
+RECAPTCHA_API_KEY=<YOUR_RECAPTCHA_API_KEY>
 ```
 
 ---
@@ -257,7 +257,7 @@ npm run dev
 # https://console.cloud.google.com/
 
 # 3. Agregar a .env.local
-echo "RECAPTCHA_API_KEY=AIzaSyBxxxxxx" >> .env.local
+echo "RECAPTCHA_API_KEY=<YOUR_RECAPTCHA_API_KEY>" >> .env.local
 
 # 4. Actualizar archivos:
 # - page.tsx (usar fragmentos .tsx)

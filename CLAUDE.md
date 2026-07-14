@@ -449,12 +449,12 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api  # Backend URL (exposed to browser
 
 ### Backend (`.env`)
 ```
-DATABASE_URL=postgresql://...  # Neon PostgreSQL connection
-JWT_SECRET=your-secret-key     # For signing tokens
-JWT_REFRESH_SECRET=...          # For refresh tokens
+DATABASE_URL=postgresql://...  # PostgreSQL connection
+JWT_SECRET=                    # Set from secret manager
+JWT_REFRESH_SECRET=            # Set from secret manager
 NODE_ENV=development|production
 FRONTEND_URL=http://localhost:3000  # For CORS
-OPENAI_API_KEY=...             # For AI workout generation (if enabled)
+OPENAI_API_KEY=                # Optional, set from secret manager
 ```
 
 ---
