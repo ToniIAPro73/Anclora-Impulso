@@ -308,6 +308,36 @@ export const swaggerDefinition = {
         },
         required: ['generatedAt', 'prescriptions'],
       },
+      CoachMessageResponse: {
+        type: 'object',
+        properties: {
+          conversationId: { type: 'string', format: 'uuid' },
+          answer: { type: 'string' },
+          provider: { type: 'string', enum: ['groq', 'deterministic', 'guardrail'] },
+          model: { type: 'string' },
+          cached: { type: 'boolean' },
+          safety: {
+            type: 'object',
+            properties: {
+              withinScope: { type: 'boolean' },
+              escalatedToProfessional: { type: 'boolean' },
+              flags: { type: 'array', items: { type: 'string' } },
+            },
+            required: ['withinScope', 'escalatedToProfessional', 'flags'],
+          },
+          usage: {
+            type: 'object',
+            properties: {
+              estimatedInputTokens: { type: 'integer' },
+              estimatedOutputTokens: { type: 'integer' },
+              estimatedTotalTokens: { type: 'integer' },
+              remainingWindowRequests: { type: 'integer' },
+            },
+            required: ['estimatedInputTokens', 'estimatedOutputTokens', 'estimatedTotalTokens', 'remainingWindowRequests'],
+          },
+        },
+        required: ['conversationId', 'answer', 'provider', 'model', 'cached', 'safety', 'usage'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -1004,6 +1034,72 @@ export const swaggerDefinition = {
           },
           '401': {
             description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/v1/coach/messages': {
+      post: {
+        tags: ['Coach'],
+        summary: 'Send a message to the guarded LLM coach',
+        description:
+          'Feature-flagged conversational coach with bounded user context, safety guardrails, caching, and per-user cost controls.',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  conversationId: { type: 'string', format: 'uuid' },
+                  message: { type: 'string', minLength: 3, maxLength: 2000 },
+                },
+                required: ['message'],
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Coach response',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/CoachMessageResponse' },
+              },
+            },
+          },
+          '400': {
+            description: 'Invalid input',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+          '401': {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+          '429': {
+            description: 'Per-user LLM coach rate limit exceeded',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+          '503': {
+            description: 'LLM coach disabled or provider unavailable',
             content: {
               'application/json': {
                 schema: { $ref: '#/components/schemas/Error' },
