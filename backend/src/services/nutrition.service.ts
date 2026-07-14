@@ -35,6 +35,11 @@ type WeeklyRecipeSelection = {
   mealType: SupportedMealType;
   recipe: RecipeWithRelations;
 };
+type RecipeVarietyProfile = {
+  familyKey: string;
+  proteinKey: string;
+  baseKey: string;
+};
 
 const recipeInclude = {
   ingredients: {
@@ -200,6 +205,67 @@ function recipeSearchHaystack(recipe: RecipeWithRelations) {
     .toLowerCase();
 }
 
+function normalizeVarietyToken(value: string) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function detectFirstKeyword(haystack: string, groups: Record<string, string[]>) {
+  for (const [key, terms] of Object.entries(groups)) {
+    if (terms.some((term) => haystack.includes(term))) {
+      return key;
+    }
+  }
+
+  return 'other';
+}
+
+const PROTEIN_GROUPS: Record<string, string[]> = {
+  chicken: ['pollo', 'chicken'],
+  turkey: ['pavo', 'turkey'],
+  beef: ['ternera', 'vacuno', 'beef'],
+  pork: ['cerdo', 'pork'],
+  fish: ['pescado', 'salmon', 'salmón', 'merluza', 'atun', 'atún', 'bacalao', 'fish'],
+  egg: ['huevo', 'tortilla', 'egg'],
+  dairy: ['yogur', 'yogurt', 'queso fresco', 'cottage'],
+  legume: ['lenteja', 'garbanzo', 'alubia', 'tofu', 'tempeh', 'legumbre'],
+};
+
+const BASE_GROUPS: Record<string, string[]> = {
+  rice: ['arroz', 'rice'],
+  potato: ['patata', 'papa', 'boniato', 'potato'],
+  pasta: ['pasta', 'espagueti', 'macarron'],
+  quinoa: ['quinoa'],
+  oats: ['avena', 'oat'],
+  bread: ['pan', 'tostada', 'wrap', 'tortilla'],
+  vegetable: ['verdura', 'brocoli', 'brócoli', 'ensalada', 'calabacin', 'calabacín'],
+  fruit: ['fruta', 'manzana', 'platano', 'plátano', 'frutos rojos'],
+};
+
+function getRecipeVarietyProfile(recipe: RecipeWithRelations): RecipeVarietyProfile {
+  const haystack = normalizeVarietyToken(recipeSearchHaystack(recipe));
+  const proteinKey = detectFirstKeyword(haystack, PROTEIN_GROUPS);
+  const baseKey = detectFirstKeyword(haystack, BASE_GROUPS);
+  const mealKeywordSet = new Set<SupportedMealType>(['desayuno', 'almuerzo', 'cena']);
+  const relevantTags = (recipe.tags ?? [])
+    .map(normalizeVarietyToken)
+    .filter((tag) => tag && !mealKeywordSet.has(tag as SupportedMealType))
+    .slice(0, 2)
+    .join('-');
+  const fallbackNameFamily = normalizeVarietyToken(recipe.name).split(' ').slice(0, 3).join('-') || recipe.id;
+
+  return {
+    proteinKey,
+    baseKey,
+    familyKey: `${proteinKey}:${baseKey}:${relevantTags || fallbackNameFamily}`,
+  };
+}
+
 function getMealTypesForPlan(dietType?: string | null): SupportedMealType[] {
   return dietType === 'ayuno_intermitente'
     ? ['almuerzo', 'cena']
@@ -346,6 +412,126 @@ function isRecipeAllowedForPlan(
   return true;
 }
 
+export function selectRecipesForWeeklyPlanFromCandidates(
+  accessibleRecipes: RecipeWithRelations[],
+  options: {
+    goal?: string;
+    dietType?: SupportedDietType;
+    difficulty?: SupportedDifficulty;
+    includeIngredients?: string[];
+    dietaryRestrictions?: string[];
+  }
+) {
+  if (accessibleRecipes.length === 0) {
+    throw new AppError(400, 'No hay recetas disponibles para generar el plan.');
+  }
+
+  const mealTypes = getMealTypesForPlan(options.dietType);
+  const usageCount = new Map<string, number>();
+  const lastUsedDay = new Map<string, number>();
+  const familyUsageByMeal = new Map<string, number>();
+  const familyLastUsedByMeal = new Map<string, number>();
+  const proteinLastUsedByMeal = new Map<string, number>();
+  const baseLastUsedByMeal = new Map<string, number>();
+  const selections: WeeklyRecipeSelection[] = [];
+
+  for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek += 1) {
+    for (const mealType of mealTypes) {
+      let candidates = accessibleRecipes.filter((recipe) =>
+        isRecipeAllowedForPlan(recipe, {
+          mealType,
+          dietType: options.dietType,
+          difficulty: options.difficulty,
+          dietaryRestrictions: options.dietaryRestrictions,
+        })
+      );
+
+      if (candidates.length === 0) {
+        candidates = accessibleRecipes.filter((recipe) =>
+          isRecipeAllowedForPlan(recipe, {
+            mealType,
+            dietaryRestrictions: options.dietaryRestrictions,
+          })
+        );
+      }
+
+      if (candidates.length === 0) {
+        throw new AppError(400, `No hay recetas suficientes para ${mealType}.`);
+      }
+
+      const rankedCandidates = candidates
+        .map((recipe) => {
+          const baseScore = scoreRecipeForPlan(recipe, {
+            mealType,
+            goal: options.goal,
+            dietType: options.dietType,
+            difficulty: options.difficulty,
+            includeIngredients: options.includeIngredients,
+          });
+          const variety = getRecipeVarietyProfile(recipe);
+          const mealFamilyKey = `${mealType}:${variety.familyKey}`;
+          const mealProteinKey = `${mealType}:protein:${variety.proteinKey}`;
+          const mealBaseKey = `${mealType}:base:${variety.baseKey}`;
+          const familyUses = familyUsageByMeal.get(mealFamilyKey) ?? 0;
+          const familyLastUsed = familyLastUsedByMeal.get(mealFamilyKey);
+          const proteinLastUsed = proteinLastUsedByMeal.get(mealProteinKey);
+          const baseLastUsed = baseLastUsedByMeal.get(mealBaseKey);
+          const sameFamilyYesterday = familyLastUsed !== undefined && dayOfWeek - familyLastUsed <= 1;
+          const sameProteinYesterday =
+            variety.proteinKey !== 'other' && proteinLastUsed !== undefined && dayOfWeek - proteinLastUsed <= 1;
+          const sameBaseYesterday = variety.baseKey !== 'other' && baseLastUsed !== undefined && dayOfWeek - baseLastUsed <= 1;
+          const varietyPenalty =
+            familyUses * 55 +
+            (sameFamilyYesterday ? 45 : 0) +
+            (sameProteinYesterday ? 22 : 0) +
+            (sameBaseYesterday ? 12 : 0);
+
+          return {
+            recipe,
+            variety,
+            score: baseScore - varietyPenalty,
+            uses: usageCount.get(recipe.id) ?? 0,
+            lastUsed: lastUsedDay.get(recipe.id),
+          };
+        })
+        .sort((left, right) => {
+          if (left.uses !== right.uses) return left.uses - right.uses;
+
+          const leftGap = left.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - left.lastUsed;
+          const rightGap = right.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - right.lastUsed;
+          if (leftGap !== rightGap) return rightGap - leftGap;
+
+          if (left.score !== right.score) return right.score - left.score;
+
+          return left.recipe.name.localeCompare(right.recipe.name, 'es');
+        });
+
+      const chosen = rankedCandidates[0];
+      const chosenMealFamilyKey = `${mealType}:${chosen.variety.familyKey}`;
+      const chosenMealProteinKey = `${mealType}:protein:${chosen.variety.proteinKey}`;
+      const chosenMealBaseKey = `${mealType}:base:${chosen.variety.baseKey}`;
+
+      usageCount.set(chosen.recipe.id, (usageCount.get(chosen.recipe.id) ?? 0) + 1);
+      lastUsedDay.set(chosen.recipe.id, dayOfWeek);
+      familyUsageByMeal.set(chosenMealFamilyKey, (familyUsageByMeal.get(chosenMealFamilyKey) ?? 0) + 1);
+      familyLastUsedByMeal.set(chosenMealFamilyKey, dayOfWeek);
+      if (chosen.variety.proteinKey !== 'other') {
+        proteinLastUsedByMeal.set(chosenMealProteinKey, dayOfWeek);
+      }
+      if (chosen.variety.baseKey !== 'other') {
+        baseLastUsedByMeal.set(chosenMealBaseKey, dayOfWeek);
+      }
+      selections.push({
+        dayOfWeek,
+        mealType,
+        recipe: chosen.recipe,
+      });
+    }
+  }
+
+  return selections;
+}
+
 async function selectRecipesForWeeklyPlan(
   userId: string,
   options: {
@@ -375,77 +561,7 @@ async function selectRecipesForWeeklyPlan(
     ],
   });
 
-  if (accessibleRecipes.length === 0) {
-    throw new AppError(400, 'No hay recetas disponibles para generar el plan.');
-  }
-
-  const mealTypes = getMealTypesForPlan(options.dietType);
-  const usageCount = new Map<string, number>();
-  const lastUsedDay = new Map<string, number>();
-  const selections: WeeklyRecipeSelection[] = [];
-
-  for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek += 1) {
-    for (const mealType of mealTypes) {
-      let candidates = accessibleRecipes.filter((recipe) =>
-        isRecipeAllowedForPlan(recipe, {
-          mealType,
-          dietType: options.dietType,
-          difficulty: options.difficulty,
-          dietaryRestrictions: options.dietaryRestrictions,
-        })
-      );
-
-      if (candidates.length === 0) {
-        candidates = accessibleRecipes.filter((recipe) =>
-          isRecipeAllowedForPlan(recipe, {
-            mealType,
-            dietaryRestrictions: options.dietaryRestrictions,
-          })
-        );
-      }
-
-      if (candidates.length === 0) {
-        throw new AppError(400, `No hay recetas suficientes para ${mealType}.`);
-      }
-
-      const rankedCandidates = candidates
-        .map((recipe) => ({
-          recipe,
-          score: scoreRecipeForPlan(recipe, {
-            mealType,
-            goal: options.goal,
-            dietType: options.dietType,
-            difficulty: options.difficulty,
-            includeIngredients: options.includeIngredients,
-          }),
-          uses: usageCount.get(recipe.id) ?? 0,
-          lastUsed: lastUsedDay.get(recipe.id),
-        }))
-        .sort((left, right) => {
-          if (left.uses !== right.uses) return left.uses - right.uses;
-
-          const leftGap = left.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - left.lastUsed;
-          const rightGap = right.lastUsed === undefined ? Number.POSITIVE_INFINITY : dayOfWeek - right.lastUsed;
-          if (leftGap !== rightGap) return rightGap - leftGap;
-
-          if (left.score !== right.score) return right.score - left.score;
-
-          return left.recipe.name.localeCompare(right.recipe.name, 'es');
-        });
-
-      const chosen = rankedCandidates[0];
-
-      usageCount.set(chosen.recipe.id, (usageCount.get(chosen.recipe.id) ?? 0) + 1);
-      lastUsedDay.set(chosen.recipe.id, dayOfWeek);
-      selections.push({
-        dayOfWeek,
-        mealType,
-        recipe: chosen.recipe,
-      });
-    }
-  }
-
-  return selections;
+  return selectRecipesForWeeklyPlanFromCandidates(accessibleRecipes, options);
 }
 
 function buildMealPlanExplanation(snapshot: PersonalizationSnapshot, plan: {
