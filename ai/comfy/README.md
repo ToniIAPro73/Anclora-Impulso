@@ -23,15 +23,20 @@ Esta carpeta contiene el pipeline de generación de imágenes de ejercicios con 
 
 ## Flujo previsto
 
-1. Exportar tu flujo desde ComfyUI a `ai/comfy/workflows/workflow_api.json`.
-2. Identificar los IDs de nodos que debes mutar y rellenar `workflow-bindings.json`.
-3. Preparar trabajos:
+1. Generar el manifiesto de imágenes faltantes:
 
 ```bash
-node scripts/comfy/prepare-comfy-batch.mjs --limit 12
+npm run comfy:manifest
 ```
 
-4. Rellenar los IDs reales de nodos en `manifests/workflow-bindings.json`.
+2. Preparar trabajos solo para ejercicios sin imagen final:
+
+```bash
+npm run comfy:prepare:missing
+```
+
+3. Exportar tu flujo desde ComfyUI a `ai/comfy/workflows/workflow_api.json`.
+4. Identificar los IDs de nodos que debes mutar y rellenar `workflow-bindings.json`.
 5. Generar payloads mutados por ejercicio:
 
 ```bash
@@ -48,6 +53,8 @@ node scripts/comfy/build-comfy-payloads.mjs --limit 12
 - La identidad del atleta se toma desde `reference-config.json`.
 - El fondo se elige por `environment`.
 - El prompt final sale de `data/prompts.json`; no se reescribe manualmente en el script salvo para inyectar referencias.
+- El manifiesto de faltantes sale de `ai/comfy/manifests/missing-exercise-images.json`.
+- La referencia activa del atleta debe ser el modelo masculino 31-40 (`modelo_gym_masc_31_40.png`).
 - El pipeline debe ser idempotente: si ya existe la imagen final, el job puede marcarse como `skip`.
 - La salida canónica de cada ejercicio vive en `backend/public/exercises/<slug>/`.
 - Si la subcarpeta del ejercicio todavía no existe, el paso final de generación/descarga debe crearla automáticamente antes de escribir el archivo.
