@@ -49,7 +49,7 @@ https://console.cloud.google.com/
 1. Ve a: APIs & Services > Credentials
 2. Click: + CREATE CREDENTIALS
 3. Selecciona: API key
-4. Copia la clave generada (ej: AIzaSyBxxxxxxxxxxxxxxxxxxxxxx)
+4. Copia la clave generada (ej: <YOUR_RECAPTCHA_API_KEY>)
 5. Restricciones (opcional pero recomendado):
    - API restrictions > Restrict key
    - Selecciona: reCAPTCHA Enterprise API
@@ -83,7 +83,7 @@ HUBSPOT_FORM_GUID=34afefab-a031-4516-838e-f0edf0b98bc7
 NEXT_PUBLIC_SITE_URL=https://playaviva-uniestate.vercel.app
 
 # NUEVO: API Key de Google Cloud para reCAPTCHA Enterprise
-RECAPTCHA_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxx
+RECAPTCHA_API_KEY=<YOUR_RECAPTCHA_API_KEY>
 ```
 
 **⚠️ IMPORTANTE:**
@@ -284,7 +284,7 @@ route-recaptcha-enterprise.ts
 2. Settings > Environment Variables
 3. Agregar nueva variable:
    - Name: RECAPTCHA_API_KEY
-   - Value: AIzaSyBxxxxxxxxxxxxxxxxxxxxxx
+   - Value: <YOUR_RECAPTCHA_API_KEY>
    - Environment: Production + Preview + Development
 4. Save
 5. Redeploy el proyecto

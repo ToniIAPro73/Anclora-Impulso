@@ -30,7 +30,7 @@ Esta guía te ayudará a desplegar la aplicación completa en producción de for
 2. Copia la **connection string** que se ve así:
 
 ```
-postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
+postgresql://<user>:<password>@<host>/<database>?sslmode=require
 ```
 
 3. **Guarda esta URL**, la necesitarás para el backend
@@ -75,15 +75,15 @@ git push origin main
 2. Agrega las siguientes variables:
 
 ```env
-DATABASE_URL=postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
-JWT_SECRET=genera-una-clave-secreta-aleatoria-aqui-min-32-caracteres
-JWT_REFRESH_SECRET=genera-otra-clave-secreta-diferente-aqui-min-32-caracteres
+DATABASE_URL=postgresql://<user>:<password>@<host>/<database>?sslmode=require
+JWT_SECRET=
+JWT_REFRESH_SECRET=
 JWT_EXPIRES_IN=7d
 JWT_REFRESH_EXPIRES_IN=30d
 NODE_ENV=production
 PORT=3001
 FRONTEND_URL=https://tu-app.vercel.app
-OPENAI_API_KEY=sk-tu-api-key-opcional
+OPENAI_API_KEY=
 ```
 
 **Importante:** 
@@ -335,10 +335,10 @@ Neon hace backups automáticos, pero puedes hacer uno manual:
 
 ```bash
 # Exportar
-pg_dump "postgresql://user:password@host/db" > backup.sql
+pg_dump "postgresql://<user>:<password>@<host>/<database>" > backup.sql
 
 # Importar
-psql "postgresql://user:password@host/db" < backup.sql
+psql "postgresql://<user>:<password>@<host>/<database>" < backup.sql
 ```
 
 ### Monitorear uso
