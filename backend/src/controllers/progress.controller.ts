@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import * as progressService from '../services/progress.service';
 import * as sessionsService from '../services/sessions.service';
+import * as strengthProgressService from '../services/strength-progress.service';
 import type { CreateMeasurementInput } from '../utils/validators';
 
 /**
@@ -129,6 +130,28 @@ export async function getCompleteProgress(
 
     const progress = await progressService.getCompleteProgress(req.user.userId);
     
+    res.json(progress);
+  } catch (error) {
+    next(error);
+  }
+}
+
+/**
+ * GET /api/progress/strength
+ */
+export async function getStrengthProgress(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'No autenticado' });
+      return;
+    }
+
+    const progress = await strengthProgressService.getStrengthProgress(req.user.userId);
+
     res.json(progress);
   } catch (error) {
     next(error);

@@ -60,6 +60,9 @@ export const createSessionSchema = z.object({
         z.object({
           reps: z.number().int().min(1, 'Debe tener al menos 1 repetición'),
           weight: z.number().min(0, 'El peso no puede ser negativo'),
+          rir: z.number().int().min(0).max(5).optional(),
+          rpe: z.number().min(0).max(10).optional(),
+          restSeconds: z.number().int().min(0).max(3600).optional(),
           order: z.number().int().min(0, 'El orden no puede ser negativo'),
         })
       ),

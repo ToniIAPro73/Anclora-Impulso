@@ -12,6 +12,7 @@ router.use(authenticate);
 // Estadísticas y datos completos
 router.get('/stats', progressController.getProgressStats);
 router.get('/complete', progressController.getCompleteProgress);
+router.get('/strength', progressController.getStrengthProgress);
 
 // CRUD de medidas corporales
 router.get('/measurements', progressController.getUserMeasurements);
