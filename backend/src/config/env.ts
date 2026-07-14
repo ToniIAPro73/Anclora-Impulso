@@ -66,6 +66,13 @@ export const env = {
   llmProvider: process.env.LLM_PROVIDER || 'groq',
   groqApiKey: process.env.GROQ_API_KEY || '',
   groqModel: process.env.GROQ_MODEL || 'llama-3.3-70b-versatile',
+  llmCoachEnabled: process.env.LLM_COACH_ENABLED === 'true',
+  llmCoachMaxPromptChars: parseInt(process.env.LLM_COACH_MAX_PROMPT_CHARS || '6000', 10),
+  llmCoachMaxOutputTokens: parseInt(process.env.LLM_COACH_MAX_OUTPUT_TOKENS || '450', 10),
+  llmCoachMemoryMessages: parseInt(process.env.LLM_COACH_MEMORY_MESSAGES || '8', 10),
+  llmCoachCacheTtlSeconds: parseInt(process.env.LLM_COACH_CACHE_TTL_SECONDS || '300', 10),
+  llmCoachWindowMinutes: parseInt(process.env.LLM_COACH_WINDOW_MINUTES || '60', 10),
+  llmCoachWindowLimit: parseInt(process.env.LLM_COACH_WINDOW_LIMIT || '20', 10),
 
   // Legacy (deprecated, usar GROQ_API_KEY)
   openaiApiKey: process.env.OPENAI_API_KEY || '',
