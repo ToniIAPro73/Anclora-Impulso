@@ -291,6 +291,7 @@ export const swaggerDefinition = {
                 focus: { type: 'string', enum: ['STRENGTH', 'HYPERTROPHY', 'ENDURANCE'] },
                 action: { type: 'string', enum: ['increase_load', 'maintain', 'deload'] },
                 freshnessScore: { type: 'integer', minimum: 0, maximum: 100 },
+                readinessScore: { type: 'integer', minimum: 0, maximum: 100, nullable: true },
                 recoveryAction: { type: 'string', enum: ['normal', 'prioritize', 'substitute_or_reduce'] },
                 reasons: { type: 'array', items: { type: 'string' } },
                 deload: {
@@ -302,7 +303,7 @@ export const swaggerDefinition = {
                   required: ['shouldDeload', 'reason'],
                 },
               },
-              required: ['exerciseId', 'weight', 'repRange', 'sets', 'targetRIR', 'focus', 'action', 'freshnessScore', 'recoveryAction', 'reasons', 'deload'],
+              required: ['exerciseId', 'weight', 'repRange', 'sets', 'targetRIR', 'focus', 'action', 'freshnessScore', 'readinessScore', 'recoveryAction', 'reasons', 'deload'],
             },
           },
         },
@@ -462,6 +463,62 @@ export const swaggerDefinition = {
           },
         },
         required: ['enabled', 'providers'],
+      },
+      WearableStatus: {
+        type: 'object',
+        properties: {
+          enabled: { type: 'boolean' },
+          readinessEnabled: { type: 'boolean' },
+          tractionGate: { type: 'string', enum: ['blocked_until_d30_retention_validated'] },
+          mobileStrategy: { type: 'string' },
+          providers: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                provider: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura'] },
+                available: { type: 'boolean' },
+                supportsBidirectionalSync: { type: 'boolean' },
+              },
+              required: ['provider', 'available', 'supportsBidirectionalSync'],
+            },
+          },
+          pushNotifications: {
+            type: 'object',
+            properties: {
+              available: { type: 'boolean' },
+              strategy: { type: 'string' },
+            },
+            required: ['available', 'strategy'],
+          },
+        },
+        required: ['enabled', 'readinessEnabled', 'tractionGate', 'mobileStrategy', 'providers', 'pushNotifications'],
+      },
+      WearableConnection: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          provider: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura'] },
+          status: { type: 'string', enum: ['connected', 'paused', 'revoked'] },
+          syncDirection: { type: 'string', enum: ['import_only', 'export_only', 'bidirectional'] },
+          scopes: { type: 'array', items: { type: 'string', enum: ['heart_rate', 'sleep', 'activity', 'hrv'] } },
+          lastSyncAt: { type: 'string', format: 'date-time', nullable: true },
+        },
+        required: ['id', 'provider', 'status', 'syncDirection', 'scopes'],
+      },
+      RecoverySample: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          provider: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura', 'manual'] },
+          recordedAt: { type: 'string', format: 'date-time' },
+          hrvMs: { type: 'number', nullable: true },
+          restingHeartRateBpm: { type: 'integer', nullable: true },
+          sleepMinutes: { type: 'integer', nullable: true },
+          activityMinutes: { type: 'integer', nullable: true },
+          readinessScore: { type: 'integer', minimum: 0, maximum: 100 },
+        },
+        required: ['id', 'provider', 'recordedAt', 'readinessScore'],
       },
       Error: {
         type: 'object',
@@ -1105,6 +1162,15 @@ export const swaggerDefinition = {
                   now: { type: 'string', format: 'date-time' },
                   weekIndex: { type: 'integer' },
                   sessionIndex: { type: 'integer' },
+                  readiness: {
+                    type: 'object',
+                    properties: {
+                      readinessScore: { type: 'integer', minimum: 0, maximum: 100 },
+                      provider: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura', 'manual'] },
+                      recordedAt: { type: 'string', format: 'date-time' },
+                    },
+                    required: ['readinessScore'],
+                  },
                   plannedExercises: {
                     type: 'array',
                     items: {
@@ -1517,6 +1583,139 @@ export const swaggerDefinition = {
             content: {
               'application/json': {
                 schema: { $ref: '#/components/schemas/HealthImportStatus' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/wearables/status': {
+      get: {
+        tags: ['Wearables'],
+        summary: 'Get native app and wearable integration status',
+        description: 'Returns provider availability, traction gate status, and native integration strategy. External sync is disabled by default.',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Wearable integration status',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/WearableStatus' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/wearables/connections/{provider}': {
+      put: {
+        tags: ['Wearables'],
+        summary: 'Upsert a wearable provider connection contract',
+        description: 'Stores connection metadata only. Provider secrets and OAuth tokens are intentionally not accepted.',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            name: 'provider',
+            in: 'path',
+            required: true,
+            schema: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura'] },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  status: { type: 'string', enum: ['connected', 'paused', 'revoked'] },
+                  syncDirection: { type: 'string', enum: ['import_only', 'export_only', 'bidirectional'] },
+                  scopes: {
+                    type: 'array',
+                    items: { type: 'string', enum: ['heart_rate', 'sleep', 'activity', 'hrv'] },
+                  },
+                },
+                required: ['status', 'syncDirection'],
+              },
+            },
+          },
+        },
+        responses: {
+          '200': {
+            description: 'Wearable connection',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/WearableConnection' },
+              },
+            },
+          },
+          '403': { description: 'Wearable sync disabled' },
+        },
+      },
+    },
+    '/wearables/recovery-samples': {
+      post: {
+        tags: ['Wearables'],
+        summary: 'Create a wearable recovery sample',
+        description: 'Accepts normalized recovery metrics from a native client or provider sync worker and computes deterministic readiness.',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  provider: { type: 'string', enum: ['healthkit', 'health_connect', 'garmin', 'whoop', 'oura', 'manual'] },
+                  recordedAt: { type: 'string', format: 'date-time' },
+                  hrvMs: { type: 'number' },
+                  restingHeartRateBpm: { type: 'integer' },
+                  sleepMinutes: { type: 'integer' },
+                  activityMinutes: { type: 'integer' },
+                  payload: { type: 'object' },
+                },
+                required: ['provider', 'recordedAt'],
+              },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'Recovery sample',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/RecoverySample' },
+              },
+            },
+          },
+          '403': { description: 'Wearable sync disabled' },
+        },
+      },
+    },
+    '/wearables/readiness': {
+      get: {
+        tags: ['Wearables'],
+        summary: 'Get latest wearable readiness',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Latest readiness sample',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    enabled: { type: 'boolean' },
+                    latest: {
+                      oneOf: [
+                        { $ref: '#/components/schemas/RecoverySample' },
+                        { type: 'null' },
+                      ],
+                    },
+                  },
+                  required: ['enabled', 'latest'],
+                },
               },
             },
           },

@@ -381,6 +381,55 @@ export interface HealthImportStatus {
   }>;
 }
 
+export type WearableProvider = 'healthkit' | 'health_connect' | 'garmin' | 'whoop' | 'oura';
+export type RecoveryProvider = WearableProvider | 'manual';
+
+export interface WearableStatus {
+  enabled: boolean;
+  readinessEnabled: boolean;
+  tractionGate: 'blocked_until_d30_retention_validated';
+  mobileStrategy: string;
+  providers: Array<{
+    provider: WearableProvider;
+    available: boolean;
+    supportsBidirectionalSync: boolean;
+  }>;
+  pushNotifications: {
+    available: boolean;
+    strategy: string;
+  };
+}
+
+export interface WearableConnection {
+  id: string;
+  userId: string;
+  provider: WearableProvider;
+  status: 'connected' | 'paused' | 'revoked';
+  syncDirection: 'import_only' | 'export_only' | 'bidirectional';
+  scopes: Array<'heart_rate' | 'sleep' | 'activity' | 'hrv'>;
+  lastSyncAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RecoverySample {
+  id: string;
+  userId: string;
+  provider: RecoveryProvider;
+  recordedAt: string;
+  hrvMs: number | null;
+  restingHeartRateBpm: number | null;
+  sleepMinutes: number | null;
+  activityMinutes: number | null;
+  readinessScore: number;
+  createdAt: string;
+}
+
+export interface WearableReadiness {
+  enabled: boolean;
+  latest: RecoverySample | null;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -726,6 +775,39 @@ export const smartNutritionApi = {
 
   async getHealthImportStatus(): Promise<HealthImportStatus> {
     return apiClient.get<HealthImportStatus>('/nutrition/health-import/status');
+  },
+};
+
+export const wearablesApi = {
+  async getStatus(): Promise<WearableStatus> {
+    return apiClient.get<WearableStatus>('/wearables/status');
+  },
+
+  async upsertConnection(
+    provider: WearableProvider,
+    data: {
+      status: WearableConnection['status'];
+      syncDirection: WearableConnection['syncDirection'];
+      scopes?: WearableConnection['scopes'];
+    }
+  ): Promise<WearableConnection> {
+    return apiClient.put<WearableConnection>(`/wearables/connections/${provider}`, data);
+  },
+
+  async createRecoverySample(data: {
+    provider: RecoveryProvider;
+    recordedAt: string;
+    hrvMs?: number;
+    restingHeartRateBpm?: number;
+    sleepMinutes?: number;
+    activityMinutes?: number;
+    payload?: Record<string, unknown>;
+  }): Promise<RecoverySample> {
+    return apiClient.post<RecoverySample>('/wearables/recovery-samples', data);
+  },
+
+  async getReadiness(): Promise<WearableReadiness> {
+    return apiClient.get<WearableReadiness>('/wearables/readiness');
   },
 };
 
