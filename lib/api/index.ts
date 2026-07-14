@@ -430,6 +430,54 @@ export interface WearableReadiness {
   latest: RecoverySample | null;
 }
 
+export type SubscriptionTier = 'free' | 'premium' | 'pro';
+
+export interface PremiumStatus {
+  subscriptionTier: SubscriptionTier;
+  premiumEntitled: boolean;
+  features: {
+    formAnalysis: {
+      enabled: boolean;
+      available: boolean;
+      mode: 'async_contract';
+    };
+    voiceCoach: {
+      enabled: boolean;
+      available: boolean;
+      mode: 'script_only';
+    };
+  };
+}
+
+export interface FormAnalysisRequest {
+  id: string;
+  userId: string;
+  exerciseName: string;
+  mediaType: 'image' | 'video';
+  mediaUrl: string;
+  status: 'queued' | 'processing' | 'completed' | 'failed';
+  feedback: string[];
+  disclaimer: string;
+  clientAnalysis?: Record<string, unknown> | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface VoiceCueSession {
+  id: string;
+  userId: string;
+  workoutSessionId: string | null;
+  exerciseName: string;
+  phase: 'warmup' | 'working_set' | 'rest' | 'cooldown';
+  intensity: 'easy' | 'moderate' | 'hard';
+  locale: string;
+  provider: 'deterministic';
+  audioStatus: 'script_only';
+  cues: string[];
+  disclaimer: string;
+  createdAt: string;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -808,6 +856,31 @@ export const wearablesApi = {
 
   async getReadiness(): Promise<WearableReadiness> {
     return apiClient.get<WearableReadiness>('/wearables/readiness');
+  },
+};
+
+export const premiumApi = {
+  async getStatus(): Promise<PremiumStatus> {
+    return apiClient.get<PremiumStatus>('/premium/status');
+  },
+
+  async createFormAnalysis(data: {
+    exerciseName: string;
+    mediaType: 'image' | 'video';
+    mediaUrl: string;
+    clientAnalysis?: Record<string, unknown>;
+  }): Promise<FormAnalysisRequest> {
+    return apiClient.post<FormAnalysisRequest>('/premium/form-analysis', data);
+  },
+
+  async createVoiceCues(data: {
+    workoutSessionId?: string;
+    exerciseName: string;
+    phase: VoiceCueSession['phase'];
+    intensity: VoiceCueSession['intensity'];
+    locale?: string;
+  }): Promise<VoiceCueSession> {
+    return apiClient.post<VoiceCueSession>('/premium/voice-cues', data);
   },
 };
 

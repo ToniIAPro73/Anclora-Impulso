@@ -177,6 +177,24 @@ export const createRecoverySampleSchema = z.object({
 export type UpsertWearableConnectionInput = z.infer<typeof upsertWearableConnectionSchema>;
 export type CreateRecoverySampleInput = z.infer<typeof createRecoverySampleSchema>;
 
+export const createFormAnalysisSchema = z.object({
+  exerciseName: z.string().trim().min(1).max(160),
+  mediaType: z.enum(['image', 'video']),
+  mediaUrl: z.string().url().max(2000),
+  clientAnalysis: z.record(z.any()).optional(),
+});
+
+export const createVoiceCuesSchema = z.object({
+  workoutSessionId: z.string().min(1).max(160).optional(),
+  exerciseName: z.string().trim().min(1).max(160),
+  phase: z.enum(['warmup', 'working_set', 'rest', 'cooldown']),
+  intensity: z.enum(['easy', 'moderate', 'hard']),
+  locale: z.string().min(2).max(12).default('en-US'),
+});
+
+export type CreateFormAnalysisInput = z.infer<typeof createFormAnalysisSchema>;
+export type CreateVoiceCuesInput = z.infer<typeof createVoiceCuesSchema>;
+
 export const sendCoachMessageSchema = z.object({
   conversationId: z.string().uuid().optional(),
   message: z.string().trim().min(3).max(2000),
