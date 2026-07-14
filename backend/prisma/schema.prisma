@@ -52,6 +52,8 @@ model User {
   mealLogs         MealLog[]
   nutritionTarget  NutritionTarget?
   healthDataImports HealthDataImport[]
+  wearableConnections WearableConnection[]
+  recoverySamples RecoverySample[]
 
   // Relaciones - Gamificación
   gamification    UserGamification?
@@ -668,6 +670,46 @@ model HealthDataImport {
   @@index([provider])
   @@index([importedAt])
   @@map("health_data_imports")
+}
+
+model WearableConnection {
+  id            String   @id @default(uuid())
+  userId        String
+  provider      String
+  status        String
+  syncDirection String
+  scopes        String[] @default([])
+  lastSyncAt    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+  @@index([userId])
+  @@index([provider])
+  @@map("wearable_connections")
+}
+
+model RecoverySample {
+  id                  String   @id @default(uuid())
+  userId              String
+  provider            String
+  recordedAt          DateTime
+  hrvMs               Float?
+  restingHeartRateBpm Int?
+  sleepMinutes        Int?
+  activityMinutes     Int?
+  readinessScore      Int
+  payload             Json?
+  createdAt           DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([provider])
+  @@index([recordedAt])
+  @@map("recovery_samples")
 }
 
 model ProductEvent {
