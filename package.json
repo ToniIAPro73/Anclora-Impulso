@@ -20,7 +20,8 @@
     "comfy:payloads": "node scripts/comfy/build-comfy-payloads.mjs",
     "comfy:run": "node scripts/comfy/comfy-runner.mjs",
     "exercise:manifest": "node scripts/comfy/build-exercise-image-manifest.mjs",
-    "exercise:images": "node scripts/comfy/build-comfy-payloads.mjs"
+    "exercise:prompts": "node scripts/exercise-image-prompts/export-image-prompts.mjs",
+    "exercise:images": "node scripts/exercise-image-prompts/export-image-prompts.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
