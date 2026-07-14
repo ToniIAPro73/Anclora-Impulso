@@ -338,6 +338,64 @@ export const swaggerDefinition = {
         },
         required: ['conversationId', 'answer', 'provider', 'model', 'cached', 'safety', 'usage'],
       },
+      SocialFeedResponse: {
+        type: 'object',
+        properties: {
+          items: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', format: 'uuid' },
+                userId: { type: 'string', format: 'uuid' },
+                userName: { type: 'string' },
+                type: { type: 'string', enum: ['workout_completed'] },
+                content: { type: 'string' },
+                sourceType: { type: 'string', nullable: true },
+                sourceId: { type: 'string', nullable: true },
+                visibility: { type: 'string', enum: ['public', 'private'] },
+                metadata: { type: 'object', nullable: true },
+                createdAt: { type: 'string', format: 'date-time' },
+                kudosCount: { type: 'integer' },
+                hasKudosFromMe: { type: 'boolean' },
+              },
+            },
+          },
+        },
+        required: ['items'],
+      },
+      Challenge: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          key: { type: 'string' },
+          title: { type: 'string' },
+          metric: { type: 'string', enum: ['workout_completions'] },
+          startsAt: { type: 'string', format: 'date-time' },
+          endsAt: { type: 'string', format: 'date-time' },
+        },
+        required: ['id', 'key', 'title', 'metric', 'startsAt', 'endsAt'],
+      },
+      ChallengeLeaderboard: {
+        type: 'object',
+        properties: {
+          entries: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                rank: { type: 'integer' },
+                userId: { type: 'string', format: 'uuid' },
+                userName: { type: 'string' },
+                score: { type: 'integer' },
+                joinedAt: { type: 'string', format: 'date-time' },
+              },
+              required: ['rank', 'userId', 'userName', 'score', 'joinedAt'],
+            },
+          },
+        },
+        required: ['entries'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -1106,6 +1164,146 @@ export const swaggerDefinition = {
               },
             },
           },
+        },
+      },
+    },
+    '/social/privacy': {
+      put: {
+        tags: ['Social'],
+        summary: 'Update social profile visibility',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  visibility: { type: 'string', enum: ['public', 'private'] },
+                },
+                required: ['visibility'],
+              },
+            },
+          },
+        },
+        responses: {
+          '200': { description: 'Visibility updated' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/social/feed': {
+      get: {
+        tags: ['Social'],
+        summary: 'Get privacy-aware social feed',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Social feed',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/SocialFeedResponse' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/social/follows/{userId}': {
+      post: {
+        tags: ['Social'],
+        summary: 'Follow a user',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'userId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '201': { description: 'Follow created' },
+          '400': { description: 'Invalid follow request' },
+          '401': { description: 'Unauthorized' },
+          '404': { description: 'User not found' },
+        },
+      },
+      delete: {
+        tags: ['Social'],
+        summary: 'Unfollow a user',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'userId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '204': { description: 'Follow removed' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/social/feed/{feedItemId}/kudos': {
+      post: {
+        tags: ['Social'],
+        summary: 'Add kudos to a feed item',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'feedItemId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '201': { description: 'Kudos added' },
+          '401': { description: 'Unauthorized' },
+          '404': { description: 'Feed item not found' },
+        },
+      },
+      delete: {
+        tags: ['Social'],
+        summary: 'Remove kudos from a feed item',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'feedItemId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '204': { description: 'Kudos removed' },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/social/challenges/weekly': {
+      get: {
+        tags: ['Social'],
+        summary: 'Get or create the active weekly challenge',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Weekly challenge',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Challenge' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/social/challenges/{challengeId}/join': {
+      post: {
+        tags: ['Social'],
+        summary: 'Join a challenge',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'challengeId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '201': { description: 'Challenge joined' },
+          '401': { description: 'Unauthorized' },
+          '404': { description: 'Challenge not found' },
+        },
+      },
+    },
+    '/social/challenges/{challengeId}/leaderboard': {
+      get: {
+        tags: ['Social'],
+        summary: 'Get challenge leaderboard',
+        security: [{ bearerAuth: [] }],
+        parameters: [{ name: 'challengeId', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: {
+          '200': {
+            description: 'Challenge leaderboard',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ChallengeLeaderboard' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
         },
       },
     },

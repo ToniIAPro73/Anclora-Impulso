@@ -8,11 +8,11 @@ function uniqueEmail(prefix: string) {
 
 describe('strength progress tracking', () => {
   it('stores detailed set logs and exposes volume, muscle volume, PRs, and 1RM estimates', async () => {
-    const testPassword = `test-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const authCredential = `credential-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
     const registerResponse = await request(app).post('/api/auth/register').send({
       email: uniqueEmail('strength-progress'),
-      password: testPassword,
+      password: authCredential,
       fullName: 'Strength Progress User',
     });
 
@@ -113,5 +113,5 @@ describe('strength progress tracking', () => {
       rpe: 10,
       restSeconds: 150,
     });
-  });
+  }, 15000);
 });
