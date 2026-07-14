@@ -23,6 +23,7 @@ import gamificationRoutes from './routes/gamification.routes';
 import profileRoutes from './routes/profile.routes';
 import productEventsRoutes from './routes/product-events.routes';
 import engagementRoutes from './routes/engagement.routes';
+import progressionRoutes from './routes/progression.routes';
 
 const app: Express = express();
 
@@ -148,6 +149,7 @@ app.use('/api/gamification', gamificationRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/events', productEventsRoutes);
 app.use('/api/engagement', engagementRoutes);
+app.use('/api/v1/progression', progressionRoutes);
 
 // Manejo de rutas no encontradas
 app.use(notFoundHandler);

@@ -116,6 +116,34 @@ export const createProductEventSchema = z.object({
   metadata: z.record(z.any()).optional(),
 });
 
+const progressionRepRangeSchema = z.object({
+  minReps: z.number().int().min(1).max(50),
+  maxReps: z.number().int().min(1).max(50),
+}).refine((range) => range.maxReps >= range.minReps, {
+  message: 'maxReps must be greater than or equal to minReps',
+});
+
+export const generateNextSessionSchema = z.object({
+  now: z.string().datetime().optional(),
+  weekIndex: z.number().int().min(0).optional(),
+  sessionIndex: z.number().int().min(0).optional(),
+  plannedExercises: z.array(
+    z.object({
+      exerciseId: z.string().uuid(),
+      sets: z.number().int().min(1).max(12),
+      currentWeight: z.number().min(0).max(1000).optional(),
+      targetRepRange: progressionRepRangeSchema.optional(),
+      exercisePattern: z.enum(['lower_compound', 'upper_compound', 'isolation']),
+      primaryMuscle: z.string().min(1).max(80).optional(),
+      lastVolume: z.number().min(0).max(100000).optional(),
+      sessionResult: z.object({
+        reps: z.array(z.number().int().min(0).max(100)).min(1).max(12),
+        averageRir: z.number().min(0).max(5),
+      }).optional(),
+    })
+  ).min(1).max(30),
+});
+
 export const updateRecipeSchema = z.object({
   name: z.string().min(1).optional(),
   nameEn: z.string().min(1).nullable().optional(),
