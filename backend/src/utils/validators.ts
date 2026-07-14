@@ -149,6 +149,10 @@ export const sendCoachMessageSchema = z.object({
   message: z.string().trim().min(3).max(2000),
 });
 
+export const updateSocialPrivacySchema = z.object({
+  visibility: z.enum(['public', 'private']),
+});
+
 export const updateRecipeSchema = z.object({
   name: z.string().min(1).optional(),
   nameEn: z.string().min(1).nullable().optional(),
@@ -264,6 +268,7 @@ export type LoginInput = z.infer<typeof loginSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type CreateWorkoutInput = z.infer<typeof createWorkoutSchema>;
 export type SendCoachMessageInput = z.infer<typeof sendCoachMessageSchema>;
+export type UpdateSocialPrivacyInput = z.infer<typeof updateSocialPrivacySchema>;
 export type CreateSessionInput = z.infer<typeof createSessionSchema>;
 export type CreateMeasurementInput = z.infer<typeof createMeasurementSchema>;
 export type CreateExerciseInput = z.infer<typeof createExerciseSchema>;
