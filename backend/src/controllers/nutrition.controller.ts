@@ -2,11 +2,17 @@ import { Request, Response, NextFunction } from 'express';
 import * as nutritionService from '../services/nutrition.service';
 import type {
   BulkUpdateRecipeEditorialInput,
+  CreateFoodItemInput,
+  CreateMealLogInput,
   CreateRecipeInput,
   CreateNutritionLogInput,
+  CreateSmartMealPlanInput,
   GenerateMealPlanInput,
+  ListFoodItemsQueryInput,
+  ListMealLogsQueryInput,
   ListRecipesQueryInput,
   ReplaceMealRecipeInput,
+  UpsertNutritionTargetInput,
   UpdateRecipeInput,
 } from '../utils/validators';
 import { listRecipesQuerySchema } from '../utils/validators';
@@ -270,6 +276,144 @@ export async function getNutritionSummary(
     const period = (req.query.period as 'day' | 'week') || 'day';
     const summary = await nutritionService.getNutritionSummary(req.user.userId, period);
     res.json(summary);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createFoodItem(
+  req: Request<{}, {}, CreateFoodItemInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const foodItem = await nutritionService.createFoodItem(req.user.userId, req.body);
+    res.status(201).json(foodItem);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listFoodItems(
+  req: Request<{}, {}, {}, ListFoodItemsQueryInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const foodItems = await nutritionService.listFoodItems(req.user.userId, req.query);
+    res.json(foodItems);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function upsertNutritionTarget(
+  req: Request<{}, {}, UpsertNutritionTargetInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const target = await nutritionService.upsertNutritionTarget(req.user.userId, req.body);
+    res.json(target);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getNutritionTarget(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const target = await nutritionService.getNutritionTarget(req.user.userId);
+    res.json(target);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createMealLog(
+  req: Request<{}, {}, CreateMealLogInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const mealLog = await nutritionService.createMealLog(req.user.userId, req.body);
+    res.status(201).json(mealLog);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function listMealLogs(
+  req: Request<{}, {}, {}, ListMealLogsQueryInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const mealLogs = await nutritionService.listMealLogs(req.user.userId, req.query);
+    res.json(mealLogs);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function createSmartMealPlan(
+  req: Request<{}, {}, CreateSmartMealPlanInput>,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: 'Unauthorized' });
+      return;
+    }
+
+    const plan = await nutritionService.createSmartMealPlan(req.user.userId, req.body);
+    res.status(201).json(plan);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getHealthImportStatus(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  try {
+    res.json(nutritionService.getHealthImportStatus());
   } catch (error) {
     next(error);
   }
