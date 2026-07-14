@@ -35,6 +35,7 @@ model User {
   reminderWeeklyReview Boolean @default(true)
   reminderReactivation Boolean @default(true)
   socialProfileVisibility String @default("public")
+  subscriptionTier String @default("free")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -54,6 +55,8 @@ model User {
   healthDataImports HealthDataImport[]
   wearableConnections WearableConnection[]
   recoverySamples RecoverySample[]
+  formAnalyses FormAnalysisRequest[]
+  voiceCueSessions VoiceCueSession[]
 
   // Relaciones - Gamificación
   gamification    UserGamification?
@@ -710,6 +713,49 @@ model RecoverySample {
   @@index([provider])
   @@index([recordedAt])
   @@map("recovery_samples")
+}
+
+model FormAnalysisRequest {
+  id             String   @id @default(uuid())
+  userId         String
+  exerciseName   String
+  mediaType      String
+  mediaUrl       String
+  status         String
+  feedback       String[] @default([])
+  disclaimer     String
+  clientAnalysis Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("form_analysis_requests")
+}
+
+model VoiceCueSession {
+  id               String   @id @default(uuid())
+  userId           String
+  workoutSessionId String?
+  exerciseName     String
+  phase            String
+  intensity        String
+  locale           String
+  provider         String
+  audioStatus      String
+  cues             String[] @default([])
+  disclaimer       String
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([workoutSessionId])
+  @@index([createdAt])
+  @@map("voice_cue_sessions")
 }
 
 model ProductEvent {
