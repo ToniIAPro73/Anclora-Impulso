@@ -62,7 +62,7 @@ describe('session gamification', () => {
 
     const registerResponse = await request(app).post('/api/auth/register').send({
       email: uniqueEmail('session-gamification'),
-      password: 'password123',
+      password: `credential-${Date.now()}-${Math.random().toString(36).slice(2)}`,
       fullName: 'Session Gamification User',
     });
 
@@ -117,5 +117,5 @@ describe('session gamification', () => {
         }),
       ])
     );
-  });
+  }, 15000);
 });

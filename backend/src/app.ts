@@ -24,6 +24,7 @@ import profileRoutes from './routes/profile.routes';
 import productEventsRoutes from './routes/product-events.routes';
 import engagementRoutes from './routes/engagement.routes';
 import progressionRoutes from './routes/progression.routes';
+import coachRoutes from './routes/coach.routes';
 
 const app: Express = express();
 
@@ -150,6 +151,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/events', productEventsRoutes);
 app.use('/api/engagement', engagementRoutes);
 app.use('/api/v1/progression', progressionRoutes);
+app.use('/api/v1/coach', coachRoutes);
 
 // Manejo de rutas no encontradas
 app.use(notFoundHandler);
