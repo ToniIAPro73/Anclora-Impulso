@@ -3,6 +3,7 @@ import { AppError } from '../middleware/errorHandler';
 import type { CreateMeasurementInput } from '../utils/validators';
 import * as sessionsService from './sessions.service';
 import { getPersonalizationSnapshot } from './personalization.service';
+import { getStrengthProgress } from './strength-progress.service';
 
 /**
  * Obtener todas las medidas corporales de un usuario
@@ -72,9 +73,10 @@ export async function deleteMeasurement(id: string, userId: string) {
  */
 export async function getCompleteProgress(userId: string) {
   // Estadísticas de entrenamientos
-  const [workoutStats, insights] = await Promise.all([
+  const [workoutStats, insights, strength] = await Promise.all([
     sessionsService.getProgressStats(userId),
     getPersonalizationSnapshot(userId),
+    getStrengthProgress(userId),
   ]);
 
   // Medidas corporales
@@ -167,6 +169,7 @@ export async function getCompleteProgress(userId: string) {
       bodyFat: bodyFatData,
       frequency: frequencyData,
     },
+    strength,
     insights: {
       profileCompletion: insights.profileCompletion,
       missingProfileFields: insights.missingProfileFields,

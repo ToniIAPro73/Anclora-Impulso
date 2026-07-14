@@ -21,6 +21,9 @@ import { trackProductEvent } from "@/lib/product-events"
 type ExerciseSetState = {
   reps: string
   weight: string
+  rir: string
+  rpe: string
+  restSeconds: string
   completed: boolean
 }
 
@@ -75,6 +78,9 @@ function ActiveWorkoutPageContent() {
         Array.from({ length: exercise.sets }, () => ({
           reps: String(exercise.reps),
           weight: "",
+          rir: "",
+          rpe: "",
+          restSeconds: String(exercise.rest),
           completed: false,
         })),
       ]),
@@ -151,6 +157,9 @@ function ActiveWorkoutPageContent() {
           sets: (setState[exercise.exerciseId] ?? []).map((set, index) => ({
             reps: Number(set.reps) || exercise.reps,
             weight: Number(set.weight) || 0,
+            rir: set.rir ? Number(set.rir) : undefined,
+            rpe: set.rpe ? Number(set.rpe) : undefined,
+            restSeconds: set.restSeconds ? Number(set.restSeconds) : exercise.rest,
             order: index,
           })),
         })),
@@ -283,7 +292,7 @@ function ActiveWorkoutPageContent() {
             </CardHeader>
             <CardContent className="space-y-3">
               {(setState[workoutExercise.exerciseId] ?? []).map((set, setIndex) => (
-                <div key={`${workoutExercise.exerciseId}-${setIndex}`} className="grid gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 p-3 dark:border-slate-700/60 dark:bg-slate-900/30 md:grid-cols-[auto_minmax(0,1fr)_150px_150px_auto_auto] md:items-center">
+                <div key={`${workoutExercise.exerciseId}-${setIndex}`} className="grid gap-3 rounded-2xl border border-slate-200/70 bg-slate-50/80 p-3 dark:border-slate-700/60 dark:bg-slate-900/30 xl:grid-cols-[auto_minmax(0,1fr)_100px_120px_90px_90px_110px_auto_auto] xl:items-center">
                   <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">
                     {isSpanish ? `Serie ${setIndex + 1}` : `Set ${setIndex + 1}`}
                   </div>
@@ -298,10 +307,22 @@ function ActiveWorkoutPageContent() {
                     <Label className="text-xs">{isSpanish ? "Peso (kg)" : "Weight (kg)"}</Label>
                     <Input value={set.weight} inputMode="decimal" onChange={(event) => updateSet(workoutExercise.exerciseId, setIndex, { weight: event.target.value })} />
                   </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">RIR</Label>
+                    <Input value={set.rir ?? ""} inputMode="numeric" placeholder="0-5" onChange={(event) => updateSet(workoutExercise.exerciseId, setIndex, { rir: event.target.value })} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">RPE</Label>
+                    <Input value={set.rpe ?? ""} inputMode="decimal" placeholder="0-10" onChange={(event) => updateSet(workoutExercise.exerciseId, setIndex, { rpe: event.target.value })} />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">{isSpanish ? "Desc. (s)" : "Rest (s)"}</Label>
+                    <Input value={set.restSeconds ?? String(workoutExercise.rest)} inputMode="numeric" onChange={(event) => updateSet(workoutExercise.exerciseId, setIndex, { restSeconds: event.target.value })} />
+                  </div>
                   <Button variant={set.completed ? "default" : "outline"} className="rounded-2xl" onClick={() => updateSet(workoutExercise.exerciseId, setIndex, { completed: !set.completed })}>
                     {set.completed ? (isSpanish ? "Hecha" : "Done") : (isSpanish ? "Marcar" : "Mark")}
                   </Button>
-                  <Button variant="ghost" className="rounded-2xl" onClick={() => startRest(workoutExercise.rest, `${workoutExercise.exercise.name} · ${isSpanish ? "serie" : "set"} ${setIndex + 1}`)}>
+                  <Button variant="ghost" className="rounded-2xl" onClick={() => startRest(Number(set.restSeconds) || workoutExercise.rest, `${workoutExercise.exercise.name} · ${isSpanish ? "serie" : "set"} ${setIndex + 1}`)}>
                     {isSpanish ? "Descanso" : "Rest"}
                   </Button>
                 </div>

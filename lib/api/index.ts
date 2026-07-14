@@ -126,6 +126,9 @@ export interface Workout {
 export interface SessionSet {
   reps: number;
   weight: number;
+  rir?: number | null;
+  rpe?: number | null;
+  restSeconds?: number | null;
   order: number;
 }
 
@@ -182,8 +185,43 @@ export interface ProgressStats {
   }>;
 }
 
+export interface StrengthProgress {
+  totalVolume: number;
+  personalRecords: Array<{
+    id: string;
+    exerciseId: string;
+    exerciseName: string;
+    muscleGroup: string;
+    maxWeight: number;
+    bestEstimatedOneRepMax: number;
+    reps: number;
+    weight: number;
+    achievedAt: string;
+  }>;
+  muscleVolume: Array<{
+    muscleGroup: string;
+    totalVolume: number;
+    setCount: number;
+  }>;
+  recentSets: Array<{
+    sessionId: string;
+    completedAt: string;
+    exerciseId: string;
+    exerciseName: string;
+    muscleGroup: string;
+    reps: number;
+    weight: number;
+    rir: number | null;
+    rpe: number | null;
+    restSeconds: number | null;
+    estimatedOneRepMax: number;
+    volume: number;
+  }>;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
+  strength: StrengthProgress;
   measurements: BodyMeasurement[];
   charts: {
     weight: Array<{ date: string; weight: number }>;
@@ -395,6 +433,10 @@ export const sessionsApi = {
 export const progressApi = {
   async getStats(): Promise<ProgressStats> {
     return apiClient.get<ProgressStats>('/progress/stats');
+  },
+
+  async getStrength(): Promise<StrengthProgress> {
+    return apiClient.get<StrengthProgress>('/progress/strength');
   },
 
   async getComplete(): Promise<CompleteProgress> {

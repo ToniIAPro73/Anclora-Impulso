@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog"
 import { useProgress } from "@/hooks/use-progress"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts"
-import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock, Loader2, Flame, BrainCircuit } from "lucide-react"
+import { TrendingUp, TrendingDown, Calendar, Trophy, Target, Plus, Scale, Ruler, Activity, Clock, Loader2, Flame, BrainCircuit, DumbbellIcon } from "lucide-react"
 import { useLanguage } from "@/lib/contexts/language-context"
 
 export function ProgressTracker() {
@@ -100,7 +100,9 @@ export function ProgressTracker() {
     return null
   }
 
-  const { stats, measurements, charts, insights } = progress
+  const { stats, strength, measurements, charts, insights } = progress
+  const topRecord = strength.personalRecords[0]
+  const topMuscleVolume = strength.muscleVolume[0]
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -180,6 +182,39 @@ export function ProgressTracker() {
           </CardContent>
         </Card>
       </div>
+
+      <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm dark:bg-gray-800/80">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <DumbbellIcon className="h-5 w-5 text-orange-500" />
+            {isSpanish ? "Tracking avanzado de fuerza" : "Advanced strength tracking"}
+          </CardTitle>
+          <CardDescription>
+            {isSpanish ? "Volumen, récords y carga efectiva desde las series registradas." : "Volume, records and effective load from logged sets."}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+            <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{isSpanish ? "Volumen total" : "Total volume"}</p>
+            <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">{Math.round(strength.totalVolume)} kg</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{isSpanish ? "Últimas sesiones registradas" : "Latest logged sessions"}</p>
+          </div>
+          <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+            <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{isSpanish ? "Mejor PR" : "Best PR"}</p>
+            <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">{topRecord?.exerciseName ?? "--"}</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              {topRecord ? `${topRecord.maxWeight} kg · e1RM ${topRecord.bestEstimatedOneRepMax} kg` : isSpanish ? "Sin registros todavía" : "No records yet"}
+            </p>
+          </div>
+          <div className="rounded-2xl bg-slate-50/90 p-4 dark:bg-slate-900/50">
+            <p className="text-xs uppercase tracking-[0.16em] text-slate-400">{isSpanish ? "Grupo dominante" : "Top muscle group"}</p>
+            <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">{topMuscleVolume?.muscleGroup ?? "--"}</p>
+            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              {topMuscleVolume ? `${Math.round(topMuscleVolume.totalVolume)} kg · ${topMuscleVolume.setCount} sets` : isSpanish ? "Sin volumen acumulado" : "No accumulated volume"}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
         <Card className="border-0 shadow-lg bg-gradient-to-r from-slate-950 via-slate-900 to-slate-800 text-white">
