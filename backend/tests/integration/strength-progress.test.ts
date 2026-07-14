@@ -8,9 +8,11 @@ function uniqueEmail(prefix: string) {
 
 describe('strength progress tracking', () => {
   it('stores detailed set logs and exposes volume, muscle volume, PRs, and 1RM estimates', async () => {
+    const testPassword = `test-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
     const registerResponse = await request(app).post('/api/auth/register').send({
       email: uniqueEmail('strength-progress'),
-      password: 'password123',
+      password: testPassword,
       fullName: 'Strength Progress User',
     });
 
