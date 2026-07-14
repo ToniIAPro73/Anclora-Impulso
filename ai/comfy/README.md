@@ -23,31 +23,52 @@ Esta carpeta contiene el pipeline de generación de imágenes de ejercicios con 
 
 ## Flujo previsto
 
-1. Exportar tu flujo desde ComfyUI a `ai/comfy/workflows/workflow_api.json`.
-2. Identificar los IDs de nodos que debes mutar y rellenar `workflow-bindings.json`.
-3. Preparar trabajos:
+1. Generar el manifiesto de imágenes faltantes:
 
 ```bash
-node scripts/comfy/prepare-comfy-batch.mjs --limit 12
+npm run comfy:manifest
 ```
 
-4. Rellenar los IDs reales de nodos en `manifests/workflow-bindings.json`.
+2. Preparar trabajos solo para ejercicios sin imagen final:
+
+```bash
+npm run comfy:prepare:missing
+```
+
+3. Exportar tu flujo desde ComfyUI a `ai/comfy/workflows/workflow_api.json`.
+4. Identificar los IDs de nodos que debes mutar y rellenar `workflow-bindings.json`.
 5. Generar payloads mutados por ejercicio:
 
 ```bash
 node scripts/comfy/build-comfy-payloads.mjs --limit 12
 ```
 
-6. Inspeccionar:
+6. Ejecutar payloads contra ComfyUI y escribir imágenes finales:
+
+```bash
+npm run comfy:run -- --limit 12
+```
+
+Por defecto usa ComfyUI local en `http://127.0.0.1:8188` con endpoints `/prompt`, `/history/:id` y `/view`.
+
+Para proveedor con prefijo cloud:
+
+```bash
+COMFY_BASE_URL="https://tu-comfy.example" COMFY_API_PREFIX="/api" COMFY_API_KEY="..." npm run comfy:run -- --limit 12
+```
+
+7. Inspeccionar:
    - jobs preparados en `ai/comfy/manifests/jobs/`
    - payloads listos en `ai/comfy/manifests/payloads/`
-7. Conectar después esos payloads a la API cloud elegida.
+   - imágenes finales en `backend/public/exercises/<slug>/`
 
 ## Contratos del pipeline
 
 - La identidad del atleta se toma desde `reference-config.json`.
 - El fondo se elige por `environment`.
 - El prompt final sale de `data/prompts.json`; no se reescribe manualmente en el script salvo para inyectar referencias.
+- El manifiesto de faltantes sale de `ai/comfy/manifests/missing-exercise-images.json`.
+- La referencia activa del atleta debe ser el modelo masculino 31-40 (`modelo_gym_masc_31_40.png`).
 - El pipeline debe ser idempotente: si ya existe la imagen final, el job puede marcarse como `skip`.
 - La salida canónica de cada ejercicio vive en `backend/public/exercises/<slug>/`.
 - Si la subcarpeta del ejercicio todavía no existe, el paso final de generación/descarga debe crearla automáticamente antes de escribir el archivo.
@@ -62,4 +83,4 @@ node scripts/comfy/build-comfy-payloads.mjs --limit 12
   - referencia de atleta
   - referencia de entorno
   - prefijo de salida
-- Añadir un script final de envío para el proveedor cloud real.
+- Si se usa proveedor cloud, validar si requiere `COMFY_API_PREFIX="/api"` y `COMFY_API_KEY`.

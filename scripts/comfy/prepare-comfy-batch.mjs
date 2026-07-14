@@ -6,6 +6,7 @@ const PROMPTS_PATH = path.join(ROOT, "data", "prompts.json")
 const REFERENCES_PATH = path.join(ROOT, "ai", "comfy", "manifests", "reference-config.json")
 const BINDINGS_PATH = path.join(ROOT, "ai", "comfy", "manifests", "workflow-bindings.json")
 const STATE_PATH = path.join(ROOT, "ai", "comfy", "manifests", "generation-state.json")
+const MISSING_MANIFEST_PATH = path.join(ROOT, "ai", "comfy", "manifests", "missing-exercise-images.json")
 const JOBS_DIR = path.join(ROOT, "ai", "comfy", "manifests", "jobs")
 
 function readJson(filePath) {
@@ -22,6 +23,7 @@ function parseArgs(argv) {
     environment: null,
     slug: null,
     dryRun: false,
+    missingOnly: false,
   }
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -37,6 +39,8 @@ function parseArgs(argv) {
       index += 1
     } else if (arg === "--dry-run") {
       result.dryRun = true
+    } else if (arg === "--missing-only") {
+      result.missingOnly = true
     }
   }
 
@@ -64,10 +68,12 @@ function buildOutputPrefix(exercise) {
 }
 
 function buildJob({ exercise, config, bindings, workflowExists }) {
-  const athleteReference = config.testSelection.athleteReference
-  const environmentReference = resolveEnvironmentReference(config, exercise.environment)
-  const targetFolder = path.join(ROOT, exercise.target_folder)
-  const targetPath = path.join(targetFolder, exercise.target_file)
+  const athleteReference = exercise.athleteReference ?? config.testSelection.athleteReference
+  const environmentReference = exercise.environmentReference ?? resolveEnvironmentReference(config, exercise.environment)
+  const targetPath = exercise.targetPath
+    ? path.join(ROOT, exercise.targetPath)
+    : path.join(ROOT, exercise.target_folder, exercise.target_file)
+  const targetFolder = exercise.targetFolder ? path.join(ROOT, exercise.targetFolder) : path.dirname(targetPath)
 
   return {
     id: exercise.id,
@@ -77,8 +83,8 @@ function buildJob({ exercise, config, bindings, workflowExists }) {
     targetPath: relativeRepoPath(targetPath),
     targetFolder: relativeRepoPath(targetFolder),
     outputPrefix: buildOutputPrefix(exercise),
-    sourcePrompt: exercise.prompt,
-    sourceNegativePrompt: exercise.negative_prompt,
+    sourcePrompt: exercise.sourcePrompt ?? exercise.prompt,
+    sourceNegativePrompt: exercise.sourceNegativePrompt ?? exercise.negative_prompt,
     athleteReference,
     environmentReference,
     workflow: {
@@ -112,7 +118,12 @@ function main() {
   const workflowPath = path.join(ROOT, bindings.workflowPath)
   const workflowExists = fs.existsSync(workflowPath)
 
-  let exercises = Array.isArray(promptsData.exercises) ? promptsData.exercises : []
+  const missingManifest = args.missingOnly && fs.existsSync(MISSING_MANIFEST_PATH)
+    ? readJson(MISSING_MANIFEST_PATH)
+    : null
+  let exercises = args.missingOnly
+    ? (Array.isArray(missingManifest?.exercises) ? missingManifest.exercises : [])
+    : (Array.isArray(promptsData.exercises) ? promptsData.exercises : [])
 
   if (args.environment) {
     exercises = exercises.filter((exercise) => exercise.environment === args.environment)
@@ -145,6 +156,7 @@ function main() {
 
   const summary = {
     totalPrepared: jobs.length,
+    source: args.missingOnly ? "ai/comfy/manifests/missing-exercise-images.json" : "data/prompts.json",
     workflowExists,
     athleteReference: config.testSelection.athleteReference,
     environments: [...new Set(jobs.map((job) => job.environment))],
