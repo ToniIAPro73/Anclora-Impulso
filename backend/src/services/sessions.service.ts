@@ -2,6 +2,7 @@ import { prisma } from '../config/database';
 import { AppError } from '../middleware/errorHandler';
 import type { CreateSessionInput } from '../utils/validators';
 import { awardXP, updateStreak } from './gamification.service';
+import { recordStrengthProgressForSession } from './strength-progress.service';
 
 /**
  * Obtener todas las sesiones de un usuario
@@ -96,6 +97,7 @@ export async function createSession(userId: string, data: CreateSessionInput) {
 
   await updateStreak(userId);
   await awardXP(userId, 'complete_workout');
+  await recordStrengthProgressForSession(userId, session.id);
 
   return session;
 }

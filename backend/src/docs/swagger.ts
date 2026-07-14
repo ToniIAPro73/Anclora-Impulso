@@ -209,6 +209,64 @@ export const swaggerDefinition = {
         },
         required: ['id', 'userId', 'date'],
       },
+      StrengthProgress: {
+        type: 'object',
+        properties: {
+          totalVolume: {
+            type: 'number',
+            description: 'Total lifted volume in kilograms across recent strength sets',
+          },
+          personalRecords: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: { type: 'string', format: 'uuid' },
+                exerciseId: { type: 'string', format: 'uuid' },
+                exerciseName: { type: 'string' },
+                muscleGroup: { type: 'string' },
+                maxWeight: { type: 'number' },
+                bestEstimatedOneRepMax: { type: 'number' },
+                reps: { type: 'integer' },
+                weight: { type: 'number' },
+                achievedAt: { type: 'string', format: 'date-time' },
+              },
+            },
+          },
+          muscleVolume: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                muscleGroup: { type: 'string' },
+                totalVolume: { type: 'number' },
+                setCount: { type: 'integer' },
+              },
+            },
+          },
+          recentSets: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                sessionId: { type: 'string', format: 'uuid' },
+                completedAt: { type: 'string', format: 'date-time' },
+                exerciseId: { type: 'string', format: 'uuid' },
+                exerciseName: { type: 'string' },
+                muscleGroup: { type: 'string' },
+                reps: { type: 'integer' },
+                weight: { type: 'number' },
+                rir: { type: 'integer', nullable: true, minimum: 0, maximum: 5 },
+                rpe: { type: 'number', nullable: true, minimum: 0, maximum: 10 },
+                restSeconds: { type: 'integer', nullable: true },
+                estimatedOneRepMax: { type: 'number' },
+                volume: { type: 'number' },
+              },
+            },
+          },
+        },
+        required: ['totalVolume', 'personalRecords', 'muscleVolume', 'recentSets'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -800,6 +858,32 @@ export const swaggerDefinition = {
           },
           '400': {
             description: 'Invalid input',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/Error' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/progress/strength': {
+      get: {
+        tags: ['Progress'],
+        summary: 'Get advanced strength progress',
+        description: 'Returns lifted volume, personal records, per-muscle volume and recent detailed set logs.',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Advanced strength progress data',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/StrengthProgress' },
+              },
+            },
+          },
+          '401': {
+            description: 'Unauthorized',
             content: {
               'application/json': {
                 schema: { $ref: '#/components/schemas/Error' },
