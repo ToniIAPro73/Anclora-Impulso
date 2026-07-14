@@ -1,0 +1,47 @@
+{
+  "id": "8544da09-97c6-4ffd-9784-99de1bf31526",
+  "slug": "tempo-low-impact-skater-step",
+  "name": "Tempo Low Impact Skater Step",
+  "environment": "outdoor",
+  "targetPath": "backend/public/exercises/tempo-low-impact-skater-step/tempo_low_impact_skater_step.png",
+  "targetFolder": "backend/public/exercises/tempo-low-impact-skater-step",
+  "outputPrefix": "anclora/outdoor/tempo-low-impact-skater-step",
+  "sourcePrompt": "Professional 3D fitness instructional illustration using the ATTACHED CHARACTER MODEL as the exact identity reference. Keep the same stylized 3D cartoon male character across every image: short brown hair, vivid green eyes, moustache, compact athletic proportions, friendly premium app look. Clothing must remain identical in all images: black athletic t-shirt, black shorts, black training shoes. Exercise: Tempo Low Impact Skater Step. Training environment: outdoor. Muscle focus: Full Body. Category: Cardio. Equipment required: Bodyweight. Show two poses in the same image, LEFT = START and RIGHT = END, with a subtle movement arrow and small labels START and END. LEFT pose: Da un paso lateral amplio y lleva el otro pie a juntarse. RIGHT pose: Coordina el braceo con el desplazamiento. Minimal premium outdoor fitness background with the SAME scene for every outdoor exercise: calm park training area, smooth neutral pavement, soft daylight, blurred greenery in the distance, no crowd, no vehicles, no playground distractions, clean composition. High quality, premium fitness app style, centered composition, full body visible when possible, biomechanically correct posture, consistent facial features and body proportions.",
+  "sourceNegativePrompt": "extra fingers, mutated hands, malformed hands, deformed hands, extra arms, extra legs, duplicated body parts, twisted limbs, bad anatomy, poor biomechanics, incorrect exercise form, blurry, low quality, low resolution, text artifacts, watermark, logo, cropped head, cropped feet, out of frame, wrong eye color, different clothes, different character, multiple characters, photorealistic adult human style, horror, violence, gym machines, cable station, indoor studio, living room furniture, bedroom, cluttered home interior, rain, dramatic sky",
+  "athleteReference": "ai/comfy/references/athlete/modelos-masc/modelo_gym_masc_31_40.png",
+  "environmentReference": "ai/comfy/references/environments/entorno_outside.png",
+  "workflow": {
+    "exists": false,
+    "path": "ai/comfy/workflows/workflow_api.json",
+    "bindings": {
+      "positivePrompt": {
+        "id": "REPLACE_ME",
+        "input": "text"
+      },
+      "negativePrompt": {
+        "id": "REPLACE_ME",
+        "input": "text"
+      },
+      "athleteReferenceImage": {
+        "id": "REPLACE_ME",
+        "input": "image"
+      },
+      "environmentReferenceImage": {
+        "id": "REPLACE_ME",
+        "input": "image"
+      },
+      "outputPrefix": {
+        "id": "REPLACE_ME",
+        "input": "filename_prefix"
+      },
+      "seed": {
+        "id": null,
+        "input": "seed"
+      },
+      "poseReferenceImage": {
+        "id": null,
+        "input": "image"
+      }
+    }
+  }
+}
