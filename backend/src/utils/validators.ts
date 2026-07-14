@@ -247,6 +247,56 @@ export const createNutritionLogSchema = z.object({
   notes: z.string().optional(),
 });
 
+export const createFoodItemSchema = z.object({
+  name: z.string().trim().min(1).max(160),
+  brand: z.string().trim().min(1).max(120).nullable().optional(),
+  barcode: z.string().trim().min(3).max(80).nullable().optional(),
+  servingSizeG: z.number().positive().max(5000),
+  calories: z.number().min(0).max(5000),
+  protein: z.number().min(0).max(1000),
+  carbs: z.number().min(0).max(1000),
+  fat: z.number().min(0).max(1000),
+  fiber: z.number().min(0).max(200).optional(),
+});
+
+export const listFoodItemsQuerySchema = z.object({
+  query: z.string().trim().min(1).max(120).optional(),
+  limit: z.coerce.number().int().min(1).max(50).optional(),
+});
+
+export const upsertNutritionTargetSchema = z.object({
+  calories: z.number().positive().max(10000),
+  protein: z.number().min(0).max(1000),
+  carbs: z.number().min(0).max(1500),
+  fat: z.number().min(0).max(1000),
+  fiber: z.number().min(0).max(200),
+  goal: z.enum(['lose_weight', 'build_muscle', 'recomposition', 'maintain']),
+});
+
+export const createMealLogSchema = z.object({
+  mealType: z.enum(['desayuno', 'almuerzo', 'cena', 'snack']),
+  consumedAt: z.string().datetime().optional(),
+  foodItemId: z.string().uuid().optional(),
+  quantityG: z.number().positive().max(10000).optional(),
+  name: z.string().trim().min(1).max(160).optional(),
+  calories: z.number().min(0).max(10000).optional(),
+  protein: z.number().min(0).max(1000).optional(),
+  carbs: z.number().min(0).max(1500).optional(),
+  fat: z.number().min(0).max(1000).optional(),
+  fiber: z.number().min(0).max(200).optional(),
+  notes: z.string().max(1000).optional(),
+}).refine((value) => value.foodItemId || value.name, {
+  message: 'Either foodItemId or name is required',
+});
+
+export const listMealLogsQuerySchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+});
+
+export const createSmartMealPlanSchema = z.object({
+  weekStart: z.string().datetime().optional(),
+});
+
 export const listRecipesQuerySchema = z.object({
   query: z.string().min(1).optional(),
   mealType: z.enum(['desayuno', 'almuerzo', 'cena', 'snack']).optional(),
@@ -269,6 +319,12 @@ export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
 export type CreateWorkoutInput = z.infer<typeof createWorkoutSchema>;
 export type SendCoachMessageInput = z.infer<typeof sendCoachMessageSchema>;
 export type UpdateSocialPrivacyInput = z.infer<typeof updateSocialPrivacySchema>;
+export type CreateFoodItemInput = z.infer<typeof createFoodItemSchema>;
+export type ListFoodItemsQueryInput = z.infer<typeof listFoodItemsQuerySchema>;
+export type UpsertNutritionTargetInput = z.infer<typeof upsertNutritionTargetSchema>;
+export type CreateMealLogInput = z.infer<typeof createMealLogSchema>;
+export type ListMealLogsQueryInput = z.infer<typeof listMealLogsQuerySchema>;
+export type CreateSmartMealPlanInput = z.infer<typeof createSmartMealPlanSchema>;
 export type CreateSessionInput = z.infer<typeof createSessionSchema>;
 export type CreateMeasurementInput = z.infer<typeof createMeasurementSchema>;
 export type CreateExerciseInput = z.infer<typeof createExerciseSchema>;

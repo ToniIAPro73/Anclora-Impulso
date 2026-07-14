@@ -320,6 +320,67 @@ export interface ChallengeLeaderboard {
   }>;
 }
 
+export interface FoodItem {
+  id: string;
+  name: string;
+  brand: string | null;
+  barcode: string | null;
+  servingSizeG: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  source: string;
+  verified: boolean;
+}
+
+export interface NutritionTarget {
+  id: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  goal: 'lose_weight' | 'build_muscle' | 'recomposition' | 'maintain';
+}
+
+export interface MealLog {
+  id: string;
+  foodItemId: string | null;
+  mealType: 'desayuno' | 'almuerzo' | 'cena' | 'snack';
+  consumedAt: string;
+  quantityG: number | null;
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  fiber: number;
+  notes: string | null;
+}
+
+export interface SmartMealPlan {
+  id: string;
+  userId: string;
+  weekStart: string;
+  goal: string;
+  targetCalories: number;
+  targetProtein: number;
+  targetCarbs: number;
+  targetFat: number;
+  targetFiber: number;
+  strategy: 'target_aligned';
+}
+
+export interface HealthImportStatus {
+  enabled: boolean;
+  providers: Array<{
+    provider: 'google_fit' | 'health_connect';
+    available: boolean;
+  }>;
+}
+
 export interface CompleteProgress {
   stats: ProgressStats;
   strength: StrengthProgress;
@@ -629,6 +690,42 @@ export const socialApi = {
 
   async getChallengeLeaderboard(challengeId: string): Promise<ChallengeLeaderboard> {
     return apiClient.get<ChallengeLeaderboard>(`/social/challenges/${challengeId}/leaderboard`);
+  },
+};
+
+export const smartNutritionApi = {
+  async searchFoods(query?: string): Promise<{ items: FoodItem[] }> {
+    const suffix = query ? `?query=${encodeURIComponent(query)}` : '';
+    return apiClient.get<{ items: FoodItem[] }>(`/nutrition/foods${suffix}`);
+  },
+
+  async createFood(data: Omit<FoodItem, 'id' | 'source' | 'verified'>): Promise<FoodItem> {
+    return apiClient.post<FoodItem>('/nutrition/foods', data);
+  },
+
+  async getTarget(): Promise<NutritionTarget | null> {
+    return apiClient.get<NutritionTarget | null>('/nutrition/targets');
+  },
+
+  async upsertTarget(data: Omit<NutritionTarget, 'id'>): Promise<NutritionTarget> {
+    return apiClient.put<NutritionTarget>('/nutrition/targets', data);
+  },
+
+  async createMealLog(data: Partial<MealLog> & { mealType: MealLog['mealType'] }): Promise<MealLog> {
+    return apiClient.post<MealLog>('/nutrition/meal-logs', data);
+  },
+
+  async getMealLogs(date?: string): Promise<{ items: MealLog[] }> {
+    const suffix = date ? `?date=${encodeURIComponent(date)}` : '';
+    return apiClient.get<{ items: MealLog[] }>(`/nutrition/meal-logs${suffix}`);
+  },
+
+  async createSmartMealPlan(data: { weekStart?: string } = {}): Promise<SmartMealPlan> {
+    return apiClient.post<SmartMealPlan>('/nutrition/meal-plans/smart', data);
+  },
+
+  async getHealthImportStatus(): Promise<HealthImportStatus> {
+    return apiClient.get<HealthImportStatus>('/nutrition/health-import/status');
   },
 };
 
