@@ -57,6 +57,10 @@ jobs:
         working-directory: ./backend
         run: pnpm test:ci
 
+      - name: Build backend
+        working-directory: ./backend
+        run: pnpm build
+
   test-frontend:
     runs-on: ubuntu-latest
 
