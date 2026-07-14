@@ -81,8 +81,15 @@ export interface ProgressionPlannedExercise {
   };
 }
 
+export interface ReadinessInput {
+  readinessScore: number;
+  provider?: string;
+  recordedAt?: string;
+}
+
 export interface SessionPlanPrescription extends Prescription {
   freshnessScore: number;
+  readinessScore: number | null;
   recoveryAction: RecoveryAction;
   deload: DeloadDecision;
 }

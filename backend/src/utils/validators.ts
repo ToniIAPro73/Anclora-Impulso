@@ -127,6 +127,11 @@ export const generateNextSessionSchema = z.object({
   now: z.string().datetime().optional(),
   weekIndex: z.number().int().min(0).optional(),
   sessionIndex: z.number().int().min(0).optional(),
+  readiness: z.object({
+    readinessScore: z.number().int().min(0).max(100),
+    provider: z.enum(['healthkit', 'health_connect', 'garmin', 'whoop', 'oura', 'manual']).optional(),
+    recordedAt: z.string().datetime().optional(),
+  }).optional(),
   plannedExercises: z.array(
     z.object({
       exerciseId: z.string().uuid(),
@@ -143,6 +148,34 @@ export const generateNextSessionSchema = z.object({
     })
   ).min(1).max(30),
 });
+
+const wearableProviderSchema = z.enum(['healthkit', 'health_connect', 'garmin', 'whoop', 'oura', 'manual']);
+
+export const upsertWearableConnectionSchema = z.object({
+  status: z.enum(['connected', 'paused', 'revoked']),
+  syncDirection: z.enum(['import_only', 'export_only', 'bidirectional']),
+  scopes: z.array(z.enum(['heart_rate', 'sleep', 'activity', 'hrv'])).max(8).default([]),
+});
+
+export const createRecoverySampleSchema = z.object({
+  provider: wearableProviderSchema,
+  recordedAt: z.string().datetime(),
+  hrvMs: z.number().positive().max(300).optional(),
+  restingHeartRateBpm: z.number().int().min(25).max(220).optional(),
+  sleepMinutes: z.number().int().min(0).max(1440).optional(),
+  activityMinutes: z.number().int().min(0).max(1440).optional(),
+  payload: z.record(z.any()).optional(),
+}).refine((sample) => (
+  sample.hrvMs !== undefined ||
+  sample.restingHeartRateBpm !== undefined ||
+  sample.sleepMinutes !== undefined ||
+  sample.activityMinutes !== undefined
+), {
+  message: 'At least one recovery metric is required',
+});
+
+export type UpsertWearableConnectionInput = z.infer<typeof upsertWearableConnectionSchema>;
+export type CreateRecoverySampleInput = z.infer<typeof createRecoverySampleSchema>;
 
 export const sendCoachMessageSchema = z.object({
   conversationId: z.string().uuid().optional(),
