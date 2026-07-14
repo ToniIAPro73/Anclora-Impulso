@@ -520,6 +520,72 @@ export const swaggerDefinition = {
         },
         required: ['id', 'provider', 'recordedAt', 'readinessScore'],
       },
+      PremiumStatus: {
+        type: 'object',
+        properties: {
+          subscriptionTier: { type: 'string', enum: ['free', 'premium', 'pro'] },
+          premiumEntitled: { type: 'boolean' },
+          features: {
+            type: 'object',
+            properties: {
+              formAnalysis: {
+                type: 'object',
+                properties: {
+                  enabled: { type: 'boolean' },
+                  available: { type: 'boolean' },
+                  mode: { type: 'string', enum: ['async_contract'] },
+                },
+                required: ['enabled', 'available', 'mode'],
+              },
+              voiceCoach: {
+                type: 'object',
+                properties: {
+                  enabled: { type: 'boolean' },
+                  available: { type: 'boolean' },
+                  mode: { type: 'string', enum: ['script_only'] },
+                },
+                required: ['enabled', 'available', 'mode'],
+              },
+            },
+            required: ['formAnalysis', 'voiceCoach'],
+          },
+        },
+        required: ['subscriptionTier', 'premiumEntitled', 'features'],
+      },
+      FormAnalysisRequest: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          userId: { type: 'string', format: 'uuid' },
+          exerciseName: { type: 'string' },
+          mediaType: { type: 'string', enum: ['image', 'video'] },
+          mediaUrl: { type: 'string', format: 'uri' },
+          status: { type: 'string', enum: ['queued', 'processing', 'completed', 'failed'] },
+          feedback: { type: 'array', items: { type: 'string' } },
+          disclaimer: { type: 'string' },
+          createdAt: { type: 'string', format: 'date-time' },
+          updatedAt: { type: 'string', format: 'date-time' },
+        },
+        required: ['id', 'userId', 'exerciseName', 'mediaType', 'mediaUrl', 'status', 'feedback', 'disclaimer'],
+      },
+      VoiceCueSession: {
+        type: 'object',
+        properties: {
+          id: { type: 'string', format: 'uuid' },
+          userId: { type: 'string', format: 'uuid' },
+          workoutSessionId: { type: 'string', nullable: true },
+          exerciseName: { type: 'string' },
+          phase: { type: 'string', enum: ['warmup', 'working_set', 'rest', 'cooldown'] },
+          intensity: { type: 'string', enum: ['easy', 'moderate', 'hard'] },
+          locale: { type: 'string' },
+          provider: { type: 'string', enum: ['deterministic'] },
+          audioStatus: { type: 'string', enum: ['script_only'] },
+          cues: { type: 'array', items: { type: 'string' } },
+          disclaimer: { type: 'string' },
+          createdAt: { type: 'string', format: 'date-time' },
+        },
+        required: ['id', 'userId', 'exerciseName', 'phase', 'intensity', 'locale', 'provider', 'audioStatus', 'cues', 'disclaimer'],
+      },
       Error: {
         type: 'object',
         properties: {
@@ -1719,6 +1785,97 @@ export const swaggerDefinition = {
               },
             },
           },
+        },
+      },
+    },
+    '/premium/status': {
+      get: {
+        tags: ['Premium'],
+        summary: 'Get premium feature entitlement and flag status',
+        security: [{ bearerAuth: [] }],
+        responses: {
+          '200': {
+            description: 'Premium feature status',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/PremiumStatus' },
+              },
+            },
+          },
+          '401': { description: 'Unauthorized' },
+        },
+      },
+    },
+    '/premium/form-analysis': {
+      post: {
+        tags: ['Premium'],
+        summary: 'Create an asynchronous form analysis request',
+        description: 'Creates a queued premium form-analysis request. Real vision processing is behind future runtime/provider work and the response includes safety disclaimers.',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  exerciseName: { type: 'string' },
+                  mediaType: { type: 'string', enum: ['image', 'video'] },
+                  mediaUrl: { type: 'string', format: 'uri' },
+                  clientAnalysis: { type: 'object' },
+                },
+                required: ['exerciseName', 'mediaType', 'mediaUrl'],
+              },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'Form analysis request queued',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/FormAnalysisRequest' },
+              },
+            },
+          },
+          '403': { description: 'Premium subscription or feature flag required' },
+        },
+      },
+    },
+    '/premium/voice-cues': {
+      post: {
+        tags: ['Premium'],
+        summary: 'Generate deterministic in-session voice cue script',
+        description: 'Returns script-only coaching cues. Real TTS/audio generation is intentionally not executed in CI.',
+        security: [{ bearerAuth: [] }],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  workoutSessionId: { type: 'string' },
+                  exerciseName: { type: 'string' },
+                  phase: { type: 'string', enum: ['warmup', 'working_set', 'rest', 'cooldown'] },
+                  intensity: { type: 'string', enum: ['easy', 'moderate', 'hard'] },
+                  locale: { type: 'string' },
+                },
+                required: ['exerciseName', 'phase', 'intensity'],
+              },
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'Voice cue script generated',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/VoiceCueSession' },
+              },
+            },
+          },
+          '403': { description: 'Premium subscription or feature flag required' },
         },
       },
     },

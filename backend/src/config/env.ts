@@ -76,6 +76,8 @@ export const env = {
   healthDataImportEnabled: process.env.HEALTH_DATA_IMPORT_ENABLED === 'true',
   wearableSyncEnabled: process.env.WEARABLE_SYNC_ENABLED === 'true',
   wearableReadinessEnabled: process.env.WEARABLE_READINESS_ENABLED === 'true',
+  formAnalysisEnabled: process.env.FORM_ANALYSIS_ENABLED === 'true',
+  voiceCoachEnabled: process.env.VOICE_COACH_ENABLED === 'true',
 
   // Legacy (deprecated, usar GROQ_API_KEY)
   openaiApiKey: process.env.OPENAI_API_KEY || '',

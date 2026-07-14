@@ -27,6 +27,7 @@ import progressionRoutes from './routes/progression.routes';
 import coachRoutes from './routes/coach.routes';
 import socialRoutes from './routes/social.routes';
 import wearablesRoutes from './routes/wearables.routes';
+import premiumRoutes from './routes/premium.routes';
 
 const app: Express = express();
 
@@ -156,6 +157,7 @@ app.use('/api/v1/progression', progressionRoutes);
 app.use('/api/v1/coach', coachRoutes);
 app.use('/api/social', socialRoutes);
 app.use('/api/wearables', wearablesRoutes);
+app.use('/api/premium', premiumRoutes);
 
 // Manejo de rutas no encontradas
 app.use(notFoundHandler);
