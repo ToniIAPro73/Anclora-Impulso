@@ -74,6 +74,8 @@ export const env = {
   llmCoachWindowMinutes: parseInt(process.env.LLM_COACH_WINDOW_MINUTES || '60', 10),
   llmCoachWindowLimit: parseInt(process.env.LLM_COACH_WINDOW_LIMIT || '20', 10),
   healthDataImportEnabled: process.env.HEALTH_DATA_IMPORT_ENABLED === 'true',
+  wearableSyncEnabled: process.env.WEARABLE_SYNC_ENABLED === 'true',
+  wearableReadinessEnabled: process.env.WEARABLE_READINESS_ENABLED === 'true',
 
   // Legacy (deprecated, usar GROQ_API_KEY)
   openaiApiKey: process.env.OPENAI_API_KEY || '',

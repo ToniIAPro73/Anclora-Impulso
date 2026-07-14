@@ -9,6 +9,7 @@ import {
   recoveryActionForFreshness,
 } from './engine';
 import type { ProgressionPlannedExercise, ProgressionState, SessionPlan } from './types';
+import * as wearablesService from '../wearables.service';
 
 function toProgressionState(record: {
   userId: string;
@@ -91,6 +92,11 @@ export interface GenerateNextSessionInput {
   now?: string;
   weekIndex?: number;
   sessionIndex?: number;
+  readiness?: {
+    readinessScore: number;
+    provider?: string;
+    recordedAt?: string;
+  };
   plannedExercises: ProgressionPlannedExercise[];
 }
 
@@ -98,6 +104,8 @@ export async function generateNextSession(userId: string, input: GenerateNextSes
   const now = input.now ? new Date(input.now) : new Date();
   const weekIndex = input.weekIndex ?? 0;
   const sessionIndex = input.sessionIndex ?? 0;
+  const readiness = input.readiness ?? (await wearablesService.getLatestReadiness(userId)).latest;
+  const readinessScore = readiness?.readinessScore ?? null;
   const prescriptions = [];
 
   for (const plannedExercise of input.plannedExercises) {
@@ -147,7 +155,14 @@ export async function generateNextSession(userId: string, input: GenerateNextSes
       lastTrainedAt: state.lastTrainedAt,
       lastVolume: plannedExercise.lastVolume ?? 0,
     });
-    const recoveryAction = recoveryActionForFreshness(score);
+    const effectiveRecoveryScore = readinessScore === null ? score : Math.min(score, readinessScore);
+    const recoveryAction = recoveryActionForFreshness(effectiveRecoveryScore);
+    if (readinessScore !== null && readinessScore < 50) {
+      prescription = {
+        ...prescription,
+        reasons: [...prescription.reasons, 'Wearable readiness is low; reduce intensity or substitute the exercise.'],
+      };
+    }
 
     await prisma.exerciseProgressionState.update({
       where: {
@@ -174,6 +189,7 @@ export async function generateNextSession(userId: string, input: GenerateNextSes
     prescriptions.push({
       ...prescription,
       freshnessScore: score,
+      readinessScore,
       recoveryAction,
       deload,
     });
