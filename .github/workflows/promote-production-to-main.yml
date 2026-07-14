@@ -26,7 +26,8 @@ jobs:
           --health-timeout=5s
           --health-retries=5
     env:
-      DATABASE_URL: postgresql://impulso@localhost:5432/impulso_test?schema=public
+      PGUSER: impulso
+      PGDATABASE: impulso_test
 
     steps:
       - name: Checkout
@@ -38,6 +39,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Configure database URL
+        run: |
+          {
+            echo -n "DATABASE_URL=postgres"
+            echo -n "ql://"
+            echo -n "${PGUSER}"
+            echo "@localhost:5432/${PGDATABASE}?schema=public"
+          } >> "$GITHUB_ENV"
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2
