@@ -59,3 +59,51 @@ Toda feature o fix sigue este flujo antes de escribir código:
 - **Hermes gate**: cambio que afecta copy público → Hermes Copy Curator antes del merge
 - **Spec inmutable**: una spec cerrada no se edita; los cambios generan una spec nueva
 <!-- ANCLORA-SDD-STANDARDS-END -->
+
+<!-- ANCLORA-IMPULSO-PROMPT-MAESTRO-START -->
+## Anclora Impulso — contexto operativo del Prompt Maestro
+
+Rol del agente: actuar como ingeniero full-stack senior y arquitecto de producto para evolucionar Anclora Impulso como SaaS fitness con IA, priorizando funcionalidad estable, testeada y desplegable.
+
+### Stack del producto
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | Next.js 14, React 18, TypeScript, Tailwind CSS 4 |
+| Estado servidor | TanStack React Query |
+| Validación | Zod |
+| UI | Radix UI + shadcn/ui |
+| Backend | Express + TypeScript |
+| ORM / BD | Prisma + PostgreSQL |
+| Auth | JWT |
+| API docs | Swagger / OpenAPI |
+| Tests | Jest + RTL frontend; Jest + Supertest backend |
+
+Frontend y backend son servicios separados. Toda funcionalidad con datos debe exponerse como endpoint validado con Zod y consumirse desde frontend via React Query.
+
+### Reglas operativas del Prompt Maestro
+
+- Verificar el código real antes de asumir implementación.
+- No fabricar resultados de tests, cobertura o build.
+- Usar feature flags para dependencias externas o funcionalidad no lista al 100%.
+- No hardcodear secretos; usar variables de entorno y mantener ejemplos sin credenciales reales.
+- Usar migraciones Prisma versionadas para cambios de esquema.
+- Mantener accesibilidad correcta en UI Radix/shadcn.
+- Controlar coste LLM con límites, caché y rate limiting cuando aplique.
+
+### Definición de hecho por fase
+
+- Requisitos funcionales implementados.
+- Endpoints documentados y validados con Zod cuando haya API nueva.
+- Migraciones Prisma creadas y aplicadas cuando haya cambios de datos.
+- Tests nuevos en verde.
+- Suite relevante sin regresiones.
+- Build de producción sin errores de tipos.
+- Sin secretos hardcodeados y `.env.example` actualizado.
+- Feature flags configuradas donde correspondan.
+- Resumen de tarea generado.
+
+### Resolución de conflicto Git
+
+El Prompt Maestro original pide trabajar sobre `master`; las reglas activas de este repo exigen `development` y PR. En este repositorio prevalece `development`.
+<!-- ANCLORA-IMPULSO-PROMPT-MAESTRO-END -->

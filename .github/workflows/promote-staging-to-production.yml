@@ -21,8 +21,8 @@ jobs:
         image: postgres:16
         env:
           POSTGRES_USER: impulso
-          POSTGRES_PASSWORD: impulso
           POSTGRES_DB: impulso_test
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         options: >-
@@ -31,7 +31,7 @@ jobs:
           --health-timeout=5s
           --health-retries=5
     env:
-      DATABASE_URL: postgresql://impulso:impulso@localhost:5432/impulso_test?schema=public
+      DATABASE_URL: postgresql://impulso@localhost:5432/impulso_test?schema=public
 
     steps:
       - name: Checkout
