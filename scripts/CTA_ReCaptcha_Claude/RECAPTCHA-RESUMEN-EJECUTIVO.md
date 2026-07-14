@@ -28,7 +28,7 @@
 
 ### 3. **.env.local** - 1 línea nueva
    ```bash
-   RECAPTCHA_API_KEY=AIzaSyBxxxxxx
+   RECAPTCHA_API_KEY=<YOUR_RECAPTCHA_API_KEY>
    ```
 
 ---
@@ -52,7 +52,7 @@
 # 1. Obtener API Key de Google Cloud (ver arriba)
 
 # 2. Agregar a .env.local
-echo "RECAPTCHA_API_KEY=AIzaSyBxxxxxx" >> .env.local
+echo "RECAPTCHA_API_KEY=<YOUR_RECAPTCHA_API_KEY>" >> .env.local
 
 # 3. Actualizar archivos:
 #    - page.tsx (seguir RECAPTCHA-ENTERPRISE-GUIA.md)

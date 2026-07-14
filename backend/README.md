@@ -50,11 +50,11 @@ cp .env.example .env
 Edita `.env` con tus credenciales:
 
 ```env
-DATABASE_URL="postgresql://user:password@host:5432/database?sslmode=require"
-JWT_SECRET="tu-clave-secreta-jwt"
-JWT_REFRESH_SECRET="tu-clave-secreta-refresh"
+DATABASE_URL="postgresql://<user>:<password>@<host>:5432/<database>?sslmode=require"
+JWT_SECRET=""
+JWT_REFRESH_SECRET=""
 FRONTEND_URL="http://localhost:3000"
-OPENAI_API_KEY="sk-..." # Opcional
+OPENAI_API_KEY="" # Opcional
 ```
 
 3. **Generar cliente de Prisma:**

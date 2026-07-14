@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "prisma generate && tsc",
+    "typecheck": "tsc --noEmit",
     "start": "node dist/server.js",
     "test": "jest --watch",
     "test:ci": "jest --ci --runInBand --coverage",
