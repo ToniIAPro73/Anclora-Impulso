@@ -6,6 +6,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     name: Quality gate
@@ -79,5 +83,5 @@ jobs:
       - name: Merge development into staging
         run: |
           git checkout staging
-          git merge --no-ff origin/development -m "chore: merge development to staging [ci-skip]"
+          git merge --no-ff origin/development -m "chore: merge development to staging [skip ci]"
           git push origin staging

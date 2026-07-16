@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   promote:
     name: Promote
@@ -84,7 +88,7 @@ jobs:
       - name: Merge staging into production
         run: |
           git checkout production
-          git merge --no-ff origin/staging -m "chore: merge staging to production [ci-skip]"
+          git merge --no-ff origin/staging -m "chore: merge staging to production [skip ci]"
           git push origin production
 
       - name: Create version tag

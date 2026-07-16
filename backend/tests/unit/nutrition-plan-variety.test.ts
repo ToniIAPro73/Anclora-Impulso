@@ -1,13 +1,16 @@
 import { selectRecipesForWeeklyPlanFromCandidates } from '../../src/services/nutrition.service';
 
 type TestRecipe = Parameters<typeof selectRecipesForWeeklyPlanFromCandidates>[0][number];
+type RecipeOverrides = Partial<Pick<TestRecipe, 'calories' | 'protein' | 'carbs' | 'fat'>>;
 
 function recipe(
   id: string,
   name: string,
   mealType: 'desayuno' | 'almuerzo' | 'cena',
   ingredients: string[],
-  tags: string[] = []
+  tags: string[] = [],
+  dietTypes: TestRecipe['dietTypes'] = ['alta_proteina'],
+  overrides: RecipeOverrides = {}
 ): TestRecipe {
   return {
     id,
@@ -20,10 +23,10 @@ function recipe(
     cookTime: 15,
     servings: 1,
     difficulty: 'facil',
-    calories: 560,
-    protein: 42,
-    carbs: 55,
-    fat: 18,
+    calories: overrides.calories ?? 560,
+    protein: overrides.protein ?? 42,
+    carbs: overrides.carbs ?? 55,
+    fat: overrides.fat ?? 18,
     fiber: 8,
     imageUrl: null,
     tags,
@@ -31,7 +34,7 @@ function recipe(
     isPublic: true,
     isEditable: false,
     mealTypes: [mealType],
-    dietTypes: ['alta_proteina'],
+    dietTypes,
     goalTypes: ['recomposicion'],
     editorialOverrideStatus: null,
     editorialNotes: null,
@@ -54,6 +57,45 @@ function recipe(
 }
 
 describe('selectRecipesForWeeklyPlanFromCandidates', () => {
+  it.each([
+    'ninguna',
+    'mediterranea',
+    'dash',
+    'ayuno_intermitente',
+    'alta_proteina',
+  ] as const)('prioritizes daily protein and base variety for %s plans', (dietType) => {
+    const matchingDietTypes = dietType === 'ninguna' ? [] : [dietType];
+    const selections = selectRecipesForWeeklyPlanFromCandidates([
+      recipe('breakfast-1', 'Desayuno yogur con avena', 'desayuno', ['yogur', 'avena'], ['lacteo'], matchingDietTypes),
+      recipe('breakfast-2', 'Desayuno tortilla con fruta', 'desayuno', ['huevo', 'manzana'], ['huevo'], matchingDietTypes),
+      recipe('lunch-chicken-quinoa', 'Almuerzo pollo quinoa y brocoli', 'almuerzo', ['pollo', 'quinoa', 'brocoli'], ['pollo'], matchingDietTypes, {
+        protein: 72,
+      }),
+      recipe('lunch-beef-potato', 'Almuerzo ternera patata y ensalada', 'almuerzo', ['ternera', 'patata', 'ensalada'], ['ternera'], matchingDietTypes),
+      recipe('lunch-fish-rice', 'Almuerzo salmon arroz y calabacin', 'almuerzo', ['salmon', 'arroz', 'calabacin'], ['pescado'], matchingDietTypes),
+      recipe('dinner-chicken-quinoa', 'Cena pollo quinoa y brocoli', 'cena', ['pollo', 'quinoa', 'brocoli'], ['pollo'], matchingDietTypes, {
+        protein: 72,
+      }),
+      recipe('dinner-fish-potato', 'Cena merluza patata y ensalada', 'cena', ['merluza', 'patata', 'ensalada'], ['pescado'], matchingDietTypes),
+      recipe('dinner-turkey-rice', 'Cena pavo arroz y calabacin', 'cena', ['pavo', 'arroz', 'calabacin'], ['pavo'], matchingDietTypes),
+    ], {
+      goal: 'recomposicion',
+      dietType,
+      difficulty: 'facil',
+    });
+
+    const dayZeroSelections = selections.filter((selection) => selection.dayOfWeek === 0);
+    const lunch = dayZeroSelections.find((selection) => selection.mealType === 'almuerzo');
+    const dinner = dayZeroSelections.find((selection) => selection.mealType === 'cena');
+
+    expect(lunch?.recipe.id).toBe('lunch-chicken-quinoa');
+    expect(dinner?.recipe.id).not.toBe('dinner-chicken-quinoa');
+
+    if (dietType === 'ayuno_intermitente') {
+      expect(dayZeroSelections.map((selection) => selection.mealType)).toEqual(['almuerzo', 'cena']);
+    }
+  });
+
   it('prioritizes meal family variety over repeating high-scoring variants on consecutive days', () => {
     const selections = selectRecipesForWeeklyPlanFromCandidates([
       recipe('breakfast-1', 'Desayuno yogur con avena', 'desayuno', ['yogur', 'avena'], ['lacteo']),
