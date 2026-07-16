@@ -1,7 +1,5 @@
 # Exercise Image Prompt Batch 001
 
-
-
 ## 1. Ab Wheel Rollouts
 
 - Slug: `ab-wheel-rollouts`
