@@ -8,7 +8,7 @@ import { IMPULSO_BRAND } from "@/lib/impulso-brand"
 import "./globals.css"
 import { DM_Sans } from 'next/font/google'
 
-// Initialize the application font.
+// Initialize fonts
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' })
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
-      <body className={`font-sans ${dmSans.variable}`} data-deployment-probe="vercel-git-check">
+      <body className={`font-sans ${dmSans.variable}`}>
         <ThemeProvider>
           <LanguageProvider>
             {children}
