@@ -2,9 +2,13 @@ name: CI
 
 on:
   pull_request:
-    branches: [main, development, staging, production]
+    branches: [development, staging, production, master]
   push:
-    branches: [main, master, development, staging, production]
+    branches: [development, staging, production, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-backend:
