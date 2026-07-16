@@ -1,10 +1,14 @@
-name: Promote production to main
+name: Promote production → master
 
 on:
   workflow_dispatch: {}
 
 permissions:
   contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   promote:
@@ -61,12 +65,12 @@ jobs:
           cache: pnpm
           cache-dependency-path: backend/pnpm-lock.yaml
 
-      - name: Checkout main
-        run: git checkout main
+      - name: Checkout master
+        run: git checkout master
 
       - name: Merge production
         run: |
-          git merge --no-ff origin/production -m "chore: merge production to main [ci-skip]"
+          git merge --no-ff origin/production -m "chore: merge production to master [skip ci]"
 
       - name: Install backend deps
         working-directory: ./backend
@@ -84,8 +88,13 @@ jobs:
         working-directory: ./backend
         run: pnpm test:ci
 
+      - name: Setup Node for frontend
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Install frontend deps
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -93,17 +102,17 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Push main
+      - name: Push master
         if: success()
-        run: git push origin main
+        run: git push origin master
 
       - name: Notify
         if: success()
-        run: echo "✓ Successfully synchronized production to main"
+        run: echo "✓ Successfully synchronized production to master"
 
       - name: Notify failure
         if: failure()
         run: |
-          echo "✗ Production to main synchronization failed"
+          echo "✗ Production to master synchronization failed"
           echo "Merge may have conflicts. Resolve manually."
         continue-on-error: true

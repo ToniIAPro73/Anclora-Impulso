@@ -2,9 +2,13 @@ name: CI
 
 on:
   pull_request:
-    branches: [main, development, staging, production]
+    branches: [development, staging, production, master]
   push:
-    branches: [main, master, development, staging, production]
+    branches: [development, staging, production, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-backend:
@@ -73,7 +77,7 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies (frontend)
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
