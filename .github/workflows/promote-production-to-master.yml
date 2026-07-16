@@ -94,7 +94,7 @@ jobs:
           node-version: "22"
 
       - name: Install frontend deps
-        run: npm ci
+        run: npm install
 
       - name: Lint
         run: npm run lint
