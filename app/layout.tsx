@@ -32,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
-      <body className={`font-sans ${dmSans.variable}`}>
+      <body className={`font-sans ${dmSans.variable}`} data-deployment-probe="vercel-git-check">
         <ThemeProvider>
           <LanguageProvider>
             {children}
