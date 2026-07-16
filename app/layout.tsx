@@ -8,7 +8,7 @@ import { IMPULSO_BRAND } from "@/lib/impulso-brand"
 import "./globals.css"
 import { DM_Sans } from 'next/font/google'
 
-// Initialize fonts
+// Initialize the application font.
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans' })
 
 export const metadata: Metadata = {
