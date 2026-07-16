@@ -431,11 +431,19 @@ export function selectRecipesForWeeklyPlanFromCandidates(
   const lastUsedDay = new Map<string, number>();
   const familyUsageByMeal = new Map<string, number>();
   const familyLastUsedByMeal = new Map<string, number>();
+  const familyUsageByPlan = new Map<string, number>();
+  const familyLastUsedByPlan = new Map<string, number>();
+  const proteinUsageByPlan = new Map<string, number>();
+  const baseUsageByPlan = new Map<string, number>();
   const proteinLastUsedByMeal = new Map<string, number>();
   const baseLastUsedByMeal = new Map<string, number>();
   const selections: WeeklyRecipeSelection[] = [];
 
   for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek += 1) {
+    const dailyFamilyUsage = new Map<string, number>();
+    const dailyProteinUsage = new Map<string, number>();
+    const dailyBaseUsage = new Map<string, number>();
+
     for (const mealType of mealTypes) {
       let candidates = accessibleRecipes.filter((recipe) =>
         isRecipeAllowedForPlan(recipe, {
@@ -473,18 +481,38 @@ export function selectRecipesForWeeklyPlanFromCandidates(
           const mealProteinKey = `${mealType}:protein:${variety.proteinKey}`;
           const mealBaseKey = `${mealType}:base:${variety.baseKey}`;
           const familyUses = familyUsageByMeal.get(mealFamilyKey) ?? 0;
+          const planFamilyUses = familyUsageByPlan.get(variety.familyKey) ?? 0;
+          const planProteinUses = proteinUsageByPlan.get(variety.proteinKey) ?? 0;
+          const planBaseUses = baseUsageByPlan.get(variety.baseKey) ?? 0;
+          const dailyFamilyUses = dailyFamilyUsage.get(variety.familyKey) ?? 0;
+          const dailyProteinUses = dailyProteinUsage.get(variety.proteinKey) ?? 0;
+          const dailyBaseUses = dailyBaseUsage.get(variety.baseKey) ?? 0;
           const familyLastUsed = familyLastUsedByMeal.get(mealFamilyKey);
+          const planFamilyLastUsed = familyLastUsedByPlan.get(variety.familyKey);
           const proteinLastUsed = proteinLastUsedByMeal.get(mealProteinKey);
           const baseLastUsed = baseLastUsedByMeal.get(mealBaseKey);
           const sameFamilyYesterday = familyLastUsed !== undefined && dayOfWeek - familyLastUsed <= 1;
+          const samePlanFamilyYesterday = planFamilyLastUsed !== undefined && dayOfWeek - planFamilyLastUsed <= 1;
           const sameProteinYesterday =
             variety.proteinKey !== 'other' && proteinLastUsed !== undefined && dayOfWeek - proteinLastUsed <= 1;
           const sameBaseYesterday = variety.baseKey !== 'other' && baseLastUsed !== undefined && dayOfWeek - baseLastUsed <= 1;
+          const sameFamilyToday = dailyFamilyUses > 0;
+          const sameProteinToday = variety.proteinKey !== 'other' && dailyProteinUses > 0;
+          const sameBaseToday = variety.baseKey !== 'other' && dailyBaseUses > 0;
+          const planProteinPenalty = variety.proteinKey === 'other' ? 0 : planProteinUses * 8;
+          const planBasePenalty = variety.baseKey === 'other' ? 0 : planBaseUses * 5;
           const varietyPenalty =
             familyUses * 55 +
+            planFamilyUses * 18 +
             (sameFamilyYesterday ? 45 : 0) +
+            (samePlanFamilyYesterday ? 36 : 0) +
+            (sameFamilyToday ? 90 : 0) +
+            (sameProteinToday ? 58 : 0) +
+            (sameBaseToday ? 34 : 0) +
             (sameProteinYesterday ? 22 : 0) +
-            (sameBaseYesterday ? 12 : 0);
+            (sameBaseYesterday ? 12 : 0) +
+            planProteinPenalty +
+            planBasePenalty;
 
           return {
             recipe,
@@ -515,11 +543,18 @@ export function selectRecipesForWeeklyPlanFromCandidates(
       lastUsedDay.set(chosen.recipe.id, dayOfWeek);
       familyUsageByMeal.set(chosenMealFamilyKey, (familyUsageByMeal.get(chosenMealFamilyKey) ?? 0) + 1);
       familyLastUsedByMeal.set(chosenMealFamilyKey, dayOfWeek);
+      familyUsageByPlan.set(chosen.variety.familyKey, (familyUsageByPlan.get(chosen.variety.familyKey) ?? 0) + 1);
+      familyLastUsedByPlan.set(chosen.variety.familyKey, dayOfWeek);
+      dailyFamilyUsage.set(chosen.variety.familyKey, (dailyFamilyUsage.get(chosen.variety.familyKey) ?? 0) + 1);
       if (chosen.variety.proteinKey !== 'other') {
         proteinLastUsedByMeal.set(chosenMealProteinKey, dayOfWeek);
+        proteinUsageByPlan.set(chosen.variety.proteinKey, (proteinUsageByPlan.get(chosen.variety.proteinKey) ?? 0) + 1);
+        dailyProteinUsage.set(chosen.variety.proteinKey, (dailyProteinUsage.get(chosen.variety.proteinKey) ?? 0) + 1);
       }
       if (chosen.variety.baseKey !== 'other') {
         baseLastUsedByMeal.set(chosenMealBaseKey, dayOfWeek);
+        baseUsageByPlan.set(chosen.variety.baseKey, (baseUsageByPlan.get(chosen.variety.baseKey) ?? 0) + 1);
+        dailyBaseUsage.set(chosen.variety.baseKey, (dailyBaseUsage.get(chosen.variety.baseKey) ?? 0) + 1);
       }
       selections.push({
         dayOfWeek,
