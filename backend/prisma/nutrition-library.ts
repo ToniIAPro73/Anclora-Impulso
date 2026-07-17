@@ -304,15 +304,15 @@ const HOT_VEG_MIXES: MixChoice[] = [
   { label: 'brocoli y zanahoria', items: [ING.broccoli, ING.carrots, HERBS.pepper], tags: ['cruciferas'], extraDietTypes: ['dash', 'alta_proteina'], extraGoals: ['perdida_peso'] },
   { label: 'calabacin y champiñon', items: [ING.zucchini, ING.mushrooms, HERBS.oregano], tags: ['salteado'], extraGoals: ['mantenimiento'] },
   { label: 'judias verdes y tomate', items: [ING.greenBeans, ING.tomato, HERBS.basil], tags: ['ligero'], extraDietTypes: ['dash'] },
-  { label: 'berenjena y pimiento', items: [ING.eggplant, ING.peppers, HERBS.oregano], tags: ['asado'], extraDietTypes: ['mediterranea'] },
+  { label: 'berenjena y pimiento', items: [ING.eggplant, ING.peppers, HERBS.oregano], tags: ['plancha'], extraDietTypes: ['mediterranea'] },
   { label: 'espinaca y tomate', items: [ING.spinach, ING.tomato, HERBS.parsley], tags: ['rapido'], extraGoals: ['recomposicion'] },
   { label: 'brocoli y pimiento', items: [ING.broccoli, ING.peppers, HERBS.dill], tags: ['colorido'], extraGoals: ['ganancia_muscular'] },
 ];
 
-const ROASTED_VEG_MIXES: MixChoice[] = [
-  { label: 'brocoli, zanahoria y pimiento', items: [ING.broccoli, ING.carrots, ING.peppers, cloneIngredient(ING.oliveOil)], tags: ['horno'], extraDietTypes: ['dash', 'mediterranea'] },
+const STOVETOP_VEG_MIXES: MixChoice[] = [
+  { label: 'brocoli, zanahoria y pimiento', items: [ING.broccoli, ING.carrots, ING.peppers, cloneIngredient(ING.oliveOil)], tags: ['salteado'], extraDietTypes: ['dash', 'mediterranea'] },
   { label: 'berenjena, calabacin y tomate', items: [ING.eggplant, ING.zucchini, ING.tomato, cloneIngredient(ING.oliveOil)], tags: ['mediterraneo'], extraDietTypes: ['mediterranea'] },
-  { label: 'judias verdes y tomate asado', items: [ING.greenBeans, ING.tomato, cloneIngredient(ING.oliveOil)], tags: ['simple'], extraDietTypes: ['dash'] },
+  { label: 'judias verdes y tomate salteado', items: [ING.greenBeans, ING.tomato, cloneIngredient(ING.oliveOil)], tags: ['simple'], extraDietTypes: ['dash'] },
   { label: 'coliflor, brocoli y zanahoria', items: [ING.cauliflowerRice, ING.broccoli, ING.carrots, cloneIngredient(ING.oliveOil)], tags: ['volumen'], extraGoals: ['perdida_peso'] },
 ];
 
@@ -375,7 +375,7 @@ function makeMainBowl(index: number, dietTypes: DietType[], goalTypes: GoalType[
   return recipeFromParts({
     name: `${titlePrefix} de ${protein.label} con ${base.label} y ${veg.label}`,
     description: 'Plato completo con carbohidrato funcional, proteina principal y volumen vegetal.',
-    instructions: ['Preparar la base elegida hasta dejarla en su punto.', 'Cocinar la proteina a la plancha, al horno o al vapor segun corresponda.', 'Saltear o cocer las verduras hasta que queden tiernas.', 'Montar el plato y terminar con aceite de oliva y zumo de limon.'],
+    instructions: [stovetopBaseInstruction(base.label), stovetopProteinInstruction(protein.label), stovetopVegetableInstruction(veg.label), stovetopFinishInstruction(base.label)],
     prepTime: 14,
     cookTime: 18,
     servings: 1,
@@ -407,18 +407,112 @@ function makeFreshPlate(index: number, dietTypes: DietType[], goalTypes: GoalTyp
   });
 }
 
-function makeTrayBake(index: number, dietTypes: DietType[], goalTypes: GoalType[], titlePrefix: string): SeedRecipe {
-  const [protein, base, veg] = tripleAt(LEAN_PROTEINS, GRAIN_BASES, ROASTED_VEG_MIXES, index);
+function stovetopBaseInstruction(baseLabel: string): string {
+  if (baseLabel.includes('wrap')) {
+    return 'Calentar el wrap en una sartén seca unos segundos por cada lado para que quede flexible.';
+  }
+
+  if (baseLabel.includes('boniato') || baseLabel.includes('patata')) {
+    return `Cortar el ${baseLabel} en dados pequeños y cocerlo o hacerlo al microondas hasta que esté tierno.`;
+  }
+
+  if (baseLabel.includes('arroz de coliflor')) {
+    return 'Saltear el arroz de coliflor 3-4 minutos en sartén amplia hasta que pierda humedad y quede suelto.';
+  }
+
+  if (baseLabel.includes('quinoa')) {
+    return 'Calentar la quinoa cocida en cazo o sartén con una cucharada de agua para que quede suelta.';
+  }
+
+  if (baseLabel.includes('arroz integral')) {
+    return 'Calentar el arroz integral cocido en cazo o sartén con una cucharada de agua para que quede suelto.';
+  }
+
+  if (baseLabel.includes('arroz basmati')) {
+    return 'Calentar el arroz basmati cocido en cazo o sartén con una cucharada de agua para que quede suelto.';
+  }
+
+  if (baseLabel.includes('pasta integral')) {
+    return 'Calentar la pasta integral cocida en sartén con una cucharada de agua para que recupere textura.';
+  }
+
+  return `Calentar la base ya cocida en cazo o sartén con una cucharada de agua para que quede suelta.`;
+}
+
+function stovetopProteinInstruction(proteinLabel: string): string {
+  if (proteinLabel === 'pollo' || proteinLabel === 'pavo') {
+    return `Cortar el ${proteinLabel} en tiras, dorarlo en sartén antiadherente con poco aceite y cocinarlo hasta que no quede crudo en el centro.`;
+  }
+
+  if (proteinLabel === 'ternera magra') {
+    return 'Saltear la ternera magra en tiras a fuego medio-alto, solo hasta que quede dorada y jugosa.';
+  }
+
+  if (proteinLabel === 'salmon') {
+    return 'Cocinar el salmon a fuego medio por el lado de la piel y terminar tapado 2-3 minutos para que quede jugoso.';
+  }
+
+  if (proteinLabel === 'merluza') {
+    return 'Cocinar la merluza en sartén tapada a fuego medio-bajo con unas gotas de aceite para que no se rompa.';
+  }
+
+  if (proteinLabel === 'gambas') {
+    return 'Saltear las gambas 2-3 minutos al final de la cocción, justo hasta que cambien de color.';
+  }
+
+  if (proteinLabel === 'atun') {
+    return 'Escurrir el atun al natural y añadirlo al final, solo para templarlo sin resecarlo.';
+  }
+
+  if (proteinLabel === 'tofu') {
+    return 'Secar el tofu, cortarlo en dados y dorarlo por varias caras en sartén antiadherente.';
+  }
+
+  if (proteinLabel === 'garbanzos' || proteinLabel === 'lentejas') {
+    return proteinLabel === 'lentejas'
+      ? 'Enjuagar las lentejas cocidas y calentarlas en cazuela baja con las especias hasta que tomen sabor.'
+      : 'Enjuagar los garbanzos cocidos y calentarlos en cazuela baja con las especias hasta que tomen sabor.';
+  }
+
+  return `Cocinar la proteina principal en sartén antiadherente hasta que quede en su punto.`;
+}
+
+function stovetopVegetableInstruction(vegLabel: string): string {
+  if (vegLabel.includes('berenjena')) {
+    return `Añadir ${vegLabel}, tapar unos minutos para que la berenjena se ablande y terminar destapado para evaporar el líquido.`;
+  }
+
+  if (vegLabel.includes('judias verdes')) {
+    return `Añadir ${vegLabel}; si las judias están firmes, incorporar un chorrito de agua y tapar 4-5 minutos antes de saltear.`;
+  }
+
+  if (vegLabel.includes('coliflor')) {
+    return `Añadir ${vegLabel} y saltear a fuego medio hasta que el brocoli y la zanahoria queden tiernos pero no pasados.`;
+  }
+
+  return `Añadir ${vegLabel} y saltear a fuego medio, tapando brevemente si las verduras necesitan ablandarse.`;
+}
+
+function stovetopFinishInstruction(baseLabel: string): string {
+  if (baseLabel.includes('wrap')) {
+    return 'Rellenar el wrap con la mezcla caliente, doblarlo y marcarlo un minuto por cada lado antes de servir.';
+  }
+
+  return `Servir la mezcla caliente sobre la base, reposar 3 minutos y ajustar con hierbas o limón al final.`;
+}
+
+function makeSkilletDinner(index: number, dietTypes: DietType[], goalTypes: GoalType[], titlePrefix: string): SeedRecipe {
+  const [protein, base, veg] = tripleAt(LEAN_PROTEINS, GRAIN_BASES, STOVETOP_VEG_MIXES, index);
   const items = [cloneIngredient(protein.item), cloneIngredient(base.item), ...veg.items.map(cloneIngredient), cloneIngredient(HERBS.oregano)];
   return recipeFromParts({
     name: `${titlePrefix} de ${protein.label} con ${base.label} y ${veg.label}`,
-    description: 'Preparacion al horno o en bandeja pensada para batch cooking y rotacion de menus semanales.',
-    instructions: ['Precalentar el horno y colocar la base si necesita mas tiempo de coccion.', 'Añadir la proteina y las verduras aliñadas en la bandeja.', 'Hornear hasta que la proteina quede hecha y las verduras tiernas.', 'Reposar 3 minutos antes de emplatar.'],
-    prepTime: 16,
-    cookTime: 26,
+    description: 'Preparacion en sarten, cazuela baja o plancha, ajustada al tipo de proteina, base y verdura.',
+    instructions: [stovetopBaseInstruction(base.label), stovetopProteinInstruction(protein.label), stovetopVegetableInstruction(veg.label), stovetopFinishInstruction(base.label)],
+    prepTime: 14,
+    cookTime: 20,
     servings: 1,
     difficulty: indexedDifficulty(index, 3, 10),
-    tags: uniqueStrings(['cena', 'horno', ...(protein.tags ?? []), ...(base.tags ?? []), ...(veg.tags ?? [])]),
+    tags: uniqueStrings(['cena', 'sarten', ...(protein.tags ?? []), ...(base.tags ?? []), ...(veg.tags ?? [])]),
     mealTypes: ['cena', 'almuerzo'],
     dietTypes: uniqueStrings([...dietTypes]),
     goalTypes: uniqueStrings([...goalTypes, ...(protein.extraGoals ?? []), ...(base.extraGoals ?? []), ...(veg.extraGoals ?? [])]),
@@ -519,7 +613,7 @@ const RESEARCH_INSPIRED_RECIPES: SeedRecipe[] = [
   recipeFromParts({
     name: 'Alcachofas a la romana inspiradas en Mayo Clinic',
     description: 'Inspiracion mediterranea y DASH para una cena vegetal con aceite de oliva y hierbas.',
-    instructions: ['Preparar las verduras con hierbas y aceite.', 'Hornear hasta que queden tiernas.', 'Terminar con limon y perejil.'],
+    instructions: ['Cocer o vaporizar las alcachofas hasta que queden tiernas.', 'Saltearlas en sarten con aceite de oliva y hierbas.', 'Terminar con limon y perejil.'],
     prepTime: 15,
     cookTime: 35,
     servings: 1,
@@ -539,22 +633,22 @@ const BALANCED_SNACKS = buildSeries(6, (index) => makeSnack(index, ['ninguna'], 
 const MEDITERRANEAN_BREAKFASTS = buildSeries(16, (index) => makeBreakfastBowl(index, ['mediterranea'], ['perdida_peso', 'mantenimiento'], 'Bol mediterraneo'));
 const MEDITERRANEAN_TOASTS = buildSeries(12, (index) => makeSavouryToast(index, ['mediterranea'], ['perdida_peso', 'mantenimiento'], 'Tostada mediterranea'));
 const MEDITERRANEAN_MAINS = buildSeries(20, (index) => makeMainBowl(index, ['mediterranea'], ['perdida_peso', 'mantenimiento', 'salud_cardiometabolica'], 'Bowl mediterraneo'));
-const MEDITERRANEAN_DINNERS = buildSeries(20, (index) => makeTrayBake(index, ['mediterranea'], ['perdida_peso', 'mantenimiento'], 'Bandeja mediterranea'));
+const MEDITERRANEAN_DINNERS = buildSeries(20, (index) => makeSkilletDinner(index, ['mediterranea'], ['perdida_peso', 'mantenimiento'], 'Cena mediterranea'));
 
 const DASH_BREAKFASTS = buildSeries(12, (index) => makeBreakfastBowl(index, ['dash'], ['perdida_peso', 'salud_cardiometabolica'], 'Bol DASH'));
 const DASH_TOASTS = buildSeries(8, (index) => makeSavouryToast(index, ['dash'], ['salud_cardiometabolica', 'perdida_peso'], 'Tostada DASH'));
 const DASH_MAINS = buildSeries(18, (index) => makeMainBowl(index, ['dash'], ['salud_cardiometabolica', 'perdida_peso', 'mantenimiento'], 'Plato DASH'));
-const DASH_DINNERS = buildSeries(18, (index) => makeTrayBake(index, ['dash'], ['salud_cardiometabolica', 'perdida_peso'], 'Cena DASH'));
+const DASH_DINNERS = buildSeries(18, (index) => makeSkilletDinner(index, ['dash'], ['salud_cardiometabolica', 'perdida_peso'], 'Cena DASH'));
 
 const IF_MAINS = buildSeries(36, (index) => makeMainBowl(index, ['ayuno_intermitente'], ['perdida_peso', 'recomposicion'], 'Comida 16:8'));
 const IF_PLATES = buildSeries(32, (index) => makeFreshPlate(index, ['ayuno_intermitente'], ['perdida_peso', 'recomposicion'], 'Plato 16:8'));
-const IF_DINNERS = buildSeries(16, (index) => makeTrayBake(index, ['ayuno_intermitente'], ['perdida_peso', 'recomposicion', 'ganancia_muscular'], 'Cena 16:8'));
+const IF_DINNERS = buildSeries(16, (index) => makeSkilletDinner(index, ['ayuno_intermitente'], ['perdida_peso', 'recomposicion', 'ganancia_muscular'], 'Cena 16:8'));
 const IF_SNACKS = buildSeries(8, (index) => makeSnack(index, ['ayuno_intermitente'], ['perdida_peso', 'recomposicion'], 'Snack 16:8'));
 
 const HIGH_PROTEIN_BREAKFASTS = buildSeries(20, (index) => makeBreakfastBowl(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion'], 'Bol proteico'));
 const HIGH_PROTEIN_TOASTS = buildSeries(20, (index) => makeSavouryToast(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion'], 'Desayuno proteico'));
 const HIGH_PROTEIN_MAINS = buildSeries(40, (index) => makeMainBowl(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion', 'perdida_peso'], 'Bowl proteico'));
-const HIGH_PROTEIN_DINNERS = buildSeries(28, (index) => makeTrayBake(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion', 'perdida_peso'], 'Cena proteica'));
+const HIGH_PROTEIN_DINNERS = buildSeries(28, (index) => makeSkilletDinner(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion', 'perdida_peso'], 'Cena proteica'));
 const HIGH_PROTEIN_SNACKS = buildSeries(12, (index) => makeSnack(index, ['alta_proteina'], ['ganancia_muscular', 'recomposicion'], 'Snack proteico'));
 
 function dedupeRecipes(recipes: SeedRecipe[]): SeedRecipe[] {
