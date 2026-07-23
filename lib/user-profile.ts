@@ -306,7 +306,7 @@ export function buildRecommendedPlan(profile: UserProfile, language: ProfileLang
     targetMuscles,
     equipment:
       preferredTrainingEnvironment === "gym"
-        ? ["machines", "barbell", "dumbbells"]
+        ? ["machine", "barbell", "dumbbells"]
         : preferredTrainingEnvironment === "outdoor"
           ? ["bodyweight", "resistance_bands"]
           : ["bodyweight", "dumbbells", "resistance_bands"],
