@@ -428,10 +428,9 @@ export function ProgressTracker() {
               </DialogTrigger>
               <DialogContent
                 showCloseButton={false}
-                className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-w-[880px] dark:border-slate-800/90 dark:bg-slate-950"
+                className="grid max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden border-slate-200/90 bg-white p-0 sm:max-h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-h-[calc(100dvh-2rem)] lg:max-w-[880px] dark:border-slate-800/90 dark:bg-slate-950"
               >
-                <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
-                <div className="mb-4 flex items-start justify-between gap-4">
+                <div className="flex items-start justify-between gap-4 p-4 sm:p-5 lg:p-6">
                 <DialogHeader className="text-left">
                   <DialogTitle>{isSpanish ? "Nueva Medida Corporal" : "New Body Measurement"}</DialogTitle>
                   <DialogDescription>{isSpanish ? "Registra tus medidas actuales" : "Log your current measurements"}</DialogDescription>
@@ -446,7 +445,7 @@ export function ProgressTracker() {
                   {isSpanish ? "Cerrar" : "Close"}
                 </Button>
                 </div>
-                <div className="space-y-4">
+                <div className="min-h-0 space-y-4 overflow-y-auto overscroll-contain px-4 pb-4 [scrollbar-gutter:stable] sm:px-5 lg:px-6">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label>{isSpanish ? "Peso (kg)" : "Weight (kg)"}</Label>
@@ -502,7 +501,7 @@ export function ProgressTracker() {
                         onChange={(e) => setNewMeasurement({ ...newMeasurement, arms: e.target.value })}
                       />
                     </div>
-                    <div className="space-y-2 col-span-2">
+                    <div className="space-y-2 sm:col-span-2">
                       <Label>{isSpanish ? "Muslos (cm)" : "Thighs (cm)"}</Label>
                       <Input
                         type="number"
@@ -512,7 +511,8 @@ export function ProgressTracker() {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 gap-2 border-t border-slate-200/70 pt-3 dark:border-slate-800/80 sm:grid-cols-2">
+                </div>
+                  <div className="grid shrink-0 grid-cols-1 gap-2 border-t border-slate-200/70 bg-white/95 p-4 dark:border-slate-800/80 dark:bg-slate-950/95 sm:grid-cols-2 sm:p-5 lg:p-6">
                     <Button
                       variant="outline"
                       className="h-10 rounded-2xl border-slate-700/60 bg-slate-800/40 text-slate-100 hover:bg-slate-800/55 dark:border-slate-700/80 dark:bg-slate-900/45"
@@ -535,8 +535,6 @@ export function ProgressTracker() {
                       )}
                     </Button>
                   </div>
-                </div>
-                </div>
               </DialogContent>
             </Dialog>
           </div>

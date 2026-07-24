@@ -17,18 +17,33 @@ import { useAuth } from "@/lib/contexts/auth-context"
 import { useLanguage } from "@/lib/contexts/language-context"
 import { buildRecommendedPlan, isProfileReadyForPlanGeneration } from "@/lib/user-profile"
 import { trackProductEvent } from "@/lib/product-events"
+import {
+  MUSCLE_GROUPS,
+  getDifficultyLabel,
+  getEquipmentLabel,
+  getMuscleGroupLabel,
+  isEquipment,
+  isMuscleGroup,
+  type AppLanguage,
+  type Equipment,
+  type MuscleGroup,
+} from "@/lib/workout-domain-labels"
+
+type WorkoutType = 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
+type WorkoutDifficulty = 'beginner' | 'intermediate' | 'advanced'
+type TrainingEnvironment = 'gym' | 'home' | 'outdoor'
 
 interface WorkoutPreferences {
-  workoutType: 'strength' | 'cardio' | 'hiit' | 'flexibility' | 'full_body'
+  workoutType: WorkoutType
   duration: number
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
-  trainingEnvironment: 'gym' | 'home' | 'outdoor'
-  targetMuscles: string[]
-  equipment: string[]
+  difficulty: WorkoutDifficulty
+  trainingEnvironment: TrainingEnvironment
+  targetMuscles: MuscleGroup[]
+  equipment: Equipment[]
   workoutName: string
 }
 
-const ENVIRONMENT_EQUIPMENT_MAP: Record<WorkoutPreferences["trainingEnvironment"], string[]> = {
+const ENVIRONMENT_EQUIPMENT_MAP: Record<TrainingEnvironment, Equipment[]> = {
   gym: ['bodyweight', 'dumbbells', 'barbell', 'kettlebell', 'resistance_bands', 'pull_up_bar', 'cables', 'machine'],
   home: ['bodyweight', 'dumbbells', 'resistance_bands'],
   outdoor: ['bodyweight', 'jump_rope', 'pull_up_bar'],
@@ -38,6 +53,7 @@ export function WorkoutGenerator() {
   const { profile } = useAuth()
   const { language } = useLanguage()
   const isSpanish = language === "es"
+  const labelLanguage: AppLanguage = isSpanish ? "es" : "en"
   const localizedRecommendedPlan = useMemo(() => buildRecommendedPlan(profile, isSpanish ? "es" : "en"), [profile, isSpanish])
   const [preferences, setPreferences] = useState<WorkoutPreferences>({
     workoutType: 'strength',
@@ -65,13 +81,13 @@ export function WorkoutGenerator() {
       workoutType: localizedRecommendedPlan.workoutType ?? current.workoutType,
       duration: localizedRecommendedPlan.duration ?? current.duration,
       difficulty: localizedRecommendedPlan.difficulty ?? current.difficulty,
-      targetMuscles: localizedRecommendedPlan.targetMuscles ?? current.targetMuscles,
-      equipment: localizedRecommendedPlan.equipment ?? current.equipment,
+      targetMuscles: (localizedRecommendedPlan.targetMuscles ?? current.targetMuscles).filter(isMuscleGroup),
+      equipment: (localizedRecommendedPlan.equipment ?? current.equipment).filter(isEquipment),
       workoutName: current.workoutName || localizedRecommendedPlan.title || current.workoutName,
     }))
   }, [localizedRecommendedPlan])
 
-  const muscleGroups = ['chest', 'back', 'shoulders', 'arms', 'legs', 'core', 'glutes']
+  const muscleGroups = MUSCLE_GROUPS
   const equipmentTypes = ENVIRONMENT_EQUIPMENT_MAP[preferences.trainingEnvironment]
 
   useEffect(() => {
@@ -237,7 +253,7 @@ export function WorkoutGenerator() {
                 <Label>{isSpanish ? "Tipo de Entrenamiento" : "Workout Type"}</Label>
                 <Select
                   value={preferences.workoutType}
-                  onValueChange={(value: any) => setPreferences({ ...preferences, workoutType: value })}
+                  onValueChange={(value: WorkoutType) => setPreferences({ ...preferences, workoutType: value })}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -273,7 +289,7 @@ export function WorkoutGenerator() {
                 <Label>{isSpanish ? "Nivel de Dificultad" : "Difficulty Level"}</Label>
                 <Select
                   value={preferences.difficulty}
-                  onValueChange={(value: any) => setPreferences({ ...preferences, difficulty: value })}
+                  onValueChange={(value: WorkoutDifficulty) => setPreferences({ ...preferences, difficulty: value })}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -331,7 +347,7 @@ export function WorkoutGenerator() {
                       htmlFor={muscle}
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
                     >
-                      {muscle}
+                      {getMuscleGroupLabel(labelLanguage, muscle)}
                     </label>
                   </div>
                 ))}
@@ -377,7 +393,7 @@ export function WorkoutGenerator() {
                       htmlFor={equipment}
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize cursor-pointer"
                     >
-                      {equipment.replace(/_/g, ' ')}
+                      {getEquipmentLabel(labelLanguage, equipment)}
                     </label>
                   </div>
                 ))}
@@ -442,7 +458,7 @@ export function WorkoutGenerator() {
                     </span>
                     <span className="flex items-center gap-1">
                       <Target className="w-4 h-4" />
-                      {preferences.difficulty}
+                      {getDifficultyLabel(labelLanguage, preferences.difficulty)}
                     </span>
                     <span className="flex items-center gap-1">
                       <Dumbbell className="w-4 h-4" />
@@ -470,7 +486,7 @@ export function WorkoutGenerator() {
                         </Badge>
                         <Badge variant="outline">{isSpanish ? "Descanso" : "Rest"}: {workoutExercise.rest}s</Badge>
                         <Badge variant="outline" className="capitalize">
-                          {workoutExercise.exercise.muscleGroup}
+                          {getMuscleGroupLabel(labelLanguage, workoutExercise.exercise.muscleGroup)}
                         </Badge>
                       </div>
                     </div>
