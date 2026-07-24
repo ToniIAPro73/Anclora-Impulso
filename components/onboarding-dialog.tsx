@@ -302,8 +302,8 @@ export function OnboardingDialog({ open, onOpenChange }: OnboardingDialogProps) 
       <DialogContent
         className="h-[calc(100dvh-0.75rem)] w-[calc(100vw-0.75rem)] max-h-[980px] max-w-[1280px] overflow-hidden rounded-[28px] border-orange-200/70 bg-[linear-gradient(180deg,rgba(255,251,245,0.98),rgba(255,255,255,0.96))] p-0 shadow-[0_30px_120px_rgba(15,23,42,0.35)] backdrop-blur-xl sm:h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] lg:h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-h-none lg:max-w-[1480px] dark:border-orange-400/10 dark:bg-[linear-gradient(180deg,rgba(2,6,23,0.98),rgba(15,23,42,0.98))]"
       >
-        <div className="grid h-full min-h-0 grid-cols-1 overflow-y-auto lg:grid-cols-[320px_minmax(0,1fr)] lg:overflow-hidden">
-          <div className="border-b border-orange-100/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.2),_transparent_52%),linear-gradient(180deg,_rgba(255,247,237,0.95),_rgba(255,237,213,0.7))] p-6 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.14),_transparent_48%),linear-gradient(180deg,_rgba(15,23,42,0.96),_rgba(15,23,42,0.88))] lg:min-h-0 lg:border-b-0 lg:border-r lg:overflow-y-auto">
+        <div className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] overflow-hidden lg:grid-cols-[320px_minmax(0,1fr)] lg:grid-rows-1">
+          <div className="border-b border-orange-100/70 bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.2),_transparent_52%),linear-gradient(180deg,_rgba(255,247,237,0.95),_rgba(255,237,213,0.7))] p-4 dark:border-orange-400/10 dark:bg-[radial-gradient(circle_at_top,_rgba(251,146,60,0.14),_transparent_48%),linear-gradient(180deg,_rgba(15,23,42,0.96),_rgba(15,23,42,0.88))] sm:p-6 lg:min-h-0 lg:border-b-0 lg:border-r lg:overflow-y-auto">
             <DialogHeader className="text-left">
               <DialogTitle className="text-2xl text-slate-900 dark:text-white">
                 {isSpanish ? "Onboarding inteligente" : "Smart onboarding"}
@@ -347,7 +347,7 @@ export function OnboardingDialog({ open, onOpenChange }: OnboardingDialogProps) 
             </div>
           </div>
 
-          <div className="min-h-0 overflow-y-auto p-6">
+          <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden p-4 sm:p-6">
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
                 <Badge variant="outline" className="rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.18em]">
@@ -365,11 +365,16 @@ export function OnboardingDialog({ open, onOpenChange }: OnboardingDialogProps) 
               </div>
             </div>
 
-            <div className="max-w-5xl">
+            <div
+              data-testid="onboarding-step-scroll-body"
+              className="min-h-0 overflow-y-auto overscroll-contain pr-1 [scrollbar-gutter:stable]"
+            >
+              <div className="max-w-5xl pb-4">
               {currentStep.content}
+              </div>
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-4 flex shrink-0 flex-col gap-3 border-t border-orange-100/70 bg-white/80 pt-4 dark:border-orange-400/10 dark:bg-slate-950/40 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
                 <MapPin className="h-4 w-4" />
                 {isSpanish ? "Este flujo se guarda y sincroniza entre dispositivos." : "This flow is saved and synced across devices."}
