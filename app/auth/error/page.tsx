@@ -1,19 +1,19 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export default async function AuthErrorPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error: string }>
-}) {
-  const params = await searchParams
+type AuthErrorPageProps = {
+  searchParams?: {
+    error?: string
+  }
+}
 
+export default function AuthErrorPage({
+  searchParams,
+}: AuthErrorPageProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-red-50 dark:from-gray-900 dark:to-gray-800 p-6">
       <div className="w-full max-w-md">
-        <Card className="shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
-          <CardHeader className="text-center pb-8">
+        <div className="rounded-xl py-6 shadow-xl border-0 bg-white/80 backdrop-blur-sm dark:bg-gray-900/80">
+          <div className="text-center pb-8 px-6">
             <div className="mx-auto w-16 h-16 bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mb-4">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -24,12 +24,12 @@ export default async function AuthErrorPage({
                 />
               </svg>
             </div>
-            <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">Authentication Error</CardTitle>
-          </CardHeader>
-          <CardContent className="text-center space-y-6">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Authentication Error</h1>
+          </div>
+          <div className="text-center space-y-6 px-6">
             <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-lg">
-              {params?.error ? (
-                <p className="text-sm text-red-800 dark:text-red-200">Error: {params.error}</p>
+              {searchParams?.error ? (
+                <p className="text-sm text-red-800 dark:text-red-200">Error: {searchParams.error}</p>
               ) : (
                 <p className="text-sm text-red-800 dark:text-red-200">
                   An authentication error occurred. Please try again.
@@ -37,18 +37,21 @@ export default async function AuthErrorPage({
               )}
             </div>
             <div className="space-y-3">
-              <Button
-                asChild
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600"
+              <Link
+                href="/auth/login"
+                className="inline-flex h-9 w-full items-center justify-center rounded-md bg-gradient-to-r from-orange-500 to-red-500 px-4 py-2 text-sm font-medium text-white shadow-xs transition-all hover:from-orange-600 hover:to-red-600 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
               >
-                <Link href="/auth/login">Try Again</Link>
-              </Button>
-              <Button asChild variant="outline" className="w-full bg-transparent">
-                <Link href="/">Go Home</Link>
-              </Button>
+                Try Again
+              </Link>
+              <Link
+                href="/"
+                className="inline-flex h-9 w-full items-center justify-center rounded-md border border-input bg-transparent px-4 py-2 text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 dark:border-input dark:bg-input/30 dark:hover:bg-input/50"
+              >
+                Go Home
+              </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

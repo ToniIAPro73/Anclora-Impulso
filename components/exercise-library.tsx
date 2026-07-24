@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -18,6 +19,13 @@ import {
 import { Search, Filter, Play, Target, Zap, Loader2, ChevronUp, ChevronDown } from "lucide-react"
 import { useExercises } from "@/hooks/use-exercises"
 import { useLanguage } from "@/lib/contexts/language-context"
+import {
+  getCategoryLabel,
+  getDifficultyLabel,
+  getEquipmentLabel,
+  getMuscleGroupLabel,
+  type AppLanguage,
+} from "@/lib/workout-domain-labels"
 
 function resolveExerciseImageUrl(imageUrl?: string | null) {
   if (!imageUrl) {
@@ -40,6 +48,7 @@ function resolveExerciseImageUrl(imageUrl?: string | null) {
 export function ExerciseLibrary() {
   const { language } = useLanguage()
   const isSpanish = language === "es"
+  const labelLanguage: AppLanguage = isSpanish ? "es" : "en"
   const [searchTerm, setSearchTerm] = useState("")
   const [categoryFilter, setCategoryFilter] = useState("all")
   const [equipmentFilter, setEquipmentFilter] = useState("all")
@@ -329,18 +338,20 @@ export function ExerciseLibrary() {
                           {exercise.name}
                         </CardTitle>
                         <CardDescription className="text-sm">
-                          {exercise.category.charAt(0).toUpperCase() + exercise.category.slice(1).replace("_", " ")}
+                          {getCategoryLabel(labelLanguage, exercise.category)}
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge className={getDifficultyColor(exercise.difficulty)}>{exercise.difficulty}</Badge>
+                    <Badge className={getDifficultyColor(exercise.difficulty)}>
+                      {getDifficultyLabel(labelLanguage, exercise.difficulty)}
+                    </Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">{exercise.description}</p>
                   <div className="flex flex-wrap gap-1">
                     <Badge variant="secondary" className="text-xs">
-                      {exercise.muscleGroup}
+                      {getMuscleGroupLabel(labelLanguage, exercise.muscleGroup)}
                     </Badge>
                     {exercise.trainingEnvironments?.map((environment) => (
                       <Badge key={environment} variant="outline" className="text-xs">
@@ -351,7 +362,7 @@ export function ExerciseLibrary() {
                   {exercise.equipment && (
                     <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <Target className="w-4 h-4" />
-                      {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1).replace("_", " ")}
+                      {getEquipmentLabel(labelLanguage, exercise.equipment)}
                     </div>
                   )}
                 </CardContent>
@@ -360,42 +371,33 @@ export function ExerciseLibrary() {
             </DialogTrigger>
             <DialogContent
               showCloseButton={false}
-              className="w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] overflow-hidden border-slate-200/90 bg-white p-0 sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1120px] dark:border-slate-800/90 dark:bg-slate-950"
+              className="grid max-h-[calc(100dvh-1rem)] w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)] grid-rows-[auto_minmax(0,1fr)_auto] gap-0 overflow-hidden border-slate-200/90 bg-white p-0 sm:max-h-[calc(100dvh-1.5rem)] sm:w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-2rem)] lg:max-h-[calc(100dvh-2rem)] lg:w-[calc(100vw-3rem)] lg:max-w-[1120px] dark:border-slate-800/90 dark:bg-slate-950"
             >
-              <div className="grid gap-0 p-4 sm:p-5 lg:p-6">
-              <div className="mb-4 flex items-start justify-end">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
-                  onClick={() => {
-                    const closeButton = document.querySelector('[data-slot=\"dialog-close\"]') as HTMLButtonElement | null
-                    closeButton?.click()
-                  }}
-                >
-                  {isSpanish ? "Cerrar" : "Close"}
-                </Button>
-              </div>
-              <DialogHeader className="text-left">
-                {renderExerciseMedia(exercise)}
+              <DialogHeader className="space-y-4 p-4 text-left sm:p-5 lg:p-6">
                 <div className="flex items-start gap-3">
                   <span className="text-3xl">{getCategoryIcon(exercise.category)}</span>
                   <div>
                     <DialogTitle className="text-2xl">{exercise.name}</DialogTitle>
                     <DialogDescription className="text-base">
-                      {exercise.category.charAt(0).toUpperCase() + exercise.category.slice(1).replace("_", " ")}{" "}
+                      {getCategoryLabel(labelLanguage, exercise.category)}{" "}
                       {isSpanish ? "Ejercicio" : "Exercise"}
                     </DialogDescription>
                   </div>
                 </div>
               </DialogHeader>
-              <div className="mt-6 space-y-6">
+              <div
+                data-testid="exercise-detail-scroll-body"
+                className="min-h-0 overflow-y-auto overscroll-contain px-4 pb-4 [scrollbar-gutter:stable] sm:px-5 lg:px-6"
+              >
+                {renderExerciseMedia(exercise)}
+                <div className="space-y-6">
                 <div className="flex flex-wrap gap-2">
-                  <Badge className={getDifficultyColor(exercise.difficulty)}>{exercise.difficulty}</Badge>
+                  <Badge className={getDifficultyColor(exercise.difficulty)}>
+                    {getDifficultyLabel(labelLanguage, exercise.difficulty)}
+                  </Badge>
                   {exercise.equipment && (
                     <Badge variant="outline">
-                      {exercise.equipment.charAt(0).toUpperCase() + exercise.equipment.slice(1).replace("_", " ")}
+                      {getEquipmentLabel(labelLanguage, exercise.equipment)}
                     </Badge>
                   )}
                   {exercise.trainingEnvironments?.map((environment) => (
@@ -415,7 +417,9 @@ export function ExerciseLibrary() {
                 <div>
                   <h4 className="font-semibold mb-2">{isSpanish ? "Músculos Objetivo" : "Target Muscles"}</h4>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">{exercise.muscleGroup}</Badge>
+                    <Badge variant="secondary">
+                      {getMuscleGroupLabel(labelLanguage, exercise.muscleGroup)}
+                    </Badge>
                   </div>
                 </div>
 
@@ -431,7 +435,19 @@ export function ExerciseLibrary() {
                     </ol>
                   </div>
                 )}
+                </div>
               </div>
+              <div className="flex shrink-0 justify-end border-t border-slate-200/80 bg-white/95 p-4 dark:border-slate-800/80 dark:bg-slate-950/95 sm:p-5 lg:p-6">
+                <DialogClose asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="h-10 rounded-full border-orange-300/80 bg-white/90 px-4 text-slate-600 hover:border-orange-400 hover:text-slate-900 dark:border-orange-400/20 dark:bg-slate-950 dark:text-slate-300 dark:hover:text-white"
+                  >
+                    {isSpanish ? "Cerrar" : "Close"}
+                  </Button>
+                </DialogClose>
               </div>
             </DialogContent>
           </Dialog>
